@@ -278,12 +278,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="defy.testing.html#module-defy.testing">Module contents</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="defy.testing.html#defy.testing.get_incar_settings"><code class="docutils literal notranslate"><span class="pre">get_incar_settings()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="defy.testing.html#defy.testing.get_job_settings"><code class="docutils literal notranslate"><span class="pre">get_job_settings()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="defy.testing.html#defy.testing.get_structure_Si"><code class="docutils literal notranslate"><span class="pre">get_structure_Si()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="defy.testing.html#module-defy.testing">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="defy.tests.html">defy.tests package</a><ul>
@@ -682,16 +677,41 @@ or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p></li>
 <dd><p>Compute concentrations of all defects.</p>
 <p>For each entry, is possible to set a custom function to compute the defect
 concentration using <cite>set_defect_concentration_function</cite>. If that is set,
-the new function is used instead of the default.
-The function args must be the following:
-The function args must be the following:
-- vbm : (float), Valence band maximum of bulk calculation in eV
-- chemical_potentials : (dict), chemical potentials of the elements involved in the defect.
-- fermi_level : (float), Fermi level in eV (with respect to the VBM).
-- temperature : (float), Temperature in Kelvin.
-- eform_kwargs : (dict), kwargs to pass to <cite>entry.formation_energy</cite>.
-- kwargs : (dict), Additional custom kwargs.
-It is possible to set custom functions collectively using the
+the new function is used instead of the default.</p>
+<p>The function args must be the following:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>vbm<span class="classifier">(float)</span></dt><dd><p>Valence band maximum of bulk calculation in eV.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>chemical_potentials<span class="classifier">(dict)</span></dt><dd><p>Chemical potentials of the elements involved in the defect.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>fermi_level<span class="classifier">(float)</span></dt><dd><p>Fermi level in eV (with respect to the VBM).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>temperature<span class="classifier">(float)</span></dt><dd><p>Temperature in Kelvin.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>eform_kwargs<span class="classifier">(dict)</span></dt><dd><p>Kwargs to pass to <cite>entry.formation_energy</cite>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>kwargs<span class="classifier">(dict)</span></dt><dd><p>Additional custom kwargs.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>It is possible to set custom functions collectively using the
 <cite>set_defect_concentration_functions</cite> method in this class.
 To reset functions to default, use <cite>reset_defect_concentration_functions</cite>.</p>
 <p>If fixed_concentrations is provided the concentration of defect entries are

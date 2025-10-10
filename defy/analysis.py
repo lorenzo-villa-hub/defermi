@@ -688,14 +688,23 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         For each entry, is possible to set a custom function to compute the defect 
         concentration using `set_defect_concentration_function`. If that is set,
         the new function is used instead of the default. 
+
         The function args must be the following:
-        The function args must be the following:
-        - vbm : (float), Valence band maximum of bulk calculation in eV
-        - chemical_potentials : (dict), chemical potentials of the elements involved in the defect.
-        - fermi_level : (float), Fermi level in eV (with respect to the VBM).
-        - temperature : (float), Temperature in Kelvin.
-        - eform_kwargs : (dict), kwargs to pass to `entry.formation_energy`.
-        - kwargs : (dict), Additional custom kwargs.
+
+        - vbm : (float)
+            Valence band maximum of bulk calculation in eV.
+        - chemical_potentials : (dict)
+            Chemical potentials of the elements involved in the defect.
+        - fermi_level : (float)
+            Fermi level in eV (with respect to the VBM).
+        - temperature : (float)
+            Temperature in Kelvin.
+        - eform_kwargs : (dict)
+            Kwargs to pass to `entry.formation_energy`.
+        - kwargs : (dict)
+            Additional custom kwargs.
+
+
         It is possible to set custom functions collectively using the 
         `set_defect_concentration_functions` method in this class.
         To reset functions to default, use `reset_defect_concentration_functions`.

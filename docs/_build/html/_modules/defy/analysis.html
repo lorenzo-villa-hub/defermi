@@ -957,14 +957,23 @@
 <span class="sd">        For each entry, is possible to set a custom function to compute the defect </span>
 <span class="sd">        concentration using `set_defect_concentration_function`. If that is set,</span>
 <span class="sd">        the new function is used instead of the default. </span>
+
 <span class="sd">        The function args must be the following:</span>
-<span class="sd">        The function args must be the following:</span>
-<span class="sd">        - vbm : (float), Valence band maximum of bulk calculation in eV</span>
-<span class="sd">        - chemical_potentials : (dict), chemical potentials of the elements involved in the defect.</span>
-<span class="sd">        - fermi_level : (float), Fermi level in eV (with respect to the VBM).</span>
-<span class="sd">        - temperature : (float), Temperature in Kelvin.</span>
-<span class="sd">        - eform_kwargs : (dict), kwargs to pass to `entry.formation_energy`.</span>
-<span class="sd">        - kwargs : (dict), Additional custom kwargs.</span>
+
+<span class="sd">        - vbm : (float)</span>
+<span class="sd">            Valence band maximum of bulk calculation in eV.</span>
+<span class="sd">        - chemical_potentials : (dict)</span>
+<span class="sd">            Chemical potentials of the elements involved in the defect.</span>
+<span class="sd">        - fermi_level : (float)</span>
+<span class="sd">            Fermi level in eV (with respect to the VBM).</span>
+<span class="sd">        - temperature : (float)</span>
+<span class="sd">            Temperature in Kelvin.</span>
+<span class="sd">        - eform_kwargs : (dict)</span>
+<span class="sd">            Kwargs to pass to `entry.formation_energy`.</span>
+<span class="sd">        - kwargs : (dict)</span>
+<span class="sd">            Additional custom kwargs.</span>
+
+
 <span class="sd">        It is possible to set custom functions collectively using the </span>
 <span class="sd">        `set_defect_concentration_functions` method in this class.</span>
 <span class="sd">        To reset functions to default, use `reset_defect_concentration_functions`.</span>
