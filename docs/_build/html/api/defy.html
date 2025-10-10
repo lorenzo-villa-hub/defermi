@@ -586,8 +586,8 @@ SingleDefConc object as argument and return a bool.</p></li>
 <dt class="sig sig-object py" id="defy.analysis.DefectsAnalysis.as_dict">
 <span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/defy/analysis.html#DefectsAnalysis.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defy.analysis.DefectsAnalysis.as_dict" title="Link to this definition">¶</a></dt>
 <dd><dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Json-serializable dict representation of DefectsAnalysis</p>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Json-serializable dict representation of DefectsAnalysis.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -604,12 +604,12 @@ Eb = Ef(complex) - sum_D Ef(D), where D are the individual defects.</p>
 <li><p><strong>fermi_level</strong> (<em>(</em><em>float</em><em>)</em>) – Fermi level in eV.</p></li>
 <li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
 <li><p><strong>eform_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
-<li><p><strong>Returns</strong></p></li>
-<li><p><strong>--------</strong></p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>float : Binding energy in eV.</p>
+</dd>
 </dl>
-<p>:param : float : Binding energy in eV</p>
 </dd></dl>
 
 <dl class="py method">
@@ -620,53 +620,31 @@ given a fixed Fermi level.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dos</strong> (<em>(</em><em>dict</em><em> or </em><em>Dos</em><em>)</em>) – <p>Density of states to integrate. Can be provided as density of states D(E)
+<li><p><strong>bulk_dos</strong> (<em>(</em><em>dict</em><em> or </em><em>Dos</em><em>)</em>) – Density of states to integrate. Can be provided as density of states D(E)
 or using effective masses.
-Format for effective masses:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>dict with following keys:</dt><dd><ul>
-<li><p>”m_eff_h” : holes effective mass in units of m_e (electron mass)</p></li>
-<li><p>”m_eff_e” : electrons effective mass in units of m_h</p></li>
-<li><p><cite>band_gap</cite> needs to be provided in args</p></li>
-</ul>
-</dd>
-</dl>
-</div></blockquote>
-<dl>
-<dt>Formats for explicit DOS:</dt><dd><dl class="simple">
-<dt>dictionary with following keys:</dt><dd><ul>
-<li><p>’energies’ : list or np.array with energy values</p></li>
-<li><p>’densitites’ : list or np.array with total density values</p></li>
-<li><dl class="simple">
-<dt>’structure’<span class="classifier">pymatgen Structure of the material,</span></dt><dd><p>needed for DOS volume and charge normalization.</p>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-<p>or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p>
-</dd>
-</dl>
-</p></li>
+Format for effective masses: dict with following keys:
+– “m_eff_h” : holes effective mass in units of m_e (electron mass)
+– “m_eff_e” : electrons effective mass in units of m_h
+- <cite>band_gap</cite> needs to be provided in args
+Formats for explicit DOS: dictionary with following keys:
+–‘energies’ : list or np.array with energy values
+– ‘densitites’ : list or np.array with total density values
+– ‘structure’ : pymatgen Structure of the material, needed for DOS volume and charge normalization.
+or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p></li>
 <li><p><strong>fermi_level</strong> (<em>(</em><em>float</em><em>)</em>) – The Fermi level relative to the VBM in eV.</p></li>
 <li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – The temperature in Kelvin.</p></li>
 </ul>
 </dd>
-</dl>
-<section id="returns">
-<h3>Returns:<a class="headerlink" href="#returns" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>:</dt><dd><dl class="simple">
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
 <dt>h<span class="classifier">(float)</span></dt><dd><p>Absolute value of hole concentration in 1/cm^3</p>
 </dd>
 <dt>n<span class="classifier">(float)</span></dt><dd><p>Absolute value of electron concentration in 1/cm^3</p>
 </dd>
 </dl>
+</p>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
 <dl class="py method">
@@ -681,10 +659,14 @@ Format for effective masses:</p>
 <li><p><strong>entries</strong> (<em>(</em><em>list</em><em>)</em>) – List of entries to calculate. If None all entries are considered.</p></li>
 <li><p><strong>get_integers</strong> (<em>(</em><em>bool</em><em>)</em>) – Save charges as integers. More convenient for plotting.</p></li>
 <li><p><strong>eform_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
-<li><p><strong>Returns</strong></p></li>
-<li><p><strong>--------</strong></p></li>
-<li><p><strong>eV</strong> (<em>Dictionary with defect name and list</em><em> of </em><em>tuples for charge transition levels in</em>) – {name:[(q1,q2,ctl),(q2,q3,ctl),…}</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>Dictionary with defect name and list of tuples for charge transition levels in eV</em></p></li>
+<li><p><strong>{name</strong> (<em>[(q1,q2,ctl),(q2,q3,ctl),…}</em>)</p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -701,26 +683,15 @@ Format for effective masses:</p>
 <p>For each entry, is possible to set a custom function to compute the defect
 concentration using <cite>set_defect_concentration_function</cite>. If that is set,
 the new function is used instead of the default.
-The function args must be the following:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>vbm<span class="classifier">(float)</span></dt><dd><p>Valence band maximum of bulk calculation in eV</p>
-</dd>
-<dt>chemical_potentials<span class="classifier">(dict)</span></dt><dd><p>Chemical potentials of the elements involved in the defect.</p>
-</dd>
-<dt>temperature<span class="classifier">(float)</span></dt><dd><p>Temperature in Kelvin.</p>
-</dd>
-<dt>fermi_level<span class="classifier">(float)</span></dt><dd><p>Fermi level in eV (with respect to the VBM)</p>
-</dd>
-<dt>per_unit_volume<span class="classifier">(bool)</span></dt><dd><p>Compute concentrations per unit volume using <cite>self.defect.bulk_volume</cite>.</p>
-</dd>
-<dt>eform_kwargs<span class="classifier">(dict)</span></dt><dd><p>Kwargs to pass to <cite>self.formation_energy</cite>.</p>
-</dd>
-<dt>kwargs<span class="classifier">(dict)</span></dt><dd><p>Additional custom kwargs.</p>
-</dd>
-</dl>
-</div></blockquote>
-<p>It is possible to set custom functions collectively using the
+The function args must be the following:
+The function args must be the following:
+- vbm : (float), Valence band maximum of bulk calculation in eV
+- chemical_potentials : (dict), chemical potentials of the elements involved in the defect.
+- fermi_level : (float), Fermi level in eV (with respect to the VBM).
+- temperature : (float), Temperature in Kelvin.
+- eform_kwargs : (dict), kwargs to pass to <cite>entry.formation_energy</cite>.
+- kwargs : (dict), Additional custom kwargs.
+It is possible to set custom functions collectively using the
 <cite>set_defect_concentration_functions</cite> method in this class.
 To reset functions to default, use <cite>reset_defect_concentration_functions</cite>.</p>
 <p>If fixed_concentrations is provided the concentration of defect entries are
@@ -739,11 +710,10 @@ to target specific defect entries. The values are the concentrations.</p></li>
 <li><p><strong>per_unit_volume</strong> (<em>(</em><em>bool</em><em>)</em>) – Get concentrations in cm^-3. If False they are per unit cell.</p></li>
 <li><p><strong>eform_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>self.formation_energy</cite>.</p></li>
 <li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Additional custom kwargs to pass to <cite>entry.defect_concentration</cite>.</p></li>
-<li><p><strong>Returns</strong></p></li>
-<li><p><strong>--------</strong></p></li>
-<li><p><strong>object</strong> (<a class="reference internal" href="#defy.analysis.DefectConcentrations" title="defy.analysis.DefectConcentrations"><em>DefectConcentrations</em></a>)</p></li>
-<li><p><strong>list.</strong> (<em>behaves like a</em>)</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DefectConcentrations object, behaves like a list.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -792,22 +762,13 @@ a list of tuples (charge,formation_energy) as values.</p>
 <p>For each entry, is possible to set a custom function to compute the formation
 energy using <cite>set_formation_energy_function</cite>. If that is set,
 the new function is used instead of the default.
-The function args must be the following:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>vbm<span class="classifier">(float)</span></dt><dd><p>Valence band maximum of bulk calculation in eV</p>
-</dd>
-<dt>chemical_potentials<span class="classifier">(dict)</span></dt><dd><p>Chemical potentials of the elements involved in the defect.</p>
-</dd>
-<dt>fermi_level<span class="classifier">(float)</span></dt><dd><p>Fermi level in eV (with respect to the VBM).</p>
-</dd>
-<dt>temperature<span class="classifier">(float)</span></dt><dd><p>Temperature in Kelvin.</p>
-</dd>
-<dt>kwargs<span class="classifier">(dict)</span></dt><dd><p>Additional custom kwargs.</p>
-</dd>
-</dl>
-</div></blockquote>
-<p>It is possible to set custom functions collectively using the
+The function args must be the following:
+- vbm : (float), Valence band maximum of bulk calculation in eV
+- chemical_potentials : (dict), chemical potentials of the elements involved in the defect.
+- fermi_level : (float), Fermi level in eV (with respect to the VBM).
+- temperature : (float), Temperature in Kelvin.
+- kwargs : (dict), Additional custom kwargs.
+It is possible to set custom functions collectively using the
 <cite>set_formation_energy_functions</cite> method in this class.
 To reset functions to default, use <cite>reset_formation_energy_functions</cite>.</p>
 <dl class="field-list simple">
@@ -821,7 +782,7 @@ To reset functions to default, use <cite>reset_formation_energy_functions</cite>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>{name: [(charge,formation energy)] }</p>
+<dd class="field-even"><p>{name: [(charge,formation energy)]}</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Dictionary in the format</p>
@@ -883,28 +844,20 @@ as_dict().</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>(</strong><strong>dict</strong><strong>)</strong> (<em>d</em>)</p>
 </dd>
-</dl>
-<section id="id1">
-<h3>Returns:<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
-<dl class="simple">
-<dt>:</dt><dd><p>DefectsAnalysis object</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DefectsAnalysis object</p>
 </dd>
 </dl>
-</section>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="defy.analysis.DefectsAnalysis.from_file">
 <em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_gap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vbm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/defy/analysis.html#DefectsAnalysis.from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defy.analysis.DefectsAnalysis.from_file" title="Link to this definition">¶</a></dt>
 <dd><p>Create DefectsAnalysis object from file.
-Available formats are:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>‘json’</p></li>
-<li><p>‘pkl’</p></li>
-<li><p>‘csv’</p></li>
-</ul>
-</div></blockquote>
+Available formats are:
+- ‘json’
+- ‘pkl’
+- ‘csv’</p>
 <p>Check docs in <cite>from_dataframe</cite> function for file formatting requirements.</p>
 </dd></dl>
 
@@ -932,16 +885,10 @@ Otherwise it will be read as a string.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path_defects</strong> (<em>(</em><em>str</em><em>)</em>) – Path of VASP defects calculation.</p></li>
 <li><p><strong>path_bulk</strong> (<em>(</em><em>str</em><em>)</em>) – Path of VASP bulk calculation.</p></li>
-<li><p><strong>get_charge_correction</strong> (<em>(</em><em>str</em><em> or </em><em>bool</em><em>)</em>) – <p>Compute charge corrections from VASP directories.
-To skip corrections set it to False.
-Methods available are:</p>
-<blockquote>
-<div><ul>
-<li><p>”kumagai” : Extended FNV scheme (eFNV).</p></li>
-<li><p>”freysoldt” : FNV scheme.</p></li>
-</ul>
-</div></blockquote>
-</p></li>
+<li><p><strong>get_charge_correction</strong> (<em>(</em><em>str</em><em> or </em><em>bool</em><em>)</em>) – Compute charge corrections from VASP directories. To skip corrections set it to False.
+Methods available are:
+- “kumagai” : Extended FNV scheme (eFNV).
+- “freysoldt” : FNV scheme.</p></li>
 <li><p><strong>get_multiplicity</strong> (<em>(</em><em>bool</em><em>)</em>) – Determine defect multiplicity automatically. Not implemented for interstitials and defect complexes.</p></li>
 <li><p><strong>get_data</strong> (<em>(</em><em>True</em><em>)</em>) – Store path in DefectEntry.data dictionary.</p></li>
 <li><p><strong>band_gap</strong> (<em>(</em><em>float</em><em>)</em>) – Band gap of bulk material. If not provided is determined from bulk VASP directory.</p></li>
@@ -971,7 +918,7 @@ defect_finder struggles to find the right defects.</p></li>
 <li><p><strong>q1</strong> (<em>(</em><em>int</em><em> or </em><em>float</em><em>)</em>) – Charge state (in units of electron charge).</p></li>
 <li><p><strong>q2</strong> (<em>(</em><em>int</em><em> or </em><em>float</em><em>)</em>) – Charge state (in units of electron charge).</p></li>
 <li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
-<li><p><strong>eform_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <a href="#id2"><span class="problematic" id="id3">`</span></a>entry.formation_energy</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <a href="#id1"><span class="problematic" id="id2">`</span></a>entry.formation_energy.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
@@ -1003,8 +950,8 @@ The VBM and band gap of all objects need to match for consistency.</p>
 <li><p><strong>format_legend</strong> (<em>(</em><em>bool</em><em>)</em>) – Bool for getting latex-like legend based on the name of defect entries.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>matplotlib object</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1023,50 +970,25 @@ If additional <cite>fixed_concentrations</cite> are provided, the concentration 
 corrected according to the fixed provided values.
 More details can be found in <a class="reference external" href="https://doi.org/10.1103/PhysRevB.106.134101">https://doi.org/10.1103/PhysRevB.106.134101</a> .</p>
 <p>The results of the calculation are stored in the <cite>thermodata</cite> property.</p>
-<dl class="simple">
-<dt>For the chemical potentials, you must provide either:</dt><dd><ul class="simple">
-<li><p>reservoirs: Dictionary with oxygen partial pressures as keys and dictionary with chemical potential
-as values ({pO2:{‘element’:chempot}}), or PressureReservoirs object.</p></li>
-</ul>
-</dd>
-<dt>or</dt><dd><ul class="simple">
-<li><p>precursors + oxygen_ref: Dictionary with {formula:energy} for synthesis precursors and oxygen reference chempot at 0 K.</p></li>
-</ul>
-</dd>
-</dl>
+<p>For the chemical potentials, you must provide either:
+-   reservoirs: Dictionary with oxygen partial pressures as keys and dictionary with chemical potential
+as values ({pO2:{‘element’:chempot}}), or PressureReservoirs object.
+or
+-   precursors + oxygen_ref: Dictionary with {formula:energy} for synthesis precursors and oxygen reference chempot at 0 K.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>bulk_dos</strong> (<em>(</em><em>dict</em><em> or </em><em>Dos</em><em>)</em>) – <p>Density of states to integrate. Can be provided as density of states D(E)
+<li><p><strong>bulk_dos</strong> (<em>(</em><em>dict</em><em> or </em><em>Dos</em><em>)</em>) – Density of states to integrate. Can be provided as density of states D(E)
 or using effective masses.
-Format for effective masses:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>dict with following keys:</dt><dd><ul>
-<li><p>”m_eff_h” : holes effective mass in units of m_e (electron mass)</p></li>
-<li><p>”m_eff_e” : electrons effective mass in units of m_h</p></li>
-<li><p><cite>band_gap</cite> needs to be provided in args</p></li>
-</ul>
-</dd>
-</dl>
-</div></blockquote>
-<dl>
-<dt>Formats for explicit DOS:</dt><dd><dl class="simple">
-<dt>dictionary with following keys:</dt><dd><ul>
-<li><p>’energies’ : list or np.array with energy values</p></li>
-<li><p>’densitites’ : list or np.array with total density values</p></li>
-<li><dl class="simple">
-<dt>’structure’<span class="classifier">pymatgen Structure of the material,</span></dt><dd><p>needed for DOS volume and charge normalization.</p>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-<p>or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p>
-</dd>
-</dl>
-</p></li>
+Format for effective masses: dict with following keys:
+– “m_eff_h” : holes effective mass in units of m_e (electron mass)
+– “m_eff_e” : electrons effective mass in units of m_h
+- <cite>band_gap</cite> needs to be provided in args
+Formats for explicit DOS: dictionary with following keys:
+–‘energies’ : list or np.array with energy values
+– ‘densitites’ : list or np.array with total density values
+– ‘structure’ : pymatgen Structure of the material, needed for DOS volume and charge normalization.
+or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p></li>
 <li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Temperature in K.</p></li>
 <li><p><strong>quench_temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Value of quenching temperature in K.</p></li>
 <li><p><strong>quenched_species</strong> (<em>(</em><em>list</em><em>)</em><em>, </em><em>optional</em>) – List of defect species to quench. If None all defect species are quenched.The default is None.</p></li>
@@ -1089,6 +1011,9 @@ If the system is underdetermined the minimum-norm solution is found.</p></li>
 <li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>plot_pO2_vs_concentrations</cite>.</p></li>
 </ul>
 </dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib object.</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -1109,8 +1034,8 @@ If the system is underdetermined the minimum-norm solution is found.</p></li>
 <li><p><strong>get_integers</strong> (<em>(</em><em>bool</em><em>)</em>) – Get charge transition levels as integers.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>matplotlib object</p>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1126,36 +1051,17 @@ defect species (usually a dopant).</p>
 <li><p><strong>variable_defect_specie</strong> (<em>(</em><em>str</em><em>)</em>) – Name or element of the variable defect species.</p></li>
 <li><p><strong>concentration_range</strong> (<em>(</em><em>tuple</em><em> or </em><em>list</em><em>)</em>) – Logaritmic range of the concentration of the variable species in cm^-3 (ex. [1,20]).</p></li>
 <li><p><strong>chemical_potentials</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary containing chemical potentials ({element:chempot}).</p></li>
-<li><p><strong>bulk_dos</strong> (<em>(</em><em>dict</em><em> or </em><em>Dos</em><em>)</em>) – <p>Density of states to integrate. Can be provided as density of states D(E)
+<li><p><strong>bulk_dos</strong> (<em>(</em><em>dict</em><em> or </em><em>Dos</em><em>)</em>) – Density of states to integrate. Can be provided as density of states D(E)
 or using effective masses.
-Format for effective masses:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>dict with following keys:</dt><dd><ul>
-<li><p>”m_eff_h” : holes effective mass in units of m_e (electron mass)</p></li>
-<li><p>”m_eff_e” : electrons effective mass in units of m_h</p></li>
-<li><p><cite>band_gap</cite> needs to be provided in args</p></li>
-</ul>
-</dd>
-</dl>
-</div></blockquote>
-<dl>
-<dt>Formats for explicit DOS:</dt><dd><dl class="simple">
-<dt>dictionary with following keys:</dt><dd><ul>
-<li><p>’energies’ : list or np.array with energy values</p></li>
-<li><p>’densitites’ : list or np.array with total density values</p></li>
-<li><dl class="simple">
-<dt>’structure’<span class="classifier">pymatgen Structure of the material,</span></dt><dd><p>needed for DOS volume and charge normalization.</p>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-<p>or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p>
-</dd>
-</dl>
-</p></li>
+Format for effective masses: dict with following keys:
+– “m_eff_h” : holes effective mass in units of m_e (electron mass)
+– “m_eff_e” : electrons effective mass in units of m_h
+- <cite>band_gap</cite> needs to be provided in args
+Formats for explicit DOS: dictionary with following keys:
+–‘energies’ : list or np.array with energy values
+– ‘densitites’ : list or np.array with total density values
+– ‘structure’ : pymatgen Structure of the material, needed for DOS volume and charge normalization.
+or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p></li>
 <li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Temperature in K.</p></li>
 <li><p><strong>fixed_concentrations</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with fixed concentrations. Keys are defect entry names in the standard
 format, values are the concentrations. (ex {‘Vac_Na’:1e20})</p></li>
@@ -1167,6 +1073,9 @@ Must either be a list of dictionaries with {‘charge’: float, ‘conc’: flo
 <li><p><strong>dconc_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>entry.defect_concentration</cite>.</p></li>
 <li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>plot_variable_species_vs_concentrations</cite>.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1191,9 +1100,10 @@ Must either be a list of dictionaries with {‘charge’: float, ‘conc’: flo
 <li><p><strong>show_legend</strong> (<em>(</em><em>Bool</em><em>)</em>) – Show legend.</p></li>
 <li><p><strong>format_legend</strong> (<em>(</em><em>bool</em><em>)</em>) – Get latex-like legend based on the name of defect entries.</p></li>
 <li><p><strong>eform_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
-<li><p><strong>--------</strong></p></li>
-<li><p><strong>Returns</strong> – matplotlib object</p></li>
 </ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>matplotlib object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1273,36 +1183,17 @@ which entries to apply the function to.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>chemical_potentials</strong> (<em>(</em><em>Dict</em><em>)</em>) – Dictionary of chemical potentials in the format {‘element’:chempot}.</p></li>
-<li><p><strong>bulk_dos</strong> (<em>(</em><em>dict</em><em> or </em><em>Dos</em><em>)</em>) – <p>Density of states to integrate. Can be provided as density of states D(E)
+<li><p><strong>bulk_dos</strong> (<em>(</em><em>dict</em><em> or </em><em>Dos</em><em>)</em>) – Density of states to integrate. Can be provided as density of states D(E)
 or using effective masses.
-Format for effective masses:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>dict with following keys:</dt><dd><ul>
-<li><p>”m_eff_h” : holes effective mass in units of m_e (electron mass)</p></li>
-<li><p>”m_eff_e” : electrons effective mass in units of m_h</p></li>
-<li><p><cite>band_gap</cite> needs to be provided in args</p></li>
-</ul>
-</dd>
-</dl>
-</div></blockquote>
-<dl>
-<dt>Formats for explicit DOS:</dt><dd><dl class="simple">
-<dt>dictionary with following keys:</dt><dd><ul>
-<li><p>’energies’ : list or np.array with energy values</p></li>
-<li><p>’densitites’ : list or np.array with total density values</p></li>
-<li><dl class="simple">
-<dt>’structure’<span class="classifier">pymatgen Structure of the material,</span></dt><dd><p>needed for DOS volume and charge normalization.</p>
-</dd>
-</dl>
-</li>
-</ul>
-</dd>
-</dl>
-<p>or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p>
-</dd>
-</dl>
-</p></li>
+Format for effective masses: dict with following keys:
+– “m_eff_h” : holes effective mass in units of m_e (electron mass)
+– “m_eff_e” : electrons effective mass in units of m_h
+- <cite>band_gap</cite> needs to be provided in args
+Formats for explicit DOS: dictionary with following keys:
+–‘energies’ : list or np.array with energy values
+– ‘densitites’ : list or np.array with total density values
+– ‘structure’ : pymatgen Structure of the material, needed for DOS volume and charge normalization.
+or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p></li>
 <li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Temperature in Kelvin.</p></li>
 <li><p><strong>fixed_concentrations</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with fixed concentrations. Keys are defect entry names in the standard
 format, values are the concentrations (ex {‘Vac_A’:1e20}) . For more info,
@@ -1356,22 +1247,13 @@ charge state at the inserted fermi level.</p>
 <p>For each entry, is possible to set a custom function to compute the formation
 energy using <cite>set_formation_energy_function</cite>. If that is set,
 the new function is used instead of the default.
-The function args must be the following:</p>
-<blockquote>
-<div><dl class="simple">
-<dt>vbm<span class="classifier">(float)</span></dt><dd><p>Valence band maximum of bulk calculation in eV</p>
-</dd>
-<dt>chemical_potentials<span class="classifier">(dict)</span></dt><dd><p>Chemical potentials of the elements involved in the defect.</p>
-</dd>
-<dt>fermi_level<span class="classifier">(float)</span></dt><dd><p>Fermi level in eV (with respect to the VBM).</p>
-</dd>
-<dt>temperature<span class="classifier">(float)</span></dt><dd><p>Temperature in Kelvin.</p>
-</dd>
-<dt>kwargs<span class="classifier">(dict)</span></dt><dd><p>Additional custom kwargs.</p>
-</dd>
-</dl>
-</div></blockquote>
-<p>It is possible to set custom functions collectively using the
+The function args must be the following:
+- vbm : (float), Valence band maximum of bulk calculation in eV
+- chemical_potentials : (dict), chemical potentials of the elements involved in the defect.
+- fermi_level : (float), Fermi level in eV (with respect to the VBM).
+- temperature : (float), Temperature in Kelvin.
+- kwargs : (dict), Additional custom kwargs.
+It is possible to set custom functions collectively using the
 <cite>set_formation_energy_functions</cite> method in this class.
 To reset functions to default, use <cite>reset_formation_energy_functions</cite>.</p>
 <dl class="field-list simple">
@@ -1382,8 +1264,13 @@ To reset functions to default, use <cite>reset_formation_energy_functions</cite>
 <li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
 <li><p><strong>entries</strong> (<em>(</em><em>list</em><em>)</em>) – List of defect entries to calculate. If None all entries are considered.</p></li>
 <li><p><strong>eform_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Additional custom kwargs to pass to <cite>entry.formation_energy</cite></p></li>
-<li><p><strong>Returns</strong> – dict in the format {name:(stable charge, formation energy)}</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>dict in the format {name</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(stable charge, formation energy)}</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1420,16 +1307,12 @@ To reset functions to default, use <cite>reset_formation_energy_functions</cite>
 <dt class="sig sig-object py" id="defy.analysis.DefectsAnalysis.to_dataframe">
 <span class="sig-name descname"><span class="pre">to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_structures</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/defy/analysis.html#DefectsAnalysis.to_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defy.analysis.DefectsAnalysis.to_dataframe" title="Link to this definition">¶</a></dt>
 <dd><p>Export DefectsAnalysis object as DataFrame.
-Default exported columns are:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>“name”</p></li>
-<li><p>“charge”</p></li>
-<li><p>“multiplicity”</p></li>
-<li><p>“energy_diff”</p></li>
-<li><p>“bulk_volume”</p></li>
-</ul>
-</div></blockquote>
+Default exported columns are:
+- “name”
+- “charge”
+- “multiplicity”
+- “energy_diff”
+- “bulk_volume”</p>
 <p>Corrections dict (<cite>entry.corrections</cite>) are exported as separate columns
 for each keys in this format “corr_{key}”.</p>
 <dl class="field-list simple">
@@ -1446,10 +1329,11 @@ will be stored in df.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>DataFrame object.</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>df</p>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>df</em></p></li>
+<li><p><em>DataFrame object.</em></p></li>
+</ul>
+</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1479,18 +1363,17 @@ set to False if chosen format is ‘csv’ or ‘excel’.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="defy.analysis.DefectsAnalysis.to_json">
 <span class="sig-name descname"><span class="pre">to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/defy/analysis.html#DefectsAnalysis.to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defy.analysis.DefectsAnalysis.to_json" title="Link to this definition">¶</a></dt>
-<dd><p>Save DefectsAnalysis object as json string or file.
-:type path: 
-:param path: Path to the destination file. If ‘’ the path is set to “self.path/self.name.json”.</p>
-<blockquote>
-<div><p>If None a string is exported.</p>
-</div></blockquote>
+<dd><p>Save DefectsAnalysis object as json string or file.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>d</strong> – If path is not set a string is returned.</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Path to the destination file. If ‘’ the path is set to “self.path/self.name.json”.
+If None a string is exported.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>(str)</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>d</strong> – If path is not set a string is returned.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(str)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2277,8 +2160,8 @@ Format for effective masses:</p>
 </ul>
 </dd>
 </dl>
-<section id="id4">
-<h3>Returns:<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<section id="returns">
+<h3>Returns:<a class="headerlink" href="#returns" title="Link to this heading">¶</a></h3>
 <dl class="simple">
 <dt>:</dt><dd><dl class="simple">
 <dt>h<span class="classifier">(float)</span></dt><dd><p>Absolute value of hole concentration in 1/cm^3</p>
@@ -3013,7 +2896,7 @@ The default is ‘total’.</p>
 <li><p><strong>ylim</strong> (<em>(</em><em>tuple</em><em>)</em>) – Range of y-axis.</p></li>
 <li><p><strong>show_unstable</strong> (<em>(</em><em>bool</em><em>)</em>) – Show regions where the system is unstable (at least one formation energy is negative).</p></li>
 <li><p><strong>colors</strong> (<em>(</em><em>list</em><em>)</em>) – List of colors to use for plotting with matplotlib. If None the defaults are used.</p></li>
-<li><p><strong>kwargs</strong> – Kwargs to pass to DefectConcentrations.filter_concentrations(<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs).
+<li><p><strong>kwargs</strong> – Kwargs to pass to DefectConcentrations.filter_concentrations(<a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs).
 If provided, only the filtered concentrations will be plotted. If output
 is set to “total”, only the filtered concentrations will be used to
 compute the total concentration.</p></li>
@@ -3117,7 +3000,7 @@ The default is ‘total’.</p>
 <li><p><strong>ylim</strong> (<em>(</em><em>tuple</em><em>)</em>) – Range of y-axis.</p></li>
 <li><p><strong>show_unstable</strong> (<em>(</em><em>bool</em><em>)</em>) – Show regions where the system is unstable (at least one formation energy is negative).</p></li>
 <li><p><strong>colors</strong> (<em>(</em><em>list</em><em>)</em>) – List of colors to use for plotting with matplotlib. If None the defaults are used.</p></li>
-<li><p><strong>kwargs</strong> – Kwargs to pass to DefectConcentrations.filter_concentrations(<a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs).
+<li><p><strong>kwargs</strong> – Kwargs to pass to DefectConcentrations.filter_concentrations(<a href="#id5"><span class="problematic" id="id6">**</span></a>kwargs).
 If provided, only the filtered concentrations will be plotted. If output
 is set to “total”, only the filtered concentrations will be used to
 compute the total concentration.</p></li>
@@ -3222,7 +3105,7 @@ The default is ‘total’.</p>
 </dd>
 <dt>colors<span class="classifier">(list)</span></dt><dd><p>List of colors to use for plotting with matplotlib. If None the defaults are used.</p>
 </dd>
-<dt>kwargs :</dt><dd><p>Kwargs to pass to DefectConcentrations.filter_concentrations(<a href="#id9"><span class="problematic" id="id10">**</span></a>kwargs).
+<dt>kwargs :</dt><dd><p>Kwargs to pass to DefectConcentrations.filter_concentrations(<a href="#id7"><span class="problematic" id="id8">**</span></a>kwargs).
 If provided, only the filtered concentrations will be plotted. If output
 is set to “total”, only the filtered concentrations will be used to
 compute the total concentration.</p>
