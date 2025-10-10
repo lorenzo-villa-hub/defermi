@@ -201,7 +201,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
     
 
     @staticmethod
-    def from_file(filename,vbm,band_gap,format=None, **kwargs): 
+    def from_file(filename,band_gap,vbm=0,format=None, **kwargs): 
         """
         Create DefectsAnalysis object from file.
         Available formats are:
@@ -281,7 +281,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 - "kumagai" : Extended FNV scheme (eFNV).
                 - "freysoldt" : FNV scheme.
         get_multiplicity : (bool)
-
+            Determine defect multiplicity automatically. Not implemented for interstitials and defect complexes.
         get_data : (True)
             Store path in DefectEntry.data dictionary.
         band_gap : (float)
@@ -325,7 +325,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 entry = DefectEntry.from_vasp_directories(
                                                         path_defect=path,
                                                         computed_entry_bulk=computed_entry_bulk,
-                                                        corrections={}, # get corrections and multiplicity automatically?
+                                                        corrections={},
                                                         multiplicity=1,
                                                         data=data,
                                                         label=None,
@@ -333,6 +333,11 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                                         initial_structure=initial_structure,
                                                         computed_entry_kwargs=computed_entry_kwargs,
                                                         finder_kwargs=finder_kwargs)
+                if get_multiplicity:
+                    if entry.defect.type in ('Vacancy','Substitution','Polaron'):
+                        entry.defect.set_multiplicity()
+                    else:
+                        warnings.warn(f'Automatic multiplicity calculation not implemented for {entry.defect.type}')
                 entries.append(entry)
 
                 ck = correction_kwargs
@@ -1350,7 +1355,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 entries=None,
                 temperature=0,
                 ylim=None,
-                figsize=(10,10),
+                figsize=(6,6),
                 fontsize=16,
                 fermi_level=None,
                 format_legend=True,

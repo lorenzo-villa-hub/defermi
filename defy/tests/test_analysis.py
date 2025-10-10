@@ -35,8 +35,11 @@ class TestDefectsAnalysis(DefyTest):
                                                     path_defects=op.join(self.test_files_path,'SiO2-defects/Defects'),
                                                     path_bulk=op.join(self.test_files_path,'SiO2-defects/Bulk-2x2x2-supercell'),
                                                     get_charge_correction=False,
+                                                    get_multiplicity=True,
                                                     common_path='2-PBE-OPT',
                                                     initial_structure=True)
+        for entry in da:
+            entry.defect.set_multiplicity(1)
         cls.da_comp = da.copy()
         da.filter_entries(inplace=True,exclude=True,types=['DefectComplex'])
         cls.da = da
@@ -46,6 +49,11 @@ class TestDefectsAnalysis(DefyTest):
         cls.chempots = Chempots({'Si':mu_Si,'P':mu_P,'O':mu_O},ndecimals=2)
         cls.dos = get_object_from_json(CompleteDos, self.get_testfile_path('SiO2-defects/Bulk-2x2x2-supercell/complete_dos.json')) 
 
+
+    def test_plot(self):
+        plt = self.da_comp.plot_formation_energies(self.chempots)
+        plt = self.da_comp.plot_ctl(figsize=(6,6))
+        plt = self.da_comp.plot_binding_energies()
         
     def test_stable_charges(self):
         stable_charge_Vac_O = (2, 0.08920299999999681)
@@ -230,9 +238,25 @@ class TestDefectsAnalysisTextbook(DefyTest):
 
     def test_textbook_case_from_entries(self):
         da, chempots , mdos = self.get_textbook_case()
-        da.plot_formation_energies(chempots)
-        da.plot_brouwer_diagram(bulk_dos=mdos,temperature=1000,precursors={'SrO':-10},oxygen_ref=-4.95,xtol=1e-100)
+
+        plt = da.plot_doping_diagram(
+                        variable_defect_specie={'name':'Sub_K_on_Sr','charge':-1},
+                        concentration_range=(1,1e21),
+                        chemical_potentials=chempots,
+                        bulk_dos=mdos,
+                        temperature=1000,
+                        xtol=1e-100,
+                        figsize=(6,6))
+        
+        plt = da.plot_brouwer_diagram(
+                        bulk_dos=mdos,
+                        temperature=1000,
+                        precursors={'SrO':-10},
+                        oxygen_ref=-4.95,
+                        xtol=1e-100,
+                        figsize=(6,6))
         data = da.thermodata
+        plt.show()
 
         actual = data.partial_pressures[11]
         desired = 5.429e-14

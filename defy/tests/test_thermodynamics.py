@@ -110,6 +110,7 @@ class TestDefectThermodynamics(DefyTest):
                         pressure_range=(1e-20,1e10),
                         npoints=50,
                         xtol=1e-15)
+        
         data = da.thermodata
         conc = data.defect_concentrations[5]
 
