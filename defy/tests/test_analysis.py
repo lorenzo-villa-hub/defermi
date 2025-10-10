@@ -14,19 +14,19 @@ import numpy as np
 import os.path as op
 import pandas as pd
 
-from pynter.tools.utils import get_object_from_json
-from pynter.defects.chempots.core import Chempots
-from pynter.defects.defects import Vacancy
-from pynter.defects.entries import DefectEntry
-from pynter.defects.analysis import DefectsAnalysis, SingleDefConc, DefectConcentrations
+from defy.tools.utils import get_object_from_json
+from defy.chempots.core import Chempots
+from defy.defects import Vacancy
+from defy.entries import DefectEntry
+from defy.analysis import DefectsAnalysis, SingleDefConc, DefectConcentrations
 
-from pynter.testing.core import PynterTest
-from pynter.testing.defects import DefectEntryTest
-from pynter.defects.tests.test_entries import TestDefectEntry
+from defy.testing.core import DefyTest
+from defy.testing.defects import DefectEntryTest
+from defy.tests.test_entries import TestDefectEntry
 
 
 
-class TestDefectsAnalysis(PynterTest):
+class TestDefectsAnalysis(DefyTest):
     
     @classmethod
     def setUpClass(cls):
@@ -216,7 +216,7 @@ class TestDefectsAnalysis(PynterTest):
 
 
 
-class TestDefectsAnalysisTextbook(PynterTest):
+class TestDefectsAnalysisTextbook(DefyTest):
 
         
     def get_textbook_case(self):
@@ -268,7 +268,7 @@ class TestDefectsAnalysisTextbook(PynterTest):
         
 
         def custom_dconc(entry,vbm=0,chemical_potentials=None,temperature=0,fermi_level=0,per_unit_volume=True,eform_kwargs={},**kwargs):
-                from pynter.defects.entries import fermi_dirac
+                from defy.entries import fermi_dirac
                 n = entry.defect.site_concentration_in_cm3 if per_unit_volume else entry.multiplicity 
                 if per_unit_volume:
                     n = n * (1+1/500*temperature)
@@ -307,7 +307,7 @@ class TestDefectsAnalysisTextbook(PynterTest):
         self.assert_all_close(actual, desired)
 
 
-def TestDefectConcentrations(PynterTest):
+def TestDefectConcentrations(DefyTest):
 
     @classmethod
     def setUpClass(cls):

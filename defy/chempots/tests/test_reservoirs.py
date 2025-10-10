@@ -9,13 +9,13 @@ import os
 
 from pymatgen.analysis.phase_diagram import PhaseDiagram
 
-from ...utils import get_object_from_json
-from ..core import Chempots
-from ..reservoirs import Reservoirs
+from defy.tools.utils import get_object_from_json
+from defy.chempots.core import Chempots
+from defy.chempots.reservoirs import Reservoirs
 
 
-from ...chempots import ChempotsTest, ReservoirsTest
-from .test_chempots import TestChempots
+from defy.testing.chempots import ChempotsTest, ReservoirsTest
+from defy.chempots.tests.test_chempots import TestChempots
 
 class TestReservoirs(TestChempots):
         

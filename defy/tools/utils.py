@@ -6,7 +6,7 @@ Created on Mon Oct 12 15:40:26 2020
 @author: villa
 """
 
-
+import numpy as np
 import os
 import os.path as op
 import json

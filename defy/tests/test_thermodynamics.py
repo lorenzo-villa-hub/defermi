@@ -13,21 +13,20 @@ import pandas as pd
 from pymatgen.electronic_structure.dos import CompleteDos
 from pymatgen.core.units import kb
 
-from pynter.defects.analysis import DefectsAnalysis
-from pynter.defects.chempots.core import Chempots
-from pynter.defects.defects import Vacancy
-from pynter.defects.entries import DefectEntry
-from pynter.defects.thermodynamics import DefectThermodynamics
-from pynter.tools.utils import get_object_from_json
+from defy.analysis import DefectsAnalysis
+from defy.chempots.core import Chempots
+from defy.defects import Vacancy
+from defy.entries import DefectEntry
+from defy.thermodynamics import DefectThermodynamics
+from defy.tools.utils import get_object_from_json
 
-from pynter.testing.core import PynterTest
-#from pynter.defects.tests.test_analysis import TestDefectsAnalysis
+from defy.testing.core import DefyTest
 
 
 e = constants.e
 
         
-class TestDefectThermodynamics(PynterTest):
+class TestDefectThermodynamics(DefyTest):
     
     @classmethod
     def setUpClass(cls):
@@ -183,7 +182,7 @@ class TestDefectThermodynamics(PynterTest):
         
 
         def custom_dconc(entry,vbm=0,chemical_potentials=None,temperature=0,fermi_level=0,per_unit_volume=True,eform_kwargs={},**kwargs):
-                from pynter.defects.entries import fermi_dirac
+                from defy.entries import fermi_dirac
                 n = entry.defect.site_concentration_in_cm3 if per_unit_volume else entry.multiplicity 
                 if per_unit_volume:
                     n = n * (1+1/500*temperature)

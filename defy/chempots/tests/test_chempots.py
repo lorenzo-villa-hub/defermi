@@ -8,13 +8,13 @@ Created on Mon May 15 10:02:03 2023
 import numpy as np
 from pymatgen.core.periodic_table import Element
 
-from ..core import Chempots, chempot_ideal_gas
+from defy.chempots.core import Chempots, chempot_ideal_gas
 
-from ...testing.core import PynterTest
-from ...testing.chempots import ChempotsTest
+from defy.testing.core import DefyTest
+from defy.testing.chempots import ChempotsTest
 
 
-class TestChempots(PynterTest):
+class TestChempots(DefyTest):
     
     def setUp(self):
         self.mu_refs = {'Na': -1.31, 'Nb': -10.1, 'O': -4.95}

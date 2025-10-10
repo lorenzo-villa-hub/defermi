@@ -6,10 +6,10 @@ Created on Wed Jun 14 15:28:02 2023
 @author: villa
 """
 
-from .core import PynterTest
+from .core import DefyTest
 
 
-class ChempotsTest(PynterTest):
+class ChempotsTest(DefyTest):
     """
     Provides methods to test Chempots objects
     """

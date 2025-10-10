@@ -1,11 +1,11 @@
 
 from pymatgen.io.vasp.inputs import Poscar
 
-from pynter.testing.core import PynterTest
-from pynter.defects.generator import create_vacancies, create_substitutions
+from defy.testing.core import DefyTest
+from defy.generator import create_vacancies, create_substitutions
 
 
-class TestDefectGenerator(PynterTest):
+class TestDefectGenerator(DefyTest):
 
     @classmethod
     def setUpClass(cls):

@@ -10,17 +10,17 @@ from pymatgen.core.sites import PeriodicSite
 from pymatgen.core.composition import Composition
 
 
-from ..defects import Vacancy, Interstitial, Substitution, Polaron, DefectComplex
+from defy.defects import Vacancy, Interstitial, Substitution, Polaron, DefectComplex
 
-from pynter.testing.core import PynterTest
-from pynter.testing.defects import DefectTest
+from defy.testing.core import DefyTest
+from defy.testing.defects import DefectTest
 
 
-bulk_structure = PynterTest().structure.copy()
+bulk_structure = DefyTest().structure.copy()
 bulk_structure.make_supercell(3)
 
 
-class TestDefect(PynterTest):
+class TestDefect(DefyTest):
 
     def test_interstitial(self):
         structure = bulk_structure.copy()
@@ -171,39 +171,7 @@ class TestDefect(PynterTest):
         assert comp.symbol_with_charge_kv == '$V_{Si}$-$P_{Si}$(test)$^{°}$'
     
     
-    
-    
-# unit_structure = PynterTest().structure.copy()
 
-# def test_create_vacancies():
-#     vac = create_vacancies(unit_structure,['Si'],supercell_size=3)[0]
-#     structure = unit_structure.copy()
-#     structure.make_supercell(3)
-#     frac_coords = structure[0].frac_coords
-#     defect_site = PeriodicSite('Si', frac_coords, structure.lattice)
-#     vac_test = Vacancy(defect_site, structure)
-#     DefectTest().assert_Defect_equal(vac,vac_test)
-
-
-# def test_create_substitutions():    
-#     sub = create_substitutions(unit_structure,elements_to_replace={'Si':'P'},supercell_size=3)[0]
-#     structure = unit_structure.copy()
-#     structure.make_supercell(3)
-#     frac_coords = structure[0].frac_coords
-#     defect_site = PeriodicSite('P', frac_coords, structure.lattice)
-#     sub_test = Substitution(defect_site, structure)
-#     DefectTest().assert_Defect_equal(sub,sub_test)
-    
-
-# commented out because of long run time, uncomment to include in tests
-# def test_create_interstitials():
-#     inter = create_interstitials(unit_structure,['Si'],supercell_size=3)[0]
-#     structure = bulk_structure.copy()
-#     frac_coords = np.array([0.66666667, 0.5, 0.5])
-#     interstitial_site = PeriodicSite('Si', frac_coords, structure.lattice)
-#     multiplicity = 108
-#     inter_test = Interstitial(interstitial_site,structure,multiplicity=108,label='mult108')   
-#     CompareDefects().compare(inter,inter_test)
     
 
 

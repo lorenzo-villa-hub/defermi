@@ -11,7 +11,6 @@ import copy
 import warnings
 import matplotlib.pyplot as plt
 
-from pymatgen.electronic_structure.dos import FermiDos
 
 from .chempots.oxygen import get_pressure_reservoirs_from_precursors, get_oxygen_pressure_reservoirs
 from .corrections.kumagai import get_kumagai_correction

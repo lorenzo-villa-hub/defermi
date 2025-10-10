@@ -5,11 +5,11 @@ Created on Thu May 11 16:33:19 2023
 
 @author: villa
 """
-from .core import PynterTest
+from .core import DefyTest
 from .structure import StructureTest
 
 
-class DefectTest(PynterTest):
+class DefectTest(DefyTest):
     """
     Provides methods to test Defect objects
     """
@@ -21,7 +21,7 @@ class DefectTest(PynterTest):
         self.assertEqual(defect1.label,defect2.label)
         
         
-class DefectEntryTest(PynterTest):
+class DefectEntryTest(DefyTest):
     """
     Provides methods to test DefectEntry objects
     """

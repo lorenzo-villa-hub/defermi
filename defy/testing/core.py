@@ -15,7 +15,7 @@ import warnings
 from pymatgen.core.structure import Structure
 
 
-class PynterTest(unittest.TestCase):
+class DefyTest(unittest.TestCase):
     
 
     def assert_all_close(self,actual, desired, rtol=1e-07, atol=0, err_msg="", verbose=True):
