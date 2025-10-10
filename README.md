@@ -5,7 +5,9 @@ Python library for the analysis and visualization of point defects. Simple and i
 
 ## Installation
 
-<pre> ```python pip install defy``` </pre>
+```python
+pip install defy
+```
 
 ## Features 
 
