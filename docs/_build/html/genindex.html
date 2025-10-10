@@ -1,0 +1,1461 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#"><link rel="search" title="Search" href="search.html">
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 --><title>Index - defy 1.0.0 documentation</title>
+<link rel="stylesheet" type="text/css" href="_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">defy 1.0.0 documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <span class="sidebar-brand-text">defy 1.0.0 documentation</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          
+<section class="genindex-section">
+  <h1 id="index">Index</h1>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#K"><strong>K</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#S"><strong>S</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#W"><strong>W</strong></a></div>
+</section>
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.append">append() (defy.analysis.DefectConcentrations method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.append">(defy.analysis.DefectsAnalysis method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.as_dict">as_dict() (defy.analysis.DefectConcentrations method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.as_dict">(defy.analysis.DefectsAnalysis method)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.as_dict">(defy.entries.DefectEntry method)</a>
+</li>
+          <li><a href="api/defy.html#defy.thermodynamics.ThermoData.as_dict">(defy.thermodynamics.ThermoData method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.testing.html#defy.testing.core.DefyTest.assert_all_close">assert_all_close() (defy.testing.core.DefyTest method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.chempots.ChempotsTest.assert_Chempots_equal">assert_Chempots_equal() (defy.testing.chempots.ChempotsTest method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.testing.html#defy.testing.defects.DefectTest.assert_Defect_equal">assert_Defect_equal() (defy.testing.defects.DefectTest method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.defects.DefectEntryTest.assert_DefectEntry_equal">assert_DefectEntry_equal() (defy.testing.defects.DefectEntryTest method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.structure.StructureTest.assert_Lattice_equal">assert_Lattice_equal() (defy.testing.structure.StructureTest method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.core.DefyTest.assert_object_almost_equal">assert_object_almost_equal() (defy.testing.core.DefyTest method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.chempots.ReservoirsTest.assert_Reservoirs_equal">assert_Reservoirs_equal() (defy.testing.chempots.ReservoirsTest method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.structure.StructureTest.assert_Site_equal">assert_Site_equal() (defy.testing.structure.StructureTest method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.core.DefyTest.assert_str_content_equal">assert_str_content_equal() (defy.testing.core.DefyTest method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.structure.StructureTest.assert_Structure_equal">assert_Structure_equal() (defy.testing.structure.StructureTest method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="B" class="genindex-section">
+  <h2>B</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.binding_energy">binding_energy() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Substitution.bulk_specie">bulk_specie (defy.defects.Substitution property)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.bulk_structure">bulk_structure (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.bulk_structure">(defy.defects.DefectComplex property)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.bulk_structure">(defy.entries.DefectEntry property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.defects.Defect.bulk_volume">bulk_volume (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.bulk_volume">(defy.defects.DefectComplex property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.carrier_concentrations">carrier_concentrations() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.charge">charge (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.charge">(defy.defects.DefectComplex property)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.charge">(defy.entries.DefectEntry property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.charge_transition_levels">charge_transition_levels() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.chempots.ChempotsTest">ChempotsTest (class in defy.testing.chempots)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.Conductivity">Conductivity (class in defy.thermodynamics)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.utils.convert_conc_from_weight_to_cm3">convert_conc_from_weight_to_cm3() (in module defy.tools.utils)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.copy">copy() (defy.analysis.DefectConcentrations method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.copy">(defy.analysis.DefectsAnalysis method)</a>
+</li>
+          <li><a href="api/defy.html#defy.plotter.DefectConcentrationsPlotter.copy">(defy.plotter.DefectConcentrationsPlotter method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.corrections">corrections (defy.entries.DefectEntry property)</a>
+</li>
+        <li><a href="api/defy.html#defy.structure.create_def_structure_for_visualization">create_def_structure_for_visualization() (in module defy.structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.structure.create_interstitial_structures">create_interstitial_structures() (in module defy.structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.generator.create_interstitials">create_interstitials() (in module defy.generator)</a>
+</li>
+        <li><a href="api/defy.html#defy.structure.create_substitution_structures">create_substitution_structures() (in module defy.structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.generator.create_substitutions">create_substitutions() (in module defy.generator)</a>
+</li>
+        <li><a href="api/defy.html#defy.generator.create_vacancies">create_vacancies() (in module defy.generator)</a>
+</li>
+        <li><a href="api/defy.html#defy.structure.create_vacancy_structures">create_vacancy_structures() (in module defy.structure)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.data">data (defy.entries.DefectEntry property)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect">Defect (class in defy.defects)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.defect">defect (defy.entries.DefectEntry property)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.defect_composition">defect_composition (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.defect_composition">(defy.defects.DefectComplex property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Interstitial.defect_composition">(defy.defects.Interstitial property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Polaron.defect_composition">(defy.defects.Polaron property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Substitution.defect_composition">(defy.defects.Substitution property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Vacancy.defect_composition">(defy.defects.Vacancy property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.defect_concentration">defect_concentration() (defy.entries.DefectEntry method)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.defect_concentration_function">defect_concentration_function (defy.entries.DefectEntry property)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.defect_concentrations">defect_concentrations() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.structure.defect_finder">defect_finder() (in module defy.structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.DefectComplex.defect_names">defect_names (defy.defects.DefectComplex property)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.defect_site_index">defect_site_index (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.Interstitial.defect_site_index">(defy.defects.Interstitial property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Polaron.defect_site_index">(defy.defects.Polaron property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Substitution.defect_site_index">(defy.defects.Substitution property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Vacancy.defect_site_index">(defy.defects.Vacancy property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.defect_specie">defect_specie (defy.entries.DefectEntry property)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.defect_structure">defect_structure (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.defect_structure">(defy.defects.DefectComplex property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.defect_type">defect_type (defy.entries.DefectEntry property)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.DefectComplex">DefectComplex (class in defy.defects)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations">DefectConcentrations (class in defy.analysis)</a>
+</li>
+        <li><a href="api/defy.html#defy.plotter.DefectConcentrationsPlotter">DefectConcentrationsPlotter (class in defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry">DefectEntry (class in defy.entries)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.defects.DefectEntryTest">DefectEntryTest (class in defy.testing.defects)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.defects">defects (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.defects">(defy.defects.DefectComplex property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis">DefectsAnalysis (class in defy.analysis)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.defects.DefectTest">DefectTest (class in defy.testing.defects)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.DefectThermodynamics">DefectThermodynamics (class in defy.thermodynamics)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.structure.deform_lattice">deform_lattice() (in module defy.tools.structure)</a>
+</li>
+        <li>
+    defy
+
+        <ul>
+          <li><a href="api/defy.html#module-defy">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.analysis
+
+        <ul>
+          <li><a href="api/defy.html#module-defy.analysis">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.defects
+
+        <ul>
+          <li><a href="api/defy.html#module-defy.defects">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.elasticity
+
+        <ul>
+          <li><a href="api/defy.html#module-defy.elasticity">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.electronic_structure
+
+        <ul>
+          <li><a href="api/defy.html#module-defy.electronic_structure">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.entries
+
+        <ul>
+          <li><a href="api/defy.html#module-defy.entries">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.generator
+
+        <ul>
+          <li><a href="api/defy.html#module-defy.generator">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.plotter
+
+        <ul>
+          <li><a href="api/defy.html#module-defy.plotter">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    defy.structure
+
+        <ul>
+          <li><a href="api/defy.html#module-defy.structure">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.testing
+
+        <ul>
+          <li><a href="api/defy.testing.html#module-defy.testing">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.testing.chempots
+
+        <ul>
+          <li><a href="api/defy.testing.html#module-defy.testing.chempots">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.testing.core
+
+        <ul>
+          <li><a href="api/defy.testing.html#module-defy.testing.core">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.testing.defects
+
+        <ul>
+          <li><a href="api/defy.testing.html#module-defy.testing.defects">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.testing.structure
+
+        <ul>
+          <li><a href="api/defy.testing.html#module-defy.testing.structure">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tests
+
+        <ul>
+          <li><a href="api/defy.tests.html#module-defy.tests">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tests.test_analysis
+
+        <ul>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_analysis">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tests.test_defects
+
+        <ul>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_defects">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tests.test_entries
+
+        <ul>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_entries">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tests.test_generator
+
+        <ul>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_generator">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tests.test_structure
+
+        <ul>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_structure">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tests.test_thermodynamics
+
+        <ul>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_thermodynamics">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.thermodynamics
+
+        <ul>
+          <li><a href="api/defy.html#module-defy.thermodynamics">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tools
+
+        <ul>
+          <li><a href="api/defy.tools.html#module-defy.tools">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tools.materials_project
+
+        <ul>
+          <li><a href="api/defy.tools.html#module-defy.tools.materials_project">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tools.structure
+
+        <ul>
+          <li><a href="api/defy.tools.html#module-defy.tools.structure">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tools.tests
+
+        <ul>
+          <li><a href="api/defy.tools.tests.html#module-defy.tools.tests">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tools.tests.test_materials_project
+
+        <ul>
+          <li><a href="api/defy.tools.tests.html#module-defy.tools.tests.test_materials_project">module</a>
+</li>
+        </ul></li>
+        <li>
+    defy.tools.utils
+
+        <ul>
+          <li><a href="api/defy.tools.html#module-defy.tools.utils">module</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.testing.html#defy.testing.core.DefyTest">DefyTest (class in defy.testing.core)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.delta_atoms">delta_atoms (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.delta_atoms">(defy.defects.DefectComplex property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Interstitial.delta_atoms">(defy.defects.Interstitial property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Polaron.delta_atoms">(defy.defects.Polaron property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Substitution.delta_atoms">(defy.defects.Substitution property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Vacancy.delta_atoms">(defy.defects.Vacancy property)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.delta_atoms">(defy.entries.DefectEntry property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.elemental">elemental (defy.analysis.DefectConcentrations property)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.elements">elements (defy.analysis.DefectConcentrations property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.elements">(defy.analysis.DefectsAnalysis property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.energy_diff">energy_diff (defy.entries.DefectEntry property)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_entries.TestDefectEntry.entry">entry (defy.tests.test_entries.TestDefectEntry property)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.electronic_structure.f0">f0() (in module defy.electronic_structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.fermi_dirac">fermi_dirac() (in module defy.entries)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.filter_concentrations">filter_concentrations() (defy.analysis.DefectConcentrations method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.filter_entries">filter_entries() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.utils.format_composition">format_composition() (in module defy.tools.utils)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.format_legend_with_charge_kv">format_legend_with_charge_kv() (in module defy.defects)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.format_legend_with_charge_number">format_legend_with_charge_number() (in module defy.defects)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.formation_energies">formation_energies() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.formation_energy">formation_energy() (defy.entries.DefectEntry method)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.formation_energy_function">formation_energy_function (defy.entries.DefectEntry property)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.from_computed_entries">from_computed_entries() (defy.entries.DefectEntry static method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.from_dataframe">from_dataframe() (defy.analysis.DefectsAnalysis static method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.from_dict">from_dict() (defy.analysis.DefectConcentrations class method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.from_dict">(defy.analysis.DefectsAnalysis class method)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.from_dict">(defy.entries.DefectEntry class method)</a>
+</li>
+          <li><a href="api/defy.html#defy.thermodynamics.ThermoData.from_dict">(defy.thermodynamics.ThermoData class method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.from_file">from_file() (defy.analysis.DefectsAnalysis static method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.from_json">from_json() (defy.analysis.DefectsAnalysis static method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.thermodynamics.ThermoData.from_json">(defy.thermodynamics.ThermoData static method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.defects.Defect.from_string">from_string() (defy.defects.Defect static method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.from_string">(defy.defects.DefectComplex static method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.from_structures">from_structures() (defy.entries.DefectEntry static method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.from_vasp_directories">from_vasp_directories() (defy.analysis.DefectsAnalysis static method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.from_vasp_directories">(defy.entries.DefectEntry static method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.defects.DefectComplex.generate_defect_structure">generate_defect_structure() (defy.defects.DefectComplex method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.Interstitial.generate_defect_structure">(defy.defects.Interstitial method)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Polaron.generate_defect_structure">(defy.defects.Polaron method)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Substitution.generate_defect_structure">(defy.defects.Substitution method)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Vacancy.generate_defect_structure">(defy.defects.Vacancy method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.electronic_structure.get_carrier_concentrations">get_carrier_concentrations() (in module defy.electronic_structure)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.utils.get_charge_from_computed_entry">get_charge_from_computed_entry() (in module defy.tools.utils)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.get_charge_transition_level">get_charge_transition_level() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.Conductivity.get_conductivities_from_thermodata">get_conductivities_from_thermodata() (defy.thermodynamics.Conductivity method)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.Conductivity.get_conductivity">get_conductivity() (defy.thermodynamics.Conductivity method)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.get_defect_from_string">get_defect_from_string() (in module defy.defects)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.get_delta_atoms">get_delta_atoms() (in module defy.defects)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.get_delta_atoms_from_comp">get_delta_atoms_from_comp() (in module defy.defects)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.structure.get_displacement_vectors">get_displacement_vectors() (in module defy.tools.structure)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.structure.get_distance_vector">get_distance_vector() (in module defy.tools.structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.electronic_structure.get_dos_from_effective_mass">get_dos_from_effective_mass() (in module defy.electronic_structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.elasticity.get_elastic_dipole_tensor">get_elastic_dipole_tensor() (in module defy.elasticity)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.get_element_total">get_element_total() (defy.analysis.DefectConcentrations method)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.materials_project.MPDatabase.get_entries">get_entries() (defy.tools.materials_project.MPDatabase method)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.materials_project.MPDatabase.get_entries_from_compositions">get_entries_from_compositions() (defy.tools.materials_project.MPDatabase method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_entries.TestDefectEntry.get_entry">get_entry() (defy.tests.test_entries.TestDefectEntry method)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.structure.get_furthest_neighbors">get_furthest_neighbors() (in module defy.tools.structure)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.get_incar_settings">get_incar_settings() (in module defy.testing)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.testing.html#defy.testing.get_job_settings">get_job_settings() (in module defy.testing)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.get_multiplicity">get_multiplicity() (defy.defects.Defect method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.get_multiplicity">(defy.defects.DefectComplex method)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Interstitial.get_multiplicity">(defy.defects.Interstitial method)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Polaron.get_multiplicity">(defy.defects.Polaron method)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Substitution.get_multiplicity">(defy.defects.Substitution method)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Vacancy.get_multiplicity">(defy.defects.Vacancy method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.tools.html#defy.tools.utils.get_object_feature">get_object_feature() (in module defy.tools.utils)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.utils.get_object_from_json">get_object_from_json() (in module defy.tools.utils)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.DefectThermodynamics.get_pO2_quenched_thermodata">get_pO2_quenched_thermodata() (defy.thermodynamics.DefectThermodynamics method)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.DefectThermodynamics.get_pO2_thermodata">get_pO2_thermodata() (defy.thermodynamics.DefectThermodynamics method)</a>
+</li>
+        <li><a href="api/defy.html#defy.elasticity.get_relaxation_volume">get_relaxation_volume() (in module defy.elasticity)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.DefectThermodynamics.get_single_point_quenched_thermodata">get_single_point_quenched_thermodata() (defy.thermodynamics.DefectThermodynamics method)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.DefectThermodynamics.get_single_point_thermodata">get_single_point_thermodata() (defy.thermodynamics.DefectThermodynamics method)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Substitution.get_site_in_bulk">get_site_in_bulk() (defy.defects.Substitution method)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.ThermoData.get_specific_pressures">get_specific_pressures() (defy.thermodynamics.ThermoData method)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.materials_project.MPDatabase.get_structure">get_structure() (defy.tools.materials_project.MPDatabase method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.get_structure_Si">get_structure_Si() (in module defy.testing)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.core.DefyTest.get_testfile_path">get_testfile_path() (defy.testing.core.DefyTest method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysisTextbook.get_textbook_case">get_textbook_case() (defy.tests.test_analysis.TestDefectsAnalysisTextbook method)</a>
+</li>
+        <li><a href="api/defy.html#defy.structure.get_trajectory_for_visualization">get_trajectory_for_visualization() (in module defy.structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.DefectThermodynamics.get_variable_species_quenched_thermodata">get_variable_species_quenched_thermodata() (defy.thermodynamics.DefectThermodynamics method)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.DefectThermodynamics.get_variable_species_thermodata">get_variable_species_thermodata() (defy.thermodynamics.DefectThermodynamics method)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.structure.get_WarrenCowley_order_parameter">get_WarrenCowley_order_parameter() (in module defy.tools.structure)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.defects.Interstitial">Interstitial (class in defy.defects)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.structure.is_site_in_structure">is_site_in_structure() (in module defy.tools.structure)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.tools.html#defy.tools.structure.is_site_in_structure_coords">is_site_in_structure_coords() (in module defy.tools.structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.SingleDefConc.items">items() (defy.analysis.SingleDefConc method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.thermodynamics.ThermoData.items">(defy.thermodynamics.ThermoData method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="K" class="genindex-section">
+  <h2>K</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.analysis.SingleDefConc.keys">keys() (defy.analysis.SingleDefConc method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.thermodynamics.ThermoData.keys">(defy.thermodynamics.ThermoData method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="L" class="genindex-section">
+  <h2>L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.defects.Defect.label">label (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.label">(defy.defects.DefectComplex property)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.label">(defy.entries.DefectEntry property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.plotter.DefectConcentrationsPlotter.limit_conc_range">limit_conc_range() (defy.plotter.DefectConcentrationsPlotter method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.electronic_structure.maxwell_boltzmann">maxwell_boltzmann() (in module defy.electronic_structure)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.entries.maxwell_boltzmann">(in module defy.entries)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.merge_entries">merge_entries() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="api/defy.html#module-defy">defy</a>
+</li>
+          <li><a href="api/defy.html#module-defy.analysis">defy.analysis</a>
+</li>
+          <li><a href="api/defy.html#module-defy.defects">defy.defects</a>
+</li>
+          <li><a href="api/defy.html#module-defy.elasticity">defy.elasticity</a>
+</li>
+          <li><a href="api/defy.html#module-defy.electronic_structure">defy.electronic_structure</a>
+</li>
+          <li><a href="api/defy.html#module-defy.entries">defy.entries</a>
+</li>
+          <li><a href="api/defy.html#module-defy.generator">defy.generator</a>
+</li>
+          <li><a href="api/defy.html#module-defy.plotter">defy.plotter</a>
+</li>
+          <li><a href="api/defy.html#module-defy.structure">defy.structure</a>
+</li>
+          <li><a href="api/defy.testing.html#module-defy.testing">defy.testing</a>
+</li>
+          <li><a href="api/defy.testing.html#module-defy.testing.chempots">defy.testing.chempots</a>
+</li>
+          <li><a href="api/defy.testing.html#module-defy.testing.core">defy.testing.core</a>
+</li>
+          <li><a href="api/defy.testing.html#module-defy.testing.defects">defy.testing.defects</a>
+</li>
+          <li><a href="api/defy.testing.html#module-defy.testing.structure">defy.testing.structure</a>
+</li>
+          <li><a href="api/defy.tests.html#module-defy.tests">defy.tests</a>
+</li>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_analysis">defy.tests.test_analysis</a>
+</li>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_defects">defy.tests.test_defects</a>
+</li>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_entries">defy.tests.test_entries</a>
+</li>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_generator">defy.tests.test_generator</a>
+</li>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_structure">defy.tests.test_structure</a>
+</li>
+          <li><a href="api/defy.tests.html#module-defy.tests.test_thermodynamics">defy.tests.test_thermodynamics</a>
+</li>
+          <li><a href="api/defy.html#module-defy.thermodynamics">defy.thermodynamics</a>
+</li>
+          <li><a href="api/defy.tools.html#module-defy.tools">defy.tools</a>
+</li>
+          <li><a href="api/defy.tools.html#module-defy.tools.materials_project">defy.tools.materials_project</a>
+</li>
+          <li><a href="api/defy.tools.html#module-defy.tools.structure">defy.tools.structure</a>
+</li>
+          <li><a href="api/defy.tools.tests.html#module-defy.tools.tests">defy.tools.tests</a>
+</li>
+          <li><a href="api/defy.tools.tests.html#module-defy.tools.tests.test_materials_project">defy.tools.tests.test_materials_project</a>
+</li>
+          <li><a href="api/defy.tools.html#module-defy.tools.utils">defy.tools.utils</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.tools.html#defy.tools.materials_project.MPDatabase.mp_rester">mp_rester (defy.tools.materials_project.MPDatabase property)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.materials_project.MPDatabase">MPDatabase (class in defy.tools.materials_project)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.multiplicity">multiplicity (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.multiplicity">(defy.defects.DefectComplex property)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.multiplicity">(defy.entries.DefectEntry property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.defects.Defect.name">name (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.name">(defy.defects.DefectComplex property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Interstitial.name">(defy.defects.Interstitial property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Polaron.name">(defy.defects.Polaron property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Substitution.name">(defy.defects.Substitution property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Vacancy.name">(defy.defects.Vacancy property)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.name">(defy.entries.DefectEntry property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.names">names (defy.analysis.DefectConcentrations property)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.plotter.DefectConcentrationsPlotter.plot_bar">plot_bar() (defy.plotter.DefectConcentrationsPlotter method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.plot_binding_energies">plot_binding_energies() (defy.analysis.DefectsAnalysis method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.plotter.plot_binding_energies">(in module defy.plotter)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.plot_brouwer_diagram">plot_brouwer_diagram() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.plotter.plot_charge_transition_levels">plot_charge_transition_levels() (in module defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.plot_ctl">plot_ctl() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.plot_doping_diagram">plot_doping_diagram() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.plot_formation_energies">plot_formation_energies() (defy.analysis.DefectsAnalysis method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.plotter.plot_formation_energies">(in module defy.plotter)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.plotter.plot_pO2_vs_concentrations">plot_pO2_vs_concentrations() (in module defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.plotter.plot_pO2_vs_conductivity">plot_pO2_vs_conductivity() (in module defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.plotter.plot_pO2_vs_fermi_level">plot_pO2_vs_fermi_level() (in module defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.plotter.plot_variable_species_vs_concentrations">plot_variable_species_vs_concentrations() (in module defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.plotter.plot_variable_species_vs_conductivity">plot_variable_species_vs_conductivity() (in module defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.plotter.plot_variable_species_vs_fermi_level">plot_variable_species_vs_fermi_level() (in module defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.plotter.plot_x_vs_concentrations">plot_x_vs_concentrations() (in module defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.plotter.plot_x_vs_conductivity">plot_x_vs_conductivity() (in module defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.plotter.plot_x_vs_fermi_level">plot_x_vs_fermi_level() (in module defy.plotter)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Polaron">Polaron (class in defy.defects)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.tools.html#defy.tools.structure.rattle_atoms">rattle_atoms() (in module defy.tools.structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.relaxation_volume">relaxation_volume() (defy.entries.DefectEntry method)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.structure.remove_oxidation_state_from_site">remove_oxidation_state_from_site() (in module defy.tools.structure)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.chempots.ReservoirsTest">ReservoirsTest (class in defy.testing.chempots)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.reset_all_custom_functions">reset_all_custom_functions() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.reset_defect_concentration_function">reset_defect_concentration_function() (defy.entries.DefectEntry method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.reset_defect_concentration_functions">reset_defect_concentration_functions() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.reset_formation_energy_function">reset_formation_energy_function() (defy.entries.DefectEntry method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.reset_formation_energy_functions">reset_formation_energy_functions() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="S" class="genindex-section">
+  <h2>S</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.tools.html#defy.tools.utils.save_object_as_json">save_object_as_json() (in module defy.tools.utils)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.select_concentrations">select_concentrations() (defy.analysis.DefectConcentrations method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.select_entries">select_entries() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.utils.select_objects">select_objects() (in module defy.tools.utils)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.set_bulk_volume">set_bulk_volume() (defy.defects.Defect method)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.set_charge">set_charge() (defy.defects.Defect method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.set_charge">(defy.defects.DefectComplex method)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.set_charge">(defy.entries.DefectEntry method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.set_corrections">set_corrections() (defy.entries.DefectEntry method)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.set_data">set_data() (defy.entries.DefectEntry method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.thermodynamics.ThermoData.set_data">(defy.thermodynamics.ThermoData method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.set_defect_concentration_function">set_defect_concentration_function() (defy.entries.DefectEntry method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.set_defect_concentration_functions">set_defect_concentration_functions() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.set_formation_energy_function">set_formation_energy_function() (defy.entries.DefectEntry method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.set_formation_energy_functions">set_formation_energy_functions() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.set_label">set_label() (defy.defects.Defect method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.set_label">(defy.defects.DefectComplex method)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.set_label">(defy.entries.DefectEntry method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.defects.Defect.set_multiplicity">set_multiplicity() (defy.defects.Defect method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.set_multiplicity">(defy.defects.DefectComplex method)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.set_multiplicity">(defy.entries.DefectEntry method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.tests.html#defy.tests.test_entries.TestDefectEntry.setUp">setUp() (defy.tests.test_entries.TestDefectEntry method)</a>
+
+        <ul>
+          <li><a href="api/defy.tests.html#defy.tests.test_structure.TestDefectFinder.setUp">(defy.tests.test_structure.TestDefectFinder method)</a>
+</li>
+          <li><a href="api/defy.tools.tests.html#defy.tools.tests.test_materials_project.TestMPDatabase.setUp">(defy.tools.tests.test_materials_project.TestMPDatabase method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.setUpClass">setUpClass() (defy.tests.test_analysis.TestDefectsAnalysis class method)</a>
+
+        <ul>
+          <li><a href="api/defy.tests.html#defy.tests.test_generator.TestDefectGenerator.setUpClass">(defy.tests.test_generator.TestDefectGenerator class method)</a>
+</li>
+          <li><a href="api/defy.tests.html#defy.tests.test_thermodynamics.TestDefectThermodynamics.setUpClass">(defy.tests.test_thermodynamics.TestDefectThermodynamics class method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.analysis.SingleDefConc">SingleDefConc (class in defy.analysis)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.site">site (defy.defects.Defect property)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.defects.Defect.site_concentration_in_cm3">site_concentration_in_cm3 (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.site_concentration_in_cm3">(defy.defects.DefectComplex property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.defects.Substitution.site_in_bulk">site_in_bulk (defy.defects.Substitution property)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.DefectComplex.sites">sites (defy.defects.DefectComplex property)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.solve_fermi_level">solve_fermi_level() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.electronic_structure.solve_intrinsic_fermi_level">solve_intrinsic_fermi_level() (in module defy.electronic_structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.sort_entries">sort_entries() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.utils.sort_objects">sort_objects() (in module defy.tools.utils)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.structure.sort_sites_to_ref_coords">sort_sites_to_ref_coords() (in module defy.tools.structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.specie">specie (defy.defects.Defect property)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.stable">stable (defy.analysis.DefectConcentrations property)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.stable_charges">stable_charges() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.structure">structure (defy.entries.DefectEntry property)</a>
+
+        <ul>
+          <li><a href="api/defy.testing.html#defy.testing.core.DefyTest.structure">(defy.testing.core.DefyTest property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.testing.html#defy.testing.structure.StructureTest">StructureTest (class in defy.testing.structure)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Substitution">Substitution (class in defy.defects)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.symbol">symbol (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.symbol">(defy.defects.DefectComplex property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Interstitial.symbol">(defy.defects.Interstitial property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Polaron.symbol">(defy.defects.Polaron property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Substitution.symbol">(defy.defects.Substitution property)</a>
+</li>
+          <li><a href="api/defy.html#defy.defects.Vacancy.symbol">(defy.defects.Vacancy property)</a>
+</li>
+          <li><a href="api/defy.html#defy.entries.DefectEntry.symbol">(defy.entries.DefectEntry property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.symbol_charge">symbol_charge (defy.entries.DefectEntry property)</a>
+</li>
+        <li><a href="api/defy.html#defy.entries.DefectEntry.symbol_kroger">symbol_kroger (defy.entries.DefectEntry property)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.symbol_with_charge">symbol_with_charge (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.symbol_with_charge">(defy.defects.DefectComplex property)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.defects.Defect.symbol_with_charge_kv">symbol_with_charge_kv (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.symbol_with_charge_kv">(defy.defects.DefectComplex property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="T" class="genindex-section">
+  <h2>T</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.table">table() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_entries.TestDefectEntry.test_as_dict_from_dict">test_as_dict_from_dict() (defy.tests.test_entries.TestDefectEntry method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_binding_energy">test_binding_energy() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_thermodynamics.TestDefectThermodynamics.test_brouwer_diagram_from_precursors">test_brouwer_diagram_from_precursors() (defy.tests.test_thermodynamics.TestDefectThermodynamics method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_carrier_concentrations">test_carrier_concentrations() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_charge_transition_levels">test_charge_transition_levels() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_structure.TestDefectFinder.test_create_def_structure_for_visualization">test_create_def_structure_for_visualization() (defy.tests.test_structure.TestDefectFinder method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_generator.TestDefectGenerator.test_create_substitutions">test_create_substitutions() (defy.tests.test_generator.TestDefectGenerator method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_generator.TestDefectGenerator.test_create_vacancies">test_create_vacancies() (defy.tests.test_generator.TestDefectGenerator method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysisTextbook.test_custom_functions">test_custom_functions() (defy.tests.test_analysis.TestDefectsAnalysisTextbook method)</a>
+
+        <ul>
+          <li><a href="api/defy.tests.html#defy.tests.test_entries.TestDefectEntry.test_custom_functions">(defy.tests.test_entries.TestDefectEntry method)</a>
+</li>
+          <li><a href="api/defy.tests.html#defy.tests.test_thermodynamics.TestDefectThermodynamics.test_custom_functions">(defy.tests.test_thermodynamics.TestDefectThermodynamics method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.tests.html#defy.tests.test_defects.TestDefect.test_defect_complex">test_defect_complex() (defy.tests.test_defects.TestDefect method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_entries.TestDefectEntry.test_defect_concentration">test_defect_concentration() (defy.tests.test_entries.TestDefectEntry method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_defect_concentrations">test_defect_concentrations() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_defect_concentrations_fixed">test_defect_concentrations_fixed() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_thermodynamics.TestDefectThermodynamics.test_doping_diagram">test_doping_diagram() (defy.tests.test_thermodynamics.TestDefectThermodynamics method)</a>
+</li>
+        <li><a href="api/defy.testing.html#defy.testing.core.DefyTest.test_files_path">test_files_path (defy.testing.core.DefyTest property)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_structure.TestDefectFinder.test_finder_complex">test_finder_complex() (defy.tests.test_structure.TestDefectFinder method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_structure.TestDefectFinder.test_finder_interstitial">test_finder_interstitial() (defy.tests.test_structure.TestDefectFinder method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_structure.TestDefectFinder.test_finder_max_defects">test_finder_max_defects() (defy.tests.test_structure.TestDefectFinder method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_structure.TestDefectFinder.test_finder_substitution">test_finder_substitution() (defy.tests.test_structure.TestDefectFinder method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_structure.TestDefectFinder.test_finder_vacancy">test_finder_vacancy() (defy.tests.test_structure.TestDefectFinder method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_formation_energies">test_formation_energies() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_entries.TestDefectEntry.test_formation_energy">test_formation_energy() (defy.tests.test_entries.TestDefectEntry method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_from_csv">test_from_csv() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_from_dataframe">test_from_dataframe() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tools.tests.html#defy.tools.tests.test_materials_project.TestMPDatabase.test_get_entries">test_get_entries() (defy.tools.tests.test_materials_project.TestMPDatabase method)</a>
+</li>
+        <li><a href="api/defy.tools.tests.html#defy.tools.tests.test_materials_project.TestMPDatabase.test_get_structure">test_get_structure() (defy.tools.tests.test_materials_project.TestMPDatabase method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_defects.TestDefect.test_interstitial">test_interstitial() (defy.tests.test_defects.TestDefect method)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.tests.html#defy.tests.test_entries.TestDefectEntry.test_label">test_label() (defy.tests.test_entries.TestDefectEntry method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_names">test_names() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_plot">test_plot() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_defects.TestDefect.test_polaron">test_polaron() (defy.tests.test_defects.TestDefect method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_entries.TestDefectEntry.test_relaxation_volume">test_relaxation_volume() (defy.tests.test_entries.TestDefectEntry method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_select_entries">test_select_entries() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_solve_fermi_level">test_solve_fermi_level() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_stable_charges">test_stable_charges() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_defects.TestDefect.test_substitution">test_substitution() (defy.tests.test_defects.TestDefect method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysisTextbook.test_textbook_case_from_entries">test_textbook_case_from_entries() (defy.tests.test_analysis.TestDefectsAnalysisTextbook method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis.test_to_json">test_to_json() (defy.tests.test_analysis.TestDefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_defects.TestDefect.test_vacancy">test_vacancy() (defy.tests.test_defects.TestDefect method)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_defects.TestDefect">TestDefect (class in defy.tests.test_defects)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectConcentrations">TestDefectConcentrations() (in module defy.tests.test_analysis)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_entries.TestDefectEntry">TestDefectEntry (class in defy.tests.test_entries)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_structure.TestDefectFinder">TestDefectFinder (class in defy.tests.test_structure)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_generator.TestDefectGenerator">TestDefectGenerator (class in defy.tests.test_generator)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysis">TestDefectsAnalysis (class in defy.tests.test_analysis)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_analysis.TestDefectsAnalysisTextbook">TestDefectsAnalysisTextbook (class in defy.tests.test_analysis)</a>
+</li>
+        <li><a href="api/defy.tests.html#defy.tests.test_thermodynamics.TestDefectThermodynamics">TestDefectThermodynamics (class in defy.tests.test_thermodynamics)</a>
+</li>
+        <li><a href="api/defy.tools.tests.html#defy.tools.tests.test_materials_project.TestMPDatabase">TestMPDatabase (class in defy.tools.tests.test_materials_project)</a>
+</li>
+        <li><a href="api/defy.html#defy.thermodynamics.ThermoData">ThermoData (class in defy.thermodynamics)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.thermodata">thermodata (defy.analysis.DefectsAnalysis property)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.to_dataframe">to_dataframe() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.to_file">to_file() (defy.analysis.DefectsAnalysis method)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.DefectsAnalysis.to_json">to_json() (defy.analysis.DefectsAnalysis method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.thermodynamics.ThermoData.to_json">(defy.thermodynamics.ThermoData method)</a>
+</li>
+        </ul></li>
+        <li><a href="api/defy.html#defy.analysis.DefectConcentrations.total">total (defy.analysis.DefectConcentrations property)</a>
+</li>
+        <li><a href="api/defy.html#defy.defects.Defect.type">type (defy.defects.Defect property)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.defects.DefectComplex.type">(defy.defects.DefectComplex property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="V" class="genindex-section">
+  <h2>V</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.defects.Vacancy">Vacancy (class in defy.defects)</a>
+</li>
+        <li><a href="api/defy.html#defy.analysis.SingleDefConc.values">values() (defy.analysis.SingleDefConc method)</a>
+
+        <ul>
+          <li><a href="api/defy.html#defy.thermodynamics.ThermoData.values">(defy.thermodynamics.ThermoData method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.tools.html#defy.tools.structure.view_structures_with_ase">view_structures_with_ase() (in module defy.tools.structure)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="W" class="genindex-section">
+  <h2>W</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.tools.html#defy.tools.structure.write_extxyz_file">write_extxyz_file() (in module defy.tools.structure)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="api/defy.html#defy.structure.write_extxyz_for_visualization">write_extxyz_for_visualization() (in module defy.structure)</a>
+</li>
+        <li><a href="api/defy.tools.html#defy.tools.structure.write_xdatcar_from_structures">write_xdatcar_from_structures() (in module defy.tools.structure)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=46bd48cc"></script>
+    </body>
+</html>
