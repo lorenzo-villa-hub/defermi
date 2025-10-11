@@ -1,6 +1,6 @@
 # defy
 
-Python library for the analysis and visualization of point defects. Simple and intuitive for new users and non-experts, flexible and customizable for power users.
+Python library for the analysis and visualization of point defects. Simple and intuitive for new users and non-experts, flexible and customizable for power users. Based on main objects from the [`pymatgen`](https://pymatgen.org/) library.
 
 
 ## Installation
@@ -24,6 +24,6 @@ pip install defy
 
 ## Overview
 - **Intuitive** : No endless reading of the documentation, all main functionalities are wrapped around the `DefectsAnalysis` class.
-- **Easy interface** : Interfaces with simple Python objects (`list`,`dict`,`DataFrame`), no dependency on specific objects. Fast learning curve: getting started is as simple as loading a `DataFrame` or a `csv` file.
+- **Easy interface** : Interfaces with simple Python objects (`list`,`dict`,`DataFrame`), no unnecessary dependencies on specific objects. Fast learning curve: getting started is as simple as loading a `DataFrame` or a `csv` file.
 - **Flexible** : Power users can customize the workflow and are not limited by the default behaviour. All individual routines are easily accessible manually to improve control.
 - **Customizable** : Users can assign their own customized functions for defect formation energies and concentrations. Not only temperature and volume dependences can be easily included, but also system-specific behaviours can be integrated without the need for workarounds. 
