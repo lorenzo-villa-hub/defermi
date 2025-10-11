@@ -8,9 +8,7 @@ Python library for the analysis and visualization of point defects. Simple and i
 ```python
 mamba create env -n defermi python
 mamba activate defermi
-```
 
-```python
 pip install defermi
 ```
 
