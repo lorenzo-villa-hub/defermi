@@ -1,2 +1,2 @@
 
-from defy.analysis import DefectsAnalysis
+from .analysis import DefectsAnalysis
