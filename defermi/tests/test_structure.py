@@ -11,13 +11,13 @@ from pymatgen.core.structure import Structure
 from pymatgen.core.composition import Composition
 from pymatgen.io.vasp.outputs import Vasprun
 
-from defy.structure import create_def_structure_for_visualization, defect_finder
-from defy.tools.utils import get_object_from_json
+from defermi.structure import create_def_structure_for_visualization, defect_finder
+from defermi.tools.utils import get_object_from_json
 
-from defy.testing.core import DefyTest
+from defermi.testing.core import DefermiTest
 
 
-class TestDefectFinder(DefyTest):
+class TestDefectFinder(DefermiTest):
 
     def setUp(self):
         self.structure_bulk = get_object_from_json(Structure,self.get_testfile_path('structure_bulk.json'))

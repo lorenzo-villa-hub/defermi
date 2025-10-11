@@ -1,11 +1,11 @@
 
 from pymatgen.io.vasp.inputs import Poscar
 
-from defy.testing.core import DefyTest
-from defy.generator import create_vacancies, create_substitutions
+from defermi.testing.core import DefermiTest
+from defermi.generator import create_vacancies, create_substitutions
 
 
-class TestDefectGenerator(DefyTest):
+class TestDefectGenerator(DefermiTest):
 
     @classmethod
     def setUpClass(cls):

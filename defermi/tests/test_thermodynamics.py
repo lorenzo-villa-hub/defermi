@@ -13,20 +13,20 @@ import pandas as pd
 from pymatgen.electronic_structure.dos import CompleteDos
 from pymatgen.core.units import kb
 
-from defy.analysis import DefectsAnalysis
-from defy.chempots.core import Chempots
-from defy.defects import Vacancy
-from defy.entries import DefectEntry
-from defy.thermodynamics import DefectThermodynamics
-from defy.tools.utils import get_object_from_json
+from defermi.analysis import DefectsAnalysis
+from defermi.chempots.core import Chempots
+from defermi.defects import Vacancy
+from defermi.entries import DefectEntry
+from defermi.thermodynamics import DefectThermodynamics
+from defermi.tools.utils import get_object_from_json
 
-from defy.testing.core import DefyTest
+from defermi.testing.core import DefermiTest
 
 
 e = constants.e
 
         
-class TestDefectThermodynamics(DefyTest):
+class TestDefectThermodynamics(DefermiTest):
     
     @classmethod
     def setUpClass(cls):
@@ -183,7 +183,7 @@ class TestDefectThermodynamics(DefyTest):
         
 
         def custom_dconc(entry,vbm=0,chemical_potentials=None,temperature=0,fermi_level=0,per_unit_volume=True,eform_kwargs={},**kwargs):
-                from defy.entries import fermi_dirac
+                from defermi.entries import fermi_dirac
                 n = entry.defect.site_concentration_in_cm3 if per_unit_volume else entry.multiplicity 
                 if per_unit_volume:
                     n = n * (1+1/500*temperature)

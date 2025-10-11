@@ -9,16 +9,16 @@ Created on Tue Jun  3 10:18:19 2025
 from pymatgen.core.composition import Composition
 from pymatgen.analysis.phase_diagram import PhaseDiagram
 
-from defy.tools.utils import get_object_from_json
-from defy.chempots.core import Chempots
-from defy.chempots.reservoirs import Reservoirs
-from defy.chempots.phase_diagram import PDHandler
+from defermi.tools.utils import get_object_from_json
+from defermi.chempots.core import Chempots
+from defermi.chempots.reservoirs import Reservoirs
+from defermi.chempots.phase_diagram import PDHandler
 
-from defy.testing.core import DefyTest
-from defy.testing.chempots import  ReservoirsTest
+from defermi.testing.core import DefermiTest
+from defermi.testing.chempots import  ReservoirsTest
 
 
-class TestPDHandler(DefyTest):
+class TestPDHandler(DefermiTest):
     
     def setUp(self):
         self.comp = Composition('NaNbO3')

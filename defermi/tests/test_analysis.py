@@ -14,19 +14,19 @@ import numpy as np
 import os.path as op
 import pandas as pd
 
-from defy.tools.utils import get_object_from_json
-from defy.chempots.core import Chempots
-from defy.defects import Vacancy
-from defy.entries import DefectEntry
-from defy.analysis import DefectsAnalysis, SingleDefConc, DefectConcentrations
+from defermi.tools.utils import get_object_from_json
+from defermi.chempots.core import Chempots
+from defermi.defects import Vacancy
+from defermi.entries import DefectEntry
+from defermi.analysis import DefectsAnalysis, SingleDefConc, DefectConcentrations
 
-from defy.testing.core import DefyTest
-from defy.testing.defects import DefectEntryTest
-from defy.tests.test_entries import TestDefectEntry
+from defermi.testing.core import DefermiTest
+from defermi.testing.defects import DefectEntryTest
+from defermi.tests.test_entries import TestDefectEntry
 
 
 
-class TestDefectsAnalysis(DefyTest):
+class TestDefectsAnalysis(DefermiTest):
     
     @classmethod
     def setUpClass(cls):
@@ -224,7 +224,7 @@ class TestDefectsAnalysis(DefyTest):
 
 
 
-class TestDefectsAnalysisTextbook(DefyTest):
+class TestDefectsAnalysisTextbook(DefermiTest):
 
         
     def get_textbook_case(self):
@@ -292,7 +292,7 @@ class TestDefectsAnalysisTextbook(DefyTest):
         
 
         def custom_dconc(entry,vbm=0,chemical_potentials=None,temperature=0,fermi_level=0,per_unit_volume=True,eform_kwargs={},**kwargs):
-                from defy.entries import fermi_dirac
+                from defermi.entries import fermi_dirac
                 n = entry.defect.site_concentration_in_cm3 if per_unit_volume else entry.multiplicity 
                 if per_unit_volume:
                     n = n * (1+1/500*temperature)
@@ -331,7 +331,7 @@ class TestDefectsAnalysisTextbook(DefyTest):
         self.assert_all_close(actual, desired)
 
 
-def TestDefectConcentrations(DefyTest):
+def TestDefectConcentrations(DefermiTest):
 
     @classmethod
     def setUpClass(cls):

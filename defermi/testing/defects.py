@@ -5,11 +5,11 @@ Created on Thu May 11 16:33:19 2023
 
 @author: villa
 """
-from .core import DefyTest
+from .core import DefermiTest
 from .structure import StructureTest
 
 
-class DefectTest(DefyTest):
+class DefectTest(DefermiTest):
     """
     Provides methods to test Defect objects
     """
@@ -21,7 +21,7 @@ class DefectTest(DefyTest):
         self.assertEqual(defect1.label,defect2.label)
         
         
-class DefectEntryTest(DefyTest):
+class DefectEntryTest(DefermiTest):
     """
     Provides methods to test DefectEntry objects
     """

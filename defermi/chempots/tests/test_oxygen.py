@@ -7,8 +7,8 @@ Created on Tue Jun  3 10:15:10 2025
 """
 import numpy as np
 
-from defy.chempots.reservoirs import PressureReservoirs
-from defy.chempots.oxygen import (
+from defermi.chempots.reservoirs import PressureReservoirs
+from defermi.chempots.oxygen import (
                                             get_barycenter_chemical_potentials_absolute,
                                             get_barycenter_chemical_potentials_relative,
                                             get_oxygen_chempot_from_pO2,
@@ -16,10 +16,10 @@ from defy.chempots.oxygen import (
                                             get_oxygen_pressure_reservoirs,
                                             get_pressure_reservoirs_from_phase_diagram
                                             )
-from defy.chempots.core import Chempots
-from defy.testing.chempots import ReservoirsTest
+from defermi.chempots.core import Chempots
+from defermi.testing.chempots import ReservoirsTest
 
-from defy.chempots.tests.test_chempots import TestChempots
+from defermi.chempots.tests.test_chempots import TestChempots
 
 def test_chempot_from_pO2():
     actual = get_oxygen_chempot_from_pO2(temperature=1300,partial_pressure=0.2)

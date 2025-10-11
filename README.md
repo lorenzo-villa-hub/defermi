@@ -1,4 +1,4 @@
-# defy
+# defermi
 
 Python library for the analysis and visualization of point defects. Simple and intuitive for new users and non-experts, flexible and customizable for power users. Based on main objects from the [`pymatgen`](https://pymatgen.org/) library.
 
