@@ -94,6 +94,7 @@ class Chempots(MSONable):
         -------
         dict
             Json-serializable dict of a Chempots object.
+
         """
         d = {
         "@module": self.__class__.__module__,
@@ -114,6 +115,7 @@ class Chempots(MSONable):
         Returns
         -------
         Chempots object.
+
         """
         chempots = d["chempots"]
         return Chempots(chempots)
@@ -131,7 +133,8 @@ class Chempots(MSONable):
 
         Returns
         -------
-        Chempots.
+        Chempots
+
         """
         return Chempots({el.symbol:value for el,value in d.items()})
     
@@ -144,13 +147,14 @@ class Chempots(MSONable):
         Returns
         -------
         Dictionary in the format {Element:value}
+
         """
         return {Element(el):value for el,value in self.mu.items()}
     
     
     def get_absolute(self,mu_refs):
         """
-        Get Chempots object with chemical potentials converted to absolute values (mu + mu_ref)
+        Get Chempots object with chemical potentials converted to absolute values (mu + mu_ref).
 
         Parameters
         ----------
@@ -160,13 +164,14 @@ class Chempots(MSONable):
         Returns
         -------
         Chempots values converted to absolute (mu + mu_ref).
+
         """
         return Chempots({el:self.mu[el] + mu_refs[el] for el in self.mu})
         
     
     def get_referenced(self,mu_refs):
         """
-        Get Chempots object with chemical potentials converted to referenced values (mu - mu_ref)
+        Get Chempots object with chemical potentials converted to referenced values (mu - mu_ref).
 
         Parameters
         ----------
@@ -176,28 +181,30 @@ class Chempots(MSONable):
         Returns
         -------
         Chempots values converted to referenced (mu - mu_ref).
+
         """
         return Chempots({el:self.mu[el] - mu_refs[el] for el in self.mu})
 
 
 def chempot_ideal_gas(mu0, temperature,partial_pressure):
     """
-    Get chemical potential at a given temperature and partial pressure. The chemical potential in standard conditions (mu0)
-    has to be know.
+    Get chemical potential at a given temperature and partial pressure. 
+    The chemical potential in standard conditions (mu0) has to be know.
 
     Parameters
     ----------
     mu0 : (float)
         Value of chemical potential in standard conditions.
     temperature : (float)
-        Temperature. in Kelvin
+        Temperature in Kelvin.
     partial_pressure : (float)
-        Partial pressure.
+        Partial pressure over standard pressure (p/p0).
 
     Returns
     -------
     chempot : (float)
         Value of chemical potential at given T and p/p0.
+
     """
     kb = 8.6173324e-5  # eV / K
     chempot = mu0 + 0.5*kb*temperature*np.log(partial_pressure)

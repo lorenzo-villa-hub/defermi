@@ -18,9 +18,9 @@ from .reservoirs import PressureReservoirs
 
 def get_oxygen_chempot_standard_finite_temperature(temperature,muO_reference=None):
     """
-    Get value of oxygen delta mu standard (mu_0(T,Po)) at a speficic temperature
-    The data is taken from the following work: 
-        Reuter and Scheffler, “Composition, Structure, and Stability of RuO 2 ( 110 ) as a Function of Oxygen Pressure.”
+    Get value of oxygen delta mu standard (mu_0(T,Po)) at a speficic temperature.
+
+    The data is taken from the following work: Reuter and Scheffler, “Composition, Structure, and Stability of RuO 2 ( 110 ) as a Function of Oxygen Pressure.”
     The value at a specific temperature is extracted from a linear fitting of the behaviour of mu_O with Temperature.
     
     Parameters
@@ -48,7 +48,7 @@ def get_oxygen_chempot_standard_finite_temperature(temperature,muO_reference=Non
 
 def get_oxygen_chempot_from_pO2(temperature=300,partial_pressure=0.2,muO_reference=None):
     """
-    Get oxygen chemical potential (delta) from temperature and partial pressure
+    Get oxygen chemical potential (delta) from temperature and partial pressure.
 
     Parameters
     ----------
@@ -62,6 +62,7 @@ def get_oxygen_chempot_from_pO2(temperature=300,partial_pressure=0.2,muO_referen
     -------
     (float)
         Value of oxygen chemical potential (delta) at given T and p/p0.
+
     """
     muO = get_oxygen_chempot_standard_finite_temperature(temperature,muO_reference=muO_reference)
     return chempot_ideal_gas(muO,temperature,partial_pressure)  
@@ -110,13 +111,15 @@ def get_pressure_reservoirs_from_phase_diagram(phase_diagram,
     extrinsic_chempots_range : (dict)
         Dictionary with chemical potentials of elements not belonging to the PD ({element:(O_poor_chempot,O_rich_chempot)}). 
         The default is None.
-    pressure_range : (tuple), optional
-        Range in which to evaluate the partial pressure . The default is from 1e-20 to 1e10.
-    interpolation_function : (function), optional
+    pressure_range : (tuple)
+        Range in which to evaluate the partial pressure.
+    interpolation_function : (function)
         Function to determine the chemical potential for the other elements (the ones that are not oxygen).
+
         interpolation_function(element,boundary_reservoir):
-            The function inputs are the target element and the boundary_reservoirs ({'<label>':{element:value}})
-        If None the mean is used. The default is None.    
+        - The function inputs are the target element and the boundary_reservoirs ({'<label>':{element:value}})
+
+        If None the mean is used.    
     npoints : (int), optional
         Number of data points to interpolate the partial pressure with. The default is 50.
     get_pressures_as_strings : (bool), optional
@@ -126,6 +129,7 @@ def get_pressure_reservoirs_from_phase_diagram(phase_diagram,
     -------
     reservoirs
         PressureReservoirs object. The dictionary is organized as {partial_pressure:chempots}.
+
     """
     chempots_dict = {}
     reservoirs = {}
@@ -209,6 +213,7 @@ def get_pressure_reservoirs_from_precursors(precursors,
     Returns
     -------
     PressureReservoirs object
+
     """
     row_elements = []
     for formula in precursors.keys():
@@ -297,11 +302,11 @@ def get_barycenter_chemical_potentials_absolute(composition,
                                                 min_absolute_chempots=None,
                                                 max_absolute_chempots=None):
     """
-    Compute the barycenter of the feasible region for relative chemical potentials,
-    constrained by:
-      - fixed absolute chemical potential of oxygen
-      - Total energy of target phase
-      - lower and/or upper chemical potential limits for each element
+
+    Compute the barycenter of the feasible region for relative chemical potentials, constrained by:
+    - fixed absolute chemical potential of oxygen
+    - Total energy of target phase
+    - lower and/or upper chemical potential limits for each element
     
     Parameters:
     -----------
@@ -319,6 +324,7 @@ def get_barycenter_chemical_potentials_absolute(composition,
     Returns:
         Dictionary with chemical potentials, taken from the center of the
         allowed N-1 dimensional hyperplane.
+
     """ 
     if isinstance(composition, str):
         composition = Composition(composition)
@@ -345,11 +351,11 @@ def get_barycenter_chemical_potentials_relative(composition,
                                                 min_relative_chempots=None,
                                                 max_relative_chempots=None):
     """
-    Compute the barycenter of the feasible region for relative chemical potentials,
-    constrained by:
-      - fixed relative chemical potential of oxygen
-      - Formation energy of target phase
-      - lower and/or upper chemical potential limits for each element
+    
+    Compute the barycenter of the feasible region for relative chemical potentials, constrained by:
+    - fixed relative chemical potential of oxygen
+    - Formation energy of target phase
+    - lower and/or upper chemical potential limits for each element
     
     Parameters:
     -----------

@@ -30,13 +30,14 @@ class Reservoirs(MSONable):
         ----------
         res_dict : (dict)
             Dictionary with reservoir names as key and dictionaries of chemical potentials as values.
-        phase_diagram : (PhaseDiagram object), optional
-            PhaseDiagram object (Pymatgen), useful to convert absolute chempots in referenced chempots. The default is None.
+        phase_diagram : (PhaseDiagram object)
+            PhaseDiagram object (Pymatgen), useful to convert absolute chempots in referenced chempots.
         mu_refs : (dict)
-            Dictionary with chemical potentials of reference elements ({Element:chempot}). If the PhaseDiagram is provided
-            mu_refs is taken from the mu_refs attribute. 
-        are_chempots_delta : (bool), optional
-            Set this variable to True if chempots in dictionary are referenced values. The default is False.
+            Dictionary with chemical potentials of reference elements ({Element:chempot}).
+            If the PhaseDiagram is provided mu_refs is taken from the mu_refs attribute. 
+        are_chempots_delta : (bool)
+            Set this variable to True if chempots in dictionary are referenced values.
+
         """
         self.res_dict = res_dict
         self.pd = phase_diagram 
@@ -112,6 +113,7 @@ class Reservoirs(MSONable):
         -------
         dict
             Json-serializable dict of a Reservoirs object.
+
         """
         d = {}
         d['@module'] = self.__class__.__module__
@@ -129,7 +131,7 @@ class Reservoirs(MSONable):
 
         Parameters
         ----------
-        path : (str), optional
+        path : (str)
             Path to the destination file.  If None a string is exported.
         cls : (cls)
             Encoder class for json.dump. The default is MontyEncoder.
@@ -138,6 +140,7 @@ class Reservoirs(MSONable):
         -------
         d : (str)
             If path is not set a string is returned.
+
         """
         d = self.as_dict()
         if path:
@@ -160,6 +163,7 @@ class Reservoirs(MSONable):
         Returns
         -------
         Reservoirs object.
+
         """
         res_dict = {}
         for res,chempots in d['res_dict'].items():
@@ -203,13 +207,14 @@ class Reservoirs(MSONable):
         ----------
         inplace : (bool)
             Apply changes to current Reservoirs object.
-        elements : (list), optional
-            List of element symbols. The default is None.
+        elements : (list)
+            List of element symbols.
 
         Returns
         -------
         res : 
             Reservoirs object.
+
         """
         res = self.copy()
         mu_refs = self.mu_refs.copy()
@@ -253,24 +258,24 @@ class Reservoirs(MSONable):
     
     def get_dataframe(self,format_symbols=False,format_compositions=False,all_math=False,ndecimals=None):
         """
-        Get DataFrame object of the dictionary of reservoirs
+        Get DataFrame object of the dictionary of reservoirs.
 
         Parameters
         ----------
-        format_symbols : (bool), optional
-            Format labels of element chempots as \Delta \mu_{\text{"el"}}. The default is False.
-        format_compositions : (bool), optional
-            Get Latex format of compositions. The default is False.
-        all_math : (bool), optional
-            Get all characters in composition written in Latex's math format. The default is False.
-        ndecimals : (int), optional
+        format_symbols : (bool)
+            Format labels of element chempots in latex math format.
+        format_compositions : (bool)
+            Get Latex format of compositions.
+        all_math : (bool)
+            Get all characters in composition written in latex's math format.
+        ndecimals : (int)
             Number of decimals to round the chemical potentials, if None the numbers are not changed.
-            The default is None.
 
         Returns
         -------
         df : 
             DataFrame object.
+
         """
         res = self._get_res_dict_with_symbols(format_symbols)
         df = DataFrame(res)
@@ -288,7 +293,7 @@ class Reservoirs(MSONable):
     
     def get_latex_table(self,ndecimals=1):
         """
-        Get string with formatted latex table of chemical potentials
+        Get string with formatted latex table of chemical potentials.
         """
         df = self.get_dataframe(format_symbols=True,ndecimals=ndecimals)
         table = df.to_latex(escape=False)
@@ -297,13 +302,13 @@ class Reservoirs(MSONable):
     
     def get_plot(self,elements,size=1,**kwargs):
         """
-        Plot the stability diagram with the reservoir points
+        Plot the stability diagram with the reservoir points.
 
         Parameters
         ----------
         elements : (list)
             List of strings with element symbols on the diagram axis.
-        size : (float), optional
+        size : (float)
             Size of the points. The default is 1.
         **kwargs : (dict)
             Kwargs for the add_reservoirs function.
@@ -312,6 +317,7 @@ class Reservoirs(MSONable):
         -------
         plt : 
             Matplotlib object.
+
         """
         from pynter.phase_diagram.plotter import PDPlotterAdder # import here to avoid circular import
         res = self.copy()
@@ -347,8 +353,7 @@ class Reservoirs(MSONable):
                 
     def _get_res_dict_with_symbols(self,format_symbols=False):
         """
-        format_labels : (bool), optional
-            Format labels of element chempots as \Delta \mu_{\text{"el"}}. The default is False.
+        format_labels (bool): Format labels of element chempots in latex math format.
         """
         new_dict = {}
         for res,chempots in self.res_dict.items():
@@ -418,6 +423,7 @@ class PressureReservoirs(Reservoirs):
         Returns
         -------
         PressureReservoirs object.
+        
         """
         res_dict = {float(r):Chempots.from_dict(mu) for r,mu in d['res_dict'].items()}
         temperature = d['temperature'] if 'temperature' in d.keys() else None
