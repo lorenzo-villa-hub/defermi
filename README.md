@@ -22,8 +22,8 @@ pip install defermi
 - **Brouwer and doping diagrams** : Automatic generation of Brouwer diagrams and doping diagrams.
 - **Temperature-dependent formation energies and defect concentrations** : System-specific temperature-dependence of formation energies and defect concentartions can be included and customized.
 - **Extended frozen defects approach** : Calculate Fermi level under non-equilibrium conditions. Fix defect concentrations to a target value while allowing the charge to equilibrate. This approach is extremely useful for the simulation of quenched conditions, when the defect distribution is determined at high temperature and frozen in at low temperature, or when extrinsic defects are present and the charge state depends on the Fermi level. This approach has been extended to different defects containing the same element and to defect complexes. Many options regarding the fixing conditions are available, including partial quenching and elemental concentrations.
-- **Finite-size corrections**: Compute charge corrections (FNV and eFNV schemes). At the moment available for VASP calculations using `pymatgen`.
-- **Automatic import from VASP calculations** : Import dataset directly from your VASP calculation directory. `gpaw` and `ase.db` support will soon be included.
+- **Finite-size corrections**: Compute charge corrections (FNV and eFNV schemes). At the moment available for `VASP` calculations using `pymatgen`.
+- **Automatic import from `VASP` calculations** : Import dataset directly from your `VASP` calculation directory. Support for`gpaw` and `ase.db` will soon be included.
 
 ## Overview
 - **Intuitive** : No endless reading of the documentation, all main functionalities are wrapped around the `DefectsAnalysis` class.
