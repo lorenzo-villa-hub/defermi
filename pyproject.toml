@@ -15,7 +15,8 @@ requires-python = ">=3.8"
 dependencies = [
     "ase",
     "pymatgen>=2023.3.23",
-    "pymatgen-analysis-defects>=2023.3.25"
+    "pymatgen-analysis-defects>=2023.3.25",
+    "mp-api"
 ]
 
 [project.optional-dependencies]

@@ -7,12 +7,12 @@ Created on Tue May 16 10:24:50 2023
 """
 import json
 
-from pynter.tools.materials_project import MPDatabase
+from defermi.tools.materials_project import MPDatabase
 
-from pynter.testing.core import PynterTest
-from pynter.testing.structure import StructureTest
+from defermi.testing.core import DefermiTest
+from defermi.testing.structure import StructureTest
 
-class TestMPDatabase(PynterTest):
+class TestMPDatabase(DefermiTest):
 
     def setUp(self):
         self.mpd = MPDatabase('mp-149')
