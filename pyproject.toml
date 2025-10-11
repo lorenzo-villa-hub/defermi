@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "defermi"
 version = "1.0.0"
-description = ""
+description = "Compute and analyse point-defect equilibria."
 readme = "README.md"
 authors = [
     { name = "Lorenzo Villa" }
