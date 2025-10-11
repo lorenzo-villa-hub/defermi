@@ -22,7 +22,6 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install sphinx myst-parser nbsphinx sphinx-autodoc-typehints
-          pip install .
 
       - name: Prepare docs folder (if missing)
         run: |
@@ -35,11 +34,18 @@ jobs:
         run: |
           sphinx-apidoc -o docs ./defy "./defy/**/tests*" "./defy/**/testing*"
 
-      - name: Patch conf.py
+      - name: Ensure conf.py has required settings
         run: |
-          echo "
-import os, sys
+          # overwrite conf.py with the minimal config we need
+          cat > docs/conf.py <<'PY'
+import os
+import sys
 sys.path.insert(0, os.path.abspath('../defy'))
+
+project = 'defy'
+author = 'Lorenzo Villa'
+release = '0.1.0'
+
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
@@ -48,8 +54,20 @@ extensions = [
     'nbsphinx',
     'sphinx_autodoc_typehints',
 ]
+
+templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store', '**/tests/**', '**/testing/**']
-" > docs/conf.py
+
+# Use default theme (do not set html_theme)
+# html_theme = 'alabaster'  # optional: keep commented to use Sphinx default
+
+# Allow both .rst and .md if you use myst-parser
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'markdown',
+}
+master_doc = 'index'
+PY
 
       - name: Build HTML docs
         run: |
