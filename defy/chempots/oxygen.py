@@ -304,6 +304,7 @@ def get_barycenter_chemical_potentials_absolute(composition,
     """
 
     Compute the barycenter of the feasible region for relative chemical potentials, constrained by:
+    
     - fixed absolute chemical potential of oxygen
     - Total energy of target phase
     - lower and/or upper chemical potential limits for each element
@@ -353,6 +354,7 @@ def get_barycenter_chemical_potentials_relative(composition,
     """
     
     Compute the barycenter of the feasible region for relative chemical potentials, constrained by:
+
     - fixed relative chemical potential of oxygen
     - Formation energy of target phase
     - lower and/or upper chemical potential limits for each element
