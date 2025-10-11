@@ -10,17 +10,17 @@ from pymatgen.core.sites import PeriodicSite
 from pymatgen.core.composition import Composition
 
 
-from defy.defects import Vacancy, Interstitial, Substitution, Polaron, DefectComplex
+from defermi.defects import Vacancy, Interstitial, Substitution, Polaron, DefectComplex
 
-from defy.testing.core import DefyTest
-from defy.testing.defects import DefectTest
+from defermi.testing.core import DefermiTest
+from defermi.testing.defects import DefectTest
 
 
-bulk_structure = DefyTest().structure.copy()
+bulk_structure = DefermiTest().structure.copy()
 bulk_structure.make_supercell(3)
 
 
-class TestDefect(DefyTest):
+class TestDefect(DefermiTest):
 
     def test_interstitial(self):
         structure = bulk_structure.copy()

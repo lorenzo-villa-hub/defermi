@@ -8,15 +8,15 @@ Created on Fri May 12 16:47:57 2023
 from pymatgen.core.sites import PeriodicSite
 from pymatgen.core.structure import Structure
 
-from defy.tools.utils import get_object_from_json
-from defy.chempots.core import Chempots
-from defy.defects import Interstitial, Vacancy
-from defy.entries import DefectEntry
+from defermi.tools.utils import get_object_from_json
+from defermi.chempots.core import Chempots
+from defermi.defects import Interstitial, Vacancy
+from defermi.entries import DefectEntry
 
-from defy.testing.core import DefyTest
+from defermi.testing.core import DefermiTest
 
 
-class TestDefectEntry(DefyTest):
+class TestDefectEntry(DefermiTest):
 
     def setUp(self):
         mu_B = -6.6794
@@ -101,7 +101,7 @@ class TestDefectEntry(DefyTest):
         
 
         def custom_dconc(entry,vbm=0,chemical_potentials=None,temperature=0,fermi_level=0,per_unit_volume=True,eform_kwargs={},**kwargs):
-                from defy.entries import fermi_dirac
+                from defermi.entries import fermi_dirac
                 n = entry.defect.site_concentration_in_cm3 if per_unit_volume else entry.multiplicity 
                 if per_unit_volume:
                     n = n * (1+1/500*temperature)

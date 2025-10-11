@@ -6,10 +6,10 @@ Created on Wed Jun 14 15:28:02 2023
 @author: villa
 """
 
-from .core import DefyTest
+from .core import DefermiTest
 
 
-class ChempotsTest(DefyTest):
+class ChempotsTest(DefermiTest):
     """
     Provides methods to test Chempots objects
     """
