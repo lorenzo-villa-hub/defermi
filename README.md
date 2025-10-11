@@ -6,7 +6,12 @@ Python library for the analysis and visualization of point defects. Simple and i
 ## Installation
 
 ```python
-pip install defy
+mamba create env -n defermi python
+mamba activate defermi
+```
+
+```python
+pip install defermi
 ```
 
 ## Features 
