@@ -33,29 +33,29 @@ def get_kumagai_correction(
 
     Parameters
     ----------
-    defect_path : (str)
+    defect_path : str
         Path of defect calculation with vasprun.xml and OUTCAR files.
-    bulk_path : (str)
+    bulk_path : str
         Path of bulk calculation with vasprun.xml and OUTCAR files.
-    charge : (int)
+    charge : int
         Charge of defect calculation
-    dielectric_tensor : (int,float 3x1 array or 3x3 array)
+    dielectric_tensor : int,float 3x1 array or 3x3 array
         Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.
-    initial_structure : (bool)
+    initial_structure : bool
         Use initial structure of defect calculation for correction computation.
         Useful to compute correction on unrelaxed structure.
-    get_correction_data : (bool)
+    get_correction_data : bool
         Return pymatgen's CorrectionResult object. If False only the correction value is returned.
-    get_plot : (bool), optional
+    get_plot : bool
         Get Matplotlib object with plot. The default is False. 
-    kwargs : (dict)
+    kwargs : dict
         Kwargs to pass to pydefect `make_efnv_correction`
     
     Returns
     -------
-    correction, ax
-        - CorrectionResult object if get_correction_data is set to True, else just the float with correction value,
-        - matplotlib axis object  
+    correction, ax : tuple
+        CorrectionResult object if get_correction_data is set to True, else just the float with correction value, matplotlib axis object  
+        
     """
     defect_structure = _get_structure_with_pot_pmg(defect_path,initial_structure=initial_structure)
     bulk_structure = _get_structure_with_pot_pmg(bulk_path,initial_structure=False)
@@ -79,54 +79,6 @@ def get_kumagai_correction(
         return corr 
 
 
-def get_kumagai_correction_from_jobs(
-                                    job_defect,
-                                    job_bulk,
-                                    dielectric_tensor,
-                                    initial_structure=False,
-                                    get_correction_data=True,
-                                    get_plot=True,
-                                    **kwargs):
-    """
-    Get Kumagai corrections from VaspJob objects.
-
-    Parameters
-    ----------
-    job_defect : (VaspJob)
-        Defect calculation.
-    job_bulk : (VaspJob)
-        Bulk calculation.
-    dielectric_tensor : (int,float 3x1 array or 3x3 array)
-        Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.
-    initial_structure : (bool)
-        Use initial structure of defect calculation for correction computation.
-        Useful to compute correction on unrelaxed structure.
-    get_correction_data : (bool)
-        Return pymatgen's CorrectionResult object. If False only the correction value is returned.
-    get_plot : (bool), optional
-        Get Matplotlib object with plot. The default is False. 
-    kwargs : (dict)
-        Kwargs to pass to pydefect `make_efnv_correction`
-    
-    Returns
-    -------
-    correction, ax
-        - CorrectionResult object if get_correction_data is set to True, else just the float with correction value,
-        - matplotlib axis object  
-    """
-    defect_path, bulk_path = job_defect.path, job_bulk.path
-    charge = job_defect.charge
-
-    corr = get_kumagai_correction(
-                        defect_path,
-                        bulk_path,
-                        charge,
-                        dielectric_tensor,
-                        initial_structure=False,
-                        get_plot=False,
-                        **kwargs)    
-    return corr
-
 
 def get_kumagai_correction_from_structures(
                                         defect_structure_with_potentials,
@@ -137,7 +89,7 @@ def get_kumagai_correction_from_structures(
     """
     Get Kumagai (extended FNV) correction from Structure objects with 
     site potentials stored into site_properties. Not recommended to use
-    directly, refer to get_kumagai_correction.
+    directly, refer to `get_kumagai_correction`.
     """
     dielectric_tensor = _convert_dielectric_tensor(dielectric_tensor)
     correction =  _get_efnv_correction_pmg_fixed(
@@ -158,17 +110,23 @@ def _get_efnv_correction_pmg_fixed(
     dielectric_tensor,
     **kwargs):
     """
-    Fixed code from pymatgen.analysis.defects.corrections.kumagai.get_efnv_correction
+    Fixed code from `pymatgen.analysis.defects.corrections.kumagai.get_efnv_correction`,
     defect_potentials and site_potentials variables were inverted.
     
     Returns the Kumagai/Oba EFNV correction for a given defect.
 
-    Args:
-        charge: Charge of the defect.
-        defect_structure: Defect structure.
-        bulk_structure: Bulk structure.
-        dielectric_tensor: Dielectric tensor.
-        **kwargs: Keyword arguments to pass to `make_efnv_correction`.
+    Parameters
+    ----------
+    charge : int or float
+        Charge of the defect.
+    defect_structure : Structure
+        Defect structure.
+    bulk_structure : Structure
+        Bulk structure.
+    dielectric_tensor : np.array
+        Dielectric tensor.
+    kwargs : dict
+        Kwargs to pass to `make_efnv_correction`.
     """
     from pydefect.analyzer.calc_results import CalcResults
     from pydefect.cli.vasp.make_efnv_correction import make_efnv_correction
@@ -211,10 +169,14 @@ def _get_structure_with_pot_pmg(directory,initial_structure=False):
 
     Reads vasprun.xml and OUTCAR files in a directory.
 
-    Args:
-        directory: Directory containing vasprun.xml and OUTCAR files.
+    Parameters
+    ----------
+    directory : str
+        Directory containing vasprun.xml and OUTCAR files.
 
-    Returns:
+    Returns
+    -------
+    structure : Structure
         Structure with "potential" site property.
     """
     _check_import_pydefect()
