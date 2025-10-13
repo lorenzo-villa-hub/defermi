@@ -36,11 +36,11 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        entries: (list) 
+        entries: list 
             A list of DefectEntry objects.
-        band_gap : (float)
+        band_gap : float
             Band gap of the pristine material in eV.
-        vbm: (float) 
+        vbm: float
             Valence band maximum of the pristine material in eV.
 
         """
