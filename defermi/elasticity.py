@@ -18,18 +18,18 @@ def get_elastic_dipole_tensor(stress_defect,stress_bulk,bulk_volume,corrections=
 
     Parameters
     ----------
-    stress_defect : (np.array)
+    stress_defect : np.array
         Stresses from defect calculation in kbar (VASP output)
-    stress_bulk : (np.array)
+    stress_bulk : np.array
         Stresses from bulk calculation in kbar (VASP output)
-    bulk_volume : (float)
+    bulk_volume : float
         Cell volume of bulk calculation in A°^3.
-    corrections : (bool)
+    corrections : bool
         Add correction terms to the residual stress tensor.
 
     Returns
     -------
-    dipole_tensor : (np.array)
+    dipole_tensor : np.array
         Elastic dipole tensor in eV.
     """    
     res_stress = np.array(stress_defect) - np.array(stress_bulk)
@@ -44,20 +44,20 @@ def get_relaxation_volume(stress_defect,stress_bulk,bulk_modulus,bulk_volume,cor
 
     Parameters
     ----------
-    stress_defect : (np.array)
+    stress_defect : np.array
         Stresses from defect calculation in kbar (VASP output)
-    stress_bulk : (np.array)
+    stress_bulk : np.array
         Stresses from bulk calculation in kbar (VASP output)
-    bulk_volume : (float)
+    bulk_volume : float
         Cell volume of bulk calculation in A°^3.
-    bulk_modulus : (float)
+    bulk_modulus : float
         Bulk modulus in GPa.
-    corrections : (bool)
+    corrections : bool
         Add correction terms to the residual stress tensor.
         
     Returns
     -------
-    rel_volume : (float)
+    rel_volume : float
         Relaxation volume in A°^3.
     """
     bulk_modulus = bulk_modulus*10 # from GPa to kbar

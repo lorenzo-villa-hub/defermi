@@ -24,35 +24,37 @@ def get_carrier_concentrations(dos, fermi_level, temperature, band_gap=None):
 
     Parameters
     ----------
-        dos : (dict or Dos)
-            Density of states to integrate. Can be provided as density of states D(E)
-            or using effective masses.
-            Format for effective masses:
-                dict with following keys:
-                    - "m_eff_h" : holes effective mass in units of m_e (electron mass)
-                    - "m_eff_e" : electrons effective mass in units of m_h          
-                    - `band_gap` needs to be provided in args
-            Formats for explicit DOS:
-                dictionary with following keys:
-                    - 'energies' : list or np.array with energy values
-                    - 'densitites' : list or np.array with total density values
-                    - 'structure' : pymatgen Structure of the material, 
-                                    needed for DOS volume and charge normalization.
-                or a pymatgen Dos object (Dos, CompleteDos or FermiDos).
+    dos : dict or Dos
+        Density of states to integrate. Can be provided as density of states D(E)
+        or using effective masses.
 
-        fermi_level : (float)
-            The Fermi level relative to the VBM in eV.
-        temperature : (float)
-            The temperature in Kelvin.
-        band_gap : (float)
-            The band gap in eV. If None is determined from the DOS.
+        Format for effective masses is a dict with the following keys:
+
+        - "m_eff_h" : holes effective mass in units of m_e (electron mass)
+        - "m_eff_e" : electrons effective mass in units of m_h
+        - `band_gap` : needs to be provided in arguments
+
+        Format for explicit DOS (dictionary) with the following keys:
+
+        - 'energies' : list or np.array with energy values
+        - 'densities' : list or np.array with total density values
+        - 'structure' : pymatgen Structure of the material, needed for DOS volume and charge normalization
+
+        Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).
+
+    fermi_level : float
+        The Fermi level relative to the VBM in eV.
+    temperature : float
+        The temperature in Kelvin.
+    band_gap : float
+        The band gap in eV. If None is determined from the DOS.
 
     Returns:
     --------
-        h : (float)
-            Absolute value of hole concentration in 1/cm^3
-        n : (float)
-            Absolute value of electron concentration in 1/cm^3
+        h : float
+            Absolute value of hole concentration in 1/cm^3.
+        n : float
+            Absolute value of electron concentration in 1/cm^3.
     """   
     if type(dos) == dict:
         if 'energies' in dos and 'densities' in dos:
@@ -105,7 +107,42 @@ def get_carrier_concentrations(dos, fermi_level, temperature, band_gap=None):
 
 
 def solve_intrinsic_fermi_level(dos,temperature,band_gap,xtol=1e-05):
+    """
+    Find Fermi level by solving the charge neutrality condition.
 
+    Parameters
+    ----------
+    dos : dict or Dos
+        Density of states to integrate. Can be provided as density of states D(E)
+        or using effective masses.
+
+        Format for effective masses is a dict with the following keys:
+
+        - "m_eff_h" : holes effective mass in units of m_e (electron mass)
+        - "m_eff_e" : electrons effective mass in units of m_h
+        - `band_gap` : needs to be provided in arguments
+
+        Format for explicit DOS (dictionary) with the following keys:
+
+        - 'energies' : list or np.array with energy values
+        - 'densities' : list or np.array with total density values
+        - 'structure' : pymatgen Structure of the material, needed for DOS volume and charge normalization
+
+        Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).
+
+    temperature : float
+        The temperature in Kelvin.
+    band_gap : float
+        The band gap in eV. If None is determined from the DOS.
+    xtol : float
+        Tolerance for `bisect` method (scipy).
+
+    Returns
+    -------
+    fermi_level : float
+        Fermi level dictated by charge neutrality.
+
+    """
     def _get_total_q(ef):
         h,n = get_carrier_concentrations(dos=dos,fermi_level=ef,temperature=temperature,band_gap=band_gap)
         return h - n
@@ -119,16 +156,17 @@ def f0(E, fermi, T):
 
     Parameters
     ----------
-    E : (float)
+    E : float
         Energy in eV.
-    fermi : (float)
-        The Fermi level in eV.
-    T : (float)
-        The temperature in kelvin.
+    fermi : float
+        Fermi level in eV.
+    T : float
+        Temperature in kelvin.
 
     Returns
     -------
-        float: The Fermi-Dirac occupation probability at energy E.
+    occupation : float
+        Fermi-Dirac occupation probability at energy E.
     """
     from scipy.special import expit
     exponent = (E - fermi) / (kb * T)
@@ -141,18 +179,20 @@ def maxwell_boltzmann(E, T, clip=True):
 
     Parameters
     ----------
-    E : (float)
+    E : float
         Energy in eV.
-    fermi : (float)
-        The Fermi level in eV.
-    T : (float)
-        The temperature in kelvin.
-    clip : (bool)
-        Clip exponential factor to 700, returns 1e304.
+    fermi : float
+        Fermi level in eV.
+    T : float
+        Temperature in kelvin.
+    clip : bool
+        Clip exponential factor to 700 to avoid divergence, returns 1e304.
 
     Returns
     -------
-        float: The Maxwell-Boltzmann occupation probability at energy E.
+    occupation : float
+        Maxwell-Boltzmann occupation probability at energy E.
+
     """
     factor = -E / (kb*T)
     if clip:
@@ -175,7 +215,8 @@ def get_dos_from_effective_mass(m_eff, T):
     Returns
     -------
     N : float
-        Effective density of states (in cm^-3)
+        Density of states (in cm^-3).
+
     """
     from scipy.constants import k, h, pi, m_e
     return 2 * ((2 * pi * m_eff * k * T) / (h**2))**(3/2) *1e-06  # units of cm^-3
@@ -183,6 +224,9 @@ def get_dos_from_effective_mass(m_eff, T):
 
 
 def _get_fermidos_from_data(E,D,structure,bandgap=None):
+    """
+    Get `FermiDos` object from energies, densities and Structure. 
+    """
     if type(E) == list:
         E = np.array(E)
     if type(D) == list:
