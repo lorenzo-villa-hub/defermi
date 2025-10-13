@@ -1,0 +1,346 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">deform_lattice()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.get_WarrenCowley_order_parameter"><code class="docutils literal notranslate"><span class="pre">get_WarrenCowley_order_parameter()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.get_displacement_vectors"><code class="docutils literal notranslate"><span class="pre">get_displacement_vectors()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.get_distance_vector"><code class="docutils literal notranslate"><span class="pre">get_distance_vector()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.get_furthest_neighbors"><code class="docutils literal notranslate"><span class="pre">get_furthest_neighbors()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.is_site_in_structure"><code class="docutils literal notranslate"><span class="pre">is_site_in_structure()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.is_site_in_structure_coords"><code class="docutils literal notranslate"><span class="pre">is_site_in_structure_coords()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.rattle_atoms"><code class="docutils literal notranslate"><span class="pre">rattle_atoms()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.remove_oxidation_state_from_site"><code class="docutils literal notranslate"><span class="pre">remove_oxidation_state_from_site()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.sort_sites_to_ref_coords"><code class="docutils literal notranslate"><span class="pre">sort_sites_to_ref_coords()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.view_structures_with_ase"><code class="docutils literal notranslate"><span class="pre">view_structures_with_ase()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.write_extxyz_file"><code class="docutils literal notranslate"><span class="pre">write_extxyz_file()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.structure.write_xdatcar_from_structures"><code class="docutils literal notranslate"><span class="pre">write_xdatcar_from_structures()</span></code></a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.tools.structure.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p id="module-defermi.tools.structure">Created on Fri Nov 27 10:52:08 2020</p>
+<p>&#64;author: villa</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.deform_lattice">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">deform_lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.03</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#deform_lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.deform_lattice" title="Link to this definition"></a></dt>
+<dd><p>Deform lattice vectors in structure. Also changes the angles of lattice vectors (off diagonal components).
+The function “apply_strain” from the Structure class only changes the base vectors’ size but not the angles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – Structure object.</p></li>
+<li><p><strong>stdev</strong> (<em>float</em>) – Standard deviation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Structure with deformed lattice.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Structure)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.get_WarrenCowley_order_parameter">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">get_WarrenCowley_order_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">A_symbols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_symbols</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">neighbors_cutoff</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#get_WarrenCowley_order_parameter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.get_WarrenCowley_order_parameter" title="Link to this definition"></a></dt>
+<dd><p>Compute Warren Cowley order parameter to describe mixing tendencies in alloys</p>
+<dl class="simple">
+<dt>The WC order parameter is computed as:</dt><dd><p>alpha_{A-X} = 1 - &lt; P_{A-X} &gt; / C_X</p>
+</dd>
+</dl>
+<p>where:
+- &lt;P_{A-X}&gt; is the avg probability of finding X near A, computed as:</p>
+<blockquote>
+<div><p>&lt;P_{A-X}&gt; = n_X / n_total , n = number of nighbors of A
+C_X = concentration of X in structure</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> – Pymatgen Structure</p></li>
+<li><p><strong>A_symbols</strong> (<em>(</em><em>list</em><em>)</em>) – List of element symbols to consider for A-site</p></li>
+<li><p><strong>X_symbols</strong> (<em>(</em><em>list</em><em>)</em>) – List of element symbols to consider for X-site</p></li>
+<li><p><strong>neighbors_cutoff</strong> (<em>(</em><em>float</em><em>)</em>) – Distance cutoff for neighbors counting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>alpha</strong> – Warren-Cowley order parameter</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.get_displacement_vectors">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">get_displacement_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structures</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#get_displacement_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.get_displacement_vectors" title="Link to this definition"></a></dt>
+<dd><p>Get vectors in cartesian coords of site displacements w.r.t. the first structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>structures</strong> – list of Pymatgen Structure objects.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Displacement vectors in cartesian coordinates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(numpy ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.get_distance_vector">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">get_distance_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jimage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#get_distance_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.get_distance_vector" title="Link to this definition"></a></dt>
+<dd><p>Get distance vector between two sites assuming periodic boundary conditions.
+Same as pymatgen.core.sites.Site.distance but returns a vector instead of norm.
+:param other: Other site to get distance from.
+:type other: PeriodicSite
+:param jimage: Specific periodic image in terms of lattice</p>
+<blockquote>
+<div><p>translations, e.g., [1,0,0] implies to take periodic image
+that is one a-lattice vector away. If jimage is None,
+the image that is nearest to the site is found.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Distance between the two sites</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>distance (float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.get_furthest_neighbors">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">get_furthest_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#get_furthest_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.get_furthest_neighbors" title="Link to this definition"></a></dt>
+<dd><p>Get the indexes of atomic sites that are furthest away from the target site
+and maximally spaced apart from each other, considering periodic boundary conditions.</p>
+<p>Parameters:
+- structure: pymatgen Structure object
+- target_site: a pymatgen PeriodicSite or index of the target site in the structure
+- species: list of species to find (ordered as given)</p>
+<p>Returns:
+- List of indices corresponding to the furthest sites of the given species</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.is_site_in_structure">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">is_site_in_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#is_site_in_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.is_site_in_structure" title="Link to this definition"></a></dt>
+<dd><p>Check if Site is part of the Structure list. This function is needed because
+sometimes doing a simple check (“site in structure”) doesn’t work. This function performes
+a check on the coordinates and the element on the site. Therefore it is more reliable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>site</strong> (<em>(</em><em>Site</em><em>)</em>) – PeriodicSite or Site object.</p></li>
+<li><p><strong>structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Pymatgen Structure object.</p></li>
+<li><p><strong>tol</strong> (<em>(</em><em>float</em><em>)</em><em>, </em><em>optional</em>) – Tolerance for fractional coordinates. The default is 1e-03.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>is_site_in_structure</strong> (<em>(bool)</em>)</p></li>
+<li><p><strong>index</strong> (<em>(int)</em>) – Index of site in structure in case site is_site_in_structure returns True
+If False index will be None.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.is_site_in_structure_coords">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">is_site_in_structure_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#is_site_in_structure_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.is_site_in_structure_coords" title="Link to this definition"></a></dt>
+<dd><p>Check if a site’s coordinates are present in a structure, using periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>site</strong> (<em>(</em><em>Site</em><em>)</em>) – PeriodicSite or Site object.</p></li>
+<li><p><strong>structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Pymatgen Structure object.</p></li>
+<li><p><strong>tol</strong> (<em>(</em><em>float</em><em>)</em><em>, </em><em>optional</em>) – Tolerance for site comparison, normalized with respect to lattice size.
+Default is 1e-03.</p></li>
+<li><p><strong>return_distance</strong> (<em>(</em><em>bool</em><em>)</em>) – Return distance btw site coords and closest site in reference structure</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>is_site_in_structure_coords</strong> (<em>(bool)</em>) – Whether the site exists in the structure within tolerance.</p></li>
+<li><p><strong>index</strong> (<em>(int or None)</em>) – Index of matching site in structure if found, otherwise None.</p></li>
+<li><p><strong>distance</strong> (<em>(float)</em>) – Returned if return_distance is set to True.
+distance btw site coords and closest site in reference structure.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.rattle_atoms">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">rattle_atoms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#rattle_atoms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.rattle_atoms" title="Link to this definition"></a></dt>
+<dd><p>Change randomly atomic positions. Uses the ASE.
+Similar to the method “perturb” from the Structure class
+:param structure: Structure object
+:param stdev: Standard deviation
+:type stdev: float
+:param seed: Seed for random number generation passed to the Atoms.rattle method.
+:type seed: int</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.remove_oxidation_state_from_site">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">remove_oxidation_state_from_site</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#remove_oxidation_state_from_site"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.remove_oxidation_state_from_site" title="Link to this definition"></a></dt>
+<dd><p>Remove oxidation state decoration from site.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.sort_sites_to_ref_coords">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">sort_sites_to_ref_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_sites</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_indexes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#sort_sites_to_ref_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.sort_sites_to_ref_coords" title="Link to this definition"></a></dt>
+<dd><p>Sort Sites of one structure to match the order of coordinates in a reference structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Structure to sort.</p></li>
+<li><p><strong>structure_ref</strong> (<em>(</em><em>Structure</em><em>)</em>) – Reference Structure.</p></li>
+<li><p><strong>extra_sites</strong> (<em>(</em><em>list</em><em>)</em><em>, </em><em>optional</em>) – Sites to append at the end of the structure. The default is [].</p></li>
+<li><p><strong>tol</strong> (<em>(</em><em>float</em><em>)</em>) – Tolerance for site comparison. The distance between sites in target and reference stucture is used,
+periodicity is accounted for. The tolerance is normalized with respect to lattice vector size.
+The default is 1e-03.</p></li>
+<li><p><strong>get_indexes</strong> (<em>(</em><em>bool</em><em>)</em><em>, </em><em>optional</em>) – Get list of mapping indexes for target structure sites in reference structure. The default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>new_structure</strong> (<em>(Structure)</em>) – Sorted Structure</p></li>
+<li><p><strong>indexes</strong> (<em>(list)</em>) – If get_indexes is True a tuple is returned. List of mapping indexes for target structure sites
+in reference structure.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.view_structures_with_ase">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">view_structures_with_ase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structures</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#view_structures_with_ase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.view_structures_with_ase" title="Link to this definition"></a></dt>
+<dd><p>Visualize a Structure object or a list of Structure objects with the ASE.
+First the Structure objects are converted into an ase Atom object, then “view” is used to visualize them.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.write_extxyz_file">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">write_extxyz_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_ref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">displacements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#write_extxyz_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.write_extxyz_file" title="Link to this definition"></a></dt>
+<dd><p>Write extxyz format. Displacements can be included for visualization in OVITO.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>(</em><em>str</em><em>)</em>) – Path to save extxyz file to.</p></li>
+<li><p><strong>structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Structure to visualize.</p></li>
+<li><p><strong>structure_ref</strong> (<em>(</em><em>Structure</em><em>)</em>) – Reference Structure if needed. The default is None.</p></li>
+<li><p><strong>displacements</strong> (<em>(</em><em>bool</em><em>)</em>) – Include displacement vectors. The default is False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.write_xdatcar_from_structures">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.structure.</span></span><span class="sig-name descname"><span class="pre">write_xdatcar_from_structures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'XDATCAR'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#write_xdatcar_from_structures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.write_xdatcar_from_structures" title="Link to this definition"></a></dt>
+<dd><p>Write XDATCAR file from a list of structures. The first structure determines the reference for the Trajectory object.</p>
+</dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

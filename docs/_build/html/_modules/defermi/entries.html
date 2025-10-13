@@ -1,0 +1,797 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>defermi.entries &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=292eb321"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">defermi.entries</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for defermi.entries</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Fri Dec 11 14:33:12 2020</span>
+
+<span class="sd">@author: villa</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABCMeta</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">monty.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">MSONable</span><span class="p">,</span> <span class="n">MontyDecoder</span><span class="p">,</span> <span class="n">MontyEncoder</span><span class="p">,</span> <span class="n">jsanitize</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.core.units</span><span class="w"> </span><span class="kn">import</span> <span class="n">kb</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.structure</span><span class="w"> </span><span class="kn">import</span> <span class="n">defect_finder</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.elasticity</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_relaxation_volume</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.tools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_charge_from_computed_entry</span>
+
+
+
+<div class="viewcode-block" id="DefectEntry">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DefectEntry</span><span class="p">(</span><span class="n">MSONable</span><span class="p">,</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                <span class="n">defect</span><span class="p">,</span>
+                <span class="n">energy_diff</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">corrections</span><span class="o">=</span><span class="p">{},</span>
+                <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">formation_energy_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                <span class="n">defect_concentration_function</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Object to store the results of a defect calculation. </span>
+<span class="sd">        This object is usually created automatically when importing results, either from directories or</span>
+<span class="sd">        DataFrame.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        defect : (Defect) </span>
+<span class="sd">            Defect object (Vacancy, Interstitial, Substitution, Polaron or DefectComplex)</span>
+<span class="sd">        energy_diff : (float)</span>
+<span class="sd">            Difference btw energy of defect structure and energy of pristine (bulk) structure in eV.</span>
+<span class="sd">        corrections : (dict)</span>
+<span class="sd">            Dictionary of corrections to apply to defect formation energy.</span>
+<span class="sd">            All values will be added to the defect formation energy. Keys indicate the correction type.     </span>
+<span class="sd">        data : (dict)</span>
+<span class="sd">            Store additional data in dict format.</span>
+<span class="sd">        label : (str)</span>
+<span class="sd">            Additional label to add to defect specie.</span>
+<span class="sd">        formation_energy:function : (function)</span>
+<span class="sd">            Custom function for calculation of defect formation energy.</span>
+<span class="sd">            Check documentation in `formation_energy` function for more details.</span>
+<span class="sd">        defect_concentration_function : (function)</span>
+<span class="sd">        formation_energy:function : (function)</span>
+<span class="sd">            Custom function for calculation of defect concentration.</span>
+<span class="sd">            Check documentation in `defect_concentration` function for more details.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_defect</span> <span class="o">=</span> <span class="n">defect</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_energy_diff</span> <span class="o">=</span> <span class="n">energy_diff</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_corrections</span> <span class="o">=</span> <span class="n">corrections</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">data</span> <span class="k">if</span> <span class="n">data</span> <span class="k">else</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_defect</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_formation_energy_function</span> <span class="o">=</span> <span class="n">formation_energy_function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_defect_concentration_function</span> <span class="o">=</span> <span class="n">defect_concentration_function</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;DefectEntry: Name=</span><span class="si">%s</span><span class="s2">, Charge=</span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;DefectEntry&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;Defect: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()),</span>
+            <span class="s2">&quot;Energy: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">energy_diff</span><span class="p">,</span>
+            <span class="s2">&quot;Corrections: </span><span class="si">%.4f</span><span class="s2">&quot;</span> <span class="o">%</span><span class="nb">sum</span><span class="p">([</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">corrections</span><span class="o">.</span><span class="n">values</span><span class="p">()]),</span>
+            <span class="s2">&quot;Charge: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span>
+            <span class="s2">&quot;Multiplicity: </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span><span class="p">,</span>
+            <span class="s2">&quot;Data: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
+            <span class="s2">&quot;Name: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="p">]</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">bulk_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">bulk_structure</span>   
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">charge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">charge</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Charge is not set in Defect object, setting charge to 0&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">set_charge</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">charge</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">corrections</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_corrections</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">data</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dictionary containing additional data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">defect</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defect</span>  
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">defect_specie</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">specie</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">defect_type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">type</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">delta_atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Dictionary with Element as keys and particle difference between defect structure</span>
+<span class="sd">        and bulk structure as values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">delta_atoms</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">energy_diff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_energy_diff</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">label</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">multiplicity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">multiplicity</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Multiplicity is not set in Defect object, setting multiplicity to 1.&#39;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">set_multiplicity</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">multiplicity</span>
+                
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">name</span>
+        
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">defect_structure</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">symbol</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">symbol_charge</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">symbol_with_charge</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">symbol_kroger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">symbol_with_charge_kv</span>
+    
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">formation_energy_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formation_energy_function</span>
+    
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">defect_concentration_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defect_concentration_function</span>
+    
+<div class="viewcode-block" id="DefectEntry.set_charge">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.set_charge">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_charge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">new_charge</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">set_charge</span><span class="p">(</span><span class="n">new_charge</span><span class="p">)</span>
+        <span class="k">return</span> </div>
+
+    
+<div class="viewcode-block" id="DefectEntry.set_corrections">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.set_corrections">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_corrections</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_corrections</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_corrections</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_corrections</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+        <span class="k">return</span></div>
+
+
+<div class="viewcode-block" id="DefectEntry.set_data">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.set_data">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">new_data</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">new_data</span></div>
+
+    
+<div class="viewcode-block" id="DefectEntry.set_multiplicity">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.set_multiplicity">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_multiplicity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">new_multiplicity</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">set_multiplicity</span><span class="p">(</span><span class="n">new_multiplicity</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="DefectEntry.set_label">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.set_label">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_label</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">new_label</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">set_label</span><span class="p">(</span><span class="n">new_label</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DefectEntry.set_defect_concentration_function">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.set_defect_concentration_function">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_defect_concentration_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_function</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_defect_concentration_function</span> <span class="o">=</span> <span class="n">new_function</span></div>
+
+    
+<div class="viewcode-block" id="DefectEntry.set_formation_energy_function">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.set_formation_energy_function">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_formation_energy_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_function</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_formation_energy_function</span> <span class="o">=</span> <span class="n">new_function</span></div>
+
+
+<div class="viewcode-block" id="DefectEntry.reset_defect_concentration_function">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.reset_defect_concentration_function">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset_defect_concentration_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_defect_concentration_function</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+    
+<div class="viewcode-block" id="DefectEntry.reset_formation_energy_function">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.reset_formation_energy_function">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reset_formation_energy_function</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_formation_energy_function</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+    
+<div class="viewcode-block" id="DefectEntry.as_dict">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.as_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Json-serializable dict representation of DefectEntry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;defect&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MontyEncoder</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="p">)</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;energy_diff&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_diff</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;corrections&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">jsanitize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">corrections</span><span class="p">)</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">jsanitize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span>
+        <span class="k">return</span> <span class="n">d</span></div>
+
+
+
+<div class="viewcode-block" id="DefectEntry.from_dict">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.from_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">d</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Reconstitute a DefectEntry object from a dict representation created using</span>
+<span class="sd">        as_dict().</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            d (dict): dict representation of DefectEntry.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            DefectEntry object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">defect</span> <span class="o">=</span> <span class="n">MontyDecoder</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;defect&#39;</span><span class="p">])</span>
+        <span class="n">energy_diff</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;energy_diff&#39;</span><span class="p">]</span>
+        <span class="n">corrections</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;corrections&#39;</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">defect</span><span class="o">=</span><span class="n">defect</span><span class="p">,</span><span class="n">energy_diff</span><span class="o">=</span><span class="n">energy_diff</span><span class="p">,</span><span class="n">corrections</span><span class="o">=</span><span class="n">corrections</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DefectEntry.from_computed_entries">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.from_computed_entries">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_computed_entries</span><span class="p">(</span><span class="n">computed_entry_defect</span><span class="p">,</span><span class="n">computed_entry_bulk</span><span class="p">,</span><span class="n">corrections</span><span class="p">,</span>
+                              <span class="n">multiplicity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">initial_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate DefectEntry object from Pymatgen&#39;s ComputedStructureEntry objects.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        computed_entry_defect : (VaspJob)</span>
+<span class="sd">            ComputedStructureEntry of the defect calculation.</span>
+<span class="sd">        computed_entry_bulk : (VaspJob)</span>
+<span class="sd">            ComputedStructureEntry of the bulk calculation.</span>
+<span class="sd">        corrections : (dict)</span>
+<span class="sd">            Dict of corrections for defect formation energy. All values will be summed and</span>
+<span class="sd">            added to the defect formation energy.</span>
+<span class="sd">        multiplicity : (int), optional</span>
+<span class="sd">            Multiplicity of defect within the supercell. </span>
+<span class="sd">            If set to None is attempted to be determined automatically with Pymatgen. The default is 1.</span>
+<span class="sd">        data : (dict), optional</span>
+<span class="sd">            Store additional data in dict format.</span>
+<span class="sd">        label : (str), optional</span>
+<span class="sd">            Additional label to add to defect specie. Does not influence non equilibrium calculations.</span>
+<span class="sd">        initial_structure : (bool)</span>
+<span class="sd">            Use initial structure for defect recognition. Useful when relaxations are large and </span>
+<span class="sd">            defect_finder struggles to find the right defects.</span>
+<span class="sd">        kwargs : (dict)</span>
+<span class="sd">            Kwargs to pass to defect_finder.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DefectEntry</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="n">entry_df</span><span class="p">,</span> <span class="n">entry_bulk</span> <span class="o">=</span> <span class="n">computed_entry_defect</span><span class="p">,</span><span class="n">computed_entry_bulk</span>
+        <span class="n">charge</span> <span class="o">=</span> <span class="n">get_charge_from_computed_entry</span><span class="p">(</span><span class="n">entry_df</span><span class="p">)</span>
+        <span class="n">energy_diff</span> <span class="o">=</span> <span class="n">entry_df</span><span class="o">.</span><span class="n">energy</span> <span class="o">-</span> <span class="n">entry_bulk</span><span class="o">.</span><span class="n">energy</span>
+        <span class="k">if</span> <span class="n">initial_structure</span><span class="p">:</span>
+            <span class="n">defect_structure</span> <span class="o">=</span> <span class="n">entry_df</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;ionic_steps&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;structure&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">defect_structure</span> <span class="o">=</span> <span class="n">entry_df</span><span class="o">.</span><span class="n">structure</span>
+        
+        <span class="k">return</span> <span class="n">DefectEntry</span><span class="o">.</span><span class="n">from_structures</span><span class="p">(</span><span class="n">defect_structure</span><span class="o">=</span><span class="n">defect_structure</span><span class="p">,</span>
+                                           <span class="n">bulk_structure</span><span class="o">=</span><span class="n">entry_bulk</span><span class="o">.</span><span class="n">structure</span><span class="p">,</span>
+                                           <span class="n">energy_diff</span><span class="o">=</span><span class="n">energy_diff</span><span class="p">,</span><span class="n">corrections</span><span class="o">=</span><span class="n">corrections</span><span class="p">,</span>
+                                           <span class="n">charge</span><span class="o">=</span><span class="n">charge</span><span class="p">,</span><span class="n">multiplicity</span><span class="o">=</span><span class="n">multiplicity</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+                                           <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+    
+
+<div class="viewcode-block" id="DefectEntry.from_structures">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.from_structures">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_structures</span><span class="p">(</span><span class="n">defect_structure</span><span class="p">,</span><span class="n">bulk_structure</span><span class="p">,</span><span class="n">energy_diff</span><span class="p">,</span><span class="n">corrections</span><span class="p">,</span><span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">multiplicity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate DefectEntry object from Structure objects.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        defect_structure : (Structure)</span>
+<span class="sd">            Defect structure.</span>
+<span class="sd">        bulk_structure : (Structure)</span>
+<span class="sd">            Bulk structure.</span>
+<span class="sd">        energy_diff (float): </span>
+<span class="sd">            Difference btw energy of defect structure and energy of pure structure</span>
+<span class="sd">        corrections (dict): </span>
+<span class="sd">            Dict of corrections for defect formation energy. All values will be summed and</span>
+<span class="sd">            added to the defect formation energy.  </span>
+<span class="sd">        charge : (int), optional</span>
+<span class="sd">            Charge of the defect system. The default is 0.</span>
+<span class="sd">        multiplicity : (int), optional</span>
+<span class="sd">            multiplicity of defect within the supercell. </span>
+<span class="sd">            If set to None is attempted to be determined automatically with Pymatgen. The default is 1.</span>
+<span class="sd">        data : (dict), optional</span>
+<span class="sd">            Store additional data in dict format.</span>
+<span class="sd">        label : (str), optional</span>
+<span class="sd">            Additional label to add to defect specie. Does not influence non equilibrium calculations.</span>
+<span class="sd">        kwargs : (dict)</span>
+<span class="sd">            Kwargs to pass to defect_finder. &#39;verbose&#39; is set to True by default.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DefectEntry</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">kwargs</span><span class="p">:</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;verbose&#39;</span><span class="p">:</span><span class="kc">True</span><span class="p">}</span>
+        <span class="k">elif</span> <span class="s1">&#39;verbose&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">defect</span> <span class="o">=</span> <span class="n">defect_finder</span><span class="p">(</span><span class="n">defect_structure</span><span class="p">,</span> <span class="n">bulk_structure</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">defect</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Cannot create DefectEntry from empty defect object&#39;</span><span class="p">)</span>
+        <span class="n">defect</span><span class="o">.</span><span class="n">set_charge</span><span class="p">(</span><span class="n">charge</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">multiplicity</span><span class="p">:</span>
+            <span class="n">defect</span><span class="o">.</span><span class="n">set_multiplicity</span><span class="p">(</span><span class="n">multiplicity</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">new_multiplicity</span> <span class="o">=</span> <span class="n">defect</span><span class="o">.</span><span class="n">get_multiplicity</span><span class="p">()</span>
+                <span class="n">defect</span><span class="o">.</span><span class="n">set_multiplicity</span><span class="p">(</span><span class="n">new_multiplicity</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">NotImplementedError</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;get_multiplicity not implemented for </span><span class="si">{</span><span class="n">defect</span><span class="o">.</span><span class="n">defect_type</span><span class="si">}</span><span class="s1">, setting multiplicity to 1&#39;</span><span class="p">)</span>
+                <span class="n">defect</span><span class="o">.</span><span class="n">set_multiplicity</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">DefectEntry</span><span class="p">(</span><span class="n">defect</span><span class="p">,</span> <span class="n">energy_diff</span><span class="p">,</span> <span class="n">corrections</span><span class="p">,</span><span class="n">data</span><span class="p">,</span><span class="n">label</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="DefectEntry.from_vasp_directories">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.from_vasp_directories">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_vasp_directories</span><span class="p">(</span>
+                            <span class="n">path_defect</span><span class="p">,</span>
+                            <span class="n">computed_entry_bulk</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">path_bulk</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">corrections</span><span class="o">=</span><span class="p">{},</span>
+                            <span class="n">multiplicity</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                            <span class="n">data</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">initial_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">computed_entry_kwargs</span><span class="o">=</span><span class="p">{},</span>
+                            <span class="n">finder_kwargs</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate DefectEntry object from VASP directories read with Pymatgen.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path_defect : (str)</span>
+<span class="sd">            Path of VASP defect calculation.</span>
+<span class="sd">        computed_entry_bulk : (VaspJob)</span>
+<span class="sd">            ComputedStructureEntry of the bulk calculation.</span>
+<span class="sd">        path_bulk : (str)</span>
+<span class="sd">            If `computed_entry_bulk` is not provided, read directly from VASP directory. </span>
+<span class="sd">        corrections : (dict)</span>
+<span class="sd">            Dict of corrections for defect formation energy. All values will be summed and</span>
+<span class="sd">            added to the defect formation energy.</span>
+<span class="sd">        multiplicity : (int), optional</span>
+<span class="sd">            Multiplicity of defect within the supercell. </span>
+<span class="sd">            If set to None is attempted to be determined automatically with Pymatgen. The default is 1.</span>
+<span class="sd">        data : (dict), optional</span>
+<span class="sd">            Store additional data in dict format.</span>
+<span class="sd">        label : (str), optional</span>
+<span class="sd">            Additional label to add to defect specie. Does not influence non equilibrium calculations.</span>
+<span class="sd">        initial_structure : (bool)</span>
+<span class="sd">            Use initial structure for defect recognition. Useful when relaxations are large and </span>
+<span class="sd">            defect_finder struggles to find the right defects.</span>
+<span class="sd">        function : (func)</span>
+<span class="sd">            Function to apply to DefectEntry. Useful to automate custom entry modification.</span>
+<span class="sd">            The function can modify entry attributes and returns None.</span>
+<span class="sd">        computed_entr_kwargs : (dict)</span>
+<span class="sd">            Kwargs to pass to Vasprun.get_computed_entry. </span>
+<span class="sd">        finder_kwargs : (dict)</span>
+<span class="sd">            Kwargs to pass to defect_finder.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        DefectEntry</span>
+<span class="sd">        &quot;&quot;&quot;</span> 
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.io.vasp.outputs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vasprun</span>
+
+        <span class="k">if</span> <span class="n">initial_structure</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">computed_entry_kwargs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="s1">&#39;data&#39;</span> <span class="ow">in</span> <span class="n">computed_entry_kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="n">computed_entry_kwargs</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;ionic_steps&#39;</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">computed_entry_kwargs</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ionic_steps&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">computed_entry_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:[</span><span class="s1">&#39;ionic_steps&#39;</span><span class="p">]}</span>
+        <span class="n">computed_entry_defect</span> <span class="o">=</span> <span class="n">_get_computed_entry_from_path</span><span class="p">(</span><span class="n">path_defect</span><span class="p">,</span><span class="o">**</span><span class="n">computed_entry_kwargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">computed_entry_bulk</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">path_bulk</span><span class="p">:</span>
+                <span class="n">vasprun_bulk</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path_bulk</span><span class="p">,</span><span class="s1">&#39;vasprun.xml&#39;</span><span class="p">)</span>
+                <span class="n">computed_entry_bulk</span> <span class="o">=</span> <span class="n">Vasprun</span><span class="p">(</span><span class="n">vasprun_bulk</span><span class="p">,</span><span class="n">parse_dos</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">parse_eigen</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">parse_potcar_file</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">get_computed_entry</span><span class="p">(</span><span class="o">**</span><span class="n">computed_entry_kwargs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Either bulk ComputedEntry or path of bulk calculation has to be provided&#39;</span><span class="p">)</span>
+
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">DefectEntry</span><span class="o">.</span><span class="n">from_computed_entries</span><span class="p">(</span>
+                                                <span class="n">computed_entry_defect</span><span class="o">=</span><span class="n">computed_entry_defect</span><span class="p">,</span>
+                                                <span class="n">computed_entry_bulk</span><span class="o">=</span><span class="n">computed_entry_bulk</span><span class="p">,</span>
+                                                <span class="n">corrections</span><span class="o">=</span><span class="n">corrections</span><span class="p">,</span>
+                                                <span class="n">multiplicity</span><span class="o">=</span><span class="n">multiplicity</span><span class="p">,</span>
+                                                <span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">,</span>
+                                                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                                                <span class="n">initial_structure</span><span class="o">=</span><span class="n">initial_structure</span><span class="p">,</span>
+                                                <span class="o">**</span><span class="n">finder_kwargs</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="n">function</span><span class="p">:</span>
+            <span class="n">function</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">entry</span></div>
+
+        
+
+<div class="viewcode-block" id="DefectEntry.defect_concentration">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.defect_concentration">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">defect_concentration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                            <span class="n">vbm</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">chemical_potentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">temperature</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+                            <span class="n">fermi_level</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> 
+                            <span class="n">per_unit_volume</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">eform_kwargs</span><span class="o">=</span><span class="p">{},</span>
+                            <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the defect concentration.</span>
+<span class="sd">        If `defect_concentration_function` is set, the custom function is called, </span>
+<span class="sd">        otherwise, the concentration is computed in the dilute limit as:</span>
+<span class="sd">        n = N * (1 / e^(Ef/kT) + 1), where:</span>
+<span class="sd">            - N is the site multiplicity (in cm^-3 or per unit cell)</span>
+<span class="sd">            - Ef is the formation energy of the defect.</span>
+<span class="sd">            - k is the Boltzmann constant.</span>
+<span class="sd">            - T is the temperature.</span>
+
+<span class="sd">        A custom function can be set when initializing the `DefectEntry` or by using the</span>
+<span class="sd">        &#39;set_defect_concentration_function` method. Use `reset_defect_concentration_function`</span>
+<span class="sd">        to restore the default behaviour.</span>
+<span class="sd">        If a custom function is given, the input must have the same args as this function,</span>
+<span class="sd">        with the possibility to add more kwargs. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vbm : (float)</span>
+<span class="sd">            Valence band maximum of bulk calculation in eV</span>
+<span class="sd">        chemical_potentials : (dict)</span>
+<span class="sd">            Chemical potentials of the elements involved in the defect.</span>
+<span class="sd">        temperature : (float)</span>
+<span class="sd">            Temperature in Kelvin.</span>
+<span class="sd">        fermi_level : (float)</span>
+<span class="sd">            Fermi level in eV (with respect to the VBM)</span>
+<span class="sd">        per_unit_volume : (bool)</span>
+<span class="sd">            Compute concentrations per unit volume using `self.defect.bulk_volume`.</span>
+<span class="sd">        eform_kwargs : (dict)</span>
+<span class="sd">            Kwargs to pass to `self.formation_energy`.</span>
+<span class="sd">        kwargs : (dict)</span>
+<span class="sd">            Kwargs to pass to custom function.</span>
+<span class="sd">                </span>
+<span class="sd">        Returns:</span>
+<span class="sd">        --------</span>
+<span class="sd">            Defect concentration in cm^-3 or per unit cell.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect_concentration_function</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect_concentration_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                                    <span class="n">vbm</span><span class="o">=</span><span class="n">vbm</span><span class="p">,</span>
+                                                    <span class="n">chemical_potentials</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">,</span>
+                                                    <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                                    <span class="n">fermi_level</span><span class="o">=</span><span class="n">fermi_level</span><span class="p">,</span>
+                                                    <span class="n">per_unit_volume</span><span class="o">=</span><span class="n">per_unit_volume</span><span class="p">,</span>
+                                                    <span class="n">eform_kwargs</span><span class="o">=</span><span class="n">eform_kwargs</span><span class="p">,</span>
+                                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+        
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">site_concentration_in_cm3</span> <span class="k">if</span> <span class="n">per_unit_volume</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span> 
+        <span class="n">eform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formation_energy</span><span class="p">(</span>
+                                <span class="n">vbm</span><span class="o">=</span><span class="n">vbm</span><span class="p">,</span>
+                                <span class="n">chemical_potentials</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">,</span>
+                                <span class="n">fermi_level</span><span class="o">=</span><span class="n">fermi_level</span><span class="p">,</span>
+                                <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                <span class="o">**</span><span class="n">eform_kwargs</span><span class="p">)</span>
+        
+        <span class="n">conc</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fermi_dirac</span><span class="p">(</span><span class="n">eform</span><span class="p">,</span><span class="n">temperature</span><span class="p">)</span> <span class="c1"># maxwell_boltzmann(eform,temperature) # </span>
+        <span class="k">return</span> <span class="n">conc</span></div>
+
+
+
+<div class="viewcode-block" id="DefectEntry.formation_energy">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.formation_energy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">formation_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                        <span class="n">vbm</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">chemical_potentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">fermi_level</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Compute the formation energy of the defect.</span>
+<span class="sd">        If `formation_energy_function` is set, the custom function is called, </span>
+<span class="sd">        otherwise, the formation energy is computed as:</span>
+
+<span class="sd">        Ef = E_D - E_B + q(eVBM + fermi_level) + Ecorr - sum_i [(ni(D) - ni(B))* mu_i]</span>
+
+<span class="sd">        where:</span>
+<span class="sd">            - E_D is the energy of the defective cell</span>
+<span class="sd">            - E_B is the energy of the pristine (bulk) cell</span>
+<span class="sd">                Note: E_D - E_B is `self.energy_diff`</span>
+<span class="sd">            - eVBM is the valence band maximum energy</span>
+<span class="sd">            - fermi_level is the chemical potential of electrons</span>
+<span class="sd">            - Ecorr are correction terms</span>
+<span class="sd">            - ni are the number of particles in the defective and pristine cells</span>
+<span class="sd">            - mu_i are the chemical potentials of the elements.</span>
+
+<span class="sd">        A custom function can be set when initializing the `DefectEntry` or by using the</span>
+<span class="sd">        &#39;set_formation_energy_function` method. Use `reset_formation_energy_function`</span>
+<span class="sd">        to restore the default behaviour.</span>
+<span class="sd">        If a custom function is given, the input must have the same args as this function,</span>
+<span class="sd">        with the possibility to add more kwargs. </span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        vbm : (float)</span>
+<span class="sd">            Valence band maximum of bulk calculation in eV</span>
+<span class="sd">        chemical_potentials : (dict)</span>
+<span class="sd">            Chemical potentials of the elements involved in the defect.</span>
+<span class="sd">        fermi_level : (float)</span>
+<span class="sd">            Fermi level in eV (with respect to the VBM).</span>
+<span class="sd">        temperature : (float)</span>
+<span class="sd">            Temperature in Kelvin. If a custom function is not passed, this parameter has no effect.</span>
+<span class="sd">        kwargs : (dict)</span>
+<span class="sd">            Kwargs to pass to custom function.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            Formation energy in eV.</span>
+<span class="sd">            &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_formation_energy_function</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">formation_energy_function</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                                <span class="n">vbm</span><span class="o">=</span><span class="n">vbm</span><span class="p">,</span>
+                                                <span class="n">chemical_potentials</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">,</span>
+                                                <span class="n">fermi_level</span><span class="o">=</span><span class="n">fermi_level</span><span class="p">,</span>
+                                                <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            
+        <span class="n">formation_energy</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energy_diff</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge</span><span class="o">*</span><span class="p">(</span><span class="n">vbm</span><span class="o">+</span><span class="n">fermi_level</span><span class="p">)</span> <span class="o">+</span> 
+                       <span class="nb">sum</span><span class="p">([</span> <span class="bp">self</span><span class="o">.</span><span class="n">corrections</span><span class="p">[</span><span class="n">correction_type</span><span class="p">]</span>  <span class="k">for</span> <span class="n">correction_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">corrections</span> <span class="p">])</span> 
+                        <span class="p">)</span> 
+        
+        <span class="k">if</span> <span class="n">chemical_potentials</span><span class="p">:</span>
+            <span class="n">chempot_correction</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="nb">sum</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">delta_atoms</span><span class="p">[</span><span class="n">el</span><span class="p">]</span><span class="o">*</span><span class="n">chemical_potentials</span><span class="p">[</span><span class="n">el</span><span class="p">]</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">delta_atoms</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">chempot_correction</span> <span class="o">=</span> <span class="mi">0</span>
+            
+        <span class="n">formation_energy</span> <span class="o">=</span> <span class="n">formation_energy</span> <span class="o">+</span> <span class="n">chempot_correction</span>
+        
+        <span class="k">return</span> <span class="n">formation_energy</span></div>
+
+    
+    
+<div class="viewcode-block" id="DefectEntry.relaxation_volume">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.DefectEntry.relaxation_volume">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">relaxation_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">stress_bulk</span><span class="p">,</span><span class="n">bulk_modulus</span><span class="p">,</span><span class="n">stress_defect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">corrections</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate relaxation volume from stresses.</span>
+<span class="sd">        Stress of defect calculation needs to be provided either directly or in data dict with &quot;stress&quot; key.&#39;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        stress_bulk : (np.array)</span>
+<span class="sd">            Stresses from bulk calculation in kbar (VASP output)</span>
+<span class="sd">        bulk_volume : (float)</span>
+<span class="sd">            Cell volume of bulk calculation in A°^3.</span>
+<span class="sd">        bulk_modulus : (float)</span>
+<span class="sd">            Bulk modulus in GPa.</span>
+<span class="sd">        stress_defect : (np.array)</span>
+<span class="sd">            Stresses from defect calculation in kbar (VASP output)</span>
+<span class="sd">        corrections : (bool)</span>
+<span class="sd">            Add correction terms to the residual stress tensor.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        rel_volume : (float)</span>
+<span class="sd">            Relaxation volume in A°^3.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">stress_defect</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;stress&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">stress_defect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;stress&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Stress of defect calculation needs to be provided, either directly or in data dict with &quot;stress&quot; key.&#39;</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">get_relaxation_volume</span><span class="p">(</span><span class="n">stress_defect</span><span class="o">=</span><span class="n">stress_defect</span><span class="p">,</span>
+                                    <span class="n">stress_bulk</span><span class="o">=</span><span class="n">stress_bulk</span><span class="p">,</span>
+                                    <span class="n">bulk_volume</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">bulk_volume</span><span class="p">,</span>
+                                    <span class="n">bulk_modulus</span><span class="o">=</span><span class="n">bulk_modulus</span><span class="p">,</span>
+                                    <span class="n">corrections</span><span class="o">=</span><span class="n">corrections</span><span class="p">)</span></div>
+</div>
+
+
+
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_computed_entry_from_path</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Pymatgen&#39;s ComputedEntry object from VASP calculation path with additional parameters for defect entries.</span>
+<span class="sd">    Pass kwargs to Vasprun.get_computed_entry.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.io.vasp.outputs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Vasprun</span>
+    <span class="n">vasprun_defect</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;vasprun.xml&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;data&#39;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span> <span class="c1"># computed entry kwarg and list member are called the same</span>
+            <span class="k">if</span> <span class="s1">&#39;parameters&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;parameters&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:[</span><span class="s1">&#39;parameters&#39;</span><span class="p">]}</span>     
+    <span class="k">return</span> <span class="n">Vasprun</span><span class="p">(</span><span class="n">vasprun_defect</span><span class="p">,</span><span class="n">parse_dos</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">parse_eigen</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">parse_potcar_file</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">get_computed_entry</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="fermi_dirac">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.fermi_dirac">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">fermi_dirac</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">T</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the defect occupation as a function of the formation energy,</span>
+<span class="sd">    using the Fermi-Dirac distribution with chemical potential equal to 0. </span>
+<span class="sd">    Args:</span>
+<span class="sd">        E (float): energy in eV</span>
+<span class="sd">        T (float): the temperature in kelvin</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">expit</span>
+    <span class="n">exponent</span> <span class="o">=</span> <span class="n">E</span><span class="o">/</span><span class="p">(</span><span class="n">kb</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">expit</span><span class="p">(</span><span class="o">-</span><span class="n">exponent</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="maxwell_boltzmann">
+<a class="viewcode-back" href="../../defermi.entries.html#defermi.entries.maxwell_boltzmann">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">maxwell_boltzmann</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">T</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the defect occupation as a function of the formation energy,</span>
+<span class="sd">    using the exponential dependence of the Maxwell-Boltzmann distribution. </span>
+<span class="sd">    This is the more common approach, which is the approximation of the FD-like </span>
+<span class="sd">    distribution for N_sites &gt;&gt; N_defects.</span>
+<span class="sd">    Args:</span>
+<span class="sd">        E (float): energy in eV</span>
+<span class="sd">        T (float): the temperature in kelvin</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mf">1.0</span><span class="o">*</span><span class="n">E</span> <span class="o">/</span><span class="p">(</span><span class="n">kb</span><span class="o">*</span><span class="n">T</span><span class="p">))</span> </div>
+
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

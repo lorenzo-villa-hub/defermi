@@ -1,0 +1,210 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">create_interstitials()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.generator.create_substitutions"><code class="docutils literal notranslate"><span class="pre">create_substitutions()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.generator.create_vacancies"><code class="docutils literal notranslate"><span class="pre">create_vacancies()</span></code></a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.generator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <dl class="py function" id="module-defermi.generator">
+<dt class="sig sig-object py" id="defermi.generator.create_interstitials">
+<span class="sig-prename descclassname"><span class="pre">defermi.generator.</span></span><span class="sig-name descname"><span class="pre">create_interstitials</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supercell_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/generator.html#create_interstitials"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.generator.create_interstitials" title="Link to this definition"></a></dt>
+<dd><p>Create Interstitial objects based on Voronoi with pymatgen,
+staring from a bulk structure (unit cell or supercell).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Bulk structure.</p></li>
+<li><p><strong>elements</strong> (<em>(</em><em>list</em><em>)</em>) – List of element symbols.</p></li>
+<li><p><strong>supercell_size</strong> (<em>(</em><em>int</em><em>)</em><em>, </em><em>optional</em>) – Input for the make_supercell function of the Structure class.
+If None the input structure is not modified. The default is None.</p></li>
+<li><p><strong>kwargs</strong> – <dl class="simple">
+<dt>Arguments to pass to VoronoiInterstitialGenerator:</dt><dd><p>clustering_tol: Tolerance for clustering the Voronoi nodes.
+min_dist: Minimum distance between an interstitial and the nearest atom.
+ltol: Tolerance for lattice matching.
+stol: Tolerance for structure matching.
+angle_tol: Angle tolerance for structure matching.
+kwargs: Additional keyword arguments for the <code class="docutils literal notranslate"><span class="pre">TopographyAnalyzer</span></code> constructor.</p>
+</dd>
+</dl>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>defects</strong> – List of Interstitial objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.generator.create_substitutions">
+<span class="sig-prename descclassname"><span class="pre">defermi.generator.</span></span><span class="sig-name descname"><span class="pre">create_substitutions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements_to_replace</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supercell_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/generator.html#create_substitutions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.generator.create_substitutions" title="Link to this definition"></a></dt>
+<dd><p>Create Substitution objects for each non-equivalent site,
+staring from a bulk structure (unit cell or supercell).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> (<em>Structure</em>) – Bulk structure, both unit cell or supercell can be used as input.</p></li>
+<li><p><strong>elements_to_replace</strong> (<em>(</em><em>str</em><em>)</em>) – Dict with element symbol of specie to be replaced as keys and element
+symbol of the species to be replaced with as values ({‘old_El’:’new_El’}).</p></li>
+<li><p><strong>supercell_size</strong> (<em>(</em><em>int</em><em> or </em><em>numpy array</em><em>)</em>) – Input for the make_supercell function of the Structure class.
+If None the input structure is not modified.</p></li>
+<li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – <p>Kwargs to pass to SpaceGroupAnalyzer class.
+Args:</p>
+<blockquote>
+<div><p>symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
+which is fairly strict and works well for properly refined
+structures with atoms in the proper symmetry coordinates. For
+structures with slight deviations from their proper atomic
+positions (e.g., structures relaxed with electronic structure
+codes), a looser tolerance of 0.1 (the value used in Materials
+Project) is often needed.</p>
+</div></blockquote>
+<p>angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>defects</strong> – List of Substitution objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.generator.create_vacancies">
+<span class="sig-prename descclassname"><span class="pre">defermi.generator.</span></span><span class="sig-name descname"><span class="pre">create_vacancies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supercell_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/generator.html#create_vacancies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.generator.create_vacancies" title="Link to this definition"></a></dt>
+<dd><p>Create Vacancy objects for each non-equivalent site,
+staring from a bulk structure (unit cell or supercell).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> (<em>Structure</em>) – Bulk structure, both unit cell or supercell can be used as input.</p></li>
+<li><p><strong>elements</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Symbol of the elements for which vacancies are needed.
+If None all of the elements are considered. The default is None.</p></li>
+<li><p><strong>supercell_size</strong> (<em>(</em><em>int</em><em> or </em><em>numpy array</em><em>)</em>) – Input for the make_supercell function of the Structure class.
+If None the input structure is not modified.</p></li>
+<li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – <p>Kwargs to pass to SpaceGroupAnalyzer class.
+Args:</p>
+<blockquote>
+<div><p>symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
+which is fairly strict and works well for properly refined
+structures with atoms in the proper symmetry coordinates. For
+structures with slight deviations from their proper atomic
+positions (e.g., structures relaxed with electronic structure
+codes), a looser tolerance of 0.1 (the value used in Materials
+Project) is often needed.</p>
+</div></blockquote>
+<p>angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.</p>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>defects</strong> – List of Vacancy objects</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,857 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>defermi.chempots.phase_diagram &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=292eb321"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">defermi.chempots.phase_diagram</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for defermi.chempots.phase_diagram</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Jun  2 16:39:01 2025</span>
+
+<span class="sd">@author: lorenzo</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.core.periodic_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Element</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.core.composition</span><span class="w"> </span><span class="kn">import</span> <span class="n">Composition</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.symmetry.groups</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpaceGroup</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.analysis.phase_diagram</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrandPotentialPhaseDiagram</span><span class="p">,</span> <span class="n">PDPlotter</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..tools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_composition</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chempots</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">Composition</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span> <span class="o">==</span> <span class="n">Composition</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">comp</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Composition needs to be str or pymatgen Composition&#39;</span><span class="p">)</span>
+        
+
+<div class="viewcode-block" id="PDHandler">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PDHandler</span><span class="p">:</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">phase_diagram</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class to generate and handle Pymatgen phase diagram more rapidly.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        phase_diagram : (PhaseDiagram)</span>
+<span class="sd">            Pymatgen PhaseDiagram object</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pd</span> <span class="o">=</span> <span class="n">phase_diagram</span> 
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_chempots_reference</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="PDHandler.calculate_single_chempot">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.calculate_single_chempot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">calculate_single_chempot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">,</span><span class="n">chempots_ref</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Calculate referenced chemical potential in a given composition and given</span>
+<span class="sd">        the chemical potentials of the other elements.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Compositions of the phase.</span>
+<span class="sd">        chempots_ref : (Dict)</span>
+<span class="sd">            Dictionary with element symbols as keys and respective chemical potential as value ({el:chempot}).</span>
+<span class="sd">            The chemical potentials used here are the ones relative to the reference (delta_mu).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        mu : (float)</span>
+<span class="sd">            Chemical potential.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">form_energy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_formation_energy_from_stable_comp</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">form_energy</span>
+        <span class="k">for</span> <span class="n">el</span><span class="p">,</span><span class="n">coeff</span> <span class="ow">in</span> <span class="n">comp</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">el</span><span class="o">.</span><span class="n">symbol</span> <span class="ow">in</span> <span class="n">chempots_ref</span><span class="p">:</span>
+                <span class="n">mu</span> <span class="o">+=</span> <span class="o">-</span><span class="mi">1</span><span class="o">*</span><span class="n">coeff</span> <span class="o">*</span> <span class="n">chempots_ref</span><span class="p">[</span><span class="n">el</span><span class="o">.</span><span class="n">symbol</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">factor</span> <span class="o">=</span> <span class="n">coeff</span>
+        
+        <span class="k">return</span> <span class="n">mu</span><span class="o">/</span><span class="n">factor</span></div>
+
+
+
+<div class="viewcode-block" id="PDHandler.get_all_boundaries_chempots">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_all_boundaries_chempots">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_boundaries_chempots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get chemical potentials at the corners of the stability ta given composition.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        chempots : (Chempots)</span>
+<span class="sd">            Chempots object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">chempots_pmg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">get_all_chempots</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">mu</span> <span class="ow">in</span> <span class="n">chempots_pmg</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">chempots_pmg</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">mu</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span> <span class="c1"># convert from np.float64</span>
+        <span class="n">chempots</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">:</span><span class="n">Chempots</span><span class="o">.</span><span class="n">from_pmg_elements</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">mu</span> <span class="ow">in</span> <span class="n">chempots_pmg</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">return</span> <span class="n">chempots</span></div>
+
+
+        
+<div class="viewcode-block" id="PDHandler.get_chempots_reference">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_chempots_reference">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_chempots_reference</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Gets elemental reference compounds and respective e.p.a with Pymatgen el_ref attribute in PhaseDiagram class.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Chempots object</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">chempots_ref</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span>
+        <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">el_refs</span><span class="p">:</span>
+            <span class="n">chempots_ref</span><span class="p">[</span><span class="n">el</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">el_refs</span><span class="p">[</span><span class="n">el</span><span class="p">]</span><span class="o">.</span><span class="n">energy_per_atom</span>
+        <span class="n">chempots_ref</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">chempots_ref</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">])}</span>
+        <span class="k">return</span> <span class="n">Chempots</span><span class="o">.</span><span class="n">from_pmg_elements</span><span class="p">(</span><span class="n">chempots_ref</span><span class="p">)</span></div>
+
+       
+
+<div class="viewcode-block" id="PDHandler.get_dataframe">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate pandas DataFrame with columns &#39;Composition, Structure, Formation energy&#39;.</span>
+<span class="sd">        To display a string for &#39;Structure&#39; the entry needs to be a ComputedStructureEntry (see pymatgen docs).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">phases</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">stable_entries</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Composition&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">format_composition</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">composition</span><span class="o">.</span><span class="n">reduced_formula</span><span class="p">)</span>
+            <span class="n">sg</span> <span class="o">=</span> <span class="n">SpaceGroup</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">get_space_group_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">crystal_system</span><span class="p">,</span> <span class="n">sg_string</span> <span class="o">=</span> <span class="n">sg</span><span class="o">.</span><span class="n">crystal_system</span> <span class="p">,</span> <span class="n">sg</span><span class="o">.</span><span class="n">to_latex_string</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;ComputedStructureEntry&#39;</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Structure&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">crystal_system</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span><span class="si">}</span><span class="s1"> (</span><span class="si">{</span><span class="n">sg_string</span><span class="si">}</span><span class="s1">)&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Structure&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;Formation energy p.a (eV)&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">get_form_energy_per_atom</span><span class="p">(</span><span class="n">e</span><span class="p">),</span><span class="n">decimals</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+            <span class="n">phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">phases</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+
+        
+<div class="viewcode-block" id="PDHandler.get_entries_from_comp">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_entries_from_comp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_entries_from_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">):</span>
+<span class="w">       </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">       Get a list of entries corrisponding to the target composition.</span>
+<span class="sd">       </span>
+<span class="sd">       Parameters</span>
+<span class="sd">       ----------</span>
+<span class="sd">       comp : (str or Composition)</span>
+<span class="sd">            Composition.</span>
+<span class="sd">       Returns</span>
+<span class="sd">       -------</span>
+<span class="sd">       List of Pymatgen PDEntry objects</span>
+
+<span class="sd">       &quot;&quot;&quot;</span>
+       <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+       <span class="n">target_entries</span><span class="o">=</span><span class="p">[]</span>
+       <span class="n">pd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span>
+       <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">all_entries</span><span class="p">:</span>
+           <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">composition</span><span class="o">.</span><span class="n">reduced_composition</span> <span class="o">==</span> <span class="n">comp</span><span class="p">:</span>
+               <span class="n">target_entries</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+       <span class="k">if</span> <span class="n">target_entries</span> <span class="o">!=</span> <span class="p">[]:</span>
+           <span class="k">return</span> <span class="n">target_entries</span>
+       <span class="k">else</span><span class="p">:</span>
+           <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No entry has been found for target composition:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span><span class="n">comp</span><span class="o">.</span><span class="n">reduced_formula</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="PDHandler.get_energies_from_comp">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_energies_from_comp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_energies_from_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get dictionary of energies for all entries of a given reduced composition.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Composition.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        from_energies : (Dict)</span>
+<span class="sd">            Dictionary with PDEntry objects as keys and Energies as values.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span>
+        <span class="n">energies</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_entries_from_comp</span><span class="p">(</span><span class="n">comp</span><span class="p">):</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">composition</span><span class="o">.</span><span class="n">get_reduced_composition_and_factor</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">energies</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">energy</span><span class="o">/</span><span class="n">factor</span>
+        <span class="k">return</span> <span class="n">energies</span></div>
+
+            
+
+<div class="viewcode-block" id="PDHandler.get_energy_from_stable_comp">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_energy_from_stable_comp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_energy_from_stable_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get energy of a target stable composition.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Composition.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Energy in eV (float).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stable_entry_from_comp</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">composition</span><span class="o">.</span><span class="n">get_reduced_composition_and_factor</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">entry</span><span class="o">.</span><span class="n">energy</span><span class="o">/</span><span class="n">factor</span></div>
+
+
+
+<div class="viewcode-block" id="PDHandler.get_formation_energies_from_comp">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_formation_energies_from_comp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_formation_energies_from_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get dictionary of formation energies for all entries of a given reduced composition.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Composition.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        from_energies : (Dict)</span>
+<span class="sd">            Dictionary with PDEntry objects as keys and formation energies in eV as values.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span>
+        <span class="n">form_energies</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_entries_from_comp</span><span class="p">(</span><span class="n">comp</span><span class="p">):</span>
+            <span class="n">factor</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">composition</span><span class="o">.</span><span class="n">get_reduced_composition_and_factor</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">form_energies</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_form_energy</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">/</span><span class="n">factor</span>
+        <span class="k">return</span> <span class="n">form_energies</span></div>
+
+            
+
+<div class="viewcode-block" id="PDHandler.get_formation_energy_from_stable_comp">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_formation_energy_from_stable_comp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_formation_energy_from_stable_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get formation energy of a target stable composition.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Composition.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Formation energy in eV (float).</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span>
+        <span class="n">entry</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_stable_entry_from_comp</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">factor</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">composition</span><span class="o">.</span><span class="n">get_reduced_composition_and_factor</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">get_form_energy</span><span class="p">(</span><span class="n">entry</span><span class="p">)</span><span class="o">/</span><span class="n">factor</span></div>
+
+        
+
+<div class="viewcode-block" id="PDHandler.get_phase_boundaries_chempots">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_phase_boundaries_chempots">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_phase_boundaries_chempots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">,</span><span class="n">chempot_ref</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a composition and a fixed chemical potential, this function analises the composition of the boundary phases</span>
+<span class="sd">        and the associated chemical potentials at the boundaries. Only works for 3 component PD.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Composition of the phase you want to get the chemical potentials at the boundary.</span>
+<span class="sd">        chempot_ref : (Dict)</span>
+<span class="sd">            Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).</span>
+<span class="sd">            The chemical potential here is the referenced value. </span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        chempots : (Dict)</span>
+<span class="sd">            Dictionary with compositions at the boundaries as keys and delta chemical potentials as value.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>       
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">chempots</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">comp1</span><span class="p">,</span><span class="n">comp2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_phase_boundaries_compositions</span><span class="p">(</span><span class="n">comp</span><span class="p">,</span> <span class="n">chempot_ref</span><span class="p">)</span>
+        
+        <span class="n">boundary</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">comp1</span><span class="o">.</span><span class="n">reduced_formula</span><span class="p">,</span><span class="n">comp</span><span class="o">.</span><span class="n">reduced_formula</span><span class="p">])</span>
+        <span class="n">chempots</span><span class="p">[</span><span class="n">boundary</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solve_phase_boundary_chempots</span><span class="p">(</span><span class="n">comp1</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">chempot_ref</span><span class="p">)</span>
+        
+        <span class="n">boundary</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">comp</span><span class="o">.</span><span class="n">reduced_formula</span><span class="p">,</span><span class="n">comp2</span><span class="o">.</span><span class="n">reduced_formula</span><span class="p">])</span>
+        <span class="n">chempots</span><span class="p">[</span><span class="n">boundary</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">solve_phase_boundary_chempots</span><span class="p">(</span><span class="n">comp</span><span class="p">,</span> <span class="n">comp2</span><span class="p">,</span> <span class="n">chempot_ref</span><span class="p">)</span>
+        
+        <span class="k">return</span> <span class="n">chempots</span>      </div>
+
+                  
+    
+<div class="viewcode-block" id="PDHandler.get_phase_boundaries_compositions">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_phase_boundaries_compositions">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_phase_boundaries_compositions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">,</span><span class="n">chempot_ref</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get compositions of phases in boundary of stability with a target composition given a fixed chemical potential </span>
+<span class="sd">        on one component. Currently only works for 3-component PD (to check). </span>
+<span class="sd">        Used Pymatgen GrandPotentialPhaseDiagram class. The fixed chemical potential is the referenced value that is</span>
+<span class="sd">        converted in the global value for the analysis with the GrandPotentialPhaseDiagram class.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Target composition for which you want to get the bounday phases.</span>
+<span class="sd">        chempot_ref : (Dict)</span>
+<span class="sd">            Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).</span>
+<span class="sd">            The chemical potential is the referenced value</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        comp1,comp2 : (Pymatgen Composition object)</span>
+<span class="sd">            Compositions of the boundary phases given a fixed chemical potential for one element.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">chempot_ref</span> <span class="o">=</span> <span class="n">Chempots</span><span class="p">(</span><span class="n">chempot_ref</span><span class="p">)</span>
+        <span class="n">fixed_chempot</span> <span class="o">=</span> <span class="n">chempot_ref</span><span class="o">.</span><span class="n">get_absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span><span class="p">)</span><span class="o">.</span><span class="n">to_pmg_elements</span><span class="p">()</span>
+        
+        <span class="n">entries</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">all_entries</span>
+        <span class="n">gpd</span> <span class="o">=</span> <span class="n">GrandPotentialPhaseDiagram</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span> <span class="n">fixed_chempot</span><span class="p">)</span>
+        <span class="n">stable_entries</span> <span class="o">=</span> <span class="n">gpd</span><span class="o">.</span><span class="n">stable_entries</span>
+        <span class="n">comp_in_stable_entries</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">stable_entries</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">original_comp</span><span class="o">.</span><span class="n">reduced_composition</span> <span class="o">==</span> <span class="n">comp</span><span class="p">:</span>
+                <span class="n">comp_in_stable_entries</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">comp_in_stable_entries</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Target composition </span><span class="si">%s</span><span class="s1"> is not a stable entry for fixed chemical potential: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span><span class="p">(</span><span class="n">comp</span><span class="o">.</span><span class="n">reduced_formula</span><span class="p">,</span><span class="n">fixed_chempot</span><span class="p">))</span>
+        
+        <span class="n">el</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">elements</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">x_target</span> <span class="o">=</span> <span class="n">comp</span><span class="o">.</span><span class="n">get_wt_fraction</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+        <span class="n">x_max_left</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">x_min_right</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">stable_entries</span><span class="p">:</span>
+            <span class="n">c</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">original_comp</span>
+            <span class="k">if</span> <span class="n">c</span> <span class="o">!=</span> <span class="n">comp</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">get_wt_fraction</span><span class="p">(</span><span class="n">el</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">x_target</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">x_max_left</span><span class="p">:</span>
+                    <span class="n">x_max_left</span> <span class="o">=</span> <span class="n">x</span>
+                    <span class="n">comp1</span> <span class="o">=</span> <span class="n">c</span>
+                <span class="k">if</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">x_target</span> <span class="ow">and</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="n">x_min_right</span><span class="p">:</span>
+                    <span class="n">x_min_right</span> <span class="o">=</span> <span class="n">x</span>
+                    <span class="n">comp2</span> <span class="o">=</span> <span class="n">c</span>
+        <span class="k">return</span> <span class="n">comp1</span><span class="o">.</span><span class="n">reduced_composition</span><span class="p">,</span><span class="n">comp2</span><span class="o">.</span><span class="n">reduced_composition</span>   </div>
+
+                  
+                    
+<div class="viewcode-block" id="PDHandler.solve_phase_boundary_chempots">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.solve_phase_boundary_chempots">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">solve_phase_boundary_chempots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp1</span><span class="p">,</span><span class="n">comp2</span><span class="p">,</span><span class="n">chempot_ref</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Given a fixed chemical potential, gets the values of the remaining two chemical potentials</span>
+<span class="sd">        in the boundary between two phases (region where the two phases coexist). Only works for 3-component PD (to check).</span>
+
+<span class="sd">        Given a phase P1 (formula AxByOz) and a phase P2 (formula AiBjOk) the chemical potentials have to satisfy the conditions:</span>
+<span class="sd">        - form_energy(P1) = x*mu(A) + y*mu(B) +z*mu(O)</span>
+<span class="sd">        - form_energy(P2) = i*mu(A) + j*mu(B) +k*mu(O)</span>
+<span class="sd">        </span>
+<span class="sd">        From these conditions the values of mu(A) and mu(B) are determined given a fixed value of mu(O).</span>
+<span class="sd">        All of the chemical potentials used here are delta_mu, i.e. relative to the elemental phase(delta_mu(O) = mu(O) - mu_ref(O))</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp1,comp2 : (str or Composition)</span>
+<span class="sd">            Compositions of the two phases at the boundary.</span>
+<span class="sd">        chempot_ref : (Dict)</span>
+<span class="sd">            Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}). The chemical potential</span>
+<span class="sd">            used here is the one relative to the reference (delta_mu).</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        chempots_boundary : (Dict)</span>
+<span class="sd">            Dictionary of chemical potentials.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comp1</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp1</span><span class="p">)</span>
+        <span class="n">comp2</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp2</span><span class="p">)</span>
+        <span class="n">chempots_boundary</span> <span class="o">=</span><span class="p">{}</span>
+        <span class="n">chempot_ref</span> <span class="o">=</span> <span class="n">Chempots</span><span class="p">(</span><span class="n">chempot_ref</span><span class="p">)</span>
+        <span class="n">mu_fixed</span> <span class="o">=</span> <span class="n">chempot_ref</span><span class="o">.</span><span class="n">to_pmg_elements</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">el</span><span class="p">,</span><span class="n">chempot</span> <span class="ow">in</span> <span class="n">mu_fixed</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">el_fixed</span><span class="p">,</span> <span class="n">mu_fixed</span> <span class="o">=</span> <span class="n">el</span><span class="p">,</span> <span class="n">chempot</span>
+        <span class="n">e1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_formation_energy_from_stable_comp</span><span class="p">(</span><span class="n">comp1</span><span class="p">)</span>
+        <span class="n">e2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_formation_energy_from_stable_comp</span><span class="p">(</span><span class="n">comp2</span><span class="p">)</span>
+        
+        <span class="n">coeff1</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">coeff2</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># order of variables (mu) will follow the order of self.chempots_reference which is alphabetically ordered</span>
+        <span class="n">mu_refs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span><span class="o">.</span><span class="n">to_pmg_elements</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">mu_refs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">el</span> <span class="o">!=</span> <span class="n">el_fixed</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">el</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">comp1</span><span class="p">:</span>
+                    <span class="n">coeff1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">coeff1</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp1</span><span class="p">[</span><span class="n">el</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">el</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">comp2</span><span class="p">:</span>
+                    <span class="n">coeff2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">coeff2</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">comp2</span><span class="p">[</span><span class="n">el</span><span class="p">])</span>                
+        <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">coeff1</span><span class="p">,</span><span class="n">coeff2</span><span class="p">])</span>
+        
+        <span class="n">const1</span> <span class="o">=</span> <span class="n">e1</span> <span class="o">-</span> <span class="n">comp1</span><span class="p">[</span><span class="n">el_fixed</span><span class="p">]</span><span class="o">*</span><span class="n">mu_fixed</span> <span class="k">if</span> <span class="n">el_fixed</span> <span class="ow">in</span> <span class="n">comp1</span> <span class="k">else</span> <span class="n">e1</span> 
+        <span class="n">const2</span> <span class="o">=</span> <span class="n">e2</span> <span class="o">-</span> <span class="n">comp2</span><span class="p">[</span><span class="n">el_fixed</span><span class="p">]</span><span class="o">*</span><span class="n">mu_fixed</span> <span class="k">if</span> <span class="n">el_fixed</span> <span class="ow">in</span> <span class="n">comp2</span> <span class="k">else</span> <span class="n">e2</span>
+        <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">const1</span><span class="p">,</span><span class="n">const2</span><span class="p">])</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+        <span class="c1"># output will follow the order given in input</span>
+        <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">mu_refs</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">el</span> <span class="o">!=</span> <span class="n">el_fixed</span><span class="p">:</span>
+                <span class="n">chempots_boundary</span><span class="p">[</span><span class="n">el</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">counter</span><span class="p">]</span>
+                <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">chempots_boundary</span><span class="p">[</span><span class="n">el_fixed</span><span class="p">]</span> <span class="o">=</span> <span class="n">mu_fixed</span>        
+        
+        <span class="k">return</span> <span class="n">Chempots</span><span class="o">.</span><span class="n">from_pmg_elements</span><span class="p">(</span><span class="n">chempots_boundary</span><span class="p">)</span> </div>
+
+
+
+<div class="viewcode-block" id="PDHandler.get_plot">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get plot with Pymatgen</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">PDPlotter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="p">,</span><span class="n">show_unstable</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">backend</span><span class="o">=</span><span class="s1">&#39;matplotlib&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span></div>
+
+
+
+<div class="viewcode-block" id="PDHandler.get_stability_diagram">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_stability_diagram">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_stability_diagram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">elements</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method to get stability diagram with &#39;get_chempot_range_map_plot&#39; method in pymatgen.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        elements : (list)</span>
+<span class="sd">            List with strings of the elements to be used as free variables.</span>
+<span class="sd">        size : (tuple)</span>
+<span class="sd">            New size in inches.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt : </span>
+<span class="sd">            Matplotlib object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span>
+        <span class="n">elements</span> <span class="o">=</span> <span class="p">[</span><span class="n">Element</span><span class="p">(</span><span class="n">el</span><span class="p">)</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">]</span>
+        <span class="n">PDPlotter</span><span class="p">(</span><span class="n">pd</span><span class="p">)</span><span class="o">.</span><span class="n">get_chempot_range_map_plot</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">figsize</span><span class="p">:</span>
+            <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span>
+            <span class="n">fig</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        
+        <span class="k">return</span> <span class="n">plt</span></div>
+
+
+
+<div class="viewcode-block" id="PDHandler.get_stable_entry_from_comp">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_stable_entry_from_comp">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_stable_entry_from_comp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the PDEntry of the stable entry of a target composition.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Composition.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Pymatgen PDEntry object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">target_entry</span><span class="o">=</span><span class="kc">None</span>
+        <span class="n">pd</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">pd</span><span class="o">.</span><span class="n">stable_entries</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">composition</span><span class="o">.</span><span class="n">reduced_composition</span> <span class="o">==</span> <span class="n">comp</span><span class="p">:</span>
+                <span class="n">target_entry</span> <span class="o">=</span> <span class="n">e</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">target_entry</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">target_entry</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No stable entry has been found for target composition:</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span><span class="n">comp</span><span class="o">.</span><span class="n">reduced_formula</span><span class="p">)</span></div>
+</div>
+
+            
+            
+            
+<div class="viewcode-block" id="StabilityDiagram">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.StabilityDiagram">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">StabilityDiagram</span><span class="p">:</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">phase_diagram</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class with tools to add features to default PD plots generated by Pymatgen.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        phase_diagram : (PhaseDiagram)</span>
+<span class="sd">            Pymatgen PhaseDiagram object.</span>
+<span class="sd">        size : (float)</span>
+<span class="sd">            Multiplier for the size of the objects added in the plot.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pd</span> <span class="o">=</span> <span class="n">phase_diagram</span> <span class="k">if</span> <span class="n">phase_diagram</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pdh</span> <span class="o">=</span> <span class="n">PDHandler</span><span class="p">(</span><span class="n">phase_diagram</span><span class="p">)</span> <span class="k">if</span> <span class="n">phase_diagram</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
+        
+    
+<div class="viewcode-block" id="StabilityDiagram.add_points">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.StabilityDiagram.add_points">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_points</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">points</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">label_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">[],</span><span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">label_color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">linewidths</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add points to plot representing reservoirs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        points : (dict)</span>
+<span class="sd">            Dictionary with points labels as keys and tuples or list with coordinates as values.</span>
+<span class="sd">        size : (float)</span>
+<span class="sd">            Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size</span>
+<span class="sd">        label_size : (float)</span>
+<span class="sd">            Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size</span>
+<span class="sd">        color : </span>
+<span class="sd">            Color of filling of points</span>
+<span class="sd">        edgecolor : </span>
+<span class="sd">            Color of point edge</span>
+<span class="sd">        label_color :</span>
+<span class="sd">            Color of labels</span>
+<span class="sd">        linewidths : </span>
+<span class="sd">            line width of point edge</span>
+<span class="sd">        kwargs : </span>
+<span class="sd">            kwargs to pass to matplotlib `scatter` function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt : Matplotlib object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span><span class="n">points</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="n">edgecolor</span><span class="p">,</span> <span class="n">linewidths</span><span class="o">=</span><span class="n">linewidths</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">450</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">*</span><span class="n">size</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">points</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="p">(</span><span class="mf">0.1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">*</span><span class="n">label_size</span><span class="p">),</span><span class="n">points</span><span class="p">[</span><span class="n">p</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span><span class="n">p</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">30</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="o">*</span><span class="n">label_size</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">label_color</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span></div>
+
+    
+    
+<div class="viewcode-block" id="StabilityDiagram.add_constant_chempot_line">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.StabilityDiagram.add_constant_chempot_line">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_constant_chempot_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">variable_element</span><span class="p">,</span> <span class="n">chempots_ref</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add line of constant chemical potential (at a given composition) to the plot. Only works for 3 component PD.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Composition of the phase.</span>
+<span class="sd">        variable_element : (str)</span>
+<span class="sd">            Element chosen as indipendent variable.</span>
+<span class="sd">        chempots_ref : (dict)</span>
+<span class="sd">            Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.</span>
+<span class="sd">        **kwargs : </span>
+<span class="sd">            kwargs passed to Matplotlib plot function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt : Matplotlib object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+        <span class="n">xlim</span> <span class="p">,</span> <span class="n">ylim</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span> <span class="p">,</span> <span class="n">axes</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.01</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">constant_chempot_line</span><span class="p">(</span><span class="n">mu</span><span class="p">,</span><span class="n">comp</span><span class="p">,</span><span class="n">variable_element</span><span class="p">,</span><span class="n">chempots_ref</span><span class="p">),</span>
+                 <span class="n">linewidth</span><span class="o">=</span> <span class="mf">4.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span></div>
+
+    
+
+<div class="viewcode-block" id="StabilityDiagram.add_heatmap">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.StabilityDiagram.add_heatmap">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_heatmap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">comp</span><span class="p">,</span><span class="n">elements</span><span class="p">,</span><span class="n">cbar_label</span><span class="o">=</span><span class="s1">&#39;$\Delta\mu_</span><span class="si">{O}</span><span class="s1">$&#39;</span><span class="p">,</span><span class="n">cbar_values</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add heatmap that shows the value of the last chemical potential based on the values of the other two &quot;free&quot; </span>
+<span class="sd">        chemical potentials and the composition of interest. Currently works only for 3 component PDs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Composition of interest to compute the chemical potential.</span>
+<span class="sd">        elements : (list)</span>
+<span class="sd">            List of strings with elements with free chemical potentials.</span>
+<span class="sd">        cbar_label : (string), optional</span>
+<span class="sd">            String with label of the colormap. The default is &#39;&#39;.</span>
+<span class="sd">        cbar_values : (tuple or bool), optional</span>
+<span class="sd">            Show max e min chempot values on colorbar. If tuple the values are used, if not the </span>
+<span class="sd">            minimum chempot and 0 are used. The default is True.</span>
+<span class="sd">        **kwargs : (dict)</span>
+<span class="sd">            kwargs for &quot;pcolormesh&quot; function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Matplotlib object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">el1</span><span class="p">,</span><span class="n">el2</span> <span class="o">=</span> <span class="n">elements</span>  
+        
+        <span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span><span class="n">mu2</span><span class="p">):</span>            
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">pdh</span><span class="o">.</span><span class="n">calculate_single_chempot</span><span class="p">(</span><span class="n">comp</span><span class="p">,{</span><span class="n">el1</span><span class="p">:</span><span class="n">mu1</span><span class="p">,</span><span class="n">el2</span><span class="p">:</span><span class="n">mu2</span><span class="p">})</span>
+        
+        <span class="n">axes</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+        <span class="n">xlim</span> <span class="p">,</span> <span class="n">ylim</span> <span class="o">=</span> <span class="n">axes</span><span class="o">.</span><span class="n">get_xlim</span><span class="p">()</span> <span class="p">,</span> <span class="n">axes</span><span class="o">.</span><span class="n">get_ylim</span><span class="p">()</span>
+        <span class="n">npoints</span> <span class="o">=</span> <span class="mi">100</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mf">0.1</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mf">0.1</span><span class="o">-</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">npoints</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mf">0.1</span><span class="p">,</span><span class="nb">abs</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mf">0.1</span><span class="o">-</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">npoints</span><span class="p">)</span>   
+        
+        <span class="n">X</span><span class="p">,</span><span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">)</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">pcolormesh</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Y</span><span class="p">,</span><span class="n">Z</span><span class="p">,</span><span class="n">vmax</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">shading</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="n">cbar</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+       <span class="c1"># cbar.ax.tick_params(labelsize=&#39;xx-large&#39;)</span>
+        <span class="k">if</span> <span class="n">cbar_values</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">cbar_values</span><span class="p">,</span><span class="nb">tuple</span><span class="p">):</span>
+                <span class="n">cbar_min</span><span class="p">,</span><span class="n">cbar_max</span> <span class="o">=</span> <span class="n">cbar_values</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">cbar_values</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">cbar_min</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">Z</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span><span class="n">decimals</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>        <span class="c1"># colorbar min value - avoid going out of range</span>
+                <span class="n">cbar_max</span> <span class="o">=</span> <span class="mi">0</span>                                    <span class="c1"># colorbar max value</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.81</span><span class="p">,</span><span class="mf">1.6</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">cbar_max</span><span class="p">),</span><span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>         <span class="c1"># easier to show cbar labels as text</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.73</span><span class="p">,</span><span class="o">-</span><span class="mf">14.2</span><span class="p">,</span><span class="nb">str</span><span class="p">(</span><span class="n">cbar_min</span><span class="p">),</span><span class="n">size</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">set_ticks</span><span class="p">([])</span> <span class="c1"># comment if you want ticks</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span> <span class="c1"># comment if you want tick labels</span>
+        <span class="n">cbar</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">cbar_label</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="s1">&#39;xx-large&#39;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">plt</span></div>
+
+        
+
+<div class="viewcode-block" id="StabilityDiagram.add_reservoirs">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.StabilityDiagram.add_reservoirs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_reservoirs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">reservoirs</span><span class="p">,</span><span class="n">elements</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">label_size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="p">[],</span><span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+                       <span class="n">label_color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">linewidths</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add reservoirs as points on the stability diagram.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        reservoirs : (Reservoirs)</span>
+<span class="sd">            Reservoirs object.</span>
+<span class="sd">        elements : (list)</span>
+<span class="sd">            List with strings of the elements to be used as free variables.</span>
+<span class="sd">        size : (float)</span>
+<span class="sd">            Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size</span>
+<span class="sd">        label_size : (float)</span>
+<span class="sd">            Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size</span>
+<span class="sd">        color : </span>
+<span class="sd">            Color of filling of points</span>
+<span class="sd">        edgecolor : </span>
+<span class="sd">            Color of point edge</span>
+<span class="sd">        label_color: </span>
+<span class="sd">            Color of labels</span>
+<span class="sd">        linewidths : </span>
+<span class="sd">            line width of point edge</span>
+<span class="sd">        kwargs: </span>
+<span class="sd">            kwargs to pass to matplotlib `scatter` function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt : Matplotlib object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>         
+        <span class="n">points</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">mu</span> <span class="ow">in</span> <span class="n">reservoirs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">points</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">mu</span><span class="p">[</span><span class="n">el</span><span class="p">]</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">]</span>
+        
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_points</span><span class="p">(</span><span class="n">points</span><span class="p">,</span><span class="n">size</span><span class="p">,</span><span class="n">label_size</span><span class="p">,</span><span class="n">color</span><span class="p">,</span><span class="n">edgecolor</span><span class="p">,</span><span class="n">label_color</span><span class="p">,</span><span class="n">linewidths</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+        
+    
+<div class="viewcode-block" id="StabilityDiagram.constant_chempot_line">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.StabilityDiagram.constant_chempot_line">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">constant_chempot_line</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">comp</span><span class="p">,</span> <span class="n">variable_element</span><span class="p">,</span> <span class="n">chempots_ref</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function that expresses line of constant chemical potential of a given composition. Only works for 3-component PD.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mu : (float)</span>
+<span class="sd">            Indipendent variable of chemical potential.</span>
+<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">            Composition of the phase.</span>
+<span class="sd">        variable_element : (Pymatgen Element object)</span>
+<span class="sd">            Element chosen as indipendent variable.</span>
+<span class="sd">        chempots_ref : (dict)</span>
+<span class="sd">            Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Chemical potential in eV.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
+        <span class="n">chempots_ref</span><span class="p">[</span><span class="n">variable_element</span><span class="p">]</span> <span class="o">=</span> <span class="n">mu</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">chempots_analysis</span><span class="o">.</span><span class="n">calculate_single_chempot</span><span class="p">(</span><span class="n">comp</span><span class="p">,</span><span class="n">chempots_ref</span><span class="p">)</span></div>
+
+    
+    
+<div class="viewcode-block" id="StabilityDiagram.get_plot">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.StabilityDiagram.get_plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">elements</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Method to get stability diagram with &#39;get_chempot_range_map_plot&#39; method in pymatgen.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        elements : (list)</span>
+<span class="sd">            List with strings of the elements to be used as free variables.</span>
+<span class="sd">        figsize : (tuple)</span>
+<span class="sd">            New size in inches.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt : </span>
+<span class="sd">            Matplotlib object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pdhandler</span> <span class="o">=</span> <span class="n">PDHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">phase_diagram</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pdhandler</span><span class="o">.</span><span class="n">get_stability_diagram</span><span class="p">(</span><span class="n">elements</span><span class="o">=</span><span class="n">elements</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span></div>
+</div>
+
+        
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

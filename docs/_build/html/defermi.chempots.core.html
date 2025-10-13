@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Chempots</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.as_dict"><code class="docutils literal notranslate"><span class="pre">Chempots.as_dict()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.copy"><code class="docutils literal notranslate"><span class="pre">Chempots.copy()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.from_dict"><code class="docutils literal notranslate"><span class="pre">Chempots.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.from_pmg_elements"><code class="docutils literal notranslate"><span class="pre">Chempots.from_pmg_elements()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.get_absolute"><code class="docutils literal notranslate"><span class="pre">Chempots.get_absolute()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.get_referenced"><code class="docutils literal notranslate"><span class="pre">Chempots.get_referenced()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.items"><code class="docutils literal notranslate"><span class="pre">Chempots.items()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.keys"><code class="docutils literal notranslate"><span class="pre">Chempots.keys()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.mu"><code class="docutils literal notranslate"><span class="pre">Chempots.mu</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.to_pmg_elements"><code class="docutils literal notranslate"><span class="pre">Chempots.to_pmg_elements()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.update"><code class="docutils literal notranslate"><span class="pre">Chempots.update()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.core.Chempots.values"><code class="docutils literal notranslate"><span class="pre">Chempots.values()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.chempots.core.chempot_ideal_gas"><code class="docutils literal notranslate"><span class="pre">chempot_ideal_gas()</span></code></a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.chempots.core.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <dl class="py class" id="module-defermi.chempots.core">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.chempots.core.</span></span><span class="sig-name descname"><span class="pre">Chempots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chempots_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ndecimals</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">6</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MSONable</span></code></p>
+<p>Class to handle set of chemical potentials. Behaves like a python dictionary.
+The dictionary needs to be set with element symbols as keys and chemical potentials
+as values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chempots_dict</strong> (<em>dict</em>) – Dictionary of chemical potentials in the format {el:value}.</p></li>
+<li><p><strong>ndecimals</strong> (<em>int</em>) – Round the chemical potentials to this number of decimals. If None
+the numbers are left untouched. the default is 6.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.as_dict" title="Link to this definition"></a></dt>
+<dd><p>Json-serializable dict representation of a Chempots object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> – Json-serializable dict of a Chempots object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.copy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.from_dict">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.from_dict" title="Link to this definition"></a></dt>
+<dd><p>Constructor of Chempots object from dictionary representation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>dict</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chempots</strong> – Chempots object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots">Chempots</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.from_pmg_elements">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_pmg_elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.from_pmg_elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.from_pmg_elements" title="Link to this definition"></a></dt>
+<dd><p>Construct a Chempots object from a dictionary in the format {Element:value}. Useful to
+interface with pymatgen which uses Element class to address elements instead of just their symbols.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>dict</em>) – Dictionary in the format {Element:value}.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chempots</strong> – Chempots object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots">Chempots</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.get_absolute">
+<span class="sig-name descname"><span class="pre">get_absolute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu_refs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.get_absolute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.get_absolute" title="Link to this definition"></a></dt>
+<dd><p>Get Chempots object with chemical potentials converted to absolute values (mu + mu_ref).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mu_refs</strong> (<em>dict</em><em> or </em><a class="reference internal" href="#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots"><em>Chempots</em></a>) – Chempots object or just dictionary with elemental chemical potentials (mu0).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chempots</strong> – Chempots values converted to absolute (mu + mu_ref).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots">Chempots</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.get_referenced">
+<span class="sig-name descname"><span class="pre">get_referenced</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu_refs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.get_referenced"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.get_referenced" title="Link to this definition"></a></dt>
+<dd><p>Get Chempots object with chemical potentials converted to referenced values (mu - mu_ref).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mu_refs</strong> (<em>dict</em><em> or </em><a class="reference internal" href="#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots"><em>Chempots</em></a>) – Chempots object or just dictionary with elemental chemical potentials (mu0).</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chempots</strong> – Chempots values converted to referenced (mu - mu_ref).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots">Chempots</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.items" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.keys" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.mu">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mu</span></span><a class="headerlink" href="#defermi.chempots.core.Chempots.mu" title="Link to this definition"></a></dt>
+<dd><p>Dictionary with chemical potentials</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.to_pmg_elements">
+<span class="sig-name descname"><span class="pre">to_pmg_elements</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.to_pmg_elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.to_pmg_elements" title="Link to this definition"></a></dt>
+<dd><p>Convert the Chempots object to a dictionary in the format {Element:value}.
+Useful to interface with pymatgen which uses Element class to address elements
+instead of just their symbols.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> – Dictionary in the format {Element:value}</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.update">
+<span class="sig-name descname"><span class="pre">update</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.update"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.update" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.core.Chempots.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#Chempots.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.Chempots.values" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.chempots.core.chempot_ideal_gas">
+<span class="sig-prename descclassname"><span class="pre">defermi.chempots.core.</span></span><span class="sig-name descname"><span class="pre">chempot_ideal_gas</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partial_pressure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/core.html#chempot_ideal_gas"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.core.chempot_ideal_gas" title="Link to this definition"></a></dt>
+<dd><p>Get chemical potential at a given temperature and partial pressure.
+The chemical potential in standard conditions (mu0) has to be know.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu0</strong> (<em>float</em>) – Value of chemical potential in standard conditions.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in Kelvin.</p></li>
+<li><p><strong>partial_pressure</strong> (<em>float</em>) – Partial pressure over standard pressure (p/p0).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chempot</strong> – Value of chemical potential at given T and p/p0.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

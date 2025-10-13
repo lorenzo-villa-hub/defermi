@@ -35,7 +35,7 @@ class PDHandler:
 
         Parameters
         ----------
-        phase_diagram : (PhaseDiagram)
+        phase_diagram : PhaseDiagram
             Pymatgen PhaseDiagram object
 
         """
@@ -50,15 +50,15 @@ class PDHandler:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
             Compositions of the phase.
-        chempots_ref : (Dict)
+        chempots_ref : Dict
             Dictionary with element symbols as keys and respective chemical potential as value ({el:chempot}).
             The chemical potentials used here are the ones relative to the reference (delta_mu).
 
         Returns
         -------
-        mu : (float)
+        mu : float
             Chemical potential.
 
         """        
@@ -80,11 +80,11 @@ class PDHandler:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
 
         Returns
         -------
-        chempots : (Chempots)
+        chempots : Chempots
             Chempots object.
 
         """
@@ -102,7 +102,8 @@ class PDHandler:
 
         Returns
         -------
-        Chempots object
+        chempots : Chempots
+            Chempots object.
 
         """
         chempots_ref = {}
@@ -140,11 +141,13 @@ class PDHandler:
        
        Parameters
        ----------
-       comp : (str or Composition)
+       comp : str or Composition
             Composition.
+
        Returns
        -------
-       List of Pymatgen PDEntry objects
+       target_entries : list
+        List of Pymatgen PDEntry objects.
 
        """
        comp = _get_composition_object(comp)
@@ -165,12 +168,12 @@ class PDHandler:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
             Composition.
 
         Returns
         -------
-        from_energies : (Dict)
+        form_energies : dict
             Dictionary with PDEntry objects as keys and Energies as values.
 
         """
@@ -189,12 +192,13 @@ class PDHandler:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
             Composition.
 
         Returns
         -------
-        Energy in eV (float).
+        energy : float
+            Energy in eV.
 
         """
         comp = _get_composition_object(comp)
@@ -210,12 +214,12 @@ class PDHandler:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
             Composition.
 
         Returns
         -------
-        from_energies : (Dict)
+        form_energies : dict
             Dictionary with PDEntry objects as keys and formation energies in eV as values.
         
         """
@@ -234,12 +238,13 @@ class PDHandler:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
             Composition.
 
         Returns
         -------
-        Formation energy in eV (float).
+        form_energy : float
+            Formation energy in eV (float).
 
         """
         comp = _get_composition_object(comp)
@@ -256,15 +261,15 @@ class PDHandler:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
             Composition of the phase you want to get the chemical potentials at the boundary.
-        chempot_ref : (Dict)
+        chempot_ref : dict
             Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).
             The chemical potential here is the referenced value. 
 
         Returns
         -------
-        chempots : (Dict)
+        chempots : dict
             Dictionary with compositions at the boundaries as keys and delta chemical potentials as value.
 
         """       
@@ -290,15 +295,15 @@ class PDHandler:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
             Target composition for which you want to get the bounday phases.
-        chempot_ref : (Dict)
+        chempot_ref : dict
             Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).
             The chemical potential is the referenced value
 
         Returns
         -------
-        comp1,comp2 : (Pymatgen Composition object)
+        comp1,comp2 : (Composition objects)
             Compositions of the boundary phases given a fixed chemical potential for one element.
 
         """
@@ -339,6 +344,7 @@ class PDHandler:
         in the boundary between two phases (region where the two phases coexist). Only works for 3-component PD (to check).
 
         Given a phase P1 (formula AxByOz) and a phase P2 (formula AiBjOk) the chemical potentials have to satisfy the conditions:
+
         - form_energy(P1) = x*mu(A) + y*mu(B) +z*mu(O)
         - form_energy(P2) = i*mu(A) + j*mu(B) +k*mu(O)
         
@@ -347,15 +353,15 @@ class PDHandler:
 
         Parameters
         ----------
-        comp1,comp2 : (str or Composition)
+        comp1,comp2 : str or Composition
             Compositions of the two phases at the boundary.
-        chempot_ref : (Dict)
+        chempot_ref : dict
             Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}). The chemical potential
             used here is the one relative to the reference (delta_mu).
 
         Returns
         -------
-        chempots_boundary : (Dict)
+        chempots_boundary : dict
             Dictionary of chemical potentials.
 
         """
@@ -414,9 +420,9 @@ class PDHandler:
 
         Parameters
         ----------
-        elements : (list)
+        elements : list
             List with strings of the elements to be used as free variables.
-        size : (tuple)
+        size : tuple
             New size in inches.
 
         Returns
@@ -441,12 +447,13 @@ class PDHandler:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
             Composition.
 
         Returns
         -------
-        Pymatgen PDEntry object.
+        entry : PDEntry
+            Pymatgen PDEntry object.
 
         """
         comp = _get_composition_object(comp)
@@ -471,9 +478,9 @@ class StabilityDiagram:
 
         Parameters
         ----------
-        phase_diagram : (PhaseDiagram)
+        phase_diagram : PhaseDiagram
             Pymatgen PhaseDiagram object.
-        size : (float)
+        size : float
             Multiplier for the size of the objects added in the plot.
 
         """
@@ -488,26 +495,27 @@ class StabilityDiagram:
 
         Parameters
         ----------
-        points : (dict)
+        points : dict
             Dictionary with points labels as keys and tuples or list with coordinates as values.
-        size : (float)
+        size : float
             Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size
-        label_size : (float)
+        label_size : float
             Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size
-        color : 
+        color : str
             Color of filling of points
-        edgecolor : 
+        edgecolor : str 
             Color of point edge
-        label_color :
+        label_color : str
             Color of labels
-        linewidths : 
+        linewidths : int
             line width of point edge
-        kwargs : 
+        kwargs : dict
             kwargs to pass to matplotlib `scatter` function.
 
         Returns
         -------
-        plt : Matplotlib object.
+        plt : matplotlib
+            Matplotlib object.
 
         """
         for p in points:
@@ -522,18 +530,19 @@ class StabilityDiagram:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
             Composition of the phase.
-        variable_element : (str)
+        variable_element : str
             Element chosen as indipendent variable.
-        chempots_ref : (dict)
+        chempots_ref : dict
             Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.
         **kwargs : 
             kwargs passed to Matplotlib plot function.
 
         Returns
         -------
-        plt : Matplotlib object.
+        plt : matlotlib
+            Matplotlib object.
 
         """
         comp = _get_composition_object(comp)
@@ -554,21 +563,22 @@ class StabilityDiagram:
 
         Parameters
         ----------
-        comp : (str or Composition)
+        comp : str or Composition
             Composition of interest to compute the chemical potential.
-        elements : (list)
+        elements : list
             List of strings with elements with free chemical potentials.
-        cbar_label : (string), optional
+        cbar_label : str
             String with label of the colormap. The default is ''.
-        cbar_values : (tuple or bool), optional
+        cbar_values : tuple or bool
             Show max e min chempot values on colorbar. If tuple the values are used, if not the 
             minimum chempot and 0 are used. The default is True.
-        **kwargs : (dict)
+        **kwargs : dict
             kwargs for "pcolormesh" function.
 
         Returns
         -------
-        Matplotlib object.
+        plt : matplotlib
+            Matplotlib object.
 
         """        
         comp = _get_composition_object(comp)
@@ -612,28 +622,29 @@ class StabilityDiagram:
 
         Parameters
         ----------
-        reservoirs : (Reservoirs)
+        reservoirs : Reservoirs
             Reservoirs object.
-        elements : (list)
+        elements : list
             List with strings of the elements to be used as free variables.
-        size : (float)
+        size : float
             Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size
-        label_size : (float)
+        label_size : float
             Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size
-        color : 
+        color : str
             Color of filling of points
-        edgecolor : 
+        edgecolor : str 
             Color of point edge
-        label_color: 
+        label_color : str 
             Color of labels
-        linewidths : 
+        linewidths : 3
             line width of point edge
-        kwargs: 
+        kwargs: dict
             kwargs to pass to matplotlib `scatter` function.
 
         Returns
         -------
-        plt : Matplotlib object.
+        plt : matplotlib
+            Matplotlib object.
 
         """         
         points = {}
@@ -649,18 +660,19 @@ class StabilityDiagram:
 
         Parameters
         ----------
-        mu : (float)
+        mu : float
             Indipendent variable of chemical potential.
-        comp : (str or Composition)
+        comp : str or Composition
             Composition of the phase.
-        variable_element : (Pymatgen Element object)
+        variable_element : Pymatgen Element object
             Element chosen as indipendent variable.
-        chempots_ref : (dict)
+        chempots_ref : dict
             Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.
         
         Returns
         -------
-        Chemical potential in eV.
+        chempot : float
+            Chemical potential in eV.
 
         """
         comp = _get_composition_object(comp)
@@ -674,14 +686,14 @@ class StabilityDiagram:
 
         Parameters
         ----------
-        elements : (list)
+        elements : list
             List with strings of the elements to be used as free variables.
-        figsize : (tuple)
+        figsize : tuple
             New size in inches.
 
         Returns
         -------
-        plt : 
+        plt : matplotlib
             Matplotlib object.
 
         """

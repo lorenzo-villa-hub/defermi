@@ -1,0 +1,625 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Conductivity</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.thermodynamics.Conductivity.get_conductivities_from_thermodata"><code class="docutils literal notranslate"><span class="pre">Conductivity.get_conductivities_from_thermodata()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.Conductivity.get_conductivity"><code class="docutils literal notranslate"><span class="pre">Conductivity.get_conductivity()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.thermodynamics.DefectThermodynamics"><code class="docutils literal notranslate"><span class="pre">DefectThermodynamics</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.thermodynamics.DefectThermodynamics.get_pO2_quenched_thermodata"><code class="docutils literal notranslate"><span class="pre">DefectThermodynamics.get_pO2_quenched_thermodata()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.DefectThermodynamics.get_pO2_thermodata"><code class="docutils literal notranslate"><span class="pre">DefectThermodynamics.get_pO2_thermodata()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.DefectThermodynamics.get_single_point_quenched_thermodata"><code class="docutils literal notranslate"><span class="pre">DefectThermodynamics.get_single_point_quenched_thermodata()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.DefectThermodynamics.get_single_point_thermodata"><code class="docutils literal notranslate"><span class="pre">DefectThermodynamics.get_single_point_thermodata()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.DefectThermodynamics.get_variable_species_quenched_thermodata"><code class="docutils literal notranslate"><span class="pre">DefectThermodynamics.get_variable_species_quenched_thermodata()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.DefectThermodynamics.get_variable_species_thermodata"><code class="docutils literal notranslate"><span class="pre">DefectThermodynamics.get_variable_species_thermodata()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.thermodynamics.ThermoData"><code class="docutils literal notranslate"><span class="pre">ThermoData</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.thermodynamics.ThermoData.as_dict"><code class="docutils literal notranslate"><span class="pre">ThermoData.as_dict()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.ThermoData.from_dict"><code class="docutils literal notranslate"><span class="pre">ThermoData.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.ThermoData.from_json"><code class="docutils literal notranslate"><span class="pre">ThermoData.from_json()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.ThermoData.get_specific_pressures"><code class="docutils literal notranslate"><span class="pre">ThermoData.get_specific_pressures()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.ThermoData.items"><code class="docutils literal notranslate"><span class="pre">ThermoData.items()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.ThermoData.keys"><code class="docutils literal notranslate"><span class="pre">ThermoData.keys()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.ThermoData.set_data"><code class="docutils literal notranslate"><span class="pre">ThermoData.set_data()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.ThermoData.to_json"><code class="docutils literal notranslate"><span class="pre">ThermoData.to_json()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.thermodynamics.ThermoData.values"><code class="docutils literal notranslate"><span class="pre">ThermoData.values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.thermodynamics.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p id="module-defermi.thermodynamics">Created on Thu Jan 14 14:48:55 2021</p>
+<p>&#64;author: villa</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.thermodynamics.Conductivity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.thermodynamics.</span></span><span class="sig-name descname"><span class="pre">Conductivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mobilities</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#Conductivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.Conductivity" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class that handles conductivity calculations.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mobilities</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with mobility values for the defect species in [cm^2/(V*s)].
+Keys must contain “electrons”, “holes” and the defect species names.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.Conductivity.get_conductivities_from_thermodata">
+<span class="sig-name descname"><span class="pre">get_conductivities_from_thermodata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thermodata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#Conductivity.get_conductivities_from_thermodata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.Conductivity.get_conductivities_from_thermodata" title="Link to this definition"></a></dt>
+<dd><p>Calculate conductivities from defect and carrier concentrations in
+thermodynamic data. Only the defect species which are present in the
+mobility dict are considered for the calculation of the conductivity.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>thermodata</strong> (<em>(</em><a class="reference internal" href="#defermi.thermodynamics.ThermoData" title="defermi.thermodynamics.ThermoData"><em>ThermoData</em></a><em>)</em>) – ThermoData object that contains the thermodynamic data.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>conductivities</strong> – List with conductivity values in S/m.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.Conductivity.get_conductivity">
+<span class="sig-name descname"><span class="pre">get_conductivity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">carrier_concentrations</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect_concentrations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#Conductivity.get_conductivity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.Conductivity.get_conductivity" title="Link to this definition"></a></dt>
+<dd><p>Calculate conductivity from the concentrations of electrons, holes and defects and their mobilities.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>carrier_concentrations</strong> (<em>(</em><em>list</em><em>)</em>) – List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</p></li>
+<li><p><strong>defect_concentrations</strong> (<em>(</em><em>list</em><em>)</em>) – Defect concentrations in the same format as the output of DefectsAnalysis in cm^-3.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>sigma</strong> – Conductivity in S/m.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.thermodynamics.DefectThermodynamics">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.thermodynamics.</span></span><span class="sig-name descname"><span class="pre">DefectThermodynamics</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defects_analysis</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_dos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_concentrations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_defects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eform_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dconc_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#DefectThermodynamics"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.DefectThermodynamics" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class that handles the calculations of defect equilibriua under different conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>defects_analysis</strong> (<em>(</em><a class="reference internal" href="defermi.analysis.html#defermi.analysis.DefectsAnalysis" title="defermi.analysis.DefectsAnalysis"><em>DefectsAnalysis</em></a><em>)</em>) – DefectsAnalysis object.</p></li>
+<li><p><strong>bulk_dos</strong> (<em>(</em><em>dict</em><em> or </em><em>Dos</em><em>)</em>) – <p>Density of states to integrate. Can be provided as density of states D(E)
+or using effective masses.
+Format for effective masses:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>dict with following keys:</dt><dd><ul>
+<li><p>”m_eff_h” : holes effective mass in units of m_e (electron mass)</p></li>
+<li><p>”m_eff_e” : electrons effective mass in units of m_h</p></li>
+<li><p><cite>band_gap</cite> needs to be provided in args</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>Formats for explicit DOS:</dt><dd><dl class="simple">
+<dt>dictionary with following keys:</dt><dd><ul>
+<li><p>’energies’ : list or np.array with energy values</p></li>
+<li><p>’densitites’ : list or np.array with total density values</p></li>
+<li><dl class="simple">
+<dt>’structure’<span class="classifier">pymatgen Structure of the material,</span></dt><dd><p>needed for DOS volume and charge normalization.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>fixed_concentrations</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with fixed concentrations. Keys are defect entry names in the standard
+format, values are the concentrations. (ex {‘Vac_Na’:1e20})</p></li>
+<li><p><strong>external_defects</strong> (<em>(</em><em>list</em><em>)</em>) – List of external defect concentrations (not present in defect entries).
+Must either be a list of dictionaries with {‘charge’: float, ‘conc’: float}
+or a list of SingleDefConc objects.</p></li>
+<li><p><strong>xtol</strong> (<em>(</em><em>float</em><em>)</em>) – Tolerance for bisect (scipy) to solve charge neutrality.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
+<li><p><strong>dconc_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>entry.defect_concentration</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.DefectThermodynamics.get_pO2_quenched_thermodata">
+<span class="sig-name descname"><span class="pre">get_pO2_quenched_thermodata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reservoirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quenched_species</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quench_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#DefectThermodynamics.get_pO2_quenched_thermodata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.DefectThermodynamics.get_pO2_quenched_thermodata" title="Link to this definition"></a></dt>
+<dd><p>Calculate defect and carrier concentrations as a function of oxygen partial pressure with quenched defects.
+It is possible to select which defect species to quench and which ones are free to equilibrate.
+Frozen defects in the inputs of the class are still considered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reservoirs</strong> (<em>(</em><em>dict</em><em>, </em><a class="reference internal" href="defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs" title="defermi.chempots.reservoirs.Reservoirs"><em>Reservoirs</em></a><em> or </em><a class="reference internal" href="defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.PressureReservoirs" title="defermi.chempots.reservoirs.PressureReservoirs"><em>PressureReservoirs</em></a><em>)</em>) – Object with partial pressure values as keys and chempots dictionary as values.</p></li>
+<li><p><strong>initial_temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Value of initial temperature (K).</p></li>
+<li><p><strong>final_temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Value of final temperature (K).</p></li>
+<li><p><strong>quenched_species</strong> (<em>(</em><em>list</em><em>)</em><em>, </em><em>optional</em>) – List of defect species to quench. If None all defect species are quenched.The default is None.</p></li>
+<li><p><strong>quench_elements</strong> (<em>(</em><em>bool</em><em>)</em>) – If True the total concentrations of elements at high temperature go in the charge neutrality at low temperature.
+If False the quenched concentrations are the ones of single defect species (e.g. elements are not allowed
+to equilibrate on different sites). The default is False.</p></li>
+<li><p><strong>name</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Name to assign to ThermoData.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>thermodata</strong> –</p>
+<dl class="simple">
+<dt>ThermoData object that contains the thermodynamic data:</dt><dd><dl class="simple">
+<dt>partial_pressures<span class="classifier">(list)</span></dt><dd><p>List of partial pressure values in atm.</p>
+</dd>
+<dt>defect_concentrations<span class="classifier">(list)</span></dt><dd><p>List of DefectConcentrations objects (cm^-3)</p>
+</dd>
+<dt>carrier_concentrations<span class="classifier">(list)</span></dt><dd><p>List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</p>
+</dd>
+<dt>fermi_levels<span class="classifier">(list)</span></dt><dd><p>list of Fermi level values in eV.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="#defermi.thermodynamics.ThermoData" title="defermi.thermodynamics.ThermoData">ThermoData</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.DefectThermodynamics.get_pO2_thermodata">
+<span class="sig-name descname"><span class="pre">get_pO2_thermodata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reservoirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#DefectThermodynamics.get_pO2_thermodata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.DefectThermodynamics.get_pO2_thermodata" title="Link to this definition"></a></dt>
+<dd><p>Calculate defect and carrier concentrations as a function of the oxygen partial pressure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reservoirs</strong> (<em>(</em><em>dict</em><em>, </em><a class="reference internal" href="defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs" title="defermi.chempots.reservoirs.Reservoirs"><em>Reservoirs</em></a><em> or </em><a class="reference internal" href="defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.PressureReservoirs" title="defermi.chempots.reservoirs.PressureReservoirs"><em>PressureReservoirs</em></a><em>)</em>) – Object with partial pressure values as keys and chempots dictionary as values.</p></li>
+<li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em><em>, </em><em>optional</em>) – Temperature in Kelvin. If None reservoirs.temperature is used. The default is None.</p></li>
+<li><p><strong>name</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Name to assign to ThermoData.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>thermodata</strong> –</p>
+<dl class="simple">
+<dt>ThermoData object that contains the thermodynamic data:</dt><dd><dl class="simple">
+<dt>partial_pressures<span class="classifier">(list)</span></dt><dd><p>List of partial pressure values in atm.</p>
+</dd>
+<dt>defect_concentrations<span class="classifier">(list)</span></dt><dd><p>List of DefectConcentrations objects (cm^-3)</p>
+</dd>
+<dt>carrier_concentrations<span class="classifier">(list)</span></dt><dd><p>List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</p>
+</dd>
+<dt>fermi_levels<span class="classifier">(list)</span></dt><dd><p>list of Fermi level values in eV.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="#defermi.thermodynamics.ThermoData" title="defermi.thermodynamics.ThermoData">ThermoData</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.DefectThermodynamics.get_single_point_quenched_thermodata">
+<span class="sig-name descname"><span class="pre">get_single_point_quenched_thermodata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quenched_species</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quench_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_concentrations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_defects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#DefectThermodynamics.get_single_point_quenched_thermodata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.DefectThermodynamics.get_single_point_quenched_thermodata" title="Link to this definition"></a></dt>
+<dd><p>Compute carrier concentrations, defect concentrations and Fermi level for
+a single set of chemical potentials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemical_potentials</strong> (<em>(</em><a class="reference internal" href="defermi.chempots.core.html#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots"><em>Chempots</em></a><em>)</em>) – Chempots object containing chemical potentials.</p></li>
+<li><p><strong>initial_temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Value of initial temperature (K).</p></li>
+<li><p><strong>final_temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Value of final temperature (K).</p></li>
+<li><p><strong>quenched_species</strong> (<em>(</em><em>list</em><em>)</em><em>, </em><em>optional</em>) – List of defect species to quench. If None all defect species are quenched.The default is None.</p></li>
+<li><p><strong>quench_elements</strong> (<em>(</em><em>bool</em><em>)</em>) – If True the total concentrations of elements at high temperature go in the charge neutrality at low temperature.
+If False the quenched concentrations are the ones of single defect species (e.g. elements are not allowed
+to equilibrate on different sites). The default is False.</p></li>
+<li><p><strong>fixed_concentrations</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with fixed concentrations. Keys are defect entry names in the standard
+format, values are the concentrations. (ex {‘Vac_Na’:1e20})</p></li>
+<li><p><strong>external_defects</strong> (<em>(</em><em>list</em><em>)</em>) – List of external defect concentrations (not present in defect entries).
+Must either be a list of dictionaries with {‘charge’: float, ‘conc’: float}
+or a list of SingleDefConc objects.</p></li>
+<li><p><strong>name</strong> (<em>(</em><em>str</em><em>)</em>) – Label for ThermoData. The default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>thermodata</strong> –</p>
+<dl class="simple">
+<dt>ThermoData object that contains the thermodynamic data:</dt><dd><dl class="simple">
+<dt>defect_concentrations<span class="classifier">(DefectConcentrations)</span></dt><dd><p>DefectConcentrations object (cm^-3).</p>
+</dd>
+<dt>carrier_concentrations<span class="classifier">(tuple)</span></dt><dd><p>Tuple with intrinsic carriers concentrations (holes,electrons) in cm^-3.</p>
+</dd>
+<dt>fermi_levels<span class="classifier">(float)</span></dt><dd><p>Fermi level value in eV.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="#defermi.thermodynamics.ThermoData" title="defermi.thermodynamics.ThermoData">ThermoData</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.DefectThermodynamics.get_single_point_thermodata">
+<span class="sig-name descname"><span class="pre">get_single_point_thermodata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_concentrations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_defects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eform_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dconc_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#DefectThermodynamics.get_single_point_thermodata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.DefectThermodynamics.get_single_point_thermodata" title="Link to this definition"></a></dt>
+<dd><p>Compute carrier concentrations, defect concentrations and Fermi level for
+a single set of chemical potentials.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemical_potentials</strong> (<em>(</em><a class="reference internal" href="defermi.chempots.core.html#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots"><em>Chempots</em></a><em>)</em>) – Chempots object containing chemical potentials.</p></li>
+<li><p><strong>temperature</strong> (<em>(</em><em>int</em><em>)</em>) – Temperature.</p></li>
+<li><p><strong>fixed_concentrations</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with fixed concentrations. Keys are defect entry names in the standard
+format, values are the concentrations. (ex {‘Vac_Na’:1e20})</p></li>
+<li><p><strong>external_defects</strong> (<em>(</em><em>list</em><em>)</em>) – List of external defect concentrations (not present in defect entries).
+Must either be a list of dictionaries with {‘charge’: float, ‘conc’: float}
+or a list of SingleDefConc objects.</p></li>
+<li><p><strong>name</strong> (<em>(</em><em>str</em><em>)</em>) – Label for ThermoData. The default is None.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
+<li><p><strong>dconc_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>entry.defect_concentration</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>thermodata</strong> –</p>
+<dl class="simple">
+<dt>ThermoData object that contains the thermodynamic data:</dt><dd><dl class="simple">
+<dt>defect_concentrations<span class="classifier">(DefectConcentrations)</span></dt><dd><p>DefectConcentrations object (cm^-3).</p>
+</dd>
+<dt>carrier_concentrations<span class="classifier">(tuple)</span></dt><dd><p>Tuple with intrinsic carriers concentrations in cm^-3 (holes,electrons).</p>
+</dd>
+<dt>fermi_levels<span class="classifier">(float)</span></dt><dd><p>Fermi level value in eV.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="#defermi.thermodynamics.ThermoData" title="defermi.thermodynamics.ThermoData">ThermoData</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.DefectThermodynamics.get_variable_species_quenched_thermodata">
+<span class="sig-name descname"><span class="pre">get_variable_species_quenched_thermodata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_defect_specie</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concentration_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final_temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quenched_species</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quench_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_defects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#DefectThermodynamics.get_variable_species_quenched_thermodata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.DefectThermodynamics.get_variable_species_quenched_thermodata" title="Link to this definition"></a></dt>
+<dd><p>Calculate defect and carrier concentrations as a function of the concentration of a particular
+defect species (usually a dopant) with quenched defects.
+It is possible to select which defect species to quench and which ones are free to equilibrate.
+Frozen defects in the inputs of the class are still considered.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_defect_specie</strong> (<em>(</em><em>str</em><em> or </em><em>dict</em><em>)</em>) – Variable species. Possible formats are:
+- str: name or element, if the variable defect species is in defect entries.
+- dict : {‘name’:str,’charge’:int or float} if the variable species is not in defect entries.</p></li>
+<li><p><strong>concentration_range</strong> (<em>(</em><em>tuple</em><em> or </em><em>list</em><em>)</em>) – Range of the concentration of the variable species in cm^-3.</p></li>
+<li><p><strong>chemical_potentials</strong> (<em>(</em><a class="reference internal" href="defermi.chempots.core.html#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots"><em>Chempots</em></a><em>)</em>) – Chempots object containing chemical potentials.</p></li>
+<li><p><strong>initial_temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Value of initial temperature (K).</p></li>
+<li><p><strong>final_temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Value of final temperature (K).</p></li>
+<li><p><strong>quenched_species</strong> (<em>(</em><em>list</em><em>)</em><em>, </em><em>optional</em>) – List of defect species to quench. If None all defect species are quenched.The default is None.</p></li>
+<li><p><strong>quench_elements</strong> (<em>(</em><em>bool</em><em>)</em>) – If True the total concentrations of elements at high temperature go in the charge neutrality at low temperature.
+If False the quenched concentrations are the ones of single defect species (e.g. elements are not allowed
+to equilibrate on different sites). The default is False.</p></li>
+<li><p><strong>external_defects</strong> (<em>(</em><em>list</em><em>)</em>) – List of external defect concentrations (not present in defect entries).
+Must either be a list of dictionaries with {‘charge’: float, ‘conc’: float}
+or a list of SingleDefConc objects.</p></li>
+<li><p><strong>npoints</strong> (<em>(</em><em>int</em><em>)</em><em>, </em><em>optional</em>) – Number of points to divide concentration range. The default is 50.</p></li>
+<li><p><strong>name</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Name to assign to ThermoData.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>thermodata</strong> –</p>
+<dl class="simple">
+<dt>ThermoData object that contains the thermodynamic data:</dt><dd><dl class="simple">
+<dt>variable_defect_specie<span class="classifier">(str)</span></dt><dd><p>Name of variable defect species.</p>
+</dd>
+<dt>variable_concentrations<span class="classifier">(list)</span></dt><dd><p>List of concentrations of variable species.</p>
+</dd>
+<dt>defect_concentrations<span class="classifier">(list or dict)</span></dt><dd><p>Defect concentrations in the same format as the output of DefectsAnalysis.</p>
+</dd>
+<dt>carrier_concentrations<span class="classifier">(list)</span></dt><dd><p>List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</p>
+</dd>
+<dt>fermi_levels<span class="classifier">(list)</span></dt><dd><p>List of Fermi level values in eV.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="#defermi.thermodynamics.ThermoData" title="defermi.thermodynamics.ThermoData">ThermoData</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.DefectThermodynamics.get_variable_species_thermodata">
+<span class="sig-name descname"><span class="pre">get_variable_species_thermodata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_defect_specie</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concentration_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_defects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#DefectThermodynamics.get_variable_species_thermodata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.DefectThermodynamics.get_variable_species_thermodata" title="Link to this definition"></a></dt>
+<dd><p>Calculate defect and carrier concentrations as a function of the concentration of a particular
+defect species (usually a dopant).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_defect_specie</strong> (<em>(</em><em>str</em><em> or </em><em>dict</em><em>)</em>) – Variable species. Possible formats are:
+- str: name or element, if the variable defect species is in defect entries.
+- dict : {‘name’:str,’charge’:int or float} if the variable species is not in defect entries.</p></li>
+<li><p><strong>concentration_range</strong> (<em>(</em><em>tuple</em><em> or </em><em>list</em><em>)</em>) – Logaritmic range of the concentration of the variable species in cm^-3 (ex. [1,20]).</p></li>
+<li><p><strong>chemical_potentials</strong> (<em>(</em><a class="reference internal" href="defermi.chempots.core.html#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots"><em>Chempots</em></a><em>)</em>) – Chempots object containing chemical potentials.</p></li>
+<li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Temperature.</p></li>
+<li><p><strong>npoints</strong> (<em>(</em><em>int</em><em>)</em><em>, </em><em>optional</em>) – Number of points to divide concentration range. The default is 50.</p></li>
+<li><p><strong>external_defects</strong> (<em>(</em><em>list</em><em>)</em>) – List of external defect concentrations (not present in defect entries).
+Must either be a list of dictionaries with {‘charge’: float, ‘conc’: float}
+or a list of SingleDefConc objects.</p></li>
+<li><p><strong>name</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Label for ThermoData. The default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>thermodata</strong> –</p>
+<dl class="simple">
+<dt>ThermoData object that contains the thermodynamic data:</dt><dd><dl class="simple">
+<dt>variable_defect_specie<span class="classifier">(str)</span></dt><dd><p>Name of variable defect species.</p>
+</dd>
+<dt>variable_concentrations<span class="classifier">(list)</span></dt><dd><p>List of concentrations of variable species.</p>
+</dd>
+<dt>defect_concentrations<span class="classifier">(list or dict)</span></dt><dd><p>Defect concentrations in the same format as the output of DefectsAnalysis.</p>
+</dd>
+<dt>carrier_concentrations<span class="classifier">(list)</span></dt><dd><p>List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</p>
+</dd>
+<dt>fermi_levels<span class="classifier">(list)</span></dt><dd><p>List of Fermi level values in eV.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="#defermi.thermodynamics.ThermoData" title="defermi.thermodynamics.ThermoData">ThermoData</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.thermodynamics.ThermoData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.thermodynamics.</span></span><span class="sig-name descname"><span class="pre">ThermoData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">thermodata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#ThermoData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.ThermoData" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MSONable</span></code></p>
+<p>Class to handle defect thermodynamics data</p>
+<p>Class that handles dict of defect thermodynamics data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>thermodata</strong> (<em>(</em><em>dict</em><em>)</em>) – <p>Dict that contains the thermodynamic data, typically output from
+ConcentrationAnalysis and PressureAnalysis class.
+Keys of the dict are set as attributes of ThermoData.
+The items of the dict usually can be:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>partial_pressures<span class="classifier">(list)</span></dt><dd><p>List of partial pressure values.</p>
+</dd>
+<dt>variable_defect_specie<span class="classifier">(str)</span></dt><dd><p>Name of variable defect species.</p>
+</dd>
+<dt>variable_concentrations<span class="classifier">(list)</span></dt><dd><p>List of concentrations of variable species.</p>
+</dd>
+<dt>defect_concentrations<span class="classifier">(list)</span></dt><dd><p>List of DefectConcentrations objects (cm^-3).</p>
+</dd>
+<dt>carrier_concentrations<span class="classifier">(list)</span></dt><dd><p>List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</p>
+</dd>
+<dt>conductivities<span class="classifier">(list)</span></dt><dd><p>List of conductivity values (in S/m).</p>
+</dd>
+<dt>fermi_levels<span class="classifier">(list)</span></dt><dd><p>list of Fermi level values in eV.</p>
+</dd>
+</dl>
+</div></blockquote>
+</p></li>
+<li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em><em>, </em><em>optional</em>) – Temperature in K at which the data is computed. The default is None.</p></li>
+<li><p><strong>name</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Name to assign to ThermoData. The default is None.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.ThermoData.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#ThermoData.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.ThermoData.as_dict" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Json-serializable dict representation of ThermoData</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.ThermoData.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#ThermoData.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.ThermoData.from_dict" title="Link to this definition"></a></dt>
+<dd><p>Reconstitute a ThermoData object from a dict representation created using
+as_dict().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>dict</em>) – dict representation of ThermoData.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ThermoData object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.ThermoData.from_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_or_string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#ThermoData.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.ThermoData.from_json" title="Link to this definition"></a></dt>
+<dd><p>Build ThermoData object from json file or string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path_or_string</strong> (<em>(</em><em>str</em><em>)</em>) – If an existing path to a file is given the object is constructed reading the json file.
+Otherwise it will be read as a string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ThermoData object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.ThermoData.get_specific_pressures">
+<span class="sig-name descname"><span class="pre">get_specific_pressures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p_values</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#ThermoData.get_specific_pressures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.ThermoData.get_specific_pressures" title="Link to this definition"></a></dt>
+<dd><p>Get ThermoData object only for specific pressure values. The closest pressure value
+present in list is chosen for each provided value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>p_values</strong> (<em>(</em><em>list</em><em>)</em>) – List of partial pressure values.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ThermoData object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.ThermoData.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#ThermoData.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.ThermoData.items" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.ThermoData.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#ThermoData.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.ThermoData.keys" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.ThermoData.set_data">
+<span class="sig-name descname"><span class="pre">set_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#ThermoData.set_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.ThermoData.set_data" title="Link to this definition"></a></dt>
+<dd><p>Set data dictionary (chosen over __setitem__ to not override data by accident).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.ThermoData.to_json">
+<span class="sig-name descname"><span class="pre">to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#ThermoData.to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.ThermoData.to_json" title="Link to this definition"></a></dt>
+<dd><p>Save ThermoData object as json string or file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Path to the destination file.  If None the name of ThermoData is used as filename.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>d</strong> – If path is not set a string is returned.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.thermodynamics.ThermoData.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/thermodynamics.html#ThermoData.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.thermodynamics.ThermoData.values" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

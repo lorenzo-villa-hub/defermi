@@ -126,7 +126,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-            d (dict): dict representation of DefectsAnalysis.
+        d : dict 
+            Dictionary representation of DefectsAnalysis.
 
         Returns
         -------
@@ -148,23 +149,22 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        df : (DataFrame)
+        df : DataFrame
             pandas DataFrame. Needs to be in the following format:
 
             - rows are defect entries
-
             - non-optional columns are:
                 - name : defect name in the format given by Defect objects. 
                 - charge : defect charge
                 - multiplicity : site multiplicity of the defect
                 - energy_diff : difference in energy btw defect and bulk structures
-
             - If the df was not exported from this class, you need to provide also:
                 - bulk_volume : Volume of the bulk cell in A°3(unit cell or supercell 
                                 relative to your multiplicity)
-        vbm : (float)
+
+        vbm : float
             Valence band maximum of bulk structure in eV.
-        band_gap : (float)
+        band_gap : float
             Band gap of bulk structure in eV.
         
         Returns
@@ -240,7 +240,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        path_or_string : (str)
+        path_or_string : str
             If an existing path to a file is given the object is constructed reading the json file.
             Otherwise it will be read as a string.
 
@@ -278,33 +278,33 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        path_defects : (str)
+        path_defects : str
             Path of VASP defects calculation.
-        path_bulk : (str)
+        path_bulk : str
             Path of VASP bulk calculation. 
-        get_charge_correction : (str or bool)
+        get_charge_correction : str or bool
             Compute charge corrections from VASP directories. To skip corrections set it to False.
             Methods available are:
             - "kumagai" : Extended FNV scheme (eFNV).
             - "freysoldt" : FNV scheme.
-        get_multiplicity : (bool)
+        get_multiplicity : bool
             Determine defect multiplicity automatically. Not implemented for interstitials and defect complexes.
-        get_data : (True)
+        get_data : True
             Store path in DefectEntry.data dictionary.
-        band_gap : (float)
+        band_gap : float
             Band gap of bulk material. If not provided is determined from bulk VASP directory.
-        vbm : (float)
+        vbm : float
             Valence band maximum of bulk material. If not provided is determined from bulk VASP directory.
-        initial_structure : (bool)
+        initial_structure : bool
             Use initial structure for defect recognition. Useful when relaxations are large and 
             defect_finder struggles to find the right defects.
-        function : (func)
+        function : function
             Function to apply to each DefectEntry. Useful to automate custom entry modification.
-        computed_entry_kwargs : (dict)
+        computed_entry_kwargs : dict
             Kwargs to pass to `Vasprun.get_computed_entry`.
-        finder_kwargs : (dict)
+        finder_kwargs : dict
             Kwargs to pass to `defect_finder`.
-        correction_kwargs : (dict)
+        correction_kwargs : dict
             Kwargs to pass to the charge correction methods.
 
         Returns
@@ -385,8 +385,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                     properties=[],
                     functions={}):
         """
-        Export DefectsAnalysis object as DataFrame. 
-        Default exported columns are:
+        Export DefectsAnalysis object as DataFrame. Default exported columns are:
+
         - "name"
         - "charge"
         - "multiplicity"
@@ -398,16 +398,16 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        entries : (list)
+        entries : list
             Entries to export. If None all entries are displayed.
-        include_structures : (bool)
+        include_structures : bool
             Add full Defect object to DataFrame containing defect and bulk structures.
             This makes the DataFrame less portable. 
-        include_data: (bool)
+        include_data: bool
             Include entry.data dictionary. 
-        properties: (list)
+        properties: list
             List of strings with defect entry attributes or methods to include in df.
-        functions : (dict)
+        functions : dict
             Dictionary with column names as keys and functions as values. 
             The function needs to take a DefectEntry as input and the output
             will be stored in df.
@@ -463,17 +463,17 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        filename : (str)
+        filename : str
             Path of file. 
-        format : (str)
+        format : str
             If not specified the file extension in `filename` is used.
             Formats available:
             - "pkl" : pickle file. Allows to store structures (default).
             - "json" : DefectsAnalysis object as json file.
             - "csv" : Does not allow to store structures. 
-        export_kwargs : (dict)
+        export_kwargs : dict
             Kwargs to pass to file exporting function
-        kwargs : (dict)
+        kwargs : dict
             Kwargs to pass to to_dataframe function. If not provided, 
             'include_strctures' is to True if chosen format is 'pkl', 
             set to False if chosen format is 'csv' or 'excel'.
@@ -504,13 +504,13 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        path : (str), optional
+        path : str
             Path to the destination file. If '' the path is set to "self.path/self.name.json".
             If None a string is exported. 
 
         Returns
         -------
-        d : (str)
+        d : str
             If path is not set a string is returned.
 
         """
@@ -535,13 +535,13 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         Parameters
         ----------
-        name :(string)
+        name :string
             Name of defect complex as assigned in defect entry object
-        fermi_level : (float)
+        fermi_level : float
             Fermi level in eV.
-        temperature : (float)
+        temperature : float
             Temperature in K. If no custom formation energy is provided, this arg has no effect.
-        eform_kwargs : (dict)
+        eform_kwargs : dict
             Kwargs to pass to `entry.formation_energy`.
 
         Returns
@@ -573,29 +573,34 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        bulk_dos : (dict or Dos)
+        bulk_dos : dict or Dos
             Density of states to integrate. Can be provided as density of states D(E)
             or using effective masses.
-            Format for effective masses: dict with following keys:
-            -- "m_eff_h" : holes effective mass in units of m_e (electron mass)
-            -- "m_eff_e" : electrons effective mass in units of m_h          
-            - `band_gap` needs to be provided in args
-            Formats for explicit DOS: dictionary with following keys:
-            --'energies' : list or np.array with energy values
-            -- 'densitites' : list or np.array with total density values
-            -- 'structure' : pymatgen Structure of the material, needed for DOS volume and charge normalization.
-            or a pymatgen Dos object (Dos, CompleteDos or FermiDos).
 
-        fermi_level : (float)
+            Format for effective masses is a dict with the following keys:
+
+            - "m_eff_h" : holes effective mass in units of m_e (electron mass)
+            - "m_eff_e" : electrons effective mass in units of m_h
+            - `band_gap` : needs to be provided in arguments
+
+            Format for explicit DOS (dictionary) with the following keys:
+
+            - 'energies' : list or np.array with energy values
+            - 'densities' : list or np.array with total density values
+            - 'structure' : pymatgen Structure of the material, needed for DOS volume and charge normalization
+
+            Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).
+
+        fermi_level : float
             The Fermi level relative to the VBM in eV.
-        temperature : (float)
+        temperature : float
             The temperature in Kelvin.
 
         Returns
         -------
-            h : (float)
+            h : float
                 Absolute value of hole concentration in 1/cm^3
-            n : (float)
+            n : float
                 Absolute value of electron concentration in 1/cm^3
 
         """   
@@ -617,21 +622,22 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         Parameters
         ----------
-        energy_range : (list or tuple)
+        energy_range : list or tuple
             Energy range in eV to evaluate the charge transition levels, default to (-0.5, band_gap + 0.5).   
-        temperature : (float)
+        temperature : float
             Temperature in K. If no custom formation energy is provided, this arg has no effect.
-        entries : (list)
+        entries : list
             List of entries to calculate. If None all entries are considered.
-        get_integers : (bool)
+        get_integers : bool
             Save charges as integers. More convenient for plotting.
-        eform_kwargs : (dict)
+        eform_kwargs : dict
             Kwargs to pass to `entry.formation_energy`.
         
         Returns
         -------
-        Dictionary with defect name and list of tuples for charge transition levels in eV:
-        {name:[(q1,q2,ctl),(q2,q3,ctl),...}
+        charge_transition_levels : dict
+            Dictionary with defect name and list of tuples for 
+            charge transition levels in eV: {name:[(q1,q2,ctl),(q2,q3,ctl),...}
 
         """                
         entries = entries if entries else self.entries
@@ -715,27 +721,28 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             
         Parameters
         ----------
-        chemical_potentials: (dict)
-            Dictionary of chemical potentials ({element: chempot})   
-        temperature: (float) 
+        chemical_potentials: dict
+            Dictionary of chemical potentials ({element: chempot}).   
+        temperature: float 
             Temperature in K.
-        fermi_level: (float) 
+        fermi_level: float 
             Fermi level in eV relative to valence band maximum.
-        fixed_concentrations: (dict)
+        fixed_concentrations: dict
             Dictionary with fixed concentrations. Keys can be simple element strings
             (or vacancies of elements in the format 'Vac_{el}') if that element needs to be 
             fixed across all defect species, alternatively defect entry names can be used as well 
             to target specific defect entries. The values are the concentrations.
-        per_unit_volume: (bool)
+        per_unit_volume: bool
             Get concentrations in cm^-3. If False they are per unit cell.
-        eform_kwargs : (dict)
+        eform_kwargs : dict
                 Kwargs to pass to `self.formation_energy`.
-        kwargs : (dict)
+        kwargs : dict
             Additional custom kwargs to pass to `entry.defect_concentration`.
 
         Returns
         -------
-        DefectConcentrations object, behaves like a list.
+        concentrations : DefectConcentrations
+            DefectConcentrations object, behaves like a list.
 
         """
         concentrations = []
@@ -825,32 +832,33 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        inplace : (bool)
+        inplace : bool
             Apply changes to current DefectsAnalysis object.
-        entries : (list)
+        entries : list
             List of defect entries.
-        mode : (str), optional
+        mode : str
             Filtering mode, possibilities are: 'and' and 'or'. The default is 'and'. 
-        exclude : (bool), optional
+        exclude : bool
             Exclude the entries satisfying the criteria instead of selecting them. The default is False.
-        types : (list), optional
+        types : list
             Class name of the defect in the entry.
-        elements : (list), optional
+        elements : list
             List of symbols of elements that need to belong to the defect specie.
             If None this criterion is ignored. The default is None.
-        names : (list)
+        names : list
             List of entry names.
-        function : (function), optional
+        function : function
             Specific funtion for more complex criteria. The function must take a DefectEntry
             object as argument and return a bool.
-        **kwargs : (dict)
+        **kwargs : dict
             Properties that the jobs need to satisfy. Keys are referred to attributes/methods 
             of the defect entry. To address more than one condition relative to
             the same attribute, use lists or tuples (e.g. charge=[0,1]).
 
         Returns
         -------
-        DefectsAnalysis object.
+        defects_analysis : DefectsAnalysis
+            DefectsAnalysis object.
 
         """
         output_entries = self.select_entries(entries=entries,mode=mode,exclude=exclude,types=types,
@@ -877,12 +885,20 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         For each entry, is possible to set a custom function to compute the formation 
         energy using `set_formation_energy_function`. If that is set,
         the new function is used instead of the default. 
+        
         The function args must be the following:
-        - vbm : (float), Valence band maximum of bulk calculation in eV
-        - chemical_potentials : (dict), chemical potentials of the elements involved in the defect.
-        - fermi_level : (float), Fermi level in eV (with respect to the VBM).
-        - temperature : (float), Temperature in Kelvin.
-        - kwargs : (dict), Additional custom kwargs.
+
+        - vbm : (float)
+            Valence band maximum of bulk calculation in eV.
+        - chemical_potentials : (dict)
+            Chemical potentials of the elements involved in the defect.
+        - fermi_level : (float)
+            Fermi level in eV (with respect to the VBM).
+        - temperature : (float)
+            Temperature in Kelvin.
+        - kwargs : (dict)
+            Additional custom kwargs.
+
         It is possible to set custom functions collectively using the 
         `set_formation_energy_functions` method in this class.
         To reset functions to default, use `reset_formation_energy_functions`.
@@ -890,21 +906,21 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         Parameters
         ----------
-        chemical_potentials: (dict)
-            Dictionary of chemical potentials ({element: chempot})   
-        fermi_level: (float) 
+        chemical_potentials: dict
+            Dictionary of chemical potentials ({element: chempot}).   
+        fermi_level: float
             Fermi level in eV relative to valence band maximum.
-        temperature : (float)
+        temperature : float
             Temperature in K. If no custom formation energy is provided, this arg has no effect.
-        entries : (list)
+        entries : list
             List of defect entries to calculate. If None all entries are considered.
-        eform_kwargs : (dict)
-            Additional custom kwargs to pass to `entry.formation_energy`
+        eform_kwargs : dict
+            Additional custom kwargs to pass to `entry.formation_energy`.
 
         Returns
         -------
-        Dictionary in the format:
-            {name: [(charge,formation energy)]}
+        formation_energies : (dict)
+            Dictionary in the format: {name: [(charge,formation energy)]}.
 
         """
         formation_energies = {}
@@ -934,20 +950,21 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        name : (str)
+        name : str
             Defect name in the format given by the Defect object.
-        q1 : (int or float)
+        q1 : int or float
             Charge state (in units of electron charge).
-        q2 : (int or float)
+        q2 : int or float
             Charge state (in units of electron charge).
-        temperature : (float)
+        temperature : float
             Temperature in K. If no custom formation energy is provided, this arg has no effect.
-        eform_kwargs : (dict)
+        eform_kwargs : dict
             Kwargs to pass to `entry.formation_energy.
 
         Returns
         -------
-        Charge transition level (float)
+        charge_transition_level : float
+            Charge transition level in eV.
 
         """
         chemical_potentials = None
@@ -1016,64 +1033,72 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         The results of the calculation are stored in the `thermodata` property.
 
         For the chemical potentials, you must provide either:
-        -   reservoirs: Dictionary with oxygen partial pressures as keys and dictionary with chemical potential
+
+        `reservoirs`: Dictionary with oxygen partial pressures as keys and dictionary with chemical potential
         as values ({pO2:{'element':chempot}}), or PressureReservoirs object.
-        or
-        -   precursors + oxygen_ref: Dictionary with {formula:energy} for synthesis precursors and oxygen reference chempot at 0 K.
+        
+        Alternatively: `precursors` + `oxygen_ref`: Dictionary with {formula:energy} for 
+        synthesis precursors and oxygen reference chempot at 0 K.
 
         Parameters
         ----------
-        bulk_dos : (dict or Dos)
+        bulk_dos : dict or Dos
             Density of states to integrate. Can be provided as density of states D(E)
             or using effective masses.
-            Format for effective masses: dict with following keys:
-            -- "m_eff_h" : holes effective mass in units of m_e (electron mass)
-            -- "m_eff_e" : electrons effective mass in units of m_h          
-            - `band_gap` needs to be provided in args
-            Formats for explicit DOS: dictionary with following keys:
-            --'energies' : list or np.array with energy values
-            -- 'densitites' : list or np.array with total density values
-            -- 'structure' : pymatgen Structure of the material, needed for DOS volume and charge normalization.
-            or a pymatgen Dos object (Dos, CompleteDos or FermiDos).
-        temperature: (float)
+
+            Format for effective masses is a dict with the following keys:
+
+            - "m_eff_h" : holes effective mass in units of m_e (electron mass)
+            - "m_eff_e" : electrons effective mass in units of m_h
+            - `band_gap` : needs to be provided in arguments
+
+            Format for explicit DOS (dictionary) with the following keys:
+
+            - 'energies' : list or np.array with energy values
+            - 'densities' : list or np.array with total density values
+            - 'structure' : pymatgen Structure of the material, needed for DOS volume and charge normalization
+
+            Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).
+        temperature: float
             Temperature in K.
-        quench_temperature : (float)
+        quench_temperature : float
             Value of quenching temperature in K.
-        quenched_species : (list), optional
+        quenched_species : list
             List of defect species to quench. If None all defect species are quenched.The default is None.
-        quench_elements : (bool)
+        quench_elements : bool
             If True the total concentrations of elements at high temperature go in the charge neutrality at low temperature.
             If False the quenched concentrations are the ones of single defect species (e.g. elements are not allowed
-            to equilibrate on different sites). The default is False.
-        fixed_concentrations: (dict)
+            to equilibrate on different sites).
+        fixed_concentrations: dict
             Dictionary with fixed concentrations. Keys are defect entry names, values are the concentrations. (ex {'Vac_Na':1e20}). 
-        external_defects : (list)
+        external_defects : list
             List of external defect concentrations (not present in defect entries).
             Must either be a list of dictionaries with {'charge': float, 'conc': float} or a list of SingleDefConc objects. 
-        reservoirs: (dict or PressureReservoirs)
-            Dictionary with pO2 (float) as keys and chemical potential dictionaly as values ({pO2:{'element':mu_element}})
-        precursors: (dict)
+        reservoirs: dict or PressureReservoirs
+            Dictionary with pO2 (float) as keys and chemical potential dictionary as values ({pO2:{'element':mu_element}})
+        precursors: dict
             Dictionary with formulas (str) as keys and total energies as values. Chemical potentials are found from the energies of the 
             precursors and the oxygen chempot value (uses the np.linalg.lstsq function). 
             If the system is underdetermined the minimum-norm solution is found.
-        oxygen_ref : (float)
+        oxygen_ref : float
             Absolute chempot of oxygen at 0K.
-        pressure_range : (tuple)
-            Range in which to evaluate the partial pressure.
-        npoints : (int)
+        pressure_range : tuple
+            Range in which to evaluate the partial pressure. Only used if `reservoirs` are not provided.
+        npoints : int
             Number of data points to interpolate the partial pressure with.
-        xtol : (float)
+        xtol : float
             Tolerance for bisect (scipy) to solve charge neutrality.
-        eform_kwargs : (dict)
+        eform_kwargs : dict
             Kwargs to pass to `entry.formation_energy`.
-        dconc_kwargs : (dict)
+        dconc_kwargs : dict
             Kwargs to pass to `entry.defect_concentration`.
-        kwargs: (dict)
+        kwargs: dict
             Kwargs to pass to `plot_pO2_vs_concentrations`.
 
         Returns
         -------
-        matplotlib object.
+        plt : matplotlib
+            matplotlib object.
 
         """
         from .thermodynamics import DefectThermodynamics
@@ -1152,46 +1177,52 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        variable_defect_specie : (str)
+        variable_defect_specie : str
             Name or element of the variable defect species.
-        concentration_range : (tuple or list)
+        concentration_range : tuple or list
             Logaritmic range of the concentration of the variable species in cm^-3 (ex. [1,20]).
-        chemical_potentials : (dict)
-            Dictionary containing chemical potentials ({element:chempot}).
-        bulk_dos : (dict or Dos)
+        chemical_potentials : dict
+            Dictionary containing chemical potentials {element:chempot}.
+        bulk_dos : dict or Dos
             Density of states to integrate. Can be provided as density of states D(E)
             or using effective masses.
-            Format for effective masses: dict with following keys:
-            -- "m_eff_h" : holes effective mass in units of m_e (electron mass)
-            -- "m_eff_e" : electrons effective mass in units of m_h          
-            - `band_gap` needs to be provided in args
-            Formats for explicit DOS: dictionary with following keys:
-            --'energies' : list or np.array with energy values
-            -- 'densitites' : list or np.array with total density values
-            -- 'structure' : pymatgen Structure of the material, needed for DOS volume and charge normalization.
-            or a pymatgen Dos object (Dos, CompleteDos or FermiDos).
-        temperature: (float)
+
+            Format for effective masses is a dict with the following keys:
+
+            - "m_eff_h" : holes effective mass in units of m_e (electron mass)
+            - "m_eff_e" : electrons effective mass in units of m_h
+            - `band_gap` : needs to be provided in arguments
+
+            Format for explicit DOS (dictionary) with the following keys:
+
+            - 'energies' : list or np.array with energy values
+            - 'densities' : list or np.array with total density values
+            - 'structure' : pymatgen Structure of the material, needed for DOS volume and charge normalization
+
+            Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).
+        temperature : float
             Temperature in K.
-        fixed_concentrations: (dict)
+        fixed_concentrations : dict
             Dictionary with fixed concentrations. Keys are defect entry names in the standard
             format, values are the concentrations. (ex {'Vac_Na':1e20}) 
-        external_defects : (list)
+        external_defects : list
             List of external defect concentrations (not present in defect entries).
             Must either be a list of dictionaries with {'charge': float, 'conc': float} or a list of SingleDefConc objects. 
-        xtol : (float)
+        xtol : float
             Tolerance for bisect (scipy) to solve charge neutrality.
-        npoints : (int), optional
+        npoints : int
             Number of points to divide concentration range.
-        eform_kwargs : (dict)
+        eform_kwargs : dict
             Kwargs to pass to `entry.formation_energy`.
-        dconc_kwargs : (dict)
+        dconc_kwargs : dict
             Kwargs to pass to `entry.defect_concentration`.
-        kwargs: (dict)
+        kwargs : dict
             Kwargs to pass to `plot_variable_species_vs_concentrations`.
 
         Returns
         -------
-        matplotlib object.
+        plt : matplotlib
+            matplotlib object.
         
         """
         from .thermodynamics import DefectThermodynamics
@@ -1251,36 +1282,37 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         -----------        
-        chemical_potentials : (dict)
+        chemical_potentials : dict
             Dictionary with chemical potentials of the elements {'element':chempot}
-        temperature : (float)
+        temperature : float
             Temperature in K. If no custom formation energy is provided, this arg has no effect.
-        entries : (list) 
+        entries : list 
             List of entries to calculate. If None all entries are considered.
-        xlim : (tuple)
+        xlim : tuple
             Tuple (min,max) giving the range of the x (fermi energy) axis.
-        ylim : (tuple)
+        ylim : tuple
             Tuple (min,max) giving the range for the formation energy axis.
-        title : (str)
+        title : str
             Title of the figure.
-        fermi_level : (float)
+        fermi_level : float
             Plot Fermi energy position with a vertical line.
-        grid : (bool)
+        grid : bool
             Show grid.
-        figsize : (float or tuple)
+        figsize : float or tuple
             Can be float or tuple for different x and y sizes multiplier to change the figure size.
-        fontsize : (float)
+        fontsize : float
             Multiplier to change font size.
-        show_legend  : (Bool)
+        show_legend  : bool
             Show legend.
-        format_legend : (bool)
+        format_legend : bool
             Get latex-like legend based on the name of defect entries.
-        eform_kwargs : (dict)
+        eform_kwargs : dict
             Kwargs to pass to `entry.formation_energy`.
                 
         Returns
         -------
-        matplotlib object.
+        plt : matplotlib
+            matplotlib object.
         
         """
         entries = entries or self.entries
@@ -1339,24 +1371,25 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        temperature : (float)
+        temperature : float
             Temperature in K. If no custom formation energy is provided, this arg has no effect.
-        names : (list)
+        names : list
             List of strings with names of DefectEntry. If None, all defect complexes are plotted.
-        xlim : (tuple)
+        xlim : tuple
             Tuple (min,max) giving the range of the x (fermi energy) axis
-        ylim : (tuple)
+        ylim : tuple
             Tuple (min,max) giving the range for the formation energy axis
-        figsize : (tuple)
+        figsize : tuple
             Figure size.
-        fontsize : (float)
+        fontsize : float
             Font size.
-        format_legend : (bool)
+        format_legend : bool
             Bool for getting latex-like legend based on the name of defect entries.
 
         Returns
         -------
-        matplotlib object.
+        plt : matplotlib
+            matplotlib object.
         
         """        
         return plot_binding_energies(entries=self.entries,
@@ -1387,26 +1420,27 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        entries : (list)
+        entries : list
             List of entries to calculate. If None all entries are considered.
-        temperature : (float)
+        temperature : float
             Temperature in K. If no custom formation energy is provided, this arg has no effect.
-        ylim : (tuple)
+        ylim : tuple
             y-axis limits.
-        figsize : (tuple)
+        figsize : tuple
             Figure size.
-        fontsize : (float)
+        fontsize : float
             Font size.
-        fermi_level : (float)
+        fermi_level : float
             Plot Fermi energy position.
-        format_legend : (bool)
+        format_legend : bool
             Bool for getting latex-like legend based on the name of defect entries.
-        get_integers : (bool)
+        get_integers : bool
             Get charge transition levels as integers.
 
         Returns
         -------
-        matplotlib object.
+        plt : matplotlib
+            matplotlib object.
         
         """        
         entries = entries or self.entries
@@ -1436,30 +1470,31 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        entries : (list)
+        entries : list
             List of defect entries.
-        mode : (str), optional
+        mode : str
             Filtering mode, possibilities are: 'and' and 'or'. The default is 'and'. 
-        exclude : (bool), optional
+        exclude : bool
             Exclude the entries satisfying the criteria instead of selecting them. The default is False.
-        types : (list), optional
+        types : list
             Class name of the defect in the entry.
-        elements : (list), optional
+        elements : list
             List of symbols of elements that need to belong to the defect specie.
             If None this criterion is ignored. The default is None.
-        names : (list)
+        names : list
             List of entry names.
-        function : (function), optional
+        function : function
             Specific funtion for more complex criteria. The function must take a DefectEntry
             object as argument and return a bool.
-        **kwargs : (dict)
+        **kwargs : dict
             Properties that the jobs need to satisfy. Keys are referred to attributes/methods 
             of the defect entry. To address more than one condition relative to
             the same attribute, use lists or tuples (e.g. charge=[0,1]).
 
         Returns
         -------
-        List of DefectEntry objects.
+        entries : list
+            List of DefectEntry objects.
 
         """        
         input_entries = entries if entries else self.entries 
@@ -1558,40 +1593,45 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         Parameters
         ----------
-        chemical_potentials : (Dict)
+        chemical_potentials : dict
             Dictionary of chemical potentials in the format {'element':chempot}.
-        bulk_dos : (dict or Dos)
+        bulk_dos : dict or Dos
             Density of states to integrate. Can be provided as density of states D(E)
             or using effective masses.
-            Format for effective masses: dict with following keys:
-            -- "m_eff_h" : holes effective mass in units of m_e (electron mass)
-            -- "m_eff_e" : electrons effective mass in units of m_h          
-            - `band_gap` needs to be provided in args
-            Formats for explicit DOS: dictionary with following keys:
-            --'energies' : list or np.array with energy values
-            -- 'densitites' : list or np.array with total density values
-            -- 'structure' : pymatgen Structure of the material, needed for DOS volume and charge normalization.
-            or a pymatgen Dos object (Dos, CompleteDos or FermiDos).
-        temperature : (float)
+
+            Format for effective masses is a dict with the following keys:
+
+            - "m_eff_h" : holes effective mass in units of m_e (electron mass)
+            - "m_eff_e" : electrons effective mass in units of m_h
+            - `band_gap` : needs to be provided in arguments
+
+            Format for explicit DOS (dictionary) with the following keys:
+
+            - 'energies' : list or np.array with energy values
+            - 'densities' : list or np.array with total density values
+            - 'structure' : pymatgen Structure of the material, needed for DOS volume and charge normalization
+
+            Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).
+        temperature : float
             Temperature in Kelvin.
-        fixed_concentrations: (dict)
+        fixed_concentrations: dict
             Dictionary with fixed concentrations. Keys are defect entry names in the standard
             format, values are the concentrations (ex {'Vac_A':1e20}) . For more info, 
             read the documentation of the defect_concentrations method.
-        external_defects : (list)
+        external_defects : list
             List of external defect concentrations (not present in defect entries).
             Must either be a list of dictionaries with {'name': str, 'charge': float, 'conc': float} 
             or a list of SingleDefConc objects. 
-        xtol : (float)
+        xtol : float
             Tolerance for bisect (scipy) to solve charge neutrality.
-        eform_kwargs : (dict)
+        eform_kwargs : dict
             Kwargs to pass to `entry.formation_energy`.
-        dconc_kwargs : (dict)
+        dconc_kwargs : dict
             Kwargs to pass to `entry.defect_concentration`.
 
         Returns
         -------
-        (float)
+        fermi_level : float
             Fermi level satisfying charge neutrality.
 
         """
@@ -1624,20 +1664,20 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        inplace : (bool), optional
+        inplace : bool
             Reset the self.entries attibute with sorted entries. Only works if entries input
             is not given. The default is False.
-        entries : (list), optional
+        entries : list
             List of defect entries to sort. If None self.entries is used. The default is None.
-        features : (list), optional
+        features : list
             List of strings with attribute/method names. The default is ['name','charge'].
-        reverse : (bool)
+        reverse : bool
             Reverse order.
 
         Returns
         -------
-        (list)
-            List of defect entries.
+        entries : list
+            List of DefectEntry objects.
 
         """
         inplace = False if entries else inplace
@@ -1663,33 +1703,41 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         For each entry, is possible to set a custom function to compute the formation 
         energy using `set_formation_energy_function`. If that is set,
         the new function is used instead of the default. 
+        
         The function args must be the following:
-        - vbm : (float), Valence band maximum of bulk calculation in eV
-        - chemical_potentials : (dict), chemical potentials of the elements involved in the defect.
-        - fermi_level : (float), Fermi level in eV (with respect to the VBM).
-        - temperature : (float), Temperature in Kelvin.
-        - kwargs : (dict), Additional custom kwargs.
+
+        - vbm : (float)
+            Valence band maximum of bulk calculation in eV.
+        - chemical_potentials : (dict)
+            Chemical potentials of the elements involved in the defect.
+        - fermi_level : (float)
+            Fermi level in eV (with respect to the VBM).
+        - temperature : (float)
+            Temperature in Kelvin.
+        - kwargs : (dict)
+            Additional custom kwargs.
+
         It is possible to set custom functions collectively using the 
         `set_formation_energy_functions` method in this class.
         To reset functions to default, use `reset_formation_energy_functions`.
 
-        
         Parameters
         ----------
-        chemical_potentials: (dict)
+        chemical_potentials: dict
             Dictionary of chemical potentials ({element: chempot})   
-        fermi_level: (float) 
+        fermi_level: float
             Fermi level in eV relative to valence band maximum.
-        temperature : (float)
+        temperature : float
             Temperature in K. If no custom formation energy is provided, this arg has no effect.
-        entries : (list)
+        entries : list
             List of defect entries to calculate. If None all entries are considered.
-        eform_kwargs : (dict)
+        eform_kwargs : dict
             Additional custom kwargs to pass to `entry.formation_energy`
 
         Returns
         -------
-        dict in the format {name:(stable charge, formation energy)}
+        stable_charges : dict
+            Dictionary in the format {name:(stable charge, formation energy)}
 
        """
         formation_energies = self.formation_energies(
@@ -1724,19 +1772,20 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Parameters
         ----------
-        entries : (list), optional
+        entries : list
             Entries to display. If None all entries are displayed. The default is None.
-        pretty : (bool), optional
+        pretty : bool
             Optimize DataFrame for prettier visualization.
-        include_bulk: (bool), optional
+        include_bulk: bool
             Include bulk composition and space group for each entry in DataFrame.
-        display: (list)
+        display: list
             List of strings with defect entry attributes or method results to display.
 
         Returns
         -------
         df : 
             DataFrame object.
+
         """
         if not entries:
             entries = self.entries
@@ -1828,11 +1877,11 @@ class SingleDefConc(MSONable):
 
         Parameters
         ----------
-        name : (str)
+        name : str
             Name of defect specie.
-        charge : (int)
+        charge : int
             Charge of defect specie.
-        conc : (float)
+        conc : float
             Concentration value.
         """
         self.name = name
@@ -1996,29 +2045,30 @@ class DefectConcentrations:
 
         Parameters
         ----------
-        inplace : (bool), optional
+        inplace : bool
             If True update the current object, otherwise returns a new DefectConcentrations object.
             The default is False.
-        mode : (str), optional
+        mode : str
             Selection mode. available are 'and','or'. The default is 'and'.
-        exclude : (bool), optional
+        exclude : bool
             Exclude the entries matching the criteria. The default is False.
-        names : (list), optional
+        names : list
             Names of the defect.
-        charges : (list), optional
+        charges : list
             Charges of the defect.
-        indexes : (list), optional
+        indexes : list
             Indexes of defect in the concentrations list.
-        function : (function), optional
+        function : function
             Specific funtion for more complex criteria. The function must take a 
             SingleDefConc object as argument and return a bool.
-        **kwargs : (dict)
+        **kwargs : dict
             Criteria for selection. They need to be attributes of SingleDefConc.
 
         Returns
         -------
-        output_concs : (list)
+        output_concs : list
             Filtered DefectConcentrations object.
+
         """
         output_concs = self.select_concentrations(mode=mode,exclude=exclude,names=names,
                                                   charges=charges,indexes=indexes,
@@ -2037,14 +2087,14 @@ class DefectConcentrations:
 
         Parameters
         ----------
-        element : (str)
+        element : str
             Target element.
-        vacancy : (bool), optional
+        vacancy : bool
             Weather the target element is a vacancy. The default is False.
 
         Returns
         -------
-        eltot : (float)
+        eltot : float
             Total concentration of target element.
         """
         eltot = 0
@@ -2066,28 +2116,28 @@ class DefectConcentrations:
 
         Parameters
         ----------
-        concentrations : (list), optional
+        concentrations : list
             List of SingleDefConc to select from. If None self.concentrations is used.
             The default is None.
-        mode : (str), optional
+        mode : str
             Selection mode. available are 'and','or'. The default is 'and'.
-        exclude : (bool), optional
+        exclude : bool
             Exclude the entries matching the criteria. The default is False.
-        names : (list), optional
+        names : list
             Names of the defect.
-        charges : (list), optional
+        charges : list
             Charges of the defect.
-        indexes : (list), optional
+        indexes : list
             Indexes of defect in the concentrations list.
-        function : (function), optional
+        function : function
             Specific funtion for more complex criteria. The function must take a 
             SingleDefConc object as argument and return a bool.
-        **kwargs : (dict)
+        **kwargs : dict
             Criteria for selection. They need to be attributes of SingleDefConc.
 
         Returns
         -------
-        output_concs : (list)
+        output_concs : list
             List of SingleDefConc objects.
         """
         input_concs = concentrations if concentrations else self.concentrations.copy()

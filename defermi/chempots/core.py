@@ -15,9 +15,9 @@ class Chempots(MSONable):
 
         Parameters
         ----------
-        chempots_dict : (dict)
+        chempots_dict : dict
             Dictionary of chemical potentials in the format {el:value}.
-        ndecimals : (int)
+        ndecimals : int
             Round the chemical potentials to this number of decimals. If None
             the numbers are left untouched. the default is 6.
             
@@ -92,7 +92,7 @@ class Chempots(MSONable):
         
         Returns
         -------
-        dict
+        d : dict
             Json-serializable dict of a Chempots object.
 
         """
@@ -114,7 +114,8 @@ class Chempots(MSONable):
         
         Returns
         -------
-        Chempots object.
+        chempots : Chempots
+            Chempots object.
 
         """
         chempots = d["chempots"]
@@ -128,12 +129,13 @@ class Chempots(MSONable):
 
         Parameters
         ----------
-        d : (dict)
+        d : dict
             Dictionary in the format {Element:value}.
 
         Returns
         -------
-        Chempots
+        chempots : Chempots
+            Chempots object.
 
         """
         return Chempots({el.symbol:value for el,value in d.items()})
@@ -146,7 +148,8 @@ class Chempots(MSONable):
 
         Returns
         -------
-        Dictionary in the format {Element:value}
+        d : dict
+            Dictionary in the format {Element:value}
 
         """
         return {Element(el):value for el,value in self.mu.items()}
@@ -158,12 +161,13 @@ class Chempots(MSONable):
 
         Parameters
         ----------
-        mu_refs : (dict or Chempots)
+        mu_refs : dict or Chempots
             Chempots object or just dictionary with elemental chemical potentials (mu0).
 
         Returns
         -------
-        Chempots values converted to absolute (mu + mu_ref).
+        chempots : Chempots
+            Chempots values converted to absolute (mu + mu_ref).
 
         """
         return Chempots({el:self.mu[el] + mu_refs[el] for el in self.mu})
@@ -175,12 +179,13 @@ class Chempots(MSONable):
 
         Parameters
         ----------
-        mu_refs : (dict or Chempots)
+        mu_refs : dict or Chempots
             Chempots object or just dictionary with elemental chemical potentials (mu0).
 
         Returns
-        -------
-        Chempots values converted to referenced (mu - mu_ref).
+        ------
+        chempots : Chempots
+            Chempots values converted to referenced (mu - mu_ref).
 
         """
         return Chempots({el:self.mu[el] - mu_refs[el] for el in self.mu})
@@ -193,16 +198,16 @@ def chempot_ideal_gas(mu0, temperature,partial_pressure):
 
     Parameters
     ----------
-    mu0 : (float)
+    mu0 : float
         Value of chemical potential in standard conditions.
-    temperature : (float)
+    temperature : float
         Temperature in Kelvin.
-    partial_pressure : (float)
+    partial_pressure : float
         Partial pressure over standard pressure (p/p0).
 
     Returns
     -------
-    chempot : (float)
+    chempot : float
         Value of chemical potential at given T and p/p0.
 
     """

@@ -1,0 +1,542 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">DefectEntry</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.as_dict"><code class="docutils literal notranslate"><span class="pre">DefectEntry.as_dict()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.bulk_structure"><code class="docutils literal notranslate"><span class="pre">DefectEntry.bulk_structure</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.charge"><code class="docutils literal notranslate"><span class="pre">DefectEntry.charge</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.corrections"><code class="docutils literal notranslate"><span class="pre">DefectEntry.corrections</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.data"><code class="docutils literal notranslate"><span class="pre">DefectEntry.data</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.defect"><code class="docutils literal notranslate"><span class="pre">DefectEntry.defect</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.defect_concentration"><code class="docutils literal notranslate"><span class="pre">DefectEntry.defect_concentration()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.defect_concentration_function"><code class="docutils literal notranslate"><span class="pre">DefectEntry.defect_concentration_function</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.defect_specie"><code class="docutils literal notranslate"><span class="pre">DefectEntry.defect_specie</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.defect_type"><code class="docutils literal notranslate"><span class="pre">DefectEntry.defect_type</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.delta_atoms"><code class="docutils literal notranslate"><span class="pre">DefectEntry.delta_atoms</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.energy_diff"><code class="docutils literal notranslate"><span class="pre">DefectEntry.energy_diff</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.formation_energy"><code class="docutils literal notranslate"><span class="pre">DefectEntry.formation_energy()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.formation_energy_function"><code class="docutils literal notranslate"><span class="pre">DefectEntry.formation_energy_function</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.from_computed_entries"><code class="docutils literal notranslate"><span class="pre">DefectEntry.from_computed_entries()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.from_dict"><code class="docutils literal notranslate"><span class="pre">DefectEntry.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.from_structures"><code class="docutils literal notranslate"><span class="pre">DefectEntry.from_structures()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.from_vasp_directories"><code class="docutils literal notranslate"><span class="pre">DefectEntry.from_vasp_directories()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.label"><code class="docutils literal notranslate"><span class="pre">DefectEntry.label</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.multiplicity"><code class="docutils literal notranslate"><span class="pre">DefectEntry.multiplicity</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.name"><code class="docutils literal notranslate"><span class="pre">DefectEntry.name</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.relaxation_volume"><code class="docutils literal notranslate"><span class="pre">DefectEntry.relaxation_volume()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.reset_defect_concentration_function"><code class="docutils literal notranslate"><span class="pre">DefectEntry.reset_defect_concentration_function()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.reset_formation_energy_function"><code class="docutils literal notranslate"><span class="pre">DefectEntry.reset_formation_energy_function()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.set_charge"><code class="docutils literal notranslate"><span class="pre">DefectEntry.set_charge()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.set_corrections"><code class="docutils literal notranslate"><span class="pre">DefectEntry.set_corrections()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.set_data"><code class="docutils literal notranslate"><span class="pre">DefectEntry.set_data()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.set_defect_concentration_function"><code class="docutils literal notranslate"><span class="pre">DefectEntry.set_defect_concentration_function()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.set_formation_energy_function"><code class="docutils literal notranslate"><span class="pre">DefectEntry.set_formation_energy_function()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.set_label"><code class="docutils literal notranslate"><span class="pre">DefectEntry.set_label()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.set_multiplicity"><code class="docutils literal notranslate"><span class="pre">DefectEntry.set_multiplicity()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.structure"><code class="docutils literal notranslate"><span class="pre">DefectEntry.structure</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.symbol"><code class="docutils literal notranslate"><span class="pre">DefectEntry.symbol</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.symbol_charge"><code class="docutils literal notranslate"><span class="pre">DefectEntry.symbol_charge</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.DefectEntry.symbol_kroger"><code class="docutils literal notranslate"><span class="pre">DefectEntry.symbol_kroger</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.entries.fermi_dirac"><code class="docutils literal notranslate"><span class="pre">fermi_dirac()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.entries.maxwell_boltzmann"><code class="docutils literal notranslate"><span class="pre">maxwell_boltzmann()</span></code></a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.entries.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p id="module-defermi.entries">Created on Fri Dec 11 14:33:12 2020</p>
+<p>&#64;author: villa</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.entries.</span></span><span class="sig-name descname"><span class="pre">DefectEntry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_diff</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corrections</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">formation_energy_function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect_concentration_function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MSONable</span></code></p>
+<p>Object to store the results of a defect calculation.
+This object is usually created automatically when importing results, either from directories or
+DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>defect</strong> (<em>(</em><a class="reference internal" href="defermi.defects.html#defermi.defects.Defect" title="defermi.defects.Defect"><em>Defect</em></a><em>)</em>) – Defect object (Vacancy, Interstitial, Substitution, Polaron or DefectComplex)</p></li>
+<li><p><strong>energy_diff</strong> (<em>(</em><em>float</em><em>)</em>) – Difference btw energy of defect structure and energy of pristine (bulk) structure in eV.</p></li>
+<li><p><strong>corrections</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary of corrections to apply to defect formation energy.
+All values will be added to the defect formation energy. Keys indicate the correction type.</p></li>
+<li><p><strong>data</strong> (<em>(</em><em>dict</em><em>)</em>) – Store additional data in dict format.</p></li>
+<li><p><strong>label</strong> (<em>(</em><em>str</em><em>)</em>) – Additional label to add to defect specie.</p></li>
+<li><p><strong>formation_energy</strong> (<em>function :</em><em> (</em><em>function</em><em>)</em>) – Custom function for calculation of defect formation energy.
+Check documentation in <cite>formation_energy</cite> function for more details.</p></li>
+<li><p><strong>defect_concentration_function</strong> (<em>(</em><em>function</em><em>)</em>)</p></li>
+<li><p><strong>formation_energy</strong> – Custom function for calculation of defect concentration.
+Check documentation in <cite>defect_concentration</cite> function for more details.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.as_dict" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Json-serializable dict representation of DefectEntry.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.bulk_structure">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bulk_structure</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.bulk_structure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.charge">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.charge" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.corrections">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">corrections</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.corrections" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.data">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">data</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.data" title="Link to this definition"></a></dt>
+<dd><p>Dictionary containing additional data.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.defect">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.defect" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.defect_concentration">
+<span class="sig-name descname"><span class="pre">defect_concentration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vbm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_unit_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eform_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.defect_concentration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.defect_concentration" title="Link to this definition"></a></dt>
+<dd><p>Compute the defect concentration.
+If <cite>defect_concentration_function</cite> is set, the custom function is called,
+otherwise, the concentration is computed in the dilute limit as:
+n = N * (1 / e^(Ef/kT) + 1), where:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>N is the site multiplicity (in cm^-3 or per unit cell)</p></li>
+<li><p>Ef is the formation energy of the defect.</p></li>
+<li><p>k is the Boltzmann constant.</p></li>
+<li><p>T is the temperature.</p></li>
+</ul>
+</div></blockquote>
+<p>A custom function can be set when initializing the <cite>DefectEntry</cite> or by using the
+‘set_defect_concentration_function` method. Use <cite>reset_defect_concentration_function</cite>
+to restore the default behaviour.
+If a custom function is given, the input must have the same args as this function,
+with the possibility to add more kwargs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vbm</strong> (<em>(</em><em>float</em><em>)</em>) – Valence band maximum of bulk calculation in eV</p></li>
+<li><p><strong>chemical_potentials</strong> (<em>(</em><em>dict</em><em>)</em>) – Chemical potentials of the elements involved in the defect.</p></li>
+<li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Temperature in Kelvin.</p></li>
+<li><p><strong>fermi_level</strong> (<em>(</em><em>float</em><em>)</em>) – Fermi level in eV (with respect to the VBM)</p></li>
+<li><p><strong>per_unit_volume</strong> (<em>(</em><em>bool</em><em>)</em>) – Compute concentrations per unit volume using <cite>self.defect.bulk_volume</cite>.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to <cite>self.formation_energy</cite>.</p></li>
+<li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to custom function.</p></li>
+<li><p><strong>Returns</strong></p></li>
+<li><p><strong>--------</strong> – Defect concentration in cm^-3 or per unit cell.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.defect_concentration_function">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_concentration_function</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.defect_concentration_function" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.defect_specie">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_specie</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.defect_specie" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.defect_type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_type</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.defect_type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.delta_atoms">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delta_atoms</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.delta_atoms" title="Link to this definition"></a></dt>
+<dd><p>Dictionary with Element as keys and particle difference between defect structure
+and bulk structure as values.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.energy_diff">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">energy_diff</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.energy_diff" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.formation_energy">
+<span class="sig-name descname"><span class="pre">formation_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vbm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.formation_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.formation_energy" title="Link to this definition"></a></dt>
+<dd><p>Compute the formation energy of the defect.
+If <cite>formation_energy_function</cite> is set, the custom function is called,
+otherwise, the formation energy is computed as:</p>
+<p>Ef = E_D - E_B + q(eVBM + fermi_level) + Ecorr - sum_i [(ni(D) - ni(B))* mu_i]</p>
+<dl class="simple">
+<dt>where:</dt><dd><ul class="simple">
+<li><p>E_D is the energy of the defective cell</p></li>
+<li><dl class="simple">
+<dt>E_B is the energy of the pristine (bulk) cell</dt><dd><p>Note: E_D - E_B is <cite>self.energy_diff</cite></p>
+</dd>
+</dl>
+</li>
+<li><p>eVBM is the valence band maximum energy</p></li>
+<li><p>fermi_level is the chemical potential of electrons</p></li>
+<li><p>Ecorr are correction terms</p></li>
+<li><p>ni are the number of particles in the defective and pristine cells</p></li>
+<li><p>mu_i are the chemical potentials of the elements.</p></li>
+</ul>
+</dd>
+</dl>
+<p>A custom function can be set when initializing the <cite>DefectEntry</cite> or by using the
+‘set_formation_energy_function` method. Use <cite>reset_formation_energy_function</cite>
+to restore the default behaviour.
+If a custom function is given, the input must have the same args as this function,
+with the possibility to add more kwargs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>vbm</strong> (<em>(</em><em>float</em><em>)</em>) – Valence band maximum of bulk calculation in eV</p></li>
+<li><p><strong>chemical_potentials</strong> (<em>(</em><em>dict</em><em>)</em>) – Chemical potentials of the elements involved in the defect.</p></li>
+<li><p><strong>fermi_level</strong> (<em>(</em><em>float</em><em>)</em>) – Fermi level in eV (with respect to the VBM).</p></li>
+<li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – Temperature in Kelvin. If a custom function is not passed, this parameter has no effect.</p></li>
+<li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to custom function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formation energy in eV.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.formation_energy_function">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">formation_energy_function</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.formation_energy_function" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.from_computed_entries">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_computed_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">computed_entry_defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">computed_entry_bulk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corrections</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.from_computed_entries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.from_computed_entries" title="Link to this definition"></a></dt>
+<dd><p>Generate DefectEntry object from Pymatgen’s ComputedStructureEntry objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>computed_entry_defect</strong> (<em>(</em><em>VaspJob</em><em>)</em>) – ComputedStructureEntry of the defect calculation.</p></li>
+<li><p><strong>computed_entry_bulk</strong> (<em>(</em><em>VaspJob</em><em>)</em>) – ComputedStructureEntry of the bulk calculation.</p></li>
+<li><p><strong>corrections</strong> (<em>(</em><em>dict</em><em>)</em>) – Dict of corrections for defect formation energy. All values will be summed and
+added to the defect formation energy.</p></li>
+<li><p><strong>multiplicity</strong> (<em>(</em><em>int</em><em>)</em><em>, </em><em>optional</em>) – Multiplicity of defect within the supercell.
+If set to None is attempted to be determined automatically with Pymatgen. The default is 1.</p></li>
+<li><p><strong>data</strong> (<em>(</em><em>dict</em><em>)</em><em>, </em><em>optional</em>) – Store additional data in dict format.</p></li>
+<li><p><strong>label</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Additional label to add to defect specie. Does not influence non equilibrium calculations.</p></li>
+<li><p><strong>initial_structure</strong> (<em>(</em><em>bool</em><em>)</em>) – Use initial structure for defect recognition. Useful when relaxations are large and
+defect_finder struggles to find the right defects.</p></li>
+<li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to defect_finder.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#defermi.entries.DefectEntry" title="defermi.entries.DefectEntry">DefectEntry</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.from_dict" title="Link to this definition"></a></dt>
+<dd><p>Reconstitute a DefectEntry object from a dict representation created using
+as_dict().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>dict</em>) – dict representation of DefectEntry.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DefectEntry object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.from_structures">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_structures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defect_structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">energy_diff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corrections</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.from_structures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.from_structures" title="Link to this definition"></a></dt>
+<dd><p>Generate DefectEntry object from Structure objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>defect_structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Defect structure.</p></li>
+<li><p><strong>bulk_structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Bulk structure.</p></li>
+<li><p><strong>(</strong><strong>float</strong><strong>)</strong> (<em>energy_diff</em>) – Difference btw energy of defect structure and energy of pure structure</p></li>
+<li><p><strong>(</strong><strong>dict</strong><strong>)</strong> (<em>corrections</em>) – Dict of corrections for defect formation energy. All values will be summed and
+added to the defect formation energy.</p></li>
+<li><p><strong>charge</strong> (<em>(</em><em>int</em><em>)</em><em>, </em><em>optional</em>) – Charge of the defect system. The default is 0.</p></li>
+<li><p><strong>multiplicity</strong> (<em>(</em><em>int</em><em>)</em><em>, </em><em>optional</em>) – multiplicity of defect within the supercell.
+If set to None is attempted to be determined automatically with Pymatgen. The default is 1.</p></li>
+<li><p><strong>data</strong> (<em>(</em><em>dict</em><em>)</em><em>, </em><em>optional</em>) – Store additional data in dict format.</p></li>
+<li><p><strong>label</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Additional label to add to defect specie. Does not influence non equilibrium calculations.</p></li>
+<li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to defect_finder. ‘verbose’ is set to True by default.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#defermi.entries.DefectEntry" title="defermi.entries.DefectEntry">DefectEntry</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.from_vasp_directories">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_vasp_directories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">computed_entry_bulk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_bulk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corrections</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">computed_entry_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finder_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.from_vasp_directories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.from_vasp_directories" title="Link to this definition"></a></dt>
+<dd><p>Generate DefectEntry object from VASP directories read with Pymatgen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_defect</strong> (<em>(</em><em>str</em><em>)</em>) – Path of VASP defect calculation.</p></li>
+<li><p><strong>computed_entry_bulk</strong> (<em>(</em><em>VaspJob</em><em>)</em>) – ComputedStructureEntry of the bulk calculation.</p></li>
+<li><p><strong>path_bulk</strong> (<em>(</em><em>str</em><em>)</em>) – If <cite>computed_entry_bulk</cite> is not provided, read directly from VASP directory.</p></li>
+<li><p><strong>corrections</strong> (<em>(</em><em>dict</em><em>)</em>) – Dict of corrections for defect formation energy. All values will be summed and
+added to the defect formation energy.</p></li>
+<li><p><strong>multiplicity</strong> (<em>(</em><em>int</em><em>)</em><em>, </em><em>optional</em>) – Multiplicity of defect within the supercell.
+If set to None is attempted to be determined automatically with Pymatgen. The default is 1.</p></li>
+<li><p><strong>data</strong> (<em>(</em><em>dict</em><em>)</em><em>, </em><em>optional</em>) – Store additional data in dict format.</p></li>
+<li><p><strong>label</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Additional label to add to defect specie. Does not influence non equilibrium calculations.</p></li>
+<li><p><strong>initial_structure</strong> (<em>(</em><em>bool</em><em>)</em>) – Use initial structure for defect recognition. Useful when relaxations are large and
+defect_finder struggles to find the right defects.</p></li>
+<li><p><strong>function</strong> (<em>(</em><em>func</em><em>)</em>) – Function to apply to DefectEntry. Useful to automate custom entry modification.
+The function can modify entry attributes and returns None.</p></li>
+<li><p><strong>computed_entr_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to Vasprun.get_computed_entry.</p></li>
+<li><p><strong>finder_kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to defect_finder.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#defermi.entries.DefectEntry" title="defermi.entries.DefectEntry">DefectEntry</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.label">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">label</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.label" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.multiplicity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">multiplicity</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.multiplicity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.relaxation_volume">
+<span class="sig-name descname"><span class="pre">relaxation_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stress_bulk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_modulus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stress_defect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">corrections</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.relaxation_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.relaxation_volume" title="Link to this definition"></a></dt>
+<dd><p>Calculate relaxation volume from stresses.
+Stress of defect calculation needs to be provided either directly or in data dict with “stress” key.’</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stress_bulk</strong> (<em>(</em><em>np.array</em><em>)</em>) – Stresses from bulk calculation in kbar (VASP output)</p></li>
+<li><p><strong>bulk_volume</strong> (<em>(</em><em>float</em><em>)</em>) – Cell volume of bulk calculation in A°^3.</p></li>
+<li><p><strong>bulk_modulus</strong> (<em>(</em><em>float</em><em>)</em>) – Bulk modulus in GPa.</p></li>
+<li><p><strong>stress_defect</strong> (<em>(</em><em>np.array</em><em>)</em>) – Stresses from defect calculation in kbar (VASP output)</p></li>
+<li><p><strong>corrections</strong> (<em>(</em><em>bool</em><em>)</em>) – Add correction terms to the residual stress tensor.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>rel_volume</strong> – Relaxation volume in A°^3.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.reset_defect_concentration_function">
+<span class="sig-name descname"><span class="pre">reset_defect_concentration_function</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.reset_defect_concentration_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.reset_defect_concentration_function" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.reset_formation_energy_function">
+<span class="sig-name descname"><span class="pre">reset_formation_energy_function</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.reset_formation_energy_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.reset_formation_energy_function" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.set_charge">
+<span class="sig-name descname"><span class="pre">set_charge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.set_charge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.set_charge" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.set_corrections">
+<span class="sig-name descname"><span class="pre">set_corrections</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.set_corrections"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.set_corrections" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.set_data">
+<span class="sig-name descname"><span class="pre">set_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.set_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.set_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.set_defect_concentration_function">
+<span class="sig-name descname"><span class="pre">set_defect_concentration_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.set_defect_concentration_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.set_defect_concentration_function" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.set_formation_energy_function">
+<span class="sig-name descname"><span class="pre">set_formation_energy_function</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_function</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.set_formation_energy_function"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.set_formation_energy_function" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.set_label">
+<span class="sig-name descname"><span class="pre">set_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.set_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.set_label" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.set_multiplicity">
+<span class="sig-name descname"><span class="pre">set_multiplicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_multiplicity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#DefectEntry.set_multiplicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.DefectEntry.set_multiplicity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.structure">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">structure</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.structure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.symbol">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.symbol" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.symbol_charge">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol_charge</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.symbol_charge" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.entries.DefectEntry.symbol_kroger">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol_kroger</span></span><a class="headerlink" href="#defermi.entries.DefectEntry.symbol_kroger" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.entries.fermi_dirac">
+<span class="sig-prename descclassname"><span class="pre">defermi.entries.</span></span><span class="sig-name descname"><span class="pre">fermi_dirac</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#fermi_dirac"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.fermi_dirac" title="Link to this definition"></a></dt>
+<dd><p>Returns the defect occupation as a function of the formation energy,
+using the Fermi-Dirac distribution with chemical potential equal to 0.
+:param E: energy in eV
+:type E: float
+:param T: the temperature in kelvin
+:type T: float</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.entries.maxwell_boltzmann">
+<span class="sig-prename descclassname"><span class="pre">defermi.entries.</span></span><span class="sig-name descname"><span class="pre">maxwell_boltzmann</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/entries.html#maxwell_boltzmann"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.entries.maxwell_boltzmann" title="Link to this definition"></a></dt>
+<dd><p>Returns the defect occupation as a function of the formation energy,
+using the exponential dependence of the Maxwell-Boltzmann distribution.
+This is the more common approach, which is the approximation of the FD-like
+distribution for N_sites &gt;&gt; N_defects.
+:param E: energy in eV
+:type E: float
+:param T: the temperature in kelvin
+:type T: float</p>
+</dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

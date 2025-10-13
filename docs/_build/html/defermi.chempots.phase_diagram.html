@@ -1,0 +1,539 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">PDHandler</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.calculate_single_chempot"><code class="docutils literal notranslate"><span class="pre">PDHandler.calculate_single_chempot()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_all_boundaries_chempots"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_all_boundaries_chempots()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_chempots_reference"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_chempots_reference()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_dataframe"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_dataframe()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_energies_from_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_energies_from_comp()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_energy_from_stable_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_energy_from_stable_comp()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_entries_from_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_entries_from_comp()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_formation_energies_from_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_formation_energies_from_comp()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_formation_energy_from_stable_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_formation_energy_from_stable_comp()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_phase_boundaries_chempots"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_phase_boundaries_chempots()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_phase_boundaries_compositions"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_phase_boundaries_compositions()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_plot"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_plot()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_stability_diagram"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_stability_diagram()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_stable_entry_from_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_stable_entry_from_comp()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.solve_phase_boundary_chempots"><code class="docutils literal notranslate"><span class="pre">PDHandler.solve_phase_boundary_chempots()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_constant_chempot_line"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.add_constant_chempot_line()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_heatmap"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.add_heatmap()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_points"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.add_points()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_reservoirs"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.add_reservoirs()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.constant_chempot_line"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.constant_chempot_line()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.get_plot"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.get_plot()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.chempots.phase_diagram.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p id="module-defermi.chempots.phase_diagram">Created on Mon Jun  2 16:39:01 2025</p>
+<p>&#64;author: lorenzo</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.chempots.phase_diagram.</span></span><span class="sig-name descname"><span class="pre">PDHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase_diagram</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to generate and handle Pymatgen phase diagram more rapidly.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>phase_diagram</strong> (<em>(</em><em>PhaseDiagram</em><em>)</em>) – Pymatgen PhaseDiagram object</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.calculate_single_chempot">
+<span class="sig-name descname"><span class="pre">calculate_single_chempot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chempots_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.calculate_single_chempot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.calculate_single_chempot" title="Link to this definition"></a></dt>
+<dd><p>Calculate referenced chemical potential in a given composition and given
+the chemical potentials of the other elements.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Compositions of the phase.</p></li>
+<li><p><strong>chempots_ref</strong> (<em>(</em><em>Dict</em><em>)</em>) – Dictionary with element symbols as keys and respective chemical potential as value ({el:chempot}).
+The chemical potentials used here are the ones relative to the reference (delta_mu).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>mu</strong> – Chemical potential.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_all_boundaries_chempots">
+<span class="sig-name descname"><span class="pre">get_all_boundaries_chempots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_all_boundaries_chempots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_all_boundaries_chempots" title="Link to this definition"></a></dt>
+<dd><p>Get chemical potentials at the corners of the stability ta given composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chempots</strong> – Chempots object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(<a class="reference internal" href="defermi.chempots.core.html#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots">Chempots</a>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_chempots_reference">
+<span class="sig-name descname"><span class="pre">get_chempots_reference</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_chempots_reference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_chempots_reference" title="Link to this definition"></a></dt>
+<dd><p>Gets elemental reference compounds and respective e.p.a with Pymatgen el_ref attribute in PhaseDiagram class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Chempots object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_dataframe">
+<span class="sig-name descname"><span class="pre">get_dataframe</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Generate pandas DataFrame with columns ‘Composition, Structure, Formation energy’.
+To display a string for ‘Structure’ the entry needs to be a ComputedStructureEntry (see pymatgen docs).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_energies_from_comp">
+<span class="sig-name descname"><span class="pre">get_energies_from_comp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_energies_from_comp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_energies_from_comp" title="Link to this definition"></a></dt>
+<dd><p>Get dictionary of energies for all entries of a given reduced composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>from_energies</strong> – Dictionary with PDEntry objects as keys and Energies as values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_energy_from_stable_comp">
+<span class="sig-name descname"><span class="pre">get_energy_from_stable_comp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_energy_from_stable_comp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_energy_from_stable_comp" title="Link to this definition"></a></dt>
+<dd><p>Get energy of a target stable composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Energy in eV (float).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_entries_from_comp">
+<span class="sig-name descname"><span class="pre">get_entries_from_comp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_entries_from_comp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_entries_from_comp" title="Link to this definition"></a></dt>
+<dd><p>Get a list of entries corrisponding to the target composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Pymatgen PDEntry objects</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_formation_energies_from_comp">
+<span class="sig-name descname"><span class="pre">get_formation_energies_from_comp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_formation_energies_from_comp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_formation_energies_from_comp" title="Link to this definition"></a></dt>
+<dd><p>Get dictionary of formation energies for all entries of a given reduced composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>from_energies</strong> – Dictionary with PDEntry objects as keys and formation energies in eV as values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_formation_energy_from_stable_comp">
+<span class="sig-name descname"><span class="pre">get_formation_energy_from_stable_comp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_formation_energy_from_stable_comp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_formation_energy_from_stable_comp" title="Link to this definition"></a></dt>
+<dd><p>Get formation energy of a target stable composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Formation energy in eV (float).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_phase_boundaries_chempots">
+<span class="sig-name descname"><span class="pre">get_phase_boundaries_chempots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chempot_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_phase_boundaries_chempots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_phase_boundaries_chempots" title="Link to this definition"></a></dt>
+<dd><p>Given a composition and a fixed chemical potential, this function analises the composition of the boundary phases
+and the associated chemical potentials at the boundaries. Only works for 3 component PD.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition of the phase you want to get the chemical potentials at the boundary.</p></li>
+<li><p><strong>chempot_ref</strong> (<em>(</em><em>Dict</em><em>)</em>) – Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).
+The chemical potential here is the referenced value.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chempots</strong> – Dictionary with compositions at the boundaries as keys and delta chemical potentials as value.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_phase_boundaries_compositions">
+<span class="sig-name descname"><span class="pre">get_phase_boundaries_compositions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chempot_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_phase_boundaries_compositions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_phase_boundaries_compositions" title="Link to this definition"></a></dt>
+<dd><p>Get compositions of phases in boundary of stability with a target composition given a fixed chemical potential
+on one component. Currently only works for 3-component PD (to check).
+Used Pymatgen GrandPotentialPhaseDiagram class. The fixed chemical potential is the referenced value that is
+converted in the global value for the analysis with the GrandPotentialPhaseDiagram class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Target composition for which you want to get the bounday phases.</p></li>
+<li><p><strong>chempot_ref</strong> (<em>(</em><em>Dict</em><em>)</em>) – Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).
+The chemical potential is the referenced value</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>comp1,comp2</strong> – Compositions of the boundary phases given a fixed chemical potential for one element.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Pymatgen Composition object)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_plot">
+<span class="sig-name descname"><span class="pre">get_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_plot" title="Link to this definition"></a></dt>
+<dd><p>Get plot with Pymatgen</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_stability_diagram">
+<span class="sig-name descname"><span class="pre">get_stability_diagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_stability_diagram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_stability_diagram" title="Link to this definition"></a></dt>
+<dd><p>Method to get stability diagram with ‘get_chempot_range_map_plot’ method in pymatgen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elements</strong> (<em>(</em><em>list</em><em>)</em>) – List with strings of the elements to be used as free variables.</p></li>
+<li><p><strong>size</strong> (<em>(</em><em>tuple</em><em>)</em>) – New size in inches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Matplotlib object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>plt</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.get_stable_entry_from_comp">
+<span class="sig-name descname"><span class="pre">get_stable_entry_from_comp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_stable_entry_from_comp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_stable_entry_from_comp" title="Link to this definition"></a></dt>
+<dd><p>Get the PDEntry of the stable entry of a target composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pymatgen PDEntry object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.PDHandler.solve_phase_boundary_chempots">
+<span class="sig-name descname"><span class="pre">solve_phase_boundary_chempots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comp2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chempot_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.solve_phase_boundary_chempots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.solve_phase_boundary_chempots" title="Link to this definition"></a></dt>
+<dd><p>Given a fixed chemical potential, gets the values of the remaining two chemical potentials
+in the boundary between two phases (region where the two phases coexist). Only works for 3-component PD (to check).</p>
+<p>Given a phase P1 (formula AxByOz) and a phase P2 (formula AiBjOk) the chemical potentials have to satisfy the conditions:
+- form_energy(P1) = x*mu(A) + y*mu(B) +z*mu(O)
+- form_energy(P2) = i*mu(A) + j*mu(B) +k*mu(O)</p>
+<p>From these conditions the values of mu(A) and mu(B) are determined given a fixed value of mu(O).
+All of the chemical potentials used here are delta_mu, i.e. relative to the elemental phase(delta_mu(O) = mu(O) - mu_ref(O))</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>comp1</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Compositions of the two phases at the boundary.</p></li>
+<li><p><strong>comp2</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Compositions of the two phases at the boundary.</p></li>
+<li><p><strong>chempot_ref</strong> (<em>(</em><em>Dict</em><em>)</em>) – Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}). The chemical potential
+used here is the one relative to the reference (delta_mu).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chempots_boundary</strong> – Dictionary of chemical potentials.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.StabilityDiagram">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.chempots.phase_diagram.</span></span><span class="sig-name descname"><span class="pre">StabilityDiagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phase_diagram</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#StabilityDiagram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.StabilityDiagram" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class with tools to add features to default PD plots generated by Pymatgen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>phase_diagram</strong> (<em>(</em><em>PhaseDiagram</em><em>)</em>) – Pymatgen PhaseDiagram object.</p></li>
+<li><p><strong>size</strong> (<em>(</em><em>float</em><em>)</em>) – Multiplier for the size of the objects added in the plot.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.StabilityDiagram.add_constant_chempot_line">
+<span class="sig-name descname"><span class="pre">add_constant_chempot_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chempots_ref</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#StabilityDiagram.add_constant_chempot_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_constant_chempot_line" title="Link to this definition"></a></dt>
+<dd><p>Add line of constant chemical potential (at a given composition) to the plot. Only works for 3 component PD.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition of the phase.</p></li>
+<li><p><strong>variable_element</strong> (<em>(</em><em>str</em><em>)</em>) – Element chosen as indipendent variable.</p></li>
+<li><p><strong>chempots_ref</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.</p></li>
+<li><p><strong>**kwargs</strong> – kwargs passed to Matplotlib plot function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>plt</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Matplotlib object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.StabilityDiagram.add_heatmap">
+<span class="sig-name descname"><span class="pre">add_heatmap</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'$\\Delta\\mu_{O}$'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cbar_values</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#StabilityDiagram.add_heatmap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_heatmap" title="Link to this definition"></a></dt>
+<dd><p>Add heatmap that shows the value of the last chemical potential based on the values of the other two “free”
+chemical potentials and the composition of interest. Currently works only for 3 component PDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition of interest to compute the chemical potential.</p></li>
+<li><p><strong>elements</strong> (<em>(</em><em>list</em><em>)</em>) – List of strings with elements with free chemical potentials.</p></li>
+<li><p><strong>cbar_label</strong> (<em>(</em><em>string</em><em>)</em><em>, </em><em>optional</em>) – String with label of the colormap. The default is ‘’.</p></li>
+<li><p><strong>cbar_values</strong> (<em>(</em><em>tuple</em><em> or </em><em>bool</em><em>)</em><em>, </em><em>optional</em>) – Show max e min chempot values on colorbar. If tuple the values are used, if not the
+minimum chempot and 0 are used. The default is True.</p></li>
+<li><p><strong>**kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – kwargs for “pcolormesh” function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Matplotlib object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.StabilityDiagram.add_points">
+<span class="sig-name descname"><span class="pre">add_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">points</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edgecolor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'k'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'k'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#StabilityDiagram.add_points"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_points" title="Link to this definition"></a></dt>
+<dd><p>Add points to plot representing reservoirs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>points</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with points labels as keys and tuples or list with coordinates as values.</p></li>
+<li><p><strong>size</strong> (<em>(</em><em>float</em><em>)</em>) – Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size</p></li>
+<li><p><strong>label_size</strong> (<em>(</em><em>float</em><em>)</em>) – Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size</p></li>
+<li><p><strong>color</strong> – Color of filling of points</p></li>
+<li><p><strong>edgecolor</strong> – Color of point edge</p></li>
+<li><p><strong>label_color</strong> – Color of labels</p></li>
+<li><p><strong>linewidths</strong> – line width of point edge</p></li>
+<li><p><strong>kwargs</strong> – kwargs to pass to matplotlib <cite>scatter</cite> function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>plt</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Matplotlib object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.StabilityDiagram.add_reservoirs">
+<span class="sig-name descname"><span class="pre">add_reservoirs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reservoirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edgecolor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'k'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_color</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'k'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linewidths</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#StabilityDiagram.add_reservoirs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_reservoirs" title="Link to this definition"></a></dt>
+<dd><p>Add reservoirs as points on the stability diagram.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reservoirs</strong> (<em>(</em><a class="reference internal" href="defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs" title="defermi.chempots.reservoirs.Reservoirs"><em>Reservoirs</em></a><em>)</em>) – Reservoirs object.</p></li>
+<li><p><strong>elements</strong> (<em>(</em><em>list</em><em>)</em>) – List with strings of the elements to be used as free variables.</p></li>
+<li><p><strong>size</strong> (<em>(</em><em>float</em><em>)</em>) – Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size</p></li>
+<li><p><strong>label_size</strong> (<em>(</em><em>float</em><em>)</em>) – Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size</p></li>
+<li><p><strong>color</strong> – Color of filling of points</p></li>
+<li><p><strong>edgecolor</strong> – Color of point edge</p></li>
+<li><p><strong>label_color</strong> – Color of labels</p></li>
+<li><p><strong>linewidths</strong> – line width of point edge</p></li>
+<li><p><strong>kwargs</strong> – kwargs to pass to matplotlib <cite>scatter</cite> function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>plt</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Matplotlib object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.StabilityDiagram.constant_chempot_line">
+<span class="sig-name descname"><span class="pre">constant_chempot_line</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mu</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable_element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chempots_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#StabilityDiagram.constant_chempot_line"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.StabilityDiagram.constant_chempot_line" title="Link to this definition"></a></dt>
+<dd><p>Function that expresses line of constant chemical potential of a given composition. Only works for 3-component PD.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mu</strong> (<em>(</em><em>float</em><em>)</em>) – Indipendent variable of chemical potential.</p></li>
+<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition of the phase.</p></li>
+<li><p><strong>variable_element</strong> (<em>(</em><em>Pymatgen Element object</em><em>)</em>) – Element chosen as indipendent variable.</p></li>
+<li><p><strong>chempots_ref</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Chemical potential in eV.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.chempots.phase_diagram.StabilityDiagram.get_plot">
+<span class="sig-name descname"><span class="pre">get_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#StabilityDiagram.get_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.StabilityDiagram.get_plot" title="Link to this definition"></a></dt>
+<dd><p>Method to get stability diagram with ‘get_chempot_range_map_plot’ method in pymatgen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elements</strong> (<em>(</em><em>list</em><em>)</em>) – List with strings of the elements to be used as free variables.</p></li>
+<li><p><strong>figsize</strong> (<em>(</em><em>tuple</em><em>)</em>) – New size in inches.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Matplotlib object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>plt</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

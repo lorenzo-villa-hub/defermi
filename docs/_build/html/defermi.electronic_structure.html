@@ -1,0 +1,238 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Returns: &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">f0()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.electronic_structure.get_carrier_concentrations"><code class="docutils literal notranslate"><span class="pre">get_carrier_concentrations()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.electronic_structure.get_dos_from_effective_mass"><code class="docutils literal notranslate"><span class="pre">get_dos_from_effective_mass()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.electronic_structure.maxwell_boltzmann"><code class="docutils literal notranslate"><span class="pre">maxwell_boltzmann()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.electronic_structure.solve_intrinsic_fermi_level"><code class="docutils literal notranslate"><span class="pre">solve_intrinsic_fermi_level()</span></code></a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Returns:</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.electronic_structure.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <dl class="py function" id="module-defermi.electronic_structure">
+<dt class="sig sig-object py" id="defermi.electronic_structure.f0">
+<span class="sig-prename descclassname"><span class="pre">defermi.electronic_structure.</span></span><span class="sig-name descname"><span class="pre">f0</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/electronic_structure.html#f0"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.electronic_structure.f0" title="Link to this definition"></a></dt>
+<dd><p>Fermi-Dirac distribution function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>E</strong> (<em>(</em><em>float</em><em>)</em>) – Energy in eV.</p></li>
+<li><p><strong>fermi</strong> (<em>(</em><em>float</em><em>)</em>) – The Fermi level in eV.</p></li>
+<li><p><strong>T</strong> (<em>(</em><em>float</em><em>)</em>) – The temperature in kelvin.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>float</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The Fermi-Dirac occupation probability at energy E.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.electronic_structure.get_carrier_concentrations">
+<span class="sig-prename descclassname"><span class="pre">defermi.electronic_structure.</span></span><span class="sig-name descname"><span class="pre">get_carrier_concentrations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_gap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/electronic_structure.html#get_carrier_concentrations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.electronic_structure.get_carrier_concentrations" title="Link to this definition"></a></dt>
+<dd><p>Get carrier concentrations by integrating density of states or using effective masses.</p>
+<p>Code from pymatgen.electronic_structure.dos.FermiDos.get_doping
+The function has been modified to return the absolute values of
+hole and electron concentrations.</p>
+<p>Calculate carrier concentrations at a given
+Fermi level and temperature. A simple Left Riemann sum is used for
+integrating the density of states over energy &amp; equilibrium Fermi-Dirac
+distribution.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dos</strong> (<em>(</em><em>dict</em><em> or </em><em>Dos</em><em>)</em>) – <p>Density of states to integrate. Can be provided as density of states D(E)
+or using effective masses.
+Format for effective masses:</p>
+<blockquote>
+<div><dl class="simple">
+<dt>dict with following keys:</dt><dd><ul>
+<li><p>”m_eff_h” : holes effective mass in units of m_e (electron mass)</p></li>
+<li><p>”m_eff_e” : electrons effective mass in units of m_h</p></li>
+<li><p><cite>band_gap</cite> needs to be provided in args</p></li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>Formats for explicit DOS:</dt><dd><dl class="simple">
+<dt>dictionary with following keys:</dt><dd><ul>
+<li><p>’energies’ : list or np.array with energy values</p></li>
+<li><p>’densitites’ : list or np.array with total density values</p></li>
+<li><dl class="simple">
+<dt>’structure’<span class="classifier">pymatgen Structure of the material,</span></dt><dd><p>needed for DOS volume and charge normalization.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+<p>or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</p>
+</dd>
+</dl>
+</p></li>
+<li><p><strong>fermi_level</strong> (<em>(</em><em>float</em><em>)</em>) – The Fermi level relative to the VBM in eV.</p></li>
+<li><p><strong>temperature</strong> (<em>(</em><em>float</em><em>)</em>) – The temperature in Kelvin.</p></li>
+<li><p><strong>band_gap</strong> (<em>(</em><em>float</em><em>)</em>) – The band gap in eV. If None is determined from the DOS.</p></li>
+</ul>
+</dd>
+</dl>
+<section id="returns">
+<h1>Returns:<a class="headerlink" href="#returns" title="Link to this heading"></a></h1>
+<blockquote>
+<div><dl class="simple">
+<dt>h<span class="classifier">(float)</span></dt><dd><p>Absolute value of hole concentration in 1/cm^3</p>
+</dd>
+<dt>n<span class="classifier">(float)</span></dt><dd><p>Absolute value of electron concentration in 1/cm^3</p>
+</dd>
+</dl>
+</div></blockquote>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.electronic_structure.get_dos_from_effective_mass">
+<span class="sig-prename descclassname"><span class="pre">defermi.electronic_structure.</span></span><span class="sig-name descname"><span class="pre">get_dos_from_effective_mass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">m_eff</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/electronic_structure.html#get_dos_from_effective_mass"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.electronic_structure.get_dos_from_effective_mass" title="Link to this definition"></a></dt>
+<dd><p>Calculate the effective density of states (N_c or N_v)
+for a non-degenerate semiconductor.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>m_eff</strong> (<em>float</em>) – Effective mass (in units of kg)</p></li>
+<li><p><strong>T</strong> (<em>float</em>) – Temperature (in Kelvin)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>N</strong> – Effective density of states (in cm^-3)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.electronic_structure.maxwell_boltzmann">
+<span class="sig-prename descclassname"><span class="pre">defermi.electronic_structure.</span></span><span class="sig-name descname"><span class="pre">maxwell_boltzmann</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">E</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">T</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clip</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/electronic_structure.html#maxwell_boltzmann"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.electronic_structure.maxwell_boltzmann" title="Link to this definition"></a></dt>
+<dd><p>Maxwell-Boltzmann distribution function.
+Can be clipped to prevent divergence</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>E</strong> (<em>(</em><em>float</em><em>)</em>) – Energy in eV.</p></li>
+<li><p><strong>fermi</strong> (<em>(</em><em>float</em><em>)</em>) – The Fermi level in eV.</p></li>
+<li><p><strong>T</strong> (<em>(</em><em>float</em><em>)</em>) – The temperature in kelvin.</p></li>
+<li><p><strong>clip</strong> (<em>(</em><em>bool</em><em>)</em>) – Clip exponential factor to 700, returns 1e304.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>float</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The Maxwell-Boltzmann occupation probability at energy E.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.electronic_structure.solve_intrinsic_fermi_level">
+<span class="sig-prename descclassname"><span class="pre">defermi.electronic_structure.</span></span><span class="sig-name descname"><span class="pre">solve_intrinsic_fermi_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_gap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/electronic_structure.html#solve_intrinsic_fermi_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.electronic_structure.solve_intrinsic_fermi_level" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

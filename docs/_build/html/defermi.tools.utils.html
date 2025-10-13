@@ -1,0 +1,249 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">convert_conc_from_weight_to_cm3()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.utils.format_composition"><code class="docutils literal notranslate"><span class="pre">format_composition()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.utils.get_charge_from_computed_entry"><code class="docutils literal notranslate"><span class="pre">get_charge_from_computed_entry()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.utils.get_object_feature"><code class="docutils literal notranslate"><span class="pre">get_object_feature()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.utils.get_object_from_json"><code class="docutils literal notranslate"><span class="pre">get_object_from_json()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.utils.save_object_as_json"><code class="docutils literal notranslate"><span class="pre">save_object_as_json()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.utils.select_objects"><code class="docutils literal notranslate"><span class="pre">select_objects()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.tools.utils.sort_objects"><code class="docutils literal notranslate"><span class="pre">sort_objects()</span></code></a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.tools.utils.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p id="module-defermi.tools.utils">Created on Mon Oct 12 15:40:26 2020</p>
+<p>&#64;author: villa</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.utils.convert_conc_from_weight_to_cm3">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.utils.</span></span><span class="sig-name descname"><span class="pre">convert_conc_from_weight_to_cm3</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">c_weight</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_el</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">composition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/utils.html#convert_conc_from_weight_to_cm3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.utils.convert_conc_from_weight_to_cm3" title="Link to this definition"></a></dt>
+<dd><p>Convert concentration of dopand from weight % (common experimental data) to cm^-3.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>c_weight</strong> (<em>(</em><em>float</em><em>)</em>) – Defect concentration in weight %.</p></li>
+<li><p><strong>target_el</strong> (<em>(</em><em>str</em><em>)</em>) – Symbol of target element.</p></li>
+<li><p><strong>composition</strong> (<em>(</em><em>Composition</em><em>)</em>) – Composition (Pymatgen) of the material, uses only list of elements.</p></li>
+<li><p><strong>bulk_structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Structure (Pymatgen) of bulk, needed for lattice volume.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>conc</strong> – Concentration in cm-3^.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(float)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.utils.format_composition">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.utils.</span></span><span class="sig-name descname"><span class="pre">format_composition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_math</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/utils.html#format_composition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.utils.format_composition" title="Link to this definition"></a></dt>
+<dd><p>Format composition with latex syntax.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.utils.get_charge_from_computed_entry">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.utils.</span></span><span class="sig-name descname"><span class="pre">get_charge_from_computed_entry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entry</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/utils.html#get_charge_from_computed_entry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.utils.get_charge_from_computed_entry" title="Link to this definition"></a></dt>
+<dd><p>Get charge of vasp calculation from ComputedEntry object.
+Subtracts the total valence electrons from potcar to ‘NELECT’ value</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.utils.get_object_feature">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.utils.</span></span><span class="sig-name descname"><span class="pre">get_object_feature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/utils.html#get_object_feature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.utils.get_object_feature" title="Link to this definition"></a></dt>
+<dd><p>Get value of attribute or method of a generic Object.
+If feature is a single method only the string with the method’s name is required.
+If the target feature is stored in a dictionary (or dict of dictionaries), a list of this format needs to be provided:</p>
+<blockquote>
+<div><p>[“method_name”,key1,key2,…] - This will identify the value of Object.method[key1][key2][…] .</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<em>(</em><em>object</em><em>)</em>) – Generic object.</p></li>
+<li><p><strong>feature</strong> (<em>(</em><em>str</em><em> or </em><em>list</em><em>)</em>) – Method or attribute of class for which the value is needed.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.utils.get_object_from_json">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.utils.</span></span><span class="sig-name descname"><span class="pre">get_object_from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_or_string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/utils.html#get_object_from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.utils.get_object_from_json" title="Link to this definition"></a></dt>
+<dd><p>Build class object from json file or string. The class must posses the ‘from_dict’ method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object_class</strong> (<em>(</em><em>class</em><em>)</em>) – Class of the object to decoder.</p></li>
+<li><p><strong>path_or_string</strong> (<em>(</em><em>str</em><em>)</em>) – If an existing path to a file is given the object is constructed reading the json file.
+Otherwise it will be read as a string.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Decoded object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.utils.save_object_as_json">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.utils.</span></span><span class="sig-name descname"><span class="pre">save_object_as_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">object</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sanitize=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cls=&lt;class</span> <span class="pre">'monty.json.MontyEncoder'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/utils.html#save_object_as_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.utils.save_object_as_json" title="Link to this definition"></a></dt>
+<dd><p>Save class object as json string or file. The class must posses the ‘as_dict’ method.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>object</strong> (<em>object</em><em> of </em><em>a class</em>)</p></li>
+<li><p><strong>path</strong> (<em>(</em><em>str</em><em>)</em>) – Path to the destination file.  If None a string is exported.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>d</strong> – If path is not set a string is returned.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(str)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.utils.select_objects">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.utils.</span></span><span class="sig-name descname"><span class="pre">select_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'and'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/utils.html#select_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.utils.select_objects" title="Link to this definition"></a></dt>
+<dd><p>Filter objects based on different criteria. Returns a list of objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objects</strong> (<em>(</em><em>list</em><em>)</em>) – List of objects.</p></li>
+<li><p><strong>mode</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Filtering mode, possibilities are: ‘and’ and ‘or’. The default is ‘and’.</p></li>
+<li><p><strong>exclude</strong> (<em>(</em><em>bool</em><em>)</em><em>, </em><em>optional</em>) – Exclude the entries satisfying the criteria instead of selecting them. The default is False.</p></li>
+<li><p><strong>functions</strong> (<em>(</em><em>list</em><em>)</em><em>, </em><em>optional</em>) – Functions containing criteria. The functions must take the object as the argument and
+return a bool.</p></li>
+<li><p><strong>**kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Keys are methods/attributes the objects have. Values contain the criteria.
+To address more than one condition relative to the same attribute,
+use lists or tuples (e.g. charge=[0,1]).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>output_objects</strong> – List with selected objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.utils.sort_objects">
+<span class="sig-prename descclassname"><span class="pre">defermi.tools.utils.</span></span><span class="sig-name descname"><span class="pre">sort_objects</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">objects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/utils.html#sort_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.utils.sort_objects" title="Link to this definition"></a></dt>
+<dd><p>Sort objects based on a list of features (attributes or methods of the objects, or functions)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>objects</strong> (<em>(</em><em>list</em><em>)</em>) – List of objects to sort.</p></li>
+<li><p><strong>features</strong> (<em>(</em><em>list</em><em>)</em>) – List of features (see get_object_feature).</p></li>
+<li><p><strong>reverse</strong> (<em>(</em><em>bool</em><em>)</em>) – Reverse order.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Sorted objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(list)</p>
+</dd>
+</dl>
+</dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

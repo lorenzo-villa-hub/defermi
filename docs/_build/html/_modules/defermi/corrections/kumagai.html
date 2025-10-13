@@ -1,0 +1,363 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>defermi.corrections.kumagai &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=292eb321"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">defermi.corrections.kumagai</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for defermi.corrections.kumagai</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.io.vasp.outputs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Outcar</span><span class="p">,</span> <span class="n">Vasprun</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.analysis.defects.corrections.kumagai</span><span class="w"> </span><span class="kn">import</span> <span class="n">_check_import_pydefect</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.analysis.defects.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">CorrectionResult</span><span class="p">,</span> <span class="n">get_zfile</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..tools.structure</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_site_in_structure_coords</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..structure</span><span class="w"> </span><span class="kn">import</span> <span class="n">defect_finder</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+
+
+
+    
+<div class="viewcode-block" id="get_kumagai_correction">
+<a class="viewcode-back" href="../../../defermi.corrections.kumagai.html#defermi.corrections.kumagai.get_kumagai_correction">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_kumagai_correction</span><span class="p">(</span>
+                        <span class="n">defect_path</span><span class="p">,</span>
+                        <span class="n">bulk_path</span><span class="p">,</span>
+                        <span class="n">charge</span><span class="p">,</span>
+                        <span class="n">dielectric_tensor</span><span class="p">,</span>
+                        <span class="n">initial_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">get_correction_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">get_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute Kumagai corrections (extended FNV scheme) from VASP calculation paths.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    defect_path : (str)</span>
+<span class="sd">        Path of defect calculation with vasprun.xml and OUTCAR files.</span>
+<span class="sd">    bulk_path : (str)</span>
+<span class="sd">        Path of bulk calculation with vasprun.xml and OUTCAR files.</span>
+<span class="sd">    charge : (int)</span>
+<span class="sd">        Charge of defect calculation</span>
+<span class="sd">    dielectric_tensor : (int,float 3x1 array or 3x3 array)</span>
+<span class="sd">        Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.</span>
+<span class="sd">    initial_structure : (bool)</span>
+<span class="sd">        Use initial structure of defect calculation for correction computation.</span>
+<span class="sd">        Useful to compute correction on unrelaxed structure.</span>
+<span class="sd">    get_correction_data : (bool)</span>
+<span class="sd">        Return pymatgen&#39;s CorrectionResult object. If False only the correction value is returned.</span>
+<span class="sd">    get_plot : (bool), optional</span>
+<span class="sd">        Get Matplotlib object with plot. The default is False. </span>
+<span class="sd">    kwargs : (dict)</span>
+<span class="sd">        Kwargs to pass to pydefect `make_efnv_correction`</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    correction, ax</span>
+<span class="sd">        - CorrectionResult object if get_correction_data is set to True, else just the float with correction value,</span>
+<span class="sd">        - matplotlib axis object  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">defect_structure</span> <span class="o">=</span> <span class="n">_get_structure_with_pot_pmg</span><span class="p">(</span><span class="n">defect_path</span><span class="p">,</span><span class="n">initial_structure</span><span class="o">=</span><span class="n">initial_structure</span><span class="p">)</span>
+    <span class="n">bulk_structure</span> <span class="o">=</span> <span class="n">_get_structure_with_pot_pmg</span><span class="p">(</span><span class="n">bulk_path</span><span class="p">,</span><span class="n">initial_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">correction</span> <span class="o">=</span> <span class="n">get_kumagai_correction_from_structures</span><span class="p">(</span>
+                                            <span class="n">defect_structure_with_potentials</span><span class="o">=</span><span class="n">defect_structure</span><span class="p">,</span>
+                                            <span class="n">bulk_structure_with_potentials</span><span class="o">=</span><span class="n">bulk_structure</span><span class="p">,</span>
+                                            <span class="n">charge</span><span class="o">=</span><span class="n">charge</span><span class="p">,</span>
+                                            <span class="n">dielectric_tensor</span><span class="o">=</span><span class="n">dielectric_tensor</span><span class="p">,</span>
+                                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">correction</span> <span class="k">if</span> <span class="n">get_correction_data</span> <span class="k">else</span> <span class="n">correction</span><span class="o">.</span><span class="n">correction_energy</span>
+    <span class="k">if</span> <span class="n">get_plot</span><span class="p">:</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pydefect.corrections.site_potential_plotter</span><span class="w"> </span><span class="kn">import</span> <span class="n">SitePotentialMplPlotter</span>
+        <span class="n">SitePotentialMplPlotter</span><span class="o">.</span><span class="n">from_efnv_corr</span><span class="p">(</span>
+                                            <span class="n">title</span><span class="o">=</span><span class="n">defect_structure</span><span class="o">.</span><span class="n">composition</span><span class="p">,</span>
+                                            <span class="n">efnv_correction</span><span class="o">=</span><span class="n">correction</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;efnv_corr&#39;</span><span class="p">]</span>
+                                            <span class="p">)</span><span class="o">.</span><span class="n">construct_plot</span><span class="p">()</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">corr</span><span class="p">,</span> <span class="n">ax</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">corr</span> </div>
+
+
+
+<div class="viewcode-block" id="get_kumagai_correction_from_jobs">
+<a class="viewcode-back" href="../../../defermi.corrections.kumagai.html#defermi.corrections.kumagai.get_kumagai_correction_from_jobs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_kumagai_correction_from_jobs</span><span class="p">(</span>
+                                    <span class="n">job_defect</span><span class="p">,</span>
+                                    <span class="n">job_bulk</span><span class="p">,</span>
+                                    <span class="n">dielectric_tensor</span><span class="p">,</span>
+                                    <span class="n">initial_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                    <span class="n">get_correction_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                    <span class="n">get_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Kumagai corrections from VaspJob objects.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    job_defect : (VaspJob)</span>
+<span class="sd">        Defect calculation.</span>
+<span class="sd">    job_bulk : (VaspJob)</span>
+<span class="sd">        Bulk calculation.</span>
+<span class="sd">    dielectric_tensor : (int,float 3x1 array or 3x3 array)</span>
+<span class="sd">        Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.</span>
+<span class="sd">    initial_structure : (bool)</span>
+<span class="sd">        Use initial structure of defect calculation for correction computation.</span>
+<span class="sd">        Useful to compute correction on unrelaxed structure.</span>
+<span class="sd">    get_correction_data : (bool)</span>
+<span class="sd">        Return pymatgen&#39;s CorrectionResult object. If False only the correction value is returned.</span>
+<span class="sd">    get_plot : (bool), optional</span>
+<span class="sd">        Get Matplotlib object with plot. The default is False. </span>
+<span class="sd">    kwargs : (dict)</span>
+<span class="sd">        Kwargs to pass to pydefect `make_efnv_correction`</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    correction, ax</span>
+<span class="sd">        - CorrectionResult object if get_correction_data is set to True, else just the float with correction value,</span>
+<span class="sd">        - matplotlib axis object  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">defect_path</span><span class="p">,</span> <span class="n">bulk_path</span> <span class="o">=</span> <span class="n">job_defect</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">job_bulk</span><span class="o">.</span><span class="n">path</span>
+    <span class="n">charge</span> <span class="o">=</span> <span class="n">job_defect</span><span class="o">.</span><span class="n">charge</span>
+
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">get_kumagai_correction</span><span class="p">(</span>
+                        <span class="n">defect_path</span><span class="p">,</span>
+                        <span class="n">bulk_path</span><span class="p">,</span>
+                        <span class="n">charge</span><span class="p">,</span>
+                        <span class="n">dielectric_tensor</span><span class="p">,</span>
+                        <span class="n">initial_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">get_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    
+    <span class="k">return</span> <span class="n">corr</span></div>
+
+
+
+<div class="viewcode-block" id="get_kumagai_correction_from_structures">
+<a class="viewcode-back" href="../../../defermi.corrections.kumagai.html#defermi.corrections.kumagai.get_kumagai_correction_from_structures">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_kumagai_correction_from_structures</span><span class="p">(</span>
+                                        <span class="n">defect_structure_with_potentials</span><span class="p">,</span>
+                                        <span class="n">bulk_structure_with_potentials</span><span class="p">,</span>
+                                        <span class="n">charge</span><span class="p">,</span>
+                                        <span class="n">dielectric_tensor</span><span class="p">,</span>
+                                        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Kumagai (extended FNV) correction from Structure objects with </span>
+<span class="sd">    site potentials stored into site_properties. Not recommended to use</span>
+<span class="sd">    directly, refer to get_kumagai_correction.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dielectric_tensor</span> <span class="o">=</span> <span class="n">_convert_dielectric_tensor</span><span class="p">(</span><span class="n">dielectric_tensor</span><span class="p">)</span>
+    <span class="n">correction</span> <span class="o">=</span>  <span class="n">_get_efnv_correction_pmg_fixed</span><span class="p">(</span>
+                            <span class="n">charge</span><span class="o">=</span><span class="n">charge</span><span class="p">,</span>
+                            <span class="n">defect_structure</span><span class="o">=</span><span class="n">defect_structure_with_potentials</span><span class="p">,</span>
+                            <span class="n">bulk_structure</span><span class="o">=</span><span class="n">bulk_structure_with_potentials</span><span class="p">,</span>
+                            <span class="n">dielectric_tensor</span><span class="o">=</span><span class="n">dielectric_tensor</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">correction</span></div>
+
+
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_efnv_correction_pmg_fixed</span><span class="p">(</span>
+    <span class="n">charge</span><span class="p">,</span>
+    <span class="n">defect_structure</span><span class="p">,</span>
+    <span class="n">bulk_structure</span><span class="p">,</span>
+    <span class="n">dielectric_tensor</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fixed code from pymatgen.analysis.defects.corrections.kumagai.get_efnv_correction</span>
+<span class="sd">    defect_potentials and site_potentials variables were inverted.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns the Kumagai/Oba EFNV correction for a given defect.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        charge: Charge of the defect.</span>
+<span class="sd">        defect_structure: Defect structure.</span>
+<span class="sd">        bulk_structure: Bulk structure.</span>
+<span class="sd">        dielectric_tensor: Dielectric tensor.</span>
+<span class="sd">        **kwargs: Keyword arguments to pass to `make_efnv_correction`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pydefect.analyzer.calc_results</span><span class="w"> </span><span class="kn">import</span> <span class="n">CalcResults</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pydefect.cli.vasp.make_efnv_correction</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_efnv_correction</span>
+
+    <span class="c1"># ensure that the structures have the &quot;potential&quot; site property</span>
+    <span class="n">defect_potentials</span> <span class="o">=</span> <span class="p">[</span><span class="n">site</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s2">&quot;potential&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">defect_structure</span><span class="p">]</span>
+    <span class="n">bulk_potentials</span> <span class="o">=</span> <span class="p">[</span><span class="n">site</span><span class="o">.</span><span class="n">properties</span><span class="p">[</span><span class="s2">&quot;potential&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">bulk_structure</span><span class="p">]</span>
+
+    <span class="n">defect_calc_results</span> <span class="o">=</span> <span class="n">CalcResults</span><span class="p">(</span>
+        <span class="n">structure</span><span class="o">=</span><span class="n">defect_structure</span><span class="p">,</span>
+        <span class="n">energy</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+        <span class="n">magnetization</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+        <span class="n">potentials</span><span class="o">=</span><span class="n">defect_potentials</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">bulk_calc_results</span> <span class="o">=</span> <span class="n">CalcResults</span><span class="p">(</span>
+        <span class="n">structure</span><span class="o">=</span><span class="n">bulk_structure</span><span class="p">,</span>
+        <span class="n">energy</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+        <span class="n">magnetization</span><span class="o">=</span><span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">,</span>
+        <span class="n">potentials</span><span class="o">=</span><span class="n">bulk_potentials</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">efnv_corr</span> <span class="o">=</span> <span class="n">make_efnv_correction</span><span class="p">(</span>
+        <span class="n">charge</span><span class="o">=</span><span class="n">charge</span><span class="p">,</span>
+        <span class="n">calc_results</span><span class="o">=</span><span class="n">defect_calc_results</span><span class="p">,</span>
+        <span class="n">perfect_calc_results</span><span class="o">=</span><span class="n">bulk_calc_results</span><span class="p">,</span>
+        <span class="n">dielectric_tensor</span><span class="o">=</span><span class="n">dielectric_tensor</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">CorrectionResult</span><span class="p">(</span>
+        <span class="n">correction_energy</span><span class="o">=</span><span class="n">efnv_corr</span><span class="o">.</span><span class="n">correction_energy</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;efnv_corr&quot;</span><span class="p">:</span> <span class="n">efnv_corr</span><span class="p">},</span>
+    <span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_structure_with_pot_pmg</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span><span class="n">initial_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modified function from pymatgen.analysis.defects-corrections.kumagai </span>
+<span class="sd">    to allow for initial structure import</span>
+
+<span class="sd">    Reads vasprun.xml and OUTCAR files in a directory.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        directory: Directory containing vasprun.xml and OUTCAR files.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Structure with &quot;potential&quot; site property.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_check_import_pydefect</span><span class="p">()</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pydefect.analyzer.calc_results</span><span class="w"> </span><span class="kn">import</span> <span class="n">CalcResults</span>
+
+    <span class="n">d_</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+    <span class="n">f_vasprun</span> <span class="o">=</span> <span class="n">get_zfile</span><span class="p">(</span><span class="n">d_</span><span class="p">,</span> <span class="s2">&quot;vasprun.xml&quot;</span><span class="p">)</span>
+    <span class="n">f_outcar</span> <span class="o">=</span> <span class="n">get_zfile</span><span class="p">(</span><span class="n">d_</span><span class="p">,</span> <span class="s2">&quot;OUTCAR&quot;</span><span class="p">)</span>
+    <span class="n">vasprun</span> <span class="o">=</span> <span class="n">Vasprun</span><span class="p">(</span><span class="n">f_vasprun</span><span class="p">,</span><span class="n">parse_dos</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">parse_potcar_file</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">parse_eigen</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">outcar</span> <span class="o">=</span> <span class="n">Outcar</span><span class="p">(</span><span class="n">f_outcar</span><span class="p">)</span>
+
+    <span class="n">structure</span> <span class="o">=</span> <span class="n">vasprun</span><span class="o">.</span><span class="n">structures</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">initial_structure</span> <span class="k">else</span> <span class="n">vasprun</span><span class="o">.</span><span class="n">final_structure</span>
+
+    <span class="n">calc</span> <span class="o">=</span> <span class="n">CalcResults</span><span class="p">(</span>
+        <span class="n">structure</span><span class="o">=</span><span class="n">structure</span><span class="p">,</span>
+        <span class="n">energy</span><span class="o">=</span><span class="n">outcar</span><span class="o">.</span><span class="n">final_energy</span><span class="p">,</span>
+        <span class="n">magnetization</span><span class="o">=</span><span class="n">outcar</span><span class="o">.</span><span class="n">total_mag</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="n">potentials</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">outcar</span><span class="o">.</span><span class="n">electrostatic_potential</span><span class="p">],</span>
+        <span class="n">electronic_conv</span><span class="o">=</span><span class="n">vasprun</span><span class="o">.</span><span class="n">converged_electronic</span><span class="p">,</span>
+        <span class="n">ionic_conv</span><span class="o">=</span><span class="n">vasprun</span><span class="o">.</span><span class="n">converged_ionic</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">calc</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">site_properties</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;potential&quot;</span><span class="p">:</span> <span class="n">calc</span><span class="o">.</span><span class="n">potentials</span><span class="p">})</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_convert_dielectric_tensor</span><span class="p">(</span><span class="n">dielectric</span><span class="p">):</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">type</span><span class="p">(</span><span class="n">dielectric</span><span class="p">)</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">float</span><span class="p">,</span><span class="nb">int</span><span class="p">]:</span>
+        <span class="n">dielectric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">dielectric</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dielectric</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span><span class="mi">3</span><span class="p">,):</span>
+            <span class="n">dielectric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">dielectric</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dielectric</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Dielectric tensor can be int/float, a 3x1 array with diagonal components of dielectric tensor, or 3x3 matrix&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">dielectric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="o">*</span> <span class="n">dielectric</span>
+
+    <span class="k">return</span> <span class="n">dielectric</span>
+
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

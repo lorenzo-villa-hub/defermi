@@ -1,0 +1,1277 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>defermi.plotter &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=292eb321"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">defermi.plotter</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for defermi.plotter</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Wed Feb 17 15:24:29 2021</span>
+
+<span class="sd">@author: villa</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.defects</span><span class="w"> </span><span class="kn">import</span> <span class="n">Defect</span><span class="p">,</span> <span class="n">format_legend_with_charge_number</span><span class="p">,</span> <span class="n">get_defect_from_string</span>
+
+
+
+<div class="viewcode-block" id="plot_formation_energies">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_formation_energies">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_formation_energies</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span>
+                            <span class="n">chemical_potentials</span><span class="p">,</span>
+                            <span class="n">vbm</span><span class="p">,</span>
+                            <span class="n">band_gap</span><span class="p">,</span>
+                            <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                            <span class="n">xlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">fermi_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
+                            <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span>
+                            <span class="n">show_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">format_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">get_subplot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                            <span class="n">subplot_settings</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">eform_kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Produce defect Formation energy vs Fermi energy plot.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    entries : (list) </span>
+<span class="sd">        List of entries to calculate.</span>
+<span class="sd">    chemical_potentials : (dict)</span>
+<span class="sd">        Dictionary with chemical potentials of the elements {&#39;element&#39;:chempot}.</span>
+<span class="sd">    vbm : (float)</span>
+<span class="sd">        Valence band maximum in eV.</span>
+<span class="sd">    band_gap : (float)</span>
+<span class="sd">        Band gap of bulk material in eV.</span>
+<span class="sd">    temperature : (float)</span>
+<span class="sd">        Temperature in K. If no custom formation energy is provided, this arg has no effect. </span>
+<span class="sd">    xlim : (tuple)</span>
+<span class="sd">        Tuple (min,max) giving the range of the x (fermi energy) axis.</span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        Tuple (min,max) giving the range for the formation energy axis.</span>
+<span class="sd">    title : (str)</span>
+<span class="sd">        Title of the figure.</span>
+<span class="sd">    fermi_level : (float)</span>
+<span class="sd">        Plot Fermi energy position with a vertical line.</span>
+<span class="sd">    grid : (bool)</span>
+<span class="sd">        Show grid.</span>
+<span class="sd">    figsize : (float or tuple)</span>
+<span class="sd">        Figure size.</span>
+<span class="sd">    fontsize : (float)</span>
+<span class="sd">        Font size.</span>
+<span class="sd">    show_legend  : (Bool)</span>
+<span class="sd">        Show legend.</span>
+<span class="sd">    format_legend : (bool)</span>
+<span class="sd">        Get latex-like legend based on the name of defect entries.</span>
+<span class="sd">    get_subplot : (bool)</span>
+<span class="sd">        Get subplot.</span>
+<span class="sd">    subplot_settings:</span>
+<span class="sd">        List with integers for subplot setting on matplotlib (plt.subplot(nrows,ncolumns,index)). </span>
+<span class="sd">    eform_kwargs : (dict)</span>
+<span class="sd">        Kwargs to pass to `entry.formation_energy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        matplotlib object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefectsAnalysis</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+    
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">})</span> 
+    <span class="n">formation_energies</span> <span class="o">=</span> <span class="n">DefectsAnalysis</span><span class="p">(</span>
+                        <span class="n">entries</span><span class="o">=</span><span class="n">entries</span><span class="p">,</span>
+                        <span class="n">band_gap</span><span class="o">=</span><span class="n">band_gap</span><span class="p">,</span>
+                        <span class="n">vbm</span><span class="o">=</span><span class="n">vbm</span><span class="p">)</span><span class="o">.</span><span class="n">formation_energies</span><span class="p">(</span><span class="n">chemical_potentials</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">,</span>
+                                                                                    <span class="n">fermi_level</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                                                                    <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                                                                    <span class="n">entries</span><span class="o">=</span><span class="n">entries</span><span class="p">,</span>
+                                                                                    <span class="o">**</span><span class="n">eform_kwargs</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">xlim</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="n">band_gap</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span>        
+    <span class="n">npoints</span> <span class="o">=</span> <span class="mi">200</span>
+    <span class="n">step</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mf">0.1</span><span class="o">-</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="n">npoints</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mf">0.1</span><span class="p">,</span><span class="n">step</span><span class="p">)</span>
+    
+    <span class="k">if</span> <span class="n">get_subplot</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">subplot_settings</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>               
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="n">subplot_settings</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">subplot_settings</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">subplot_settings</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+        
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">formation_energies</span><span class="p">:</span>
+        <span class="n">energy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">emin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+        <span class="n">x_star</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">y_star</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">q_previous</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">npoints</span><span class="p">):</span>
+            <span class="n">emin</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1e40</span>
+            <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">formation_energies</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+                <span class="n">q</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">e0</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">energy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">e0</span> <span class="o">+</span> <span class="n">q</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="c1"># finding most stable charge state</span>
+                <span class="k">if</span> <span class="n">energy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">emin</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="n">emin</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">energy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">q_stable</span> <span class="o">=</span> <span class="n">q</span>
+            <span class="c1"># getting data to plot transition levels        </span>
+            <span class="k">if</span> <span class="n">q_stable</span> <span class="o">!=</span> <span class="n">q_previous</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">q_previous</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">x_star</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                    <span class="n">y_star</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">emin</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">q_previous</span> <span class="o">=</span> <span class="n">q_stable</span>       
+
+        <span class="k">if</span> <span class="n">format_legend</span><span class="p">:</span>
+            <span class="n">label_txt</span> <span class="o">=</span> <span class="n">get_defect_from_string</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">symbol</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">label_txt</span> <span class="o">=</span> <span class="n">name</span>            
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">emin</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label_txt</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x_star</span><span class="p">,</span><span class="n">y_star</span><span class="p">,</span><span class="n">s</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+                    
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># black dashed lines for gap edges</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">band_gap</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+                <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>        
+    <span class="k">if</span> <span class="n">fermi_level</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">fermi_level</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$\mu _</span><span class="si">{e}</span><span class="s1">$&#39;</span><span class="p">)</span>                
+    <span class="c1"># shaded areas</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">band_gap</span><span class="p">,</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mf">0.1</span><span class="p">,</span><span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylim</span><span class="p">:</span> 
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span> 
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Fermi level (eV)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Formation energy (eV)&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">title</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">show_legend</span><span class="p">:</span>    
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">grid</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">plt</span></div>
+
+
+
+<div class="viewcode-block" id="plot_binding_energies">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_binding_energies">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_binding_energies</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span>
+                          <span class="n">vbm</span><span class="p">,</span>
+                          <span class="n">band_gap</span><span class="p">,</span>
+                          <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                          <span class="n">names</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">xlim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
+                          <span class="n">fontsize</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span>
+                          <span class="n">format_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                          <span class="o">**</span><span class="n">eform_kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot binding energies for complex of defects as a function of the fermi level</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    entries : (list) </span>
+<span class="sd">        List of entries to calculate.</span>
+<span class="sd">    vbm : (float)</span>
+<span class="sd">        Valence band maximum in eV.</span>
+<span class="sd">    band_gap : (float)</span>
+<span class="sd">        Band gap of bulk material in eV.</span>
+<span class="sd">    temperature : (float)</span>
+<span class="sd">        Temperature in K. If no custom formation energy is provided, this arg has no effect.</span>
+<span class="sd">    names : (list)</span>
+<span class="sd">        List of strings with names of DefectEntry. If None, all defect complexes are plotted.</span>
+<span class="sd">    xlim : (tuple)</span>
+<span class="sd">        Tuple (min,max) giving the range of the x (fermi energy) axis</span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        Tuple (min,max) giving the range for the formation energy axis</span>
+<span class="sd">    figsize : (tuple)</span>
+<span class="sd">        Figure size.</span>
+<span class="sd">    fontsize : (float)</span>
+<span class="sd">        Font size.</span>
+<span class="sd">    format_legend : (bool)</span>
+<span class="sd">        Bool for getting latex-like legend based on the name of defect entries.</span>
+<span class="sd">    eform_kwargs : (dict)</span>
+<span class="sd">        Kwargs to pass to `entry.formation_energy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        matplotlib object</span>
+<span class="sd">    &quot;&quot;&quot;</span>         
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefectsAnalysis</span>
+    
+    <span class="n">da</span> <span class="o">=</span> <span class="n">DefectsAnalysis</span><span class="p">(</span><span class="n">entries</span><span class="o">=</span><span class="n">entries</span><span class="p">,</span><span class="n">band_gap</span><span class="o">=</span><span class="n">band_gap</span><span class="p">,</span><span class="n">vbm</span><span class="o">=</span><span class="n">vbm</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="n">fontsize</span><span class="p">})</span> 
+    <span class="k">if</span> <span class="n">xlim</span><span class="o">==</span><span class="kc">None</span><span class="p">:</span>
+        <span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="n">da</span><span class="o">.</span><span class="n">band_gap</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="c1"># building array for x values (fermi level)    </span>
+    <span class="n">ef</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mf">0.1</span><span class="p">,(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">/</span><span class="mi">200</span><span class="p">)</span>        
+    <span class="n">binding_energy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ef</span><span class="p">))</span>        
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">names</span><span class="p">:</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">da</span><span class="o">.</span><span class="n">entries</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">defect_type</span> <span class="o">==</span> <span class="s1">&#39;DefectComplex&#39;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+                    <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>   
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">names</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;No DefectComplex entries found&#39;</span><span class="p">)</span>  
+
+    <span class="c1"># getting binding energy at different fermi levels for every name in list</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">select_entries</span><span class="p">(</span><span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="n">name</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">symbol</span> <span class="k">if</span> <span class="n">format_legend</span> <span class="k">else</span> <span class="n">name</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">ef</span><span class="p">)):</span>
+            <span class="n">binding_energy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">binding_energy</span><span class="p">(</span>
+                                        <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+                                        <span class="n">fermi_level</span><span class="o">=</span><span class="n">ef</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                                        <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                        <span class="o">**</span><span class="n">eform_kwargs</span><span class="p">)</span>
+                        
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ef</span><span class="p">,</span><span class="n">binding_energy</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">2.5</span><span class="o">*</span><span class="p">(</span><span class="n">figsize</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">/</span><span class="n">figsize</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+        
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># black lines for gap edges</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">da</span><span class="o">.</span><span class="n">band_gap</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span>
+                <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>        
+    <span class="c1"># shaded areas</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axvspan</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">band_gap</span><span class="p">,</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">linestyles</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylim</span><span class="p">:</span> 
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span> 
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Fermi level (eV)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Binding energy (eV)&#39;</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">plt</span></div>
+
+
+
+<div class="viewcode-block" id="plot_charge_transition_levels">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_charge_transition_levels">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_charge_transition_levels</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span>
+                                  <span class="n">vbm</span><span class="p">,</span>
+                                  <span class="n">band_gap</span><span class="p">,</span>
+                                  <span class="n">temperature</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                  <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
+                                  <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span>
+                                  <span class="n">fermi_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">format_legend</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                  <span class="n">get_integers</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                  <span class="o">**</span><span class="n">eform_kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plotter for the charge transition levels.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    entries : (list) </span>
+<span class="sd">        List of entries to calculate.</span>
+<span class="sd">    vbm : (float)</span>
+<span class="sd">        Valence band maximum in eV.</span>
+<span class="sd">    band_gap : (float)</span>
+<span class="sd">        Band gap of bulk material in eV.</span>
+<span class="sd">    temperature : (float)</span>
+<span class="sd">        Temperature in K. If no custom formation energy is provided, this arg has no effect.</span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        y-axis limits.</span>
+<span class="sd">    figsize : (tuple)</span>
+<span class="sd">        Figure size.</span>
+<span class="sd">    fontsize : (float)</span>
+<span class="sd">        Font size.</span>
+<span class="sd">    fermi_level : (float)</span>
+<span class="sd">        Plot Fermi energy position.</span>
+<span class="sd">    format_legend : (bool)</span>
+<span class="sd">        Bool for getting latex-like legend based on the name of defect entries.</span>
+<span class="sd">    get_integers : (bool)</span>
+<span class="sd">        Get charge transition levels as integers.</span>
+<span class="sd">    eform_kwargs : (dict)</span>
+<span class="sd">        Kwargs to pass to `entry.formation_energy`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        matplotlib object    </span>
+<span class="sd">    &quot;&quot;&quot;</span>        
+    <span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefectsAnalysis</span>
+    
+    <span class="n">da</span> <span class="o">=</span> <span class="n">DefectsAnalysis</span><span class="p">(</span><span class="n">entries</span><span class="o">=</span><span class="n">entries</span><span class="p">,</span><span class="n">band_gap</span><span class="o">=</span><span class="n">band_gap</span><span class="p">,</span><span class="n">vbm</span><span class="o">=</span><span class="n">vbm</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>         
+    <span class="k">if</span> <span class="n">ylim</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">ylim</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span><span class="n">da</span><span class="o">.</span><span class="n">band_gap</span> <span class="o">+</span><span class="mf">0.5</span><span class="p">)</span>        
+    <span class="n">charge_transition_levels</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">charge_transition_levels</span><span class="p">(</span>
+                                                <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                                <span class="n">entries</span><span class="o">=</span><span class="n">entries</span><span class="p">,</span>
+                                                <span class="n">get_integers</span><span class="o">=</span><span class="n">get_integers</span><span class="p">,</span>
+                                                <span class="o">**</span><span class="n">eform_kwargs</span><span class="p">)</span>
+    
+    <span class="n">number_defects</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">charge_transition_levels</span><span class="p">)</span>   
+    <span class="n">x_max</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">interval</span> <span class="o">=</span> <span class="n">x_max</span><span class="o">/</span><span class="p">(</span><span class="n">number_defects</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">x_max</span><span class="p">,</span><span class="n">interval</span><span class="p">)</span>
+    <span class="c1"># position of x labels</span>
+    <span class="n">x_ticks_positions</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">x_ticks_positions</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>            
+    <span class="n">x_ticks_labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">charge_transition_levels</span><span class="p">:</span>
+        <span class="n">x_ticks_labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>        
+    <span class="c1"># draw vertical lines to separte defect types</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>        
+    <span class="c1">#VBM and CBM shaded</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axhspan</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">facecolor</span><span class="o">=</span><span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axhspan</span><span class="p">(</span><span class="n">da</span><span class="o">.</span><span class="n">band_gap</span><span class="p">,</span><span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">facecolor</span> <span class="o">=</span> <span class="s1">&#39;grey&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>                
+    <span class="c1"># plot CTL</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">x_ticks_labels</span><span class="p">)):</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">x_ticks_labels</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">ctl</span> <span class="ow">in</span> <span class="n">charge_transition_levels</span><span class="p">[</span><span class="n">name</span><span class="p">]:</span>
+            <span class="n">energy</span> <span class="o">=</span> <span class="n">ctl</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">energy</span><span class="p">,</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span><span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mf">2.25</span><span class="p">,</span> <span class="n">zorder</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+            <span class="n">charge1</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ctl</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="n">ctl</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">ctl</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="n">charge2</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">ctl</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">if</span> <span class="n">ctl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">ctl</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">label_charge</span> <span class="o">=</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">charge2</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span> <span class="o">+</span> <span class="n">charge1</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+            <span class="n">font_space</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mi">100</span>
+            <span class="k">if</span> <span class="n">energy</span> <span class="o">&lt;</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">and</span> <span class="n">energy</span> <span class="o">&gt;</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="p">(</span><span class="n">interval</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="mi">2</span><span class="o">/</span><span class="n">number_defects</span> <span class="p">,</span><span class="n">energy</span><span class="o">+</span><span class="n">font_space</span><span class="p">,</span><span class="n">label_charge</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">)</span>        
+    <span class="c1"># format latex-like legend</span>
+    <span class="k">if</span> <span class="n">format_legend</span><span class="p">:</span>    
+         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">x_ticks_labels</span><span class="p">:</span>            
+            <span class="n">x_ticks_labels</span><span class="p">[</span><span class="n">x_ticks_labels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span> <span class="o">=</span> <span class="n">get_defect_from_string</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">symbol</span>               
+    <span class="k">if</span> <span class="n">fermi_level</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="n">fermi_level</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;dashed&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;$\mu _</span><span class="si">{e}</span><span class="s1">$&#39;</span><span class="p">)</span>   
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">interval</span><span class="o">/</span><span class="mi">8</span><span class="p">,</span><span class="o">-</span><span class="mf">0.3</span><span class="p">,</span><span class="s1">&#39;VB&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">25</span><span class="o">*</span><span class="p">(</span><span class="n">fontsize</span><span class="o">/</span><span class="mi">16</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">interval</span><span class="o">/</span><span class="mi">8</span><span class="p">,</span><span class="n">da</span><span class="o">.</span><span class="n">band_gap</span><span class="o">+</span><span class="mf">0.2</span><span class="p">,</span><span class="s1">&#39;CB&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">25</span><span class="o">*</span><span class="p">(</span><span class="n">fontsize</span><span class="o">/</span><span class="mi">16</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">ticks</span><span class="o">=</span><span class="n">x_ticks_positions</span><span class="p">,</span><span class="n">labels</span><span class="o">=</span><span class="n">x_ticks_labels</span><span class="p">,</span><span class="n">fontsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">25</span><span class="o">-</span><span class="n">number_defects</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">fontsize</span><span class="o">/</span><span class="mi">16</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">,</span><span class="n">length</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">width</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="o">*</span><span class="p">(</span><span class="n">fontsize</span><span class="o">/</span><span class="mi">16</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>  
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Energy(eV)&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="o">*</span><span class="p">(</span><span class="n">fontsize</span><span class="o">/</span><span class="mi">16</span><span class="p">))</span>  
+    
+    <span class="k">return</span> <span class="n">plt</span>    </div>
+
+
+
+<div class="viewcode-block" id="plot_pO2_vs_concentrations">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_pO2_vs_concentrations">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_pO2_vs_concentrations</span><span class="p">(</span>
+                            <span class="n">thermodata</span><span class="p">,</span>
+                            <span class="n">output</span><span class="o">=</span><span class="s1">&#39;total&#39;</span><span class="p">,</span>
+                            <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                            <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
+                            <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
+                            <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">show_unstable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot defect and carrier concentrations in a range of oxygen partial pressure.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    thermodata: (ThermoData)</span>
+<span class="sd">        ThermoData object that contains the thermodynamic data:</span>
+<span class="sd">            partial_pressures : (list)</span>
+<span class="sd">                list with partial pressure values.</span>
+<span class="sd">            defect_concentrations : (list or dict)</span>
+<span class="sd">                Defect concentrations in the same format as the output of DefectsAnalysis. </span>
+<span class="sd">            carrier_concentrations : (list)</span>
+<span class="sd">                List of tuples with intrinsic carriers concentrations (holes,electrons).</span>
+<span class="sd">    output : (str)</span>
+<span class="sd">        Type of output for defect concentrations:</span>
+<span class="sd">            &quot;all&quot;: The output is the concentration of every defect entry.</span>
+<span class="sd">            &quot;stable&quot;: The output is the concentration of the stable charge for every defect at each fermi level point.</span>
+<span class="sd">            &quot;total&quot;: The output is the sum of the concentration in every charge for each specie.</span>
+<span class="sd">            The default is &#39;total&#39;.</span>
+<span class="sd">    figsize : (tuple)</span>
+<span class="sd">        Size of the matplotlib figure.</span>
+<span class="sd">    fontsize : (float)</span>
+<span class="sd">        Size of font for matplotlib rcParams.</span>
+<span class="sd">    xlim : (tuple)</span>
+<span class="sd">        Range of x-axis.</span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        Range of y-axis. </span>
+<span class="sd">    show_unstable : (bool)</span>
+<span class="sd">        Show regions where the system is unstable (at least one formation energy is negative).</span>
+<span class="sd">    colors : (list)</span>
+<span class="sd">        List of colors to use for plotting with matplotlib. If None the defaults are used.</span>
+<span class="sd">    kwargs : </span>
+<span class="sd">        Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).</span>
+<span class="sd">        If provided, only the filtered concentrations will be plotted. If output</span>
+<span class="sd">        is set to &quot;total&quot;, only the filtered concentrations will be used to </span>
+<span class="sd">        compute the total concentration.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt : </span>
+<span class="sd">        Matplotlib object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">td</span> <span class="o">=</span> <span class="n">thermodata</span>
+    <span class="n">p</span><span class="p">,</span><span class="n">dc</span><span class="p">,</span><span class="n">cc</span> <span class="o">=</span> <span class="n">td</span><span class="o">.</span><span class="n">partial_pressures</span><span class="p">,</span><span class="n">td</span><span class="o">.</span><span class="n">defect_concentrations</span><span class="p">,</span><span class="n">td</span><span class="o">.</span><span class="n">carrier_concentrations</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Oxygen partial pressure (atm)&#39;</span>
+    <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_x_vs_concentrations</span><span class="p">(</span>
+                                <span class="n">x</span><span class="o">=</span><span class="n">p</span><span class="p">,</span>
+                                <span class="n">xlabel</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span>
+                                <span class="n">defect_concentrations</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span>
+                                <span class="n">carrier_concentrations</span><span class="o">=</span><span class="n">cc</span><span class="p">,</span>
+                                <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span>
+                                <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+                                <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
+                                <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>
+                                <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span>
+                                <span class="n">show_unstable</span><span class="o">=</span><span class="n">show_unstable</span><span class="p">,</span>
+                                <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plt</span></div>
+
+
+
+<div class="viewcode-block" id="plot_pO2_vs_conductivity">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_pO2_vs_conductivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_pO2_vs_conductivity</span><span class="p">(</span>
+                            <span class="n">partial_pressures</span><span class="p">,</span>
+                            <span class="n">conductivities</span><span class="p">,</span>
+                            <span class="n">new_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                            <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
+                            <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot conductivity as a function of the oxygen partial pressure.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    partial_pressures : (list)</span>
+<span class="sd">        list with partial pressure values.</span>
+<span class="sd">    conductivities : (dict or list)</span>
+<span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and conductivity list</span>
+<span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
+<span class="sd">    new_figure : (bool)</span>
+<span class="sd">        Initialize a new matplotlib figure.</span>
+<span class="sd">    label : (str)</span>
+<span class="sd">        Label for the data.</span>
+<span class="sd">    figsize : (tuple)</span>
+<span class="sd">        Size of the matplotlib figure.</span>
+<span class="sd">    xlim : (tuple)</span>
+<span class="sd">        Range of x-axis.</span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        Range of y-axis.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt : </span>
+<span class="sd">        Matplotlib object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Oxygen partial pressure (atm)&#39;</span>
+    <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_x_vs_conductivity</span><span class="p">(</span>
+                                <span class="n">x</span><span class="o">=</span><span class="n">partial_pressures</span><span class="p">,</span>
+                                <span class="n">xlabel</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span>
+                                <span class="n">conductivities</span><span class="o">=</span><span class="n">conductivities</span><span class="p">,</span>
+                                <span class="n">new_figure</span><span class="o">=</span><span class="n">new_figure</span><span class="p">,</span>
+                                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                                <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+                                <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>
+                                <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plt</span>    </div>
+
+
+
+
+<div class="viewcode-block" id="plot_pO2_vs_fermi_level">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_pO2_vs_fermi_level">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_pO2_vs_fermi_level</span><span class="p">(</span>
+                            <span class="n">partial_pressures</span><span class="p">,</span>
+                            <span class="n">fermi_levels</span><span class="p">,</span>
+                            <span class="n">band_gap</span><span class="p">,</span>
+                            <span class="n">new_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                            <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
+                            <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot Fermi level as a function of the oxygen partial pressure.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    partial_pressures : (list)</span>
+<span class="sd">        list with partial pressure values.</span>
+<span class="sd">    fermi_levels : (dict or list)</span>
+<span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and fermi level list</span>
+<span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
+<span class="sd">    band_gap : (float)</span>
+<span class="sd">        Band gap of the bulk material.</span>
+<span class="sd">    new_figure : (bool)</span>
+<span class="sd">        Initialize a new matplotlib figure.</span>
+<span class="sd">    label : (str)</span>
+<span class="sd">        Label for the data.</span>
+<span class="sd">    figsize : (tuple)</span>
+<span class="sd">        Size of the matplotlib figure.</span>
+<span class="sd">    xlim : (tuple)</span>
+<span class="sd">        Range of x-axis.</span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        Range of y-axis.</span>
+<span class="sd">    colors : (list)</span>
+<span class="sd">        List with colors for Fermi level data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt : </span>
+<span class="sd">        Matplotlib object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Oxygen partial pressure (atm)&#39;</span>
+    <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_x_vs_fermi_level</span><span class="p">(</span>
+                                <span class="n">x</span><span class="o">=</span><span class="n">partial_pressures</span><span class="p">,</span>
+                                <span class="n">xlabel</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span>
+                                <span class="n">fermi_levels</span><span class="o">=</span><span class="n">fermi_levels</span><span class="p">,</span>
+                                <span class="n">band_gap</span><span class="o">=</span><span class="n">band_gap</span><span class="p">,</span>
+                                <span class="n">new_figure</span><span class="o">=</span><span class="n">new_figure</span><span class="p">,</span>
+                                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                                <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+                                <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>
+                                <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span>
+                                <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plt</span></div>
+
+
+
+<div class="viewcode-block" id="plot_variable_species_vs_concentrations">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_variable_species_vs_concentrations">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_variable_species_vs_concentrations</span><span class="p">(</span>
+                                        <span class="n">thermodata</span><span class="p">,</span>
+                                        <span class="n">output</span><span class="o">=</span><span class="s1">&#39;total&#39;</span><span class="p">,</span>
+                                        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                                        <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
+                                        <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
+                                        <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                        <span class="n">show_unstable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                        <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                        <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot defect and carrier concentrations in a range of oxygen partial pressure.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    thermodata: (ThermoData)</span>
+<span class="sd">        ThermoData object that contains the thermodynamic data:</span>
+<span class="sd">            variable_defect_specie : (str)</span>
+<span class="sd">                Name of variable defect species.</span>
+<span class="sd">            variable_concentrations : (list)</span>
+<span class="sd">                List of concentrations of variable species. </span>
+<span class="sd">            defect_concentrations : (list or dict)</span>
+<span class="sd">                Defect concentrations in the same format as the output of DefectsAnalysis. </span>
+<span class="sd">            carrier_concentrations : (list)</span>
+<span class="sd">                List of tuples with intrinsic carriers concentrations (holes,electrons).</span>
+<span class="sd">    output : (str)</span>
+<span class="sd">        Type of output for defect concentrations:</span>
+<span class="sd">            &quot;all&quot;: The output is the concentration of every defect entry.</span>
+<span class="sd">            &quot;stable&quot;: The output is the concentration of the stable charge for every defect at each fermi level point.</span>
+<span class="sd">            &quot;total&quot;: The output is the sum of the concentration in every charge for each specie.</span>
+<span class="sd">            The default is &#39;total&#39;.</span>
+<span class="sd">    figsize : (tuple)</span>
+<span class="sd">        Size of the matplotlib figure.</span>
+<span class="sd">    fontsize : (float)</span>
+<span class="sd">        Size of font for matplotlib rcParams.</span>
+<span class="sd">    xlim : (tuple)</span>
+<span class="sd">        Range of x-axis.</span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        Range of y-axis.</span>
+<span class="sd">    show_unstable : (bool)</span>
+<span class="sd">        Show regions where the system is unstable (at least one formation energy is negative).</span>
+<span class="sd">    colors : (list)</span>
+<span class="sd">        List of colors to use for plotting with matplotlib. If None the defaults are used.</span>
+<span class="sd">    kwargs : </span>
+<span class="sd">        Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).</span>
+<span class="sd">        If provided, only the filtered concentrations will be plotted. If output</span>
+<span class="sd">        is set to &quot;total&quot;, only the filtered concentrations will be used to </span>
+<span class="sd">        compute the total concentration.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt : </span>
+<span class="sd">        Matplotlib object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">td</span> <span class="o">=</span> <span class="n">thermodata</span>
+    <span class="n">c</span><span class="p">,</span><span class="n">dc</span><span class="p">,</span><span class="n">cc</span> <span class="o">=</span> <span class="n">td</span><span class="o">.</span><span class="n">variable_concentrations</span><span class="p">,</span><span class="n">td</span><span class="o">.</span><span class="n">defect_concentrations</span><span class="p">,</span><span class="n">td</span><span class="o">.</span><span class="n">carrier_concentrations</span>
+    <span class="n">dname</span> <span class="o">=</span> <span class="n">_get_variable_defect_specie_label</span><span class="p">(</span><span class="n">td</span><span class="o">.</span><span class="n">variable_defect_specie</span><span class="p">)</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;[</span><span class="si">%s</span><span class="s1">] (cm$^{-3})$&#39;</span> <span class="o">%</span><span class="n">dname</span>
+    
+    <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_x_vs_concentrations</span><span class="p">(</span>
+                                <span class="n">x</span><span class="o">=</span><span class="n">c</span><span class="p">,</span>
+                                <span class="n">xlabel</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span>
+                                <span class="n">defect_concentrations</span><span class="o">=</span><span class="n">dc</span><span class="p">,</span>
+                                <span class="n">carrier_concentrations</span><span class="o">=</span><span class="n">cc</span><span class="p">,</span>
+                                <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span>
+                                <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+                                <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
+                                <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>
+                                <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span>
+                                <span class="n">show_unstable</span><span class="o">=</span><span class="n">show_unstable</span><span class="p">,</span>
+                                <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
+                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plt</span></div>
+
+
+
+<div class="viewcode-block" id="plot_variable_species_vs_conductivity">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_variable_species_vs_conductivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_variable_species_vs_conductivity</span><span class="p">(</span>
+                                        <span class="n">xlabel</span><span class="p">,</span>
+                                        <span class="n">variable_concentrations</span><span class="p">,</span>
+                                        <span class="n">conductivities</span><span class="p">,</span>
+                                        <span class="n">new_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                        <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                                        <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
+                                        <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot conductivity as a function of the oxygen partial pressure.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xlabel : (str)</span>
+<span class="sd">        Label for concentration axis (cm^-3 is added).</span>
+<span class="sd">    variable_concentrations : (list)</span>
+<span class="sd">        List of concentrations of variable species. </span>
+<span class="sd">    conductivities : (dict or list)</span>
+<span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and conductivity list</span>
+<span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
+<span class="sd">    new_figure : (bool)</span>
+<span class="sd">        Initialize a new matplotlib figure.</span>
+<span class="sd">    label : (str)</span>
+<span class="sd">        Label for the data.</span>
+<span class="sd">    figsize : (tuple)</span>
+<span class="sd">        Size of the matplotlib figure.</span>
+<span class="sd">    xlim : (tuple)</span>
+<span class="sd">        Range of x-axis.</span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        Range of y-axis.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt : </span>
+<span class="sd">        Matplotlib object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (cm$^{-3})$&#39;</span> <span class="o">%</span><span class="n">xlabel</span>
+    <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_x_vs_conductivity</span><span class="p">(</span>
+                                <span class="n">x</span><span class="o">=</span><span class="n">variable_concentrations</span><span class="p">,</span>
+                                <span class="n">xlabel</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span>
+                                <span class="n">conductivities</span><span class="o">=</span><span class="n">conductivities</span><span class="p">,</span>
+                                <span class="n">new_figure</span><span class="o">=</span><span class="n">new_figure</span><span class="p">,</span>
+                                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                                <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+                                <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>
+                                <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plt</span></div>
+
+    
+
+<div class="viewcode-block" id="plot_variable_species_vs_fermi_level">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_variable_species_vs_fermi_level">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_variable_species_vs_fermi_level</span><span class="p">(</span>
+                                        <span class="n">xlabel</span><span class="p">,</span>
+                                        <span class="n">variable_concentrations</span><span class="p">,</span>
+                                        <span class="n">fermi_levels</span><span class="p">,</span>
+                                        <span class="n">band_gap</span><span class="p">,</span>
+                                        <span class="n">new_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                        <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                                        <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
+                                        <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                        <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot Fermi level as a function of the oxygen partial pressure.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xlabel : (str)</span>
+<span class="sd">        Label for concentration axis (cm^-3 is added).</span>
+<span class="sd">    variable_concentrations : (list)</span>
+<span class="sd">        List of concentrations of variable species. </span>
+<span class="sd">    fermi_levels : (dict or list)</span>
+<span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and fermi level list</span>
+<span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
+<span class="sd">    band_gap : (float)</span>
+<span class="sd">        Band gap of the bulk material.</span>
+<span class="sd">    new_figure : (bool)</span>
+<span class="sd">        Initialize a new matplotlib figure.</span>
+<span class="sd">    label : (str)</span>
+<span class="sd">        Label for the data.</span>
+<span class="sd">    figsize : (tuple)</span>
+<span class="sd">        Size of the matplotlib figure.</span>
+<span class="sd">    xlim : (tuple)</span>
+<span class="sd">        Range of x-axis.</span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        Range of y-axis.</span>
+<span class="sd">    colors : (list)</span>
+<span class="sd">        List with colors for Fermi level data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt : </span>
+<span class="sd">        Matplotlib object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (cm$^{-3})$&#39;</span> <span class="o">%</span><span class="n">xlabel</span>
+    <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_x_vs_fermi_level</span><span class="p">(</span>
+                                <span class="n">x</span><span class="o">=</span><span class="n">variable_concentrations</span><span class="p">,</span>
+                                <span class="n">xlabel</span><span class="o">=</span><span class="n">xlabel</span><span class="p">,</span>
+                                <span class="n">fermi_levels</span><span class="o">=</span><span class="n">fermi_levels</span><span class="p">,</span>
+                                <span class="n">band_gap</span><span class="o">=</span><span class="n">band_gap</span><span class="p">,</span>
+                                <span class="n">new_figure</span><span class="o">=</span><span class="n">new_figure</span><span class="p">,</span>
+                                <span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span>
+                                <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span>
+                                <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>
+                                <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span>
+                                <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plt</span></div>
+
+
+
+
+<div class="viewcode-block" id="plot_x_vs_concentrations">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_x_vs_concentrations">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_x_vs_concentrations</span><span class="p">(</span>
+                            <span class="n">x</span><span class="p">,</span>
+                            <span class="n">xlabel</span><span class="p">,</span>
+                            <span class="n">defect_concentrations</span><span class="p">,</span>
+                            <span class="n">carrier_concentrations</span><span class="p">,</span>
+                            <span class="n">output</span><span class="o">=</span><span class="s1">&#39;total&#39;</span><span class="p">,</span>
+                            <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                            <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
+                            <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
+                            <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="n">show_unstable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                            <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                            <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot defect concentrations as a function of generic data on the x-axis.        </span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : (list)</span>
+<span class="sd">        List with data on x-axis.</span>
+<span class="sd">    xlabel : (str)</span>
+<span class="sd">        Label for x-axis.</span>
+<span class="sd">    defect_concentrations : (list)</span>
+<span class="sd">        List of DefectConcentrations objects.</span>
+<span class="sd">    carrier_concentrations : (list)</span>
+<span class="sd">        List of tuples with carrier concentrations (holes,electrons).</span>
+<span class="sd">        output : (str)</span>
+<span class="sd">            Type of output for defect concentrations:</span>
+<span class="sd">                &quot;all&quot;: The output is the concentration of every defect entry.</span>
+<span class="sd">                &quot;stable&quot;: The output is the concentration of the stable charge for every defect at each fermi level point.</span>
+<span class="sd">                &quot;total&quot;: The output is the sum of the concentration in every charge for each specie.</span>
+<span class="sd">                The default is &#39;total&#39;.</span>
+<span class="sd">        figsize : (tuple)</span>
+<span class="sd">            Size of the matplotlib figure.</span>
+<span class="sd">        fontsize : (float)</span>
+<span class="sd">            Size of font for matplotlib rcParams. </span>
+<span class="sd">        xlim : (tuple)</span>
+<span class="sd">            Range of x-axis. </span>
+<span class="sd">        ylim : (tuple)</span>
+<span class="sd">            Range of y-axis.</span>
+<span class="sd">        show_unstable : (bool)</span>
+<span class="sd">            Show regions where the system is unstable (at least one formation energy is negative).</span>
+<span class="sd">        colors : (list)</span>
+<span class="sd">            List of colors to use for plotting with matplotlib. If None the defaults are used.</span>
+<span class="sd">        kwargs : </span>
+<span class="sd">            Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).</span>
+<span class="sd">            If provided, only the filtered concentrations will be plotted. If output</span>
+<span class="sd">            is set to &quot;total&quot;, only the filtered concentrations will be used to </span>
+<span class="sd">            compute the total concentration.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt : </span>
+<span class="sd">            Matplotlib object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">22</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span> <span class="ow">or</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;stable&#39;</span><span class="p">:</span>
+        <span class="n">plt</span> <span class="o">=</span> <span class="n">_plot_conc</span><span class="p">(</span>
+                        <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                        <span class="n">defect_concentrations</span><span class="o">=</span><span class="n">defect_concentrations</span><span class="p">,</span>
+                        <span class="n">carrier_concentrations</span><span class="o">=</span><span class="n">carrier_concentrations</span><span class="p">,</span>
+                        <span class="n">output</span><span class="o">=</span><span class="n">output</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span><span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+    <span class="k">elif</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;total&#39;</span><span class="p">:</span>
+        <span class="n">plt</span> <span class="o">=</span> <span class="n">_plot_conc_total</span><span class="p">(</span>
+                            <span class="n">x</span><span class="o">=</span><span class="n">x</span><span class="p">,</span>
+                            <span class="n">defect_concentrations</span><span class="o">=</span><span class="n">defect_concentrations</span><span class="p">,</span>
+                            <span class="n">carrier_concentrations</span><span class="o">=</span><span class="n">carrier_concentrations</span><span class="p">,</span>
+                            <span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">,</span><span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;The options for plot output are &quot;all&quot;, &quot;stable&quot; or &quot;total&quot;.&#39;</span><span class="p">)</span>
+        
+    <span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylim</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Concentrations (cm$^{-3})$&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">plt</span>   </div>
+
+
+    
+
+<div class="viewcode-block" id="plot_x_vs_conductivity">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_x_vs_conductivity">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_x_vs_conductivity</span><span class="p">(</span>
+                        <span class="n">x</span><span class="p">,</span>
+                        <span class="n">xlabel</span><span class="p">,</span>
+                        <span class="n">conductivities</span><span class="p">,</span>
+                        <span class="n">new_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                        <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
+                        <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Plot conductivity as a function of the oxygen partial pressure.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : (list)</span>
+<span class="sd">        List with data on x-axis.</span>
+<span class="sd">    xlabel : (str)</span>
+<span class="sd">        Label for x-axis.</span>
+<span class="sd">    conductivities : (dict or list)</span>
+<span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and conductivity list</span>
+<span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
+<span class="sd">    new_figure : (bool)</span>
+<span class="sd">        Initialize a new matplotlib figure. </span>
+<span class="sd">    label : (str)</span>
+<span class="sd">        Label for the data.</span>
+<span class="sd">    figsize : (tuple)</span>
+<span class="sd">        Size of the matplotlib figure.</span>
+<span class="sd">    xlim : (tuple)</span>
+<span class="sd">        Range of x-axis.</span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        Range of y-axis.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt : </span>
+<span class="sd">        Matplotlib object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">22</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">new_figure</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">conductivities</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span><span class="n">sigma</span> <span class="ow">in</span> <span class="n">conductivities</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">sigma</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">conductivities</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">sigma</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">marker</span><span class="o">=</span><span class="s1">&#39;s&#39;</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">yscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylim</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Conductivity (S/m)&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">new_figure</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">plt</span></div>
+
+
+
+<div class="viewcode-block" id="plot_x_vs_fermi_level">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.plot_x_vs_fermi_level">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_x_vs_fermi_level</span><span class="p">(</span>
+                        <span class="n">x</span><span class="p">,</span>
+                        <span class="n">xlabel</span><span class="p">,</span>
+                        <span class="n">fermi_levels</span><span class="p">,</span>
+                        <span class="n">band_gap</span><span class="p">,</span>
+                        <span class="n">new_figure</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                        <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                        <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
+                        <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x : (list)</span>
+<span class="sd">        List with data on x-axis.</span>
+<span class="sd">    xlabel : (str)</span>
+<span class="sd">        Label for x-axis.</span>
+<span class="sd">    fermi_levels : (dict or list)</span>
+<span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and fermi level list</span>
+<span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
+<span class="sd">    band_gap : (float)</span>
+<span class="sd">        Band gap of the bulk material.</span>
+<span class="sd">    new_figure : (bool)</span>
+<span class="sd">        Initialize a new matplotlib figure.</span>
+<span class="sd">    label : (str)</span>
+<span class="sd">        Label for the data.</span>
+<span class="sd">    figsize : (tuple)</span>
+<span class="sd">        Size of the matplotlib figure.</span>
+<span class="sd">    xlim : (tuple)</span>
+<span class="sd">        Range of x-axis. </span>
+<span class="sd">    ylim : (tuple)</span>
+<span class="sd">        Range of y-axis.</span>
+<span class="sd">    colors : (list),</span>
+<span class="sd">        List with colors for Fermi level data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt : </span>
+<span class="sd">        Matplotlib object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ylim</span> <span class="o">=</span> <span class="n">ylim</span> <span class="k">if</span> <span class="n">ylim</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">band_gap</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">new_figure</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fermi_levels</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span><span class="n">mue</span> <span class="ow">in</span> <span class="n">fermi_levels</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">clr</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="n">fermi_levels</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span> <span class="k">if</span> <span class="n">colors</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">mue</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">clr</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">mue</span> <span class="o">=</span> <span class="n">fermi_levels</span>
+        <span class="n">clr</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">colors</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">mue</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">clr</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ylim</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="n">ylim</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span><span class="s1">&#39;VB&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="p">(</span><span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span><span class="n">band_gap</span><span class="o">-</span><span class="mf">0.05</span><span class="p">,</span><span class="s1">&#39;CB&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">hlines</span><span class="p">(</span><span class="n">band_gap</span><span class="p">,</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xlim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axhspan</span><span class="p">(</span><span class="n">ylim</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axhspan</span><span class="p">(</span><span class="n">band_gap</span><span class="p">,</span> <span class="n">ylim</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="n">xlabel</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Electron chemical potential (eV)&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">fermi_levels</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">new_figure</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+    
+    <span class="k">return</span> <span class="n">plt</span></div>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_variable_defect_specie_label</span><span class="p">(</span><span class="n">variable_defect_specie</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">defect</span> <span class="o">=</span> <span class="n">get_defect_from_string</span><span class="p">(</span><span class="n">variable_defect_specie</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">defect</span><span class="o">.</span><span class="n">symbol</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">variable_defect_specie</span>
+
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_plot_conc</span><span class="p">(</span>
+            <span class="n">x</span><span class="p">,</span>
+            <span class="n">defect_concentrations</span><span class="p">,</span>
+            <span class="n">carrier_concentrations</span><span class="p">,</span>
+            <span class="n">output</span><span class="p">,</span>
+            <span class="n">figsize</span><span class="p">,</span>
+            <span class="n">colors</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">dc</span> <span class="o">=</span> <span class="n">defect_concentrations</span> <span class="k">if</span> <span class="n">output</span> <span class="o">!=</span> <span class="s1">&#39;stable&#39;</span> <span class="k">else</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">stable</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">defect_concentrations</span><span class="p">]</span> 
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">dc</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">filter_concentrations</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dc</span><span class="p">]</span> <span class="c1">#filter concentrations based on kwargs</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="p">[</span><span class="n">cr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">cr</span> <span class="ow">in</span> <span class="n">carrier_concentrations</span><span class="p">]</span> 
+    <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="n">cr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">cr</span> <span class="ow">in</span> <span class="n">carrier_concentrations</span><span class="p">]</span>
+    <span class="n">previous_charge</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">dc</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+            <span class="n">conc</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">conc</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dc</span><span class="p">]</span>
+            <span class="n">charges</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">charge</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dc</span><span class="p">]</span>
+            <span class="n">label_txt</span> <span class="o">=</span> <span class="n">get_defect_from_string</span><span class="p">(</span><span class="n">dc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">symbol</span>
+            <span class="k">if</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span><span class="p">:</span>
+                <span class="n">label_txt</span> <span class="o">=</span> <span class="n">format_legend_with_charge_number</span><span class="p">(</span><span class="n">label_txt</span><span class="p">,</span><span class="n">dc</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;stable&#39;</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">charges</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">q</span> <span class="o">!=</span> <span class="n">previous_charge</span><span class="p">:</span>
+                        <span class="n">previous_charge</span> <span class="o">=</span> <span class="n">q</span>
+                        <span class="n">label_charge</span> <span class="o">=</span> <span class="s1">&#39;+&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">q</span><span class="p">))</span> <span class="k">if</span> <span class="n">q</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">q</span><span class="p">))</span>
+                        <span class="n">index</span> <span class="o">=</span> <span class="n">charges</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
+                        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">index</span><span class="p">],</span><span class="n">conc</span><span class="p">[</span><span class="n">index</span><span class="p">],</span><span class="n">label_charge</span><span class="p">,</span><span class="n">clip_on</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">if</span> <span class="n">colors</span> <span class="k">else</span> <span class="kc">None</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">conc</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label_txt</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;$n_</span><span class="si">{h}</span><span class="s1">$&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;$n_</span><span class="si">{e}</span><span class="s1">$&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plt</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_plot_conc_total</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span>
+                    <span class="n">defect_concentrations</span><span class="p">,</span>
+                    <span class="n">carrier_concentrations</span><span class="p">,</span>
+                    <span class="n">figsize</span><span class="p">,</span>
+                    <span class="n">colors</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    
+    <span class="n">dc</span> <span class="o">=</span> <span class="n">defect_concentrations</span>
+    <span class="k">if</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="n">dc</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">filter_concentrations</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dc</span><span class="p">]</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="n">figsize</span><span class="p">)</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="p">[</span><span class="n">cr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">cr</span> <span class="ow">in</span> <span class="n">carrier_concentrations</span><span class="p">]</span> 
+    <span class="n">n</span> <span class="o">=</span> <span class="p">[</span><span class="n">cr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">cr</span> <span class="ow">in</span> <span class="n">carrier_concentrations</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">dc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+        <span class="n">conc</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="o">.</span><span class="n">total</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">dc</span><span class="p">]</span>
+        <span class="n">label_txt</span> <span class="o">=</span> <span class="n">get_defect_from_string</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">symbol</span>
+        <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="n">dc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">names</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">name</span><span class="p">)]</span> <span class="k">if</span> <span class="n">colors</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">conc</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="n">label_txt</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="n">color</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">h</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;$n_</span><span class="si">{h}</span><span class="s1">$&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">n</span><span class="p">,</span><span class="n">label</span><span class="o">=</span><span class="s1">&#39;$n_</span><span class="si">{e}</span><span class="s1">$&#39;</span><span class="p">,</span><span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;b&#39;</span><span class="p">,</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">plt</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_unstable_bool</span><span class="p">(</span><span class="n">defect_concentrations</span><span class="p">):</span>
+    <span class="n">slist</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">dc</span> <span class="ow">in</span> <span class="n">defect_concentrations</span><span class="p">:</span>
+        <span class="n">unstable</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;stable&#39;</span> <span class="ow">in</span> <span class="nb">vars</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">d</span><span class="o">.</span><span class="n">stable</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="n">unstable</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">slist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">unstable</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">slist</span>
+        
+    
+
+<div class="viewcode-block" id="DefectConcentrationsPlotter">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.DefectConcentrationsPlotter">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">DefectConcentrationsPlotter</span><span class="p">:</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">concentrations</span><span class="p">,</span><span class="n">format_names</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class to visualize concentrations dictionaries with pd.DataFrame and </span>
+<span class="sd">        pd.Series (fortotal concentrations).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        concentrations : (list or dict)</span>
+<span class="sd">            Concentrations can be in different formats: list of dict for &quot;all&quot; and </span>
+<span class="sd">            &quot;stable_charges&quot; and dict for &quot;total&quot;.</span>
+<span class="sd">        format_names : (bool)</span>
+<span class="sd">            Format names with latex symbols.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># to be fixed</span>
+        <span class="n">conc_dict</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">concentrations</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;charge&#39;</span><span class="p">:</span><span class="n">c</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span><span class="s1">&#39;conc&#39;</span><span class="p">:</span><span class="n">c</span><span class="o">.</span><span class="n">conc</span><span class="p">}</span>
+
+            <span class="k">if</span> <span class="n">format_names</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">get_defect_from_string</span><span class="p">(</span><span class="n">c</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">symbol</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">name</span>
+            <span class="n">d</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">format_legend_with_charge_number</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="n">c</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
+            <span class="n">conc_dict</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        
+        <span class="n">conc_total_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">dn</span><span class="p">,</span><span class="n">conc</span> <span class="ow">in</span> <span class="n">concentrations</span><span class="o">.</span><span class="n">total</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">format_names</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">get_defect_from_string</span><span class="p">(</span><span class="n">dn</span><span class="p">)</span><span class="o">.</span><span class="n">symbol</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">dn</span>
+            <span class="n">conc_total_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">conc</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">conc</span> <span class="o">=</span> <span class="n">conc_dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conc_total</span> <span class="o">=</span> <span class="n">conc_total_dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">format_names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conc</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conc_total</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Total Concentrations&#39;</span><span class="p">)</span>
+    
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__print__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">__print__</span><span class="p">()</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DefectConcentrationsPlotter.copy">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.DefectConcentrationsPlotter.copy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+    
+    
+<div class="viewcode-block" id="DefectConcentrationsPlotter.plot_bar">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.DefectConcentrationsPlotter.plot_bar">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_bar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">conc_range</span><span class="o">=</span><span class="p">(</span><span class="mf">1e13</span><span class="p">,</span><span class="mf">1e40</span><span class="p">),</span><span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">total</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ylabel_fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Bar plot of concentrations with pd.DataFrame.plot</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        conc_range : (tuple)</span>
+<span class="sd">            Range of concentrations to include in df.</span>
+<span class="sd">        ylim : (tuple)</span>
+<span class="sd">            Limit of y-axis in plot. If None conc_range is used.</span>
+<span class="sd">        total : (bool)</span>
+<span class="sd">            plot total concentrations.</span>
+<span class="sd">        ylabel_fontsize : (int)</span>
+<span class="sd">            Size of the label for y-axis.</span>
+<span class="sd">        **kwargs : (dict)</span>
+<span class="sd">            Kwargs to pass to df.plot().</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plt : </span>
+<span class="sd">            Matplotlib object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">conc_range</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ylim</span><span class="p">:</span>
+                <span class="n">ylim</span> <span class="o">=</span> <span class="n">conc_range</span>
+            <span class="n">series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit_conc_range</span><span class="p">(</span><span class="n">conc_range</span><span class="p">,</span><span class="n">reset_df</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit_conc_range</span><span class="p">(</span><span class="n">conc_range</span><span class="p">,</span><span class="n">reset_df</span><span class="o">=</span><span class="kc">False</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">series</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">total</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="s1">&#39;conc&#39;</span><span class="p">,</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span><span class="n">logy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                          <span class="n">xlabel</span><span class="o">=</span><span class="s1">&#39;Name , Charge&#39;</span><span class="p">,</span><span class="n">legend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ax</span> <span class="o">=</span> <span class="n">series</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">kind</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">,</span><span class="n">logy</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span><span class="n">ylabel</span><span class="o">=</span><span class="s1">&#39;Concentrations(cm$^{-3}$)&#39;</span><span class="p">,</span><span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Concentrations(cm$^{-3}$)&#39;</span><span class="p">,</span><span class="n">fontdict</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;fontsize&#39;</span><span class="p">:</span><span class="n">ylabel_fontsize</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">ax</span></div>
+
+
+
+<div class="viewcode-block" id="DefectConcentrationsPlotter.limit_conc_range">
+<a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.DefectConcentrationsPlotter.limit_conc_range">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">limit_conc_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">conc_range</span><span class="o">=</span><span class="p">(</span><span class="mf">1e10</span><span class="p">,</span><span class="mf">1e40</span><span class="p">),</span><span class="n">reset_df</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Limit df to a concentration range</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        conc_range : (tuple)</span>
+<span class="sd">            Range of concentrations to include in df.</span>
+<span class="sd">        reset_df : (bool)</span>
+<span class="sd">            Reset df attribute or return a new df.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        df, series : </span>
+<span class="sd">            DataFrame object, Series object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">reset_df</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">conc</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">conc_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">conc_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">conc_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">conc_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">series</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">series</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">conc</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">conc_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">conc_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="n">series</span> <span class="o">=</span> <span class="n">series</span><span class="p">[</span><span class="n">series</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">conc_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">conc_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>
+            <span class="k">return</span> <span class="n">df</span> <span class="p">,</span> <span class="n">series</span>    </div>
+</div>
+
+    
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

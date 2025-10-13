@@ -28,14 +28,14 @@ class Reservoirs(MSONable):
 
         Parameters
         ----------
-        res_dict : (dict)
+        res_dict : dict
             Dictionary with reservoir names as key and dictionaries of chemical potentials as values.
-        phase_diagram : (PhaseDiagram object)
-            PhaseDiagram object (Pymatgen), useful to convert absolute chempots in referenced chempots.
-        mu_refs : (dict)
+        phase_diagram : PhaseDiagram
+            PhaseDiagram object, useful to convert absolute chempots in referenced chempots.
+        mu_refs : dict
             Dictionary with chemical potentials of reference elements ({Element:chempot}).
             If the PhaseDiagram is provided mu_refs is taken from the mu_refs attribute. 
-        are_chempots_delta : (bool)
+        are_chempots_delta : bool
             Set this variable to True if chempots in dictionary are referenced values.
 
         """
@@ -111,7 +111,7 @@ class Reservoirs(MSONable):
         
         Returns
         -------
-        dict
+        d : dict
             Json-serializable dict of a Reservoirs object.
 
         """
@@ -131,14 +131,14 @@ class Reservoirs(MSONable):
 
         Parameters
         ----------
-        path : (str)
-            Path to the destination file.  If None a string is exported.
-        cls : (cls)
+        path : str
+            Path to the destination file. If None a string is exported.
+        cls : cls
             Encoder class for json.dump. The default is MontyEncoder.
 
         Returns
         -------
-        d : (str)
+        d : str
             If path is not set a string is returned.
 
         """
@@ -159,10 +159,12 @@ class Reservoirs(MSONable):
         Parameters
         ----------
         d : dict
+            Json-serializable dict of a Reservoirs object.
         
         Returns
         -------
-        Reservoirs object.
+        reservoirs : Reservoirs
+            Reservoirs object.
 
         """
         res_dict = {}
@@ -182,7 +184,7 @@ class Reservoirs(MSONable):
 
         Parameters
         ----------
-        path_or_string : (str)
+        path_or_string : str
             If an existing path to a file is given the object is constructed reading the json file.
             Otherwise it will be read as a string.
 
@@ -205,14 +207,14 @@ class Reservoirs(MSONable):
 
         Parameters
         ----------
-        inplace : (bool)
+        inplace : bool
             Apply changes to current Reservoirs object.
-        elements : (list)
+        elements : list
             List of element symbols.
 
         Returns
         -------
-        res : 
+        res : Reservoirs
             Reservoirs object.
 
         """
@@ -262,18 +264,18 @@ class Reservoirs(MSONable):
 
         Parameters
         ----------
-        format_symbols : (bool)
+        format_symbols : bool
             Format labels of element chempots in latex math format.
-        format_compositions : (bool)
+        format_compositions : bool
             Get Latex format of compositions.
-        all_math : (bool)
+        all_math : bool
             Get all characters in composition written in latex's math format.
-        ndecimals : (int)
+        ndecimals : int
             Number of decimals to round the chemical potentials, if None the numbers are not changed.
 
         Returns
         -------
-        df : 
+        df : DataFrame
             DataFrame object.
 
         """
@@ -306,17 +308,16 @@ class Reservoirs(MSONable):
 
         Parameters
         ----------
-        elements : (list)
+        elements : list
             List of strings with element symbols on the diagram axis.
-        size : (float)
+        size : float
             Size of the points. The default is 1.
-        **kwargs : (dict)
+        **kwargs : dict
             Kwargs for the add_reservoirs function.
 
         Returns
         -------
-        plt : 
-            Matplotlib object.
+        Matplotlib object.
 
         """
         from pynter.phase_diagram.plotter import PDPlotterAdder # import here to avoid circular import
@@ -397,7 +398,7 @@ class PressureReservoirs(Reservoirs):
 
         Returns
         -------
-        dict
+        d : dict
             Json-serializable dict of a PressureReservoirs object.
         """
         d = {}
@@ -441,7 +442,7 @@ class PressureReservoirs(Reservoirs):
 
         Parameters
         ----------
-        path_or_string : (str)
+        path_or_string : str
             If an existing path to a file is given the object is constructed reading the json file.
             Otherwise it will be read as a string.
 

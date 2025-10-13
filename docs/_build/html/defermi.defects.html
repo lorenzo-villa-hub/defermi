@@ -1,0 +1,895 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Function to build delta_atoms dictionary starting from Pymatgen Structure objects. &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">Defect</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.defects.Defect.bulk_structure"><code class="docutils literal notranslate"><span class="pre">Defect.bulk_structure</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.bulk_volume"><code class="docutils literal notranslate"><span class="pre">Defect.bulk_volume</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.charge"><code class="docutils literal notranslate"><span class="pre">Defect.charge</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.defect_composition"><code class="docutils literal notranslate"><span class="pre">Defect.defect_composition</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.defect_site_index"><code class="docutils literal notranslate"><span class="pre">Defect.defect_site_index</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.defect_structure"><code class="docutils literal notranslate"><span class="pre">Defect.defect_structure</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.defects"><code class="docutils literal notranslate"><span class="pre">Defect.defects</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.delta_atoms"><code class="docutils literal notranslate"><span class="pre">Defect.delta_atoms</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.from_string"><code class="docutils literal notranslate"><span class="pre">Defect.from_string()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.get_multiplicity"><code class="docutils literal notranslate"><span class="pre">Defect.get_multiplicity()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.label"><code class="docutils literal notranslate"><span class="pre">Defect.label</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.multiplicity"><code class="docutils literal notranslate"><span class="pre">Defect.multiplicity</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.name"><code class="docutils literal notranslate"><span class="pre">Defect.name</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.set_bulk_volume"><code class="docutils literal notranslate"><span class="pre">Defect.set_bulk_volume()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.set_charge"><code class="docutils literal notranslate"><span class="pre">Defect.set_charge()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.set_label"><code class="docutils literal notranslate"><span class="pre">Defect.set_label()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.set_multiplicity"><code class="docutils literal notranslate"><span class="pre">Defect.set_multiplicity()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.site"><code class="docutils literal notranslate"><span class="pre">Defect.site</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.site_concentration_in_cm3"><code class="docutils literal notranslate"><span class="pre">Defect.site_concentration_in_cm3</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.specie"><code class="docutils literal notranslate"><span class="pre">Defect.specie</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.symbol"><code class="docutils literal notranslate"><span class="pre">Defect.symbol</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.symbol_with_charge"><code class="docutils literal notranslate"><span class="pre">Defect.symbol_with_charge</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.symbol_with_charge_kv"><code class="docutils literal notranslate"><span class="pre">Defect.symbol_with_charge_kv</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Defect.type"><code class="docutils literal notranslate"><span class="pre">Defect.type</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex"><code class="docutils literal notranslate"><span class="pre">DefectComplex</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.bulk_structure"><code class="docutils literal notranslate"><span class="pre">DefectComplex.bulk_structure</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.bulk_volume"><code class="docutils literal notranslate"><span class="pre">DefectComplex.bulk_volume</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.charge"><code class="docutils literal notranslate"><span class="pre">DefectComplex.charge</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.defect_composition"><code class="docutils literal notranslate"><span class="pre">DefectComplex.defect_composition</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.defect_names"><code class="docutils literal notranslate"><span class="pre">DefectComplex.defect_names</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.defect_structure"><code class="docutils literal notranslate"><span class="pre">DefectComplex.defect_structure</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.defects"><code class="docutils literal notranslate"><span class="pre">DefectComplex.defects</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.delta_atoms"><code class="docutils literal notranslate"><span class="pre">DefectComplex.delta_atoms</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.from_string"><code class="docutils literal notranslate"><span class="pre">DefectComplex.from_string()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.generate_defect_structure"><code class="docutils literal notranslate"><span class="pre">DefectComplex.generate_defect_structure()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.get_multiplicity"><code class="docutils literal notranslate"><span class="pre">DefectComplex.get_multiplicity()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.label"><code class="docutils literal notranslate"><span class="pre">DefectComplex.label</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.multiplicity"><code class="docutils literal notranslate"><span class="pre">DefectComplex.multiplicity</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.name"><code class="docutils literal notranslate"><span class="pre">DefectComplex.name</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.set_charge"><code class="docutils literal notranslate"><span class="pre">DefectComplex.set_charge()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.set_label"><code class="docutils literal notranslate"><span class="pre">DefectComplex.set_label()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.set_multiplicity"><code class="docutils literal notranslate"><span class="pre">DefectComplex.set_multiplicity()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.site_concentration_in_cm3"><code class="docutils literal notranslate"><span class="pre">DefectComplex.site_concentration_in_cm3</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.sites"><code class="docutils literal notranslate"><span class="pre">DefectComplex.sites</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.symbol"><code class="docutils literal notranslate"><span class="pre">DefectComplex.symbol</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.symbol_with_charge"><code class="docutils literal notranslate"><span class="pre">DefectComplex.symbol_with_charge</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.symbol_with_charge_kv"><code class="docutils literal notranslate"><span class="pre">DefectComplex.symbol_with_charge_kv</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.DefectComplex.type"><code class="docutils literal notranslate"><span class="pre">DefectComplex.type</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.defects.Interstitial"><code class="docutils literal notranslate"><span class="pre">Interstitial</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.defects.Interstitial.defect_composition"><code class="docutils literal notranslate"><span class="pre">Interstitial.defect_composition</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Interstitial.defect_site_index"><code class="docutils literal notranslate"><span class="pre">Interstitial.defect_site_index</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Interstitial.delta_atoms"><code class="docutils literal notranslate"><span class="pre">Interstitial.delta_atoms</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Interstitial.generate_defect_structure"><code class="docutils literal notranslate"><span class="pre">Interstitial.generate_defect_structure()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Interstitial.get_multiplicity"><code class="docutils literal notranslate"><span class="pre">Interstitial.get_multiplicity()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Interstitial.name"><code class="docutils literal notranslate"><span class="pre">Interstitial.name</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Interstitial.symbol"><code class="docutils literal notranslate"><span class="pre">Interstitial.symbol</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.defects.Polaron"><code class="docutils literal notranslate"><span class="pre">Polaron</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.defects.Polaron.defect_composition"><code class="docutils literal notranslate"><span class="pre">Polaron.defect_composition</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Polaron.defect_site_index"><code class="docutils literal notranslate"><span class="pre">Polaron.defect_site_index</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Polaron.delta_atoms"><code class="docutils literal notranslate"><span class="pre">Polaron.delta_atoms</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Polaron.generate_defect_structure"><code class="docutils literal notranslate"><span class="pre">Polaron.generate_defect_structure()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Polaron.get_multiplicity"><code class="docutils literal notranslate"><span class="pre">Polaron.get_multiplicity()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Polaron.name"><code class="docutils literal notranslate"><span class="pre">Polaron.name</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Polaron.symbol"><code class="docutils literal notranslate"><span class="pre">Polaron.symbol</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.defects.Substitution"><code class="docutils literal notranslate"><span class="pre">Substitution</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.defects.Substitution.bulk_specie"><code class="docutils literal notranslate"><span class="pre">Substitution.bulk_specie</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Substitution.defect_composition"><code class="docutils literal notranslate"><span class="pre">Substitution.defect_composition</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Substitution.defect_site_index"><code class="docutils literal notranslate"><span class="pre">Substitution.defect_site_index</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Substitution.delta_atoms"><code class="docutils literal notranslate"><span class="pre">Substitution.delta_atoms</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Substitution.generate_defect_structure"><code class="docutils literal notranslate"><span class="pre">Substitution.generate_defect_structure()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Substitution.get_multiplicity"><code class="docutils literal notranslate"><span class="pre">Substitution.get_multiplicity()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Substitution.get_site_in_bulk"><code class="docutils literal notranslate"><span class="pre">Substitution.get_site_in_bulk()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Substitution.name"><code class="docutils literal notranslate"><span class="pre">Substitution.name</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Substitution.site_in_bulk"><code class="docutils literal notranslate"><span class="pre">Substitution.site_in_bulk</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Substitution.symbol"><code class="docutils literal notranslate"><span class="pre">Substitution.symbol</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.defects.Vacancy"><code class="docutils literal notranslate"><span class="pre">Vacancy</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.defects.Vacancy.defect_composition"><code class="docutils literal notranslate"><span class="pre">Vacancy.defect_composition</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Vacancy.defect_site_index"><code class="docutils literal notranslate"><span class="pre">Vacancy.defect_site_index</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Vacancy.delta_atoms"><code class="docutils literal notranslate"><span class="pre">Vacancy.delta_atoms</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Vacancy.generate_defect_structure"><code class="docutils literal notranslate"><span class="pre">Vacancy.generate_defect_structure()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Vacancy.get_multiplicity"><code class="docutils literal notranslate"><span class="pre">Vacancy.get_multiplicity()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Vacancy.name"><code class="docutils literal notranslate"><span class="pre">Vacancy.name</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.Vacancy.symbol"><code class="docutils literal notranslate"><span class="pre">Vacancy.symbol</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.defects.format_legend_with_charge_kv"><code class="docutils literal notranslate"><span class="pre">format_legend_with_charge_kv()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.format_legend_with_charge_number"><code class="docutils literal notranslate"><span class="pre">format_legend_with_charge_number()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.get_defect_from_string"><code class="docutils literal notranslate"><span class="pre">get_defect_from_string()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.get_delta_atoms"><code class="docutils literal notranslate"><span class="pre">get_delta_atoms()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.defects.get_delta_atoms_from_comp"><code class="docutils literal notranslate"><span class="pre">get_delta_atoms_from_comp()</span></code></a></li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Function to build delta_atoms dictionary starting from Pymatgen Structure objects.</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.defects.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p id="module-defermi.defects">Created on Mon Apr  3 14:08:42 2023</p>
+<p>&#64;author: villa</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.defects.Defect">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">Defect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specie</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect_site</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Defect"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Defect" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MSONable</span></code></p>
+<p>Abstract class for a single point defect</p>
+<p>Base class for defect objets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>specie</strong> (<em>(</em><em>str</em><em>)</em>) – Defect element symbol.</p></li>
+<li><p><strong>defect_site</strong> (<em>(</em><em>Site</em><em>)</em>) – Pymatgen Site object of the defect.</p></li>
+<li><p><strong>bulk_structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Pymatgen Structure without defects.</p></li>
+<li><p><strong>charge</strong> (<em>(</em><em>int</em><em> or </em><em>float</em><em>)</em>) – Charge of the defect.</p></li>
+<li><p><strong>multiplicity</strong> (<em>(</em><em>int</em><em>)</em>) – Multiplicity of defect within the simulation cell.</p></li>
+<li><p><strong>bulk_volume</strong> (<em>(</em><em>float</em><em>)</em>) – Volume of bulk cell in A°^3.</p></li>
+<li><p><strong>label</strong> (<em>(</em><em>str</em><em>)</em>) – Defect label.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.bulk_structure">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bulk_structure</span></span><a class="headerlink" href="#defermi.defects.Defect.bulk_structure" title="Link to this definition"></a></dt>
+<dd><p>Structure without defects.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.bulk_volume">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bulk_volume</span></span><a class="headerlink" href="#defermi.defects.Defect.bulk_volume" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.charge">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge</span></span><a class="headerlink" href="#defermi.defects.Defect.charge" title="Link to this definition"></a></dt>
+<dd><p>Charge of the defect.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.defect_composition">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_composition</span></span><a class="headerlink" href="#defermi.defects.Defect.defect_composition" title="Link to this definition"></a></dt>
+<dd><p>Defect composition as a Composition object</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.defect_site_index">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_site_index</span></span><a class="headerlink" href="#defermi.defects.Defect.defect_site_index" title="Link to this definition"></a></dt>
+<dd><p>Index of the defect site in the structure</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.defect_structure">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_structure</span></span><a class="headerlink" href="#defermi.defects.Defect.defect_structure" title="Link to this definition"></a></dt>
+<dd><p>Structure of the defect</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.defects">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defects</span></span><a class="headerlink" href="#defermi.defects.Defect.defects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.delta_atoms">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delta_atoms</span></span><a class="headerlink" href="#defermi.defects.Defect.delta_atoms" title="Link to this definition"></a></dt>
+<dd><p>Dictionary with defect element symbol as keys and difference in particle number
+between defect and bulk structure as values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Defect.from_string">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Defect.from_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Defect.from_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Defect.get_multiplicity">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_multiplicity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Defect.get_multiplicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Defect.get_multiplicity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.label">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">label</span></span><a class="headerlink" href="#defermi.defects.Defect.label" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.multiplicity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">multiplicity</span></span><a class="headerlink" href="#defermi.defects.Defect.multiplicity" title="Link to this definition"></a></dt>
+<dd><p>Multiplicity of a defect site within the structure</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.name">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#defermi.defects.Defect.name" title="Link to this definition"></a></dt>
+<dd><p>Name of the defect</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Defect.set_bulk_volume">
+<span class="sig-name descname"><span class="pre">set_bulk_volume</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_volume</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Defect.set_bulk_volume"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Defect.set_bulk_volume" title="Link to this definition"></a></dt>
+<dd><p>Sets the volume of bulk cell</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Defect.set_charge">
+<span class="sig-name descname"><span class="pre">set_charge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Defect.set_charge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Defect.set_charge" title="Link to this definition"></a></dt>
+<dd><p>Sets the charge of the defect.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Defect.set_label">
+<span class="sig-name descname"><span class="pre">set_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Defect.set_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Defect.set_label" title="Link to this definition"></a></dt>
+<dd><p>Sets the label of the defect</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Defect.set_multiplicity">
+<span class="sig-name descname"><span class="pre">set_multiplicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Defect.set_multiplicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Defect.set_multiplicity" title="Link to this definition"></a></dt>
+<dd><p>Sets the Multiplicity of the defect.
+If <cite>new_multiplicity</cite> is not provided it is determined
+with <cite>self.get_multiplicity</cite></p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.site">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">site</span></span><a class="headerlink" href="#defermi.defects.Defect.site" title="Link to this definition"></a></dt>
+<dd><p>Defect position as a site object</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.site_concentration_in_cm3">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">site_concentration_in_cm3</span></span><a class="headerlink" href="#defermi.defects.Defect.site_concentration_in_cm3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.specie">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">specie</span></span><a class="headerlink" href="#defermi.defects.Defect.specie" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.symbol">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol</span></span><a class="headerlink" href="#defermi.defects.Defect.symbol" title="Link to this definition"></a></dt>
+<dd><p>Latex formatted name of the defect</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.symbol_with_charge">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol_with_charge</span></span><a class="headerlink" href="#defermi.defects.Defect.symbol_with_charge" title="Link to this definition"></a></dt>
+<dd><p>Name in latex format with charge written as a number.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.symbol_with_charge_kv">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol_with_charge_kv</span></span><a class="headerlink" href="#defermi.defects.Defect.symbol_with_charge_kv" title="Link to this definition"></a></dt>
+<dd><p>Name in latex format with charge written with kroger and vink notation.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Defect.type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#defermi.defects.Defect.type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">DefectComplex</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#DefectComplex"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.DefectComplex" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MSONable</span></code></p>
+<p>Class to describe defect complexes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>defects</strong> (<em>(</em><em>list</em><em>)</em>) – List of Defect objects.</p></li>
+<li><p><strong>bulk_structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Pymatgen Structure of the bulk material.</p></li>
+<li><p><strong>charge</strong> (<em>(</em><em>int</em><em> or </em><em>float</em><em>)</em>) – Charge of the defect.</p></li>
+<li><p><strong>multiplicity</strong> (<em>(</em><em>int</em><em>)</em>) – Multiplicity of the defect.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.bulk_structure">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bulk_structure</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.bulk_structure" title="Link to this definition"></a></dt>
+<dd><p>Structure without defects.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.bulk_volume">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bulk_volume</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.bulk_volume" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.charge">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">charge</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.charge" title="Link to this definition"></a></dt>
+<dd><p>Charge of the defect.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.defect_composition">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_composition</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.defect_composition" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.defect_names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_names</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.defect_names" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.defect_structure">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_structure</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.defect_structure" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.defects">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defects</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.defects" title="Link to this definition"></a></dt>
+<dd><p>List of single defects consituting the complex.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.delta_atoms">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delta_atoms</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.delta_atoms" title="Link to this definition"></a></dt>
+<dd><p>Dictionary with Element as keys and particle difference between defect structure
+and bulk structure as values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.from_string">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#DefectComplex.from_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.DefectComplex.from_string" title="Link to this definition"></a></dt>
+<dd><p>Get <cite>DefectComplex</cite> object from string.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.generate_defect_structure">
+<span class="sig-name descname"><span class="pre">generate_defect_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#DefectComplex.generate_defect_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.DefectComplex.generate_defect_structure" title="Link to this definition"></a></dt>
+<dd><p>Generate a structure containing the defect starting from a bulk structure.
+If not provided self.bulk_structure is used.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.get_multiplicity">
+<span class="sig-name descname"><span class="pre">get_multiplicity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#DefectComplex.get_multiplicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.DefectComplex.get_multiplicity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.label">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">label</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.label" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.multiplicity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">multiplicity</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.multiplicity" title="Link to this definition"></a></dt>
+<dd><p>Multiplicity of a defect site within the structure</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.name" title="Link to this definition"></a></dt>
+<dd><p>Name of the defect. Behaves like a string with additional attributes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.set_charge">
+<span class="sig-name descname"><span class="pre">set_charge</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_charge</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#DefectComplex.set_charge"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.DefectComplex.set_charge" title="Link to this definition"></a></dt>
+<dd><p>Sets the charge of the defect.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.set_label">
+<span class="sig-name descname"><span class="pre">set_label</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_label</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#DefectComplex.set_label"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.DefectComplex.set_label" title="Link to this definition"></a></dt>
+<dd><p>Sets the label of the defect</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.set_multiplicity">
+<span class="sig-name descname"><span class="pre">set_multiplicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">new_multiplicity</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#DefectComplex.set_multiplicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.DefectComplex.set_multiplicity" title="Link to this definition"></a></dt>
+<dd><p>Sets the charge of the defect.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.site_concentration_in_cm3">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">site_concentration_in_cm3</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.site_concentration_in_cm3" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.sites">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sites</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.sites" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.symbol">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.symbol" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.symbol_with_charge">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol_with_charge</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.symbol_with_charge" title="Link to this definition"></a></dt>
+<dd><p>Name in latex format with charge written as a number.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.symbol_with_charge_kv">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol_with_charge_kv</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.symbol_with_charge_kv" title="Link to this definition"></a></dt>
+<dd><p>Name in latex format with charge written with kroger and vink notation.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.DefectComplex.type">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">type</span></span><a class="headerlink" href="#defermi.defects.DefectComplex.type" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.defects.Interstitial">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">Interstitial</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specie</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect_site</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Interstitial"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Interstitial" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#defermi.defects.Defect" title="defermi.defects.Defect"><code class="xref py py-class docutils literal notranslate"><span class="pre">Defect</span></code></a></p>
+<p>Subclass of Defect for interstitial defects.</p>
+<p>Base class for defect objets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>specie</strong> (<em>(</em><em>str</em><em>)</em>) – Defect element symbol.</p></li>
+<li><p><strong>defect_site</strong> (<em>(</em><em>Site</em><em>)</em>) – Pymatgen Site object of the defect.</p></li>
+<li><p><strong>bulk_structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Pymatgen Structure without defects.</p></li>
+<li><p><strong>charge</strong> (<em>(</em><em>int</em><em> or </em><em>float</em><em>)</em>) – Charge of the defect.</p></li>
+<li><p><strong>multiplicity</strong> (<em>(</em><em>int</em><em>)</em>) – Multiplicity of defect within the simulation cell.</p></li>
+<li><p><strong>bulk_volume</strong> (<em>(</em><em>float</em><em>)</em>) – Volume of bulk cell in A°^3.</p></li>
+<li><p><strong>label</strong> (<em>(</em><em>str</em><em>)</em>) – Defect label.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Interstitial.defect_composition">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_composition</span></span><a class="headerlink" href="#defermi.defects.Interstitial.defect_composition" title="Link to this definition"></a></dt>
+<dd><p>Composition of the defect.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Interstitial.defect_site_index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_site_index</span></span><a class="headerlink" href="#defermi.defects.Interstitial.defect_site_index" title="Link to this definition"></a></dt>
+<dd><p>Index of the defect site in the defect structure</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Interstitial.delta_atoms">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delta_atoms</span></span><a class="headerlink" href="#defermi.defects.Interstitial.delta_atoms" title="Link to this definition"></a></dt>
+<dd><p>Dictionary with element symbol as keys and difference in particle number
+between defect and bulk structure as values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Interstitial.generate_defect_structure">
+<span class="sig-name descname"><span class="pre">generate_defect_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Interstitial.generate_defect_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Interstitial.generate_defect_structure" title="Link to this definition"></a></dt>
+<dd><p>Generate a structure containing the defect starting from a bulk structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>bulk_structure</strong> (<em>(</em><em>Structure</em><em>)</em><em>, </em><em>optional</em>) – Bulk Structure. If not provided self.bulk_structure is used. The default is None.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>structure</strong> – Structure containing the defect.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Structure)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Interstitial.get_multiplicity">
+<span class="sig-name descname"><span class="pre">get_multiplicity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Interstitial.get_multiplicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Interstitial.get_multiplicity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Interstitial.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#defermi.defects.Interstitial.name" title="Link to this definition"></a></dt>
+<dd><p>Name of the defect. Behaves like a string with additional attributes.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Interstitial.symbol">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol</span></span><a class="headerlink" href="#defermi.defects.Interstitial.symbol" title="Link to this definition"></a></dt>
+<dd><p>Latex formatted name of the defect</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.defects.Polaron">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">Polaron</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specie</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect_site</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Polaron"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Polaron" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#defermi.defects.Defect" title="defermi.defects.Defect"><code class="xref py py-class docutils literal notranslate"><span class="pre">Defect</span></code></a></p>
+<p>Subclass of Defect for polarons</p>
+<dl class="simple">
+<dt>defect_structure: (Structure)</dt><dd><p>Structure containing the polaron. If not provided the site index is searched
+in the bulk structure, and the defect_structure is set equal to the bulk structure.</p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Polaron.defect_composition">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_composition</span></span><a class="headerlink" href="#defermi.defects.Polaron.defect_composition" title="Link to this definition"></a></dt>
+<dd><p>Composition of the defect</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Polaron.defect_site_index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_site_index</span></span><a class="headerlink" href="#defermi.defects.Polaron.defect_site_index" title="Link to this definition"></a></dt>
+<dd><p>Index of the defect site in the structure</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Polaron.delta_atoms">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delta_atoms</span></span><a class="headerlink" href="#defermi.defects.Polaron.delta_atoms" title="Link to this definition"></a></dt>
+<dd><p>Dictionary with delement as keys and difference in particle number
+between defect and bulk structure as values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Polaron.generate_defect_structure">
+<span class="sig-name descname"><span class="pre">generate_defect_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Polaron.generate_defect_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Polaron.generate_defect_structure" title="Link to this definition"></a></dt>
+<dd><p>Structure containing the polaron. If not provided the site index is searched
+in the bulk structure, and the defect_structure is set equal to the bulk structure.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Polaron.get_multiplicity">
+<span class="sig-name descname"><span class="pre">get_multiplicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Polaron.get_multiplicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Polaron.get_multiplicity" title="Link to this definition"></a></dt>
+<dd><p>Get multiplicity of the defect in the structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Arguments to pass to SpacegroupAnalyzer (symprec, angle_tolerance)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Polaron.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#defermi.defects.Polaron.name" title="Link to this definition"></a></dt>
+<dd><p>Name of the defect. Behaves like a string with additional attributes.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Polaron.symbol">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol</span></span><a class="headerlink" href="#defermi.defects.Polaron.symbol" title="Link to this definition"></a></dt>
+<dd><p>Latex formatted name of the defect</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.defects.Substitution">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">Substitution</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specie</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_specie</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect_site</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site_in_bulk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Substitution"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Substitution" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#defermi.defects.Defect" title="defermi.defects.Defect"><code class="xref py py-class docutils literal notranslate"><span class="pre">Defect</span></code></a></p>
+<p>Subclass of Defect for substitutional defects.</p>
+<dl class="simple">
+<dt>site_in_bulk: (PeriodicSite)</dt><dd><p>Original Site in bulk structure were substitution took place</p>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Substitution.bulk_specie">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bulk_specie</span></span><a class="headerlink" href="#defermi.defects.Substitution.bulk_specie" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Substitution.defect_composition">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_composition</span></span><a class="headerlink" href="#defermi.defects.Substitution.defect_composition" title="Link to this definition"></a></dt>
+<dd><p>Composition of the defect.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Substitution.defect_site_index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_site_index</span></span><a class="headerlink" href="#defermi.defects.Substitution.defect_site_index" title="Link to this definition"></a></dt>
+<dd><p>Index of the defect site in the bulk structure</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Substitution.delta_atoms">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delta_atoms</span></span><a class="headerlink" href="#defermi.defects.Substitution.delta_atoms" title="Link to this definition"></a></dt>
+<dd><p>Dictionary with element symbol as keys and difference in particle number
+between defect and bulk structure as values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Substitution.generate_defect_structure">
+<span class="sig-name descname"><span class="pre">generate_defect_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect_site_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Substitution.generate_defect_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Substitution.generate_defect_structure" title="Link to this definition"></a></dt>
+<dd><p>Generate a structure containing the defect starting from a bulk structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bulk_structure</strong> (<em>(</em><em>Structure</em><em>)</em><em>, </em><em>optional</em>) – Bulk Structure. If not provided self.bulk_structure is used. The default is None.</p></li>
+<li><p><strong>defect_site_index</strong> (<em>(</em><em>Structure</em><em>)</em><em>, </em><em>optional</em>) – Index of the defect site in the bulk structure. If not provided
+self.defect_site_index is used. The default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>structure</strong> – Structure containing the defect.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Structure)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Substitution.get_multiplicity">
+<span class="sig-name descname"><span class="pre">get_multiplicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Substitution.get_multiplicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Substitution.get_multiplicity" title="Link to this definition"></a></dt>
+<dd><p>Get multiplicity of the defect in the structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Arguments to pass to SpacegroupAnalyzer (symprec, angle_tolerance)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Substitution.get_site_in_bulk">
+<span class="sig-name descname"><span class="pre">get_site_in_bulk</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Substitution.get_site_in_bulk"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Substitution.get_site_in_bulk" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Substitution.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#defermi.defects.Substitution.name" title="Link to this definition"></a></dt>
+<dd><p>Name for this defect. Behaves like a string with additional attributes.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Substitution.site_in_bulk">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">site_in_bulk</span></span><a class="headerlink" href="#defermi.defects.Substitution.site_in_bulk" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Substitution.symbol">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol</span></span><a class="headerlink" href="#defermi.defects.Substitution.symbol" title="Link to this definition"></a></dt>
+<dd><p>Latex formatted name of the defect</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.defects.Vacancy">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">Vacancy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">specie</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect_site</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Vacancy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Vacancy" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#defermi.defects.Defect" title="defermi.defects.Defect"><code class="xref py py-class docutils literal notranslate"><span class="pre">Defect</span></code></a></p>
+<p>Subclass of Defect for single vacancies.</p>
+<p>Base class for defect objets</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>specie</strong> (<em>(</em><em>str</em><em>)</em>) – Defect element symbol.</p></li>
+<li><p><strong>defect_site</strong> (<em>(</em><em>Site</em><em>)</em>) – Pymatgen Site object of the defect.</p></li>
+<li><p><strong>bulk_structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Pymatgen Structure without defects.</p></li>
+<li><p><strong>charge</strong> (<em>(</em><em>int</em><em> or </em><em>float</em><em>)</em>) – Charge of the defect.</p></li>
+<li><p><strong>multiplicity</strong> (<em>(</em><em>int</em><em>)</em>) – Multiplicity of defect within the simulation cell.</p></li>
+<li><p><strong>bulk_volume</strong> (<em>(</em><em>float</em><em>)</em>) – Volume of bulk cell in A°^3.</p></li>
+<li><p><strong>label</strong> (<em>(</em><em>str</em><em>)</em>) – Defect label.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Vacancy.defect_composition">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_composition</span></span><a class="headerlink" href="#defermi.defects.Vacancy.defect_composition" title="Link to this definition"></a></dt>
+<dd><p>Composition of the defect.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Vacancy.defect_site_index">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">defect_site_index</span></span><a class="headerlink" href="#defermi.defects.Vacancy.defect_site_index" title="Link to this definition"></a></dt>
+<dd><p>Index of the defect site in the bulk structure</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Vacancy.delta_atoms">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">delta_atoms</span></span><a class="headerlink" href="#defermi.defects.Vacancy.delta_atoms" title="Link to this definition"></a></dt>
+<dd><p>Dictionary with element symbol as keys and difference in particle number
+between defect and bulk structure as values</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Vacancy.generate_defect_structure">
+<span class="sig-name descname"><span class="pre">generate_defect_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">defect_site_index</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Vacancy.generate_defect_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Vacancy.generate_defect_structure" title="Link to this definition"></a></dt>
+<dd><p>Generate a structure containing the defect starting from a bulk structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bulk_structure</strong> (<em>(</em><em>Structure</em><em>)</em><em>, </em><em>optional</em>) – Bulk Structure. If not provided self.bulk_structure is used. The default is None.</p></li>
+<li><p><strong>defect_site_index</strong> (<em>(</em><em>Structure</em><em>)</em><em>, </em><em>optional</em>) – Index of the defect site in the bulk structure. If not provided
+self.defect_site_index is used. The default is None.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>structure</strong> – Structure containing the defect.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Structure)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.defects.Vacancy.get_multiplicity">
+<span class="sig-name descname"><span class="pre">get_multiplicity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#Vacancy.get_multiplicity"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.Vacancy.get_multiplicity" title="Link to this definition"></a></dt>
+<dd><p>Get multiplicity of the defect in the structure</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>**kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Arguments to pass to SpacegroupAnalyzer (symprec, angle_tolerance)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Vacancy.name">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#defermi.defects.Vacancy.name" title="Link to this definition"></a></dt>
+<dd><p>Name of the defect. Behaves like a string with additional attributes.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.defects.Vacancy.symbol">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">symbol</span></span><a class="headerlink" href="#defermi.defects.Vacancy.symbol" title="Link to this definition"></a></dt>
+<dd><p>Latex formatted name of the defect</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.defects.format_legend_with_charge_kv">
+<span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">format_legend_with_charge_kv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#format_legend_with_charge_kv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.format_legend_with_charge_kv" title="Link to this definition"></a></dt>
+<dd><p>Get label in latex format with charge written with kroger and vink notation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>label</strong> (<em>(</em><em>str</em><em>)</em>) – Original name of the defect.</p></li>
+<li><p><strong>charge</strong> (<em>(</em><em>int</em><em> or </em><em>float</em><em>)</em>) – Charge of the defect. Floats are converted to integer.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.defects.format_legend_with_charge_number">
+<span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">format_legend_with_charge_number</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#format_legend_with_charge_number"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.format_legend_with_charge_number" title="Link to this definition"></a></dt>
+<dd><p>Get label in latex format with charge written as a number.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>label</strong> (<em>(</em><em>str</em><em>)</em>) – Original name of the defect.</p></li>
+<li><p><strong>charge</strong> (<em>(</em><em>int</em><em> or </em><em>float</em><em>)</em>) – Charge of the defect. Floats are converted to integers.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.defects.get_defect_from_string">
+<span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">get_defect_from_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">string</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#get_defect_from_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.get_defect_from_string" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.defects.get_delta_atoms">
+<span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">get_delta_atoms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure_defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_bulk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#get_delta_atoms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.get_delta_atoms" title="Link to this definition"></a></dt>
+<dd><section id="function-to-build-delta-atoms-dictionary-starting-from-pymatgen-structure-objects">
+<h1>Function to build delta_atoms dictionary starting from Pymatgen Structure objects.<a class="headerlink" href="#function-to-build-delta-atoms-dictionary-starting-from-pymatgen-structure-objects" title="Link to this heading"></a></h1>
+<dl class="simple">
+<dt>structure_defect<span class="classifier">(Pymatgen Structure object)</span></dt><dd><p>Defect structure.</p>
+</dd>
+<dt>structure_bulk<span class="classifier">(Pymatgen Structure object)</span></dt><dd><p>Bulk structure.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>delta_atoms</strong> – Dictionary with Element as keys and delta n as values.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>(dict)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.defects.get_delta_atoms_from_comp">
+<span class="sig-prename descclassname"><span class="pre">defermi.defects.</span></span><span class="sig-name descname"><span class="pre">get_delta_atoms_from_comp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp_defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comp_bulk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/defects.html#get_delta_atoms_from_comp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.defects.get_delta_atoms_from_comp" title="Link to this definition"></a></dt>
+<dd><section id="function-to-biuld-delta-atoms-dictionary-starting-from-pymatgen-structure-objects">
+<h1>Function to biuld delta_atoms dictionary starting from Pymatgen Structure objects.<a class="headerlink" href="#function-to-biuld-delta-atoms-dictionary-starting-from-pymatgen-structure-objects" title="Link to this heading"></a></h1>
+<dl class="simple">
+<dt>comp_defect<span class="classifier">(Pymatgen Composition object)</span></dt><dd><p>Defect structure.</p>
+</dd>
+<dt>comp_bulk<span class="classifier">(Pymatgen Composition object)</span></dt><dd><p>Bulk structure.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>delta_atoms</strong> – Dictionary with Element as keys and delta n as values.</p>
+</dd>
+<dt class="field-even">rtype<span class="colon">:</span></dt>
+<dd class="field-even"><p>(dict)</p>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

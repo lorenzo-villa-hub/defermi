@@ -1,0 +1,1273 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.append"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.append()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.as_dict"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.as_dict()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.copy"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.copy()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.elemental"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.elemental</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.elements"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.elements</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.filter_concentrations"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.filter_concentrations()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.from_dict"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.get_element_total"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.get_element_total()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.names"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.names</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.select_concentrations"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.select_concentrations()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.stable"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.stable</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectConcentrations.total"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations.total</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.append"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.append()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.as_dict"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.as_dict()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.binding_energy"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.binding_energy()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.carrier_concentrations"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.carrier_concentrations()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.charge_transition_levels"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.charge_transition_levels()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.copy"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.copy()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.defect_concentrations"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.defect_concentrations()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.elements"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.elements</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.filter_entries"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.filter_entries()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.formation_energies"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.formation_energies()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.from_dataframe"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.from_dataframe()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.from_dict"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.from_file"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.from_file()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.from_json"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.from_json()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.from_vasp_directories"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.from_vasp_directories()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.get_charge_transition_level"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.get_charge_transition_level()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.merge_entries"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.merge_entries()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.plot_binding_energies"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.plot_binding_energies()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.plot_brouwer_diagram"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.plot_brouwer_diagram()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.plot_ctl"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.plot_ctl()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.plot_doping_diagram"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.plot_doping_diagram()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.plot_formation_energies"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.plot_formation_energies()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.reset_all_custom_functions"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.reset_all_custom_functions()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.reset_defect_concentration_functions"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.reset_defect_concentration_functions()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.reset_formation_energy_functions"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.reset_formation_energy_functions()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.select_entries"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.select_entries()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.set_defect_concentration_functions"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.set_defect_concentration_functions()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.set_formation_energy_functions"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.set_formation_energy_functions()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.solve_fermi_level"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.solve_fermi_level()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.sort_entries"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.sort_entries()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.stable_charges"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.stable_charges()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.table"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.table()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.thermodata"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.thermodata</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.to_dataframe"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.to_dataframe()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.to_file"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.to_file()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.DefectsAnalysis.to_json"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis.to_json()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#defermi.analysis.SingleDefConc"><code class="docutils literal notranslate"><span class="pre">SingleDefConc</span></code></a><ul>
+<li><a class="reference internal" href="#defermi.analysis.SingleDefConc.items"><code class="docutils literal notranslate"><span class="pre">SingleDefConc.items()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.SingleDefConc.keys"><code class="docutils literal notranslate"><span class="pre">SingleDefConc.keys()</span></code></a></li>
+<li><a class="reference internal" href="#defermi.analysis.SingleDefConc.values"><code class="docutils literal notranslate"><span class="pre">SingleDefConc.values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.analysis.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <dl class="py class" id="module-defermi.analysis">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.analysis.</span></span><span class="sig-name descname"><span class="pre">DefectConcentrations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">concentrations</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectConcentrations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectConcentrations" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to store sets of defect concentrations (output of concentration calculations with DefectsAnalysis).
+List of SingleDefConc objects. Subscriptable like a list.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>concentrations</strong> (<em>(</em><em>list</em><em>)</em>) – List of SingleDefConc objects.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectConcentrations.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectConcentrations.append" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectConcentrations.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectConcentrations.as_dict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectConcentrations.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectConcentrations.copy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.elemental">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elemental</span></span><a class="headerlink" href="#defermi.analysis.DefectConcentrations.elemental" title="Link to this definition"></a></dt>
+<dd><p>Dictionary with element (or element vacancy) as keys and total element concentration as values.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#defermi.analysis.DefectConcentrations.elements" title="Link to this definition"></a></dt>
+<dd><p>List of element (or vacancies) symbols.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.filter_concentrations">
+<span class="sig-name descname"><span class="pre">filter_concentrations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'and'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectConcentrations.filter_concentrations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectConcentrations.filter_concentrations" title="Link to this definition"></a></dt>
+<dd><p>Filter concentrations based on different criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inplace</strong> (<em>bool</em>) – If True update the current object, otherwise returns a new DefectConcentrations object.
+The default is False.</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Selection mode. available are ‘and’,’or’. The default is ‘and’.</p></li>
+<li><p><strong>exclude</strong> (<em>bool</em>) – Exclude the entries matching the criteria. The default is False.</p></li>
+<li><p><strong>names</strong> (<em>list</em>) – Names of the defect.</p></li>
+<li><p><strong>charges</strong> (<em>list</em>) – Charges of the defect.</p></li>
+<li><p><strong>indexes</strong> (<em>list</em>) – Indexes of defect in the concentrations list.</p></li>
+<li><p><strong>function</strong> (<em>function</em>) – Specific funtion for more complex criteria. The function must take a
+SingleDefConc object as argument and return a bool.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – Criteria for selection. They need to be attributes of SingleDefConc.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>output_concs</strong> – Filtered DefectConcentrations object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectConcentrations.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectConcentrations.from_dict" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.get_element_total">
+<span class="sig-name descname"><span class="pre">get_element_total</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vacancy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectConcentrations.get_element_total"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectConcentrations.get_element_total" title="Link to this definition"></a></dt>
+<dd><p>Get total concentration of every element (summed also across different species)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>element</strong> (<em>str</em>) – Target element.</p></li>
+<li><p><strong>vacancy</strong> (<em>bool</em>) – Weather the target element is a vacancy. The default is False.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>eltot</strong> – Total concentration of target element.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.names">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">names</span></span><a class="headerlink" href="#defermi.analysis.DefectConcentrations.names" title="Link to this definition"></a></dt>
+<dd><p>List of names of all defect species</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.select_concentrations">
+<span class="sig-name descname"><span class="pre">select_concentrations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">concentrations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'and'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charges</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indexes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectConcentrations.select_concentrations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectConcentrations.select_concentrations" title="Link to this definition"></a></dt>
+<dd><p>Select concentrations based on different criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>concentrations</strong> (<em>list</em>) – List of SingleDefConc to select from. If None self.concentrations is used.
+The default is None.</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Selection mode. available are ‘and’,’or’. The default is ‘and’.</p></li>
+<li><p><strong>exclude</strong> (<em>bool</em>) – Exclude the entries matching the criteria. The default is False.</p></li>
+<li><p><strong>names</strong> (<em>list</em>) – Names of the defect.</p></li>
+<li><p><strong>charges</strong> (<em>list</em>) – Charges of the defect.</p></li>
+<li><p><strong>indexes</strong> (<em>list</em>) – Indexes of defect in the concentrations list.</p></li>
+<li><p><strong>function</strong> (<em>function</em>) – Specific funtion for more complex criteria. The function must take a
+SingleDefConc object as argument and return a bool.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – Criteria for selection. They need to be attributes of SingleDefConc.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>output_concs</strong> – List of SingleDefConc objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.stable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">stable</span></span><a class="headerlink" href="#defermi.analysis.DefectConcentrations.stable" title="Link to this definition"></a></dt>
+<dd><p>Get concentrations of only stable charge states. List of SingleDefConc objects.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.analysis.DefectConcentrations.total">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total</span></span><a class="headerlink" href="#defermi.analysis.DefectConcentrations.total" title="Link to this definition"></a></dt>
+<dd><p>conc})</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Get total concentrations for every defect specie. Format is a dict ({‘name’</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.analysis.</span></span><span class="sig-name descname"><span class="pre">DefectsAnalysis</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entries</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_gap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vbm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MSONable</span></code></p>
+<p>Class to compute collective properties starting from single calculations of point defects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entries</strong> (<em>list</em>) – A list of DefectEntry objects.</p></li>
+<li><p><strong>band_gap</strong> (<em>float</em>) – Band gap of the pristine material in eV.</p></li>
+<li><p><strong>vbm</strong> (<em>float</em>) – Valence band maximum of the pristine material in eV.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.append">
+<span class="sig-name descname"><span class="pre">append</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">item</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.append"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.append" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.as_dict">
+<span class="sig-name descname"><span class="pre">as_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.as_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.as_dict" title="Link to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Json-serializable dict representation of DefectsAnalysis.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.binding_energy">
+<span class="sig-name descname"><span class="pre">binding_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">eform_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.binding_energy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.binding_energy" title="Link to this definition"></a></dt>
+<dd><p>Compute the binding energy for a defect complex as:
+Eb = Ef(complex) - sum_D Ef(D), where D are the individual defects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>string</em>) – Name of defect complex as assigned in defect entry object</p></li>
+<li><p><strong>fermi_level</strong> (<em>float</em>) – Fermi level in eV.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>float</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Binding energy in eV.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.carrier_concentrations">
+<span class="sig-name descname"><span class="pre">carrier_concentrations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk_dos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.carrier_concentrations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.carrier_concentrations" title="Link to this definition"></a></dt>
+<dd><p>Get intrinsic carrier concentrations by integrating over the density of states
+given a fixed Fermi level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bulk_dos</strong> (<em>dict</em><em> or </em><em>Dos</em>) – <p>Density of states to integrate. Can be provided as density of states D(E)
+or using effective masses.</p>
+<p>Format for effective masses is a dict with the following keys:</p>
+<ul>
+<li><p>”m_eff_h” : holes effective mass in units of m_e (electron mass)</p></li>
+<li><p>”m_eff_e” : electrons effective mass in units of m_h</p></li>
+<li><p><cite>band_gap</cite> : needs to be provided in arguments</p></li>
+</ul>
+<p>Format for explicit DOS (dictionary) with the following keys:</p>
+<ul>
+<li><p>’energies’ : list or np.array with energy values</p></li>
+<li><p>’densities’ : list or np.array with total density values</p></li>
+<li><p>’structure’ : pymatgen Structure of the material, needed for DOS volume and charge normalization</p></li>
+</ul>
+<p>Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).</p>
+</p></li>
+<li><p><strong>fermi_level</strong> (<em>float</em>) – The Fermi level relative to the VBM in eV.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – The temperature in Kelvin.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>h</strong> (<em>float</em>) – Absolute value of hole concentration in 1/cm^3</p></li>
+<li><p><strong>n</strong> (<em>float</em>) – Absolute value of electron concentration in 1/cm^3</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.charge_transition_levels">
+<span class="sig-name descname"><span class="pre">charge_transition_levels</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">energy_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_integers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">eform_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.charge_transition_levels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.charge_transition_levels" title="Link to this definition"></a></dt>
+<dd><p>Computes charge transition levels for all defect entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>energy_range</strong> (<em>list</em><em> or </em><em>tuple</em>) – Energy range in eV to evaluate the charge transition levels, default to (-0.5, band_gap + 0.5).</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
+<li><p><strong>entries</strong> (<em>list</em>) – List of entries to calculate. If None all entries are considered.</p></li>
+<li><p><strong>get_integers</strong> (<em>bool</em>) – Save charges as integers. More convenient for plotting.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>charge_transition_levels</strong> – Dictionary with defect name and list of tuples for
+charge transition levels in eV: {name:[(q1,q2,ctl),(q2,q3,ctl),…}</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.copy">
+<span class="sig-name descname"><span class="pre">copy</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.copy"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.copy" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.defect_concentrations">
+<span class="sig-name descname"><span class="pre">defect_concentrations</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_concentrations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">per_unit_volume</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eform_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.defect_concentrations"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.defect_concentrations" title="Link to this definition"></a></dt>
+<dd><p>Compute concentrations of all defects.</p>
+<p>For each entry, is possible to set a custom function to compute the defect
+concentration using <cite>set_defect_concentration_function</cite>. If that is set,
+the new function is used instead of the default.</p>
+<p>The function args must be the following:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>vbm<span class="classifier">(float)</span></dt><dd><p>Valence band maximum of bulk calculation in eV.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>chemical_potentials<span class="classifier">(dict)</span></dt><dd><p>Chemical potentials of the elements involved in the defect.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>fermi_level<span class="classifier">(float)</span></dt><dd><p>Fermi level in eV (with respect to the VBM).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>temperature<span class="classifier">(float)</span></dt><dd><p>Temperature in Kelvin.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>eform_kwargs<span class="classifier">(dict)</span></dt><dd><p>Kwargs to pass to <cite>entry.formation_energy</cite>.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>kwargs<span class="classifier">(dict)</span></dt><dd><p>Additional custom kwargs.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>It is possible to set custom functions collectively using the
+<cite>set_defect_concentration_functions</cite> method in this class.
+To reset functions to default, use <cite>reset_defect_concentration_functions</cite>.</p>
+<p>If fixed_concentrations is provided the concentration of defect entries are
+corrected according to the fixed provided values. More details can be found in
+<a class="reference external" href="https://doi.org/10.1103/PhysRevB.106.134101">https://doi.org/10.1103/PhysRevB.106.134101</a> .</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemical_potentials</strong> (<em>dict</em>) – Dictionary of chemical potentials ({element: chempot}).</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K.</p></li>
+<li><p><strong>fermi_level</strong> (<em>float</em>) – Fermi level in eV relative to valence band maximum.</p></li>
+<li><p><strong>fixed_concentrations</strong> (<em>dict</em>) – Dictionary with fixed concentrations. Keys can be simple element strings
+(or vacancies of elements in the format ‘Vac_{el}’) if that element needs to be
+fixed across all defect species, alternatively defect entry names can be used as well
+to target specific defect entries. The values are the concentrations.</p></li>
+<li><p><strong>per_unit_volume</strong> (<em>bool</em>) – Get concentrations in cm^-3. If False they are per unit cell.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>self.formation_energy</cite>.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Additional custom kwargs to pass to <cite>entry.defect_concentration</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>concentrations</strong> – DefectConcentrations object, behaves like a list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#defermi.analysis.DefectConcentrations" title="defermi.analysis.DefectConcentrations">DefectConcentrations</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.elements">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">elements</span></span><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.elements" title="Link to this definition"></a></dt>
+<dd><p>List of all the elements involved in exchange of atoms with a reservoir
+(elements present in entry.delta_atoms for all entries).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.filter_entries">
+<span class="sig-name descname"><span class="pre">filter_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'and'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.filter_entries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.filter_entries" title="Link to this definition"></a></dt>
+<dd><p>Filter entries based on different criteria. Return another DefectsAnalysis object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inplace</strong> (<em>bool</em>) – Apply changes to current DefectsAnalysis object.</p></li>
+<li><p><strong>entries</strong> (<em>list</em>) – List of defect entries.</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Filtering mode, possibilities are: ‘and’ and ‘or’. The default is ‘and’.</p></li>
+<li><p><strong>exclude</strong> (<em>bool</em>) – Exclude the entries satisfying the criteria instead of selecting them. The default is False.</p></li>
+<li><p><strong>types</strong> (<em>list</em>) – Class name of the defect in the entry.</p></li>
+<li><p><strong>elements</strong> (<em>list</em>) – List of symbols of elements that need to belong to the defect specie.
+If None this criterion is ignored. The default is None.</p></li>
+<li><p><strong>names</strong> (<em>list</em>) – List of entry names.</p></li>
+<li><p><strong>function</strong> (<em>function</em>) – Specific funtion for more complex criteria. The function must take a DefectEntry
+object as argument and return a bool.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – Properties that the jobs need to satisfy. Keys are referred to attributes/methods
+of the defect entry. To address more than one condition relative to
+the same attribute, use lists or tuples (e.g. charge=[0,1]).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>defects_analysis</strong> – DefectsAnalysis object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#defermi.analysis.DefectsAnalysis" title="defermi.analysis.DefectsAnalysis">DefectsAnalysis</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.formation_energies">
+<span class="sig-name descname"><span class="pre">formation_energies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">eform_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.formation_energies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.formation_energies" title="Link to this definition"></a></dt>
+<dd><p>Compute formation energies for all defect entries.
+Returns a dictionary with names of defect entries as keys and
+a list of tuples (charge,formation_energy) as values.</p>
+<p>For each entry, is possible to set a custom function to compute the formation
+energy using <cite>set_formation_energy_function</cite>. If that is set,
+the new function is used instead of the default.</p>
+<p>The function args must be the following:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>vbm<span class="classifier">(float)</span></dt><dd><p>Valence band maximum of bulk calculation in eV.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>chemical_potentials<span class="classifier">(dict)</span></dt><dd><p>Chemical potentials of the elements involved in the defect.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>fermi_level<span class="classifier">(float)</span></dt><dd><p>Fermi level in eV (with respect to the VBM).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>temperature<span class="classifier">(float)</span></dt><dd><p>Temperature in Kelvin.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>kwargs<span class="classifier">(dict)</span></dt><dd><p>Additional custom kwargs.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>It is possible to set custom functions collectively using the
+<cite>set_formation_energy_functions</cite> method in this class.
+To reset functions to default, use <cite>reset_formation_energy_functions</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemical_potentials</strong> (<em>dict</em>) – Dictionary of chemical potentials ({element: chempot}).</p></li>
+<li><p><strong>fermi_level</strong> (<em>float</em>) – Fermi level in eV relative to valence band maximum.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
+<li><p><strong>entries</strong> (<em>list</em>) – List of defect entries to calculate. If None all entries are considered.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>dict</em>) – Additional custom kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>formation_energies</strong> – Dictionary in the format: {name: [(charge,formation energy)]}.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.from_dataframe">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_gap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vbm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.from_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.from_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Create DefectsAnalysis object from pandas DataFrame (df). If df has been
+exported with include_structure=True, DefectEntry objects will be
+imported including defect and bulk structures.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – <p>pandas DataFrame. Needs to be in the following format:</p>
+<ul>
+<li><p>rows are defect entries</p></li>
+<li><dl class="simple">
+<dt>non-optional columns are:</dt><dd><ul>
+<li><p>name : defect name in the format given by Defect objects.</p></li>
+<li><p>charge : defect charge</p></li>
+<li><p>multiplicity : site multiplicity of the defect</p></li>
+<li><p>energy_diff : difference in energy btw defect and bulk structures</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>If the df was not exported from this class, you need to provide also:</dt><dd><ul>
+<li><dl class="simple">
+<dt>bulk_volume<span class="classifier">Volume of the bulk cell in A°3(unit cell or supercell</span></dt><dd><p>relative to your multiplicity)</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</p></li>
+<li><p><strong>vbm</strong> (<em>float</em>) – Valence band maximum of bulk structure in eV.</p></li>
+<li><p><strong>band_gap</strong> (<em>float</em>) – Band gap of bulk structure in eV.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DefectsAnalysis object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.from_dict">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.from_dict" title="Link to this definition"></a></dt>
+<dd><p>Reconstruct a DefectsAnalysis object from a dict representation created using
+as_dict().</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>d</strong> (<em>dict</em>) – Dictionary representation of DefectsAnalysis.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DefectsAnalysis object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.from_file">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_gap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vbm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.from_file" title="Link to this definition"></a></dt>
+<dd><p>Create DefectsAnalysis object from file.
+Available formats are:
+- ‘json’
+- ‘pkl’
+- ‘csv’</p>
+<p>Check docs in <cite>from_dataframe</cite> function for file formatting requirements.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.from_json">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_or_string</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.from_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.from_json" title="Link to this definition"></a></dt>
+<dd><p>Build DefectsAnalysis object from json file or string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path_or_string</strong> (<em>str</em>) – If an existing path to a file is given the object is constructed reading the json file.
+Otherwise it will be read as a string.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DefectsAnalysis object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.from_vasp_directories">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_vasp_directories</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path_defects</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_bulk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">common_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_charge_correction</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'kumagai'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dielectric_tensor</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_multiplicity</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_gap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vbm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">computed_entry_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">finder_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">correction_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.from_vasp_directories"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.from_vasp_directories" title="Link to this definition"></a></dt>
+<dd><p>Generate DefectsAnalysis object from VASP directories read with Pymatgen.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path_defects</strong> (<em>str</em>) – Path of VASP defects calculation.</p></li>
+<li><p><strong>path_bulk</strong> (<em>str</em>) – Path of VASP bulk calculation.</p></li>
+<li><p><strong>get_charge_correction</strong> (<em>str</em><em> or </em><em>bool</em>) – Compute charge corrections from VASP directories. To skip corrections set it to False.
+Methods available are:
+- “kumagai” : Extended FNV scheme (eFNV).
+- “freysoldt” : FNV scheme.</p></li>
+<li><p><strong>get_multiplicity</strong> (<em>bool</em>) – Determine defect multiplicity automatically. Not implemented for interstitials and defect complexes.</p></li>
+<li><p><strong>get_data</strong> (<em>True</em>) – Store path in DefectEntry.data dictionary.</p></li>
+<li><p><strong>band_gap</strong> (<em>float</em>) – Band gap of bulk material. If not provided is determined from bulk VASP directory.</p></li>
+<li><p><strong>vbm</strong> (<em>float</em>) – Valence band maximum of bulk material. If not provided is determined from bulk VASP directory.</p></li>
+<li><p><strong>initial_structure</strong> (<em>bool</em>) – Use initial structure for defect recognition. Useful when relaxations are large and
+defect_finder struggles to find the right defects.</p></li>
+<li><p><strong>function</strong> (<em>function</em>) – Function to apply to each DefectEntry. Useful to automate custom entry modification.</p></li>
+<li><p><strong>computed_entry_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>Vasprun.get_computed_entry</cite>.</p></li>
+<li><p><strong>finder_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>defect_finder</cite>.</p></li>
+<li><p><strong>correction_kwargs</strong> (<em>dict</em>) – Kwargs to pass to the charge correction methods.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>DefectsAnalysis object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.get_charge_transition_level">
+<span class="sig-name descname"><span class="pre">get_charge_transition_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">q2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">eform_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.get_charge_transition_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.get_charge_transition_level" title="Link to this definition"></a></dt>
+<dd><p>Compute charge transition level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Defect name in the format given by the Defect object.</p></li>
+<li><p><strong>q1</strong> (<em>int</em><em> or </em><em>float</em>) – Charge state (in units of electron charge).</p></li>
+<li><p><strong>q2</strong> (<em>int</em><em> or </em><em>float</em>) – Charge state (in units of electron charge).</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <a href="#id1"><span class="problematic" id="id2">`</span></a>entry.formation_energy.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>charge_transition_level</strong> – Charge transition level in eV.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.merge_entries">
+<span class="sig-name descname"><span class="pre">merge_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.merge_entries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.merge_entries" title="Link to this definition"></a></dt>
+<dd><p>Create a new DefectsAnalysis object merging the defect entries of other objects.
+The VBM and band gap of all objects need to match for consistency.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.plot_binding_energies">
+<span class="sig-name descname"><span class="pre">plot_binding_energies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">18</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">eform_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.plot_binding_energies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.plot_binding_energies" title="Link to this definition"></a></dt>
+<dd><p>Plot binding energies for complex of defects as a function of the fermi level</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
+<li><p><strong>names</strong> (<em>list</em>) – List of strings with names of DefectEntry. If None, all defect complexes are plotted.</p></li>
+<li><p><strong>xlim</strong> (<em>tuple</em>) – Tuple (min,max) giving the range of the x (fermi energy) axis</p></li>
+<li><p><strong>ylim</strong> (<em>tuple</em>) – Tuple (min,max) giving the range for the formation energy axis</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em>) – Figure size.</p></li>
+<li><p><strong>fontsize</strong> (<em>float</em>) – Font size.</p></li>
+<li><p><strong>format_legend</strong> (<em>bool</em>) – Bool for getting latex-like legend based on the name of defect entries.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>plt</strong> – matplotlib object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.plot_brouwer_diagram">
+<span class="sig-name descname"><span class="pre">plot_brouwer_diagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bulk_dos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quench_temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quenched_species</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quench_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_concentrations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_defects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reservoirs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precursors</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oxygen_ref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1e-20,</span> <span class="pre">10000000000.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eform_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dconc_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.plot_brouwer_diagram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.plot_brouwer_diagram" title="Link to this definition"></a></dt>
+<dd><p>Plot Brouwer diagram (defect concentrations vs oxygen partial pressure). Wrapper function for
+<cite>pynter.defects.thermodynamics.DefectThermodynamics</cite> and <cite>pynter.defects.plotter</cite>.
+If you need more control use the classes individually.</p>
+<p>If <cite>quenched_temperature</cite> is set, defect concentrations are computed at the initial <cite>temperature</cite>,
+and defect quilibrium in solved at <cite>quenched_temperature</cite>. For the same defect species, the charge
+state follow the temperature and Fermi level dependency at <cite>quench_temperature</cite>, the total
+concentration is kept fix at the initial <cite>temperature</cite>.
+If additional <cite>fixed_concentrations</cite> are provided, the concentration of defect entries are
+corrected according to the fixed provided values.
+More details can be found in <a class="reference external" href="https://doi.org/10.1103/PhysRevB.106.134101">https://doi.org/10.1103/PhysRevB.106.134101</a> .</p>
+<p>The results of the calculation are stored in the <cite>thermodata</cite> property.</p>
+<p>For the chemical potentials, you must provide either:</p>
+<p><cite>reservoirs</cite>: Dictionary with oxygen partial pressures as keys and dictionary with chemical potential
+as values ({pO2:{‘element’:chempot}}), or PressureReservoirs object.</p>
+<p>Alternatively: <cite>precursors</cite> + <cite>oxygen_ref</cite>: Dictionary with {formula:energy} for
+synthesis precursors and oxygen reference chempot at 0 K.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bulk_dos</strong> (<em>dict</em><em> or </em><em>Dos</em>) – <p>Density of states to integrate. Can be provided as density of states D(E)
+or using effective masses.</p>
+<p>Format for effective masses is a dict with the following keys:</p>
+<ul>
+<li><p>”m_eff_h” : holes effective mass in units of m_e (electron mass)</p></li>
+<li><p>”m_eff_e” : electrons effective mass in units of m_h</p></li>
+<li><p><cite>band_gap</cite> : needs to be provided in arguments</p></li>
+</ul>
+<p>Format for explicit DOS (dictionary) with the following keys:</p>
+<ul>
+<li><p>’energies’ : list or np.array with energy values</p></li>
+<li><p>’densities’ : list or np.array with total density values</p></li>
+<li><p>’structure’ : pymatgen Structure of the material, needed for DOS volume and charge normalization</p></li>
+</ul>
+<p>Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).</p>
+</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K.</p></li>
+<li><p><strong>quench_temperature</strong> (<em>float</em>) – Value of quenching temperature in K.</p></li>
+<li><p><strong>quenched_species</strong> (<em>list</em>) – List of defect species to quench. If None all defect species are quenched.The default is None.</p></li>
+<li><p><strong>quench_elements</strong> (<em>bool</em>) – If True the total concentrations of elements at high temperature go in the charge neutrality at low temperature.
+If False the quenched concentrations are the ones of single defect species (e.g. elements are not allowed
+to equilibrate on different sites).</p></li>
+<li><p><strong>fixed_concentrations</strong> (<em>dict</em>) – Dictionary with fixed concentrations. Keys are defect entry names, values are the concentrations. (ex {‘Vac_Na’:1e20}).</p></li>
+<li><p><strong>external_defects</strong> (<em>list</em>) – List of external defect concentrations (not present in defect entries).
+Must either be a list of dictionaries with {‘charge’: float, ‘conc’: float} or a list of SingleDefConc objects.</p></li>
+<li><p><strong>reservoirs</strong> (<em>dict</em><em> or </em><a class="reference internal" href="defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.PressureReservoirs" title="defermi.chempots.reservoirs.PressureReservoirs"><em>PressureReservoirs</em></a>) – Dictionary with pO2 (float) as keys and chemical potential dictionary as values ({pO2:{‘element’:mu_element}})</p></li>
+<li><p><strong>precursors</strong> (<em>dict</em>) – Dictionary with formulas (str) as keys and total energies as values. Chemical potentials are found from the energies of the
+precursors and the oxygen chempot value (uses the np.linalg.lstsq function).
+If the system is underdetermined the minimum-norm solution is found.</p></li>
+<li><p><strong>oxygen_ref</strong> (<em>float</em>) – Absolute chempot of oxygen at 0K.</p></li>
+<li><p><strong>pressure_range</strong> (<em>tuple</em>) – Range in which to evaluate the partial pressure. Only used if <cite>reservoirs</cite> are not provided.</p></li>
+<li><p><strong>npoints</strong> (<em>int</em>) – Number of data points to interpolate the partial pressure with.</p></li>
+<li><p><strong>xtol</strong> (<em>float</em>) – Tolerance for bisect (scipy) to solve charge neutrality.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
+<li><p><strong>dconc_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>entry.defect_concentration</cite>.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>plot_pO2_vs_concentrations</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>plt</strong> – matplotlib object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.plot_ctl">
+<span class="sig-name descname"><span class="pre">plot_ctl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_integers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">eform_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.plot_ctl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.plot_ctl" title="Link to this definition"></a></dt>
+<dd><p>Plotter for the charge transition levels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entries</strong> (<em>list</em>) – List of entries to calculate. If None all entries are considered.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
+<li><p><strong>ylim</strong> (<em>tuple</em>) – y-axis limits.</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em>) – Figure size.</p></li>
+<li><p><strong>fontsize</strong> (<em>float</em>) – Font size.</p></li>
+<li><p><strong>fermi_level</strong> (<em>float</em>) – Plot Fermi energy position.</p></li>
+<li><p><strong>format_legend</strong> (<em>bool</em>) – Bool for getting latex-like legend based on the name of defect entries.</p></li>
+<li><p><strong>get_integers</strong> (<em>bool</em>) – Get charge transition levels as integers.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>plt</strong> – matplotlib object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.plot_doping_diagram">
+<span class="sig-name descname"><span class="pre">plot_doping_diagram</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_defect_specie</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">concentration_range</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_dos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quench_temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quenched_species</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">quench_elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_concentrations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_defects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eform_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dconc_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.plot_doping_diagram"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.plot_doping_diagram" title="Link to this definition"></a></dt>
+<dd><p>Calculate defect and carrier concentrations as a function of the concentration of a particular
+defect species (usually a dopant).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_defect_specie</strong> (<em>str</em>) – Name or element of the variable defect species.</p></li>
+<li><p><strong>concentration_range</strong> (<em>tuple</em><em> or </em><em>list</em>) – Logaritmic range of the concentration of the variable species in cm^-3 (ex. [1,20]).</p></li>
+<li><p><strong>chemical_potentials</strong> (<em>dict</em>) – Dictionary containing chemical potentials {element:chempot}.</p></li>
+<li><p><strong>bulk_dos</strong> (<em>dict</em><em> or </em><em>Dos</em>) – <p>Density of states to integrate. Can be provided as density of states D(E)
+or using effective masses.</p>
+<p>Format for effective masses is a dict with the following keys:</p>
+<ul>
+<li><p>”m_eff_h” : holes effective mass in units of m_e (electron mass)</p></li>
+<li><p>”m_eff_e” : electrons effective mass in units of m_h</p></li>
+<li><p><cite>band_gap</cite> : needs to be provided in arguments</p></li>
+</ul>
+<p>Format for explicit DOS (dictionary) with the following keys:</p>
+<ul>
+<li><p>’energies’ : list or np.array with energy values</p></li>
+<li><p>’densities’ : list or np.array with total density values</p></li>
+<li><p>’structure’ : pymatgen Structure of the material, needed for DOS volume and charge normalization</p></li>
+</ul>
+<p>Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).</p>
+</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K.</p></li>
+<li><p><strong>fixed_concentrations</strong> (<em>dict</em>) – Dictionary with fixed concentrations. Keys are defect entry names in the standard
+format, values are the concentrations. (ex {‘Vac_Na’:1e20})</p></li>
+<li><p><strong>external_defects</strong> (<em>list</em>) – List of external defect concentrations (not present in defect entries).
+Must either be a list of dictionaries with {‘charge’: float, ‘conc’: float} or a list of SingleDefConc objects.</p></li>
+<li><p><strong>xtol</strong> (<em>float</em>) – Tolerance for bisect (scipy) to solve charge neutrality.</p></li>
+<li><p><strong>npoints</strong> (<em>int</em>) – Number of points to divide concentration range.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
+<li><p><strong>dconc_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>entry.defect_concentration</cite>.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>plot_variable_species_vs_concentrations</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>plt</strong> – matplotlib object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.plot_formation_energies">
+<span class="sig-name descname"><span class="pre">plot_formation_energies</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xlim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ylim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">figsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(6,</span> <span class="pre">6)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fontsize</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">12</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_legend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">eform_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.plot_formation_energies"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.plot_formation_energies" title="Link to this definition"></a></dt>
+<dd><p>Produce defect Formation energy vs Fermi energy plot.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemical_potentials</strong> (<em>dict</em>) – Dictionary with chemical potentials of the elements {‘element’:chempot}</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
+<li><p><strong>entries</strong> (<em>list</em>) – List of entries to calculate. If None all entries are considered.</p></li>
+<li><p><strong>xlim</strong> (<em>tuple</em>) – Tuple (min,max) giving the range of the x (fermi energy) axis.</p></li>
+<li><p><strong>ylim</strong> (<em>tuple</em>) – Tuple (min,max) giving the range for the formation energy axis.</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – Title of the figure.</p></li>
+<li><p><strong>fermi_level</strong> (<em>float</em>) – Plot Fermi energy position with a vertical line.</p></li>
+<li><p><strong>grid</strong> (<em>bool</em>) – Show grid.</p></li>
+<li><p><strong>figsize</strong> (<em>float</em><em> or </em><em>tuple</em>) – Can be float or tuple for different x and y sizes multiplier to change the figure size.</p></li>
+<li><p><strong>fontsize</strong> (<em>float</em>) – Multiplier to change font size.</p></li>
+<li><p><strong>show_legend</strong> (<em>bool</em>) – Show legend.</p></li>
+<li><p><strong>format_legend</strong> (<em>bool</em>) – Get latex-like legend based on the name of defect entries.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>plt</strong> – matplotlib object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.reset_all_custom_functions">
+<span class="sig-name descname"><span class="pre">reset_all_custom_functions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reset_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.reset_all_custom_functions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.reset_all_custom_functions" title="Link to this definition"></a></dt>
+<dd><p>Reset all customized functions to default for selected entries,
+Pass kwargs to <cite>select_entries</cite> function to choose which entries
+to reset. If reset_all is True all entries are reset to default.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.reset_defect_concentration_functions">
+<span class="sig-name descname"><span class="pre">reset_defect_concentration_functions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reset_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.reset_defect_concentration_functions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.reset_defect_concentration_functions" title="Link to this definition"></a></dt>
+<dd><p>Reset defect concentration function to default for selected entries,
+Pass kwargs to <cite>select_entries</cite> function to choose which entries
+to reset. If reset_all is True all entries are reset to default.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.reset_formation_energy_functions">
+<span class="sig-name descname"><span class="pre">reset_formation_energy_functions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reset_all</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.reset_formation_energy_functions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.reset_formation_energy_functions" title="Link to this definition"></a></dt>
+<dd><p>Reset formation energy function to default for selected entries,
+Pass kwargs to <cite>select_entries</cite> function to choose which entries
+to reset. If reset_all is True all entries are reset to default.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.select_entries">
+<span class="sig-name descname"><span class="pre">select_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'and'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exclude</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">elements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">function</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.select_entries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.select_entries" title="Link to this definition"></a></dt>
+<dd><p>Find entries based on different criteria. Returns a list of DefectEntry objects.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entries</strong> (<em>list</em>) – List of defect entries.</p></li>
+<li><p><strong>mode</strong> (<em>str</em>) – Filtering mode, possibilities are: ‘and’ and ‘or’. The default is ‘and’.</p></li>
+<li><p><strong>exclude</strong> (<em>bool</em>) – Exclude the entries satisfying the criteria instead of selecting them. The default is False.</p></li>
+<li><p><strong>types</strong> (<em>list</em>) – Class name of the defect in the entry.</p></li>
+<li><p><strong>elements</strong> (<em>list</em>) – List of symbols of elements that need to belong to the defect specie.
+If None this criterion is ignored. The default is None.</p></li>
+<li><p><strong>names</strong> (<em>list</em>) – List of entry names.</p></li>
+<li><p><strong>function</strong> (<em>function</em>) – Specific funtion for more complex criteria. The function must take a DefectEntry
+object as argument and return a bool.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – Properties that the jobs need to satisfy. Keys are referred to attributes/methods
+of the defect entry. To address more than one condition relative to
+the same attribute, use lists or tuples (e.g. charge=[0,1]).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>entries</strong> – List of DefectEntry objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.set_defect_concentration_functions">
+<span class="sig-name descname"><span class="pre">set_defect_concentration_functions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.set_defect_concentration_functions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.set_defect_concentration_functions" title="Link to this definition"></a></dt>
+<dd><p>Customize the function for defect concentration calculations for specific
+defect entries. Pass kwargs to <cite>select_entries</cite> function to choose
+which entries to apply the function to.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.set_formation_energy_functions">
+<span class="sig-name descname"><span class="pre">set_formation_energy_functions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">function</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.set_formation_energy_functions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.set_formation_energy_functions" title="Link to this definition"></a></dt>
+<dd><p>Customize the function for formation energy calculations for specific
+defect entries. Pass kwargs to <cite>select_entries</cite> function to choose
+which entries to apply the function to.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.solve_fermi_level">
+<span class="sig-name descname"><span class="pre">solve_fermi_level</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_dos</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">300</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_concentrations</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">external_defects</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xtol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eform_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dconc_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.solve_fermi_level"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.solve_fermi_level" title="Link to this definition"></a></dt>
+<dd><p>Solve charge neutrality and get the value of Fermi level at thermodynamic equilibrium.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemical_potentials</strong> (<em>dict</em>) – Dictionary of chemical potentials in the format {‘element’:chempot}.</p></li>
+<li><p><strong>bulk_dos</strong> (<em>dict</em><em> or </em><em>Dos</em>) – <p>Density of states to integrate. Can be provided as density of states D(E)
+or using effective masses.</p>
+<p>Format for effective masses is a dict with the following keys:</p>
+<ul>
+<li><p>”m_eff_h” : holes effective mass in units of m_e (electron mass)</p></li>
+<li><p>”m_eff_e” : electrons effective mass in units of m_h</p></li>
+<li><p><cite>band_gap</cite> : needs to be provided in arguments</p></li>
+</ul>
+<p>Format for explicit DOS (dictionary) with the following keys:</p>
+<ul>
+<li><p>’energies’ : list or np.array with energy values</p></li>
+<li><p>’densities’ : list or np.array with total density values</p></li>
+<li><p>’structure’ : pymatgen Structure of the material, needed for DOS volume and charge normalization</p></li>
+</ul>
+<p>Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).</p>
+</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in Kelvin.</p></li>
+<li><p><strong>fixed_concentrations</strong> (<em>dict</em>) – Dictionary with fixed concentrations. Keys are defect entry names in the standard
+format, values are the concentrations (ex {‘Vac_A’:1e20}) . For more info,
+read the documentation of the defect_concentrations method.</p></li>
+<li><p><strong>external_defects</strong> (<em>list</em>) – List of external defect concentrations (not present in defect entries).
+Must either be a list of dictionaries with {‘name’: str, ‘charge’: float, ‘conc’: float}
+or a list of SingleDefConc objects.</p></li>
+<li><p><strong>xtol</strong> (<em>float</em>) – Tolerance for bisect (scipy) to solve charge neutrality.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>entry.formation_energy</cite>.</p></li>
+<li><p><strong>dconc_kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>entry.defect_concentration</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>fermi_level</strong> – Fermi level satisfying charge neutrality.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.sort_entries">
+<span class="sig-name descname"><span class="pre">sort_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inplace</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['name',</span> <span class="pre">'charge']</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reverse</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.sort_entries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.sort_entries" title="Link to this definition"></a></dt>
+<dd><p>Sort defect entries with different criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>inplace</strong> (<em>bool</em>) – Reset the self.entries attibute with sorted entries. Only works if entries input
+is not given. The default is False.</p></li>
+<li><p><strong>entries</strong> (<em>list</em>) – List of defect entries to sort. If None self.entries is used. The default is None.</p></li>
+<li><p><strong>features</strong> (<em>list</em>) – List of strings with attribute/method names. The default is [‘name’,’charge’].</p></li>
+<li><p><strong>reverse</strong> (<em>bool</em>) – Reverse order.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>entries</strong> – List of DefectEntry objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.stable_charges">
+<span class="sig-name descname"><span class="pre">stable_charges</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemical_potentials</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fermi_level</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">eform_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.stable_charges"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.stable_charges" title="Link to this definition"></a></dt>
+<dd><p>Creating a dictionary with names of single defect entry as keys and
+as value a tuple (charge,formation_energy) that gives the most stable
+charge state at the inserted fermi level.</p>
+<p>For each entry, is possible to set a custom function to compute the formation
+energy using <cite>set_formation_energy_function</cite>. If that is set,
+the new function is used instead of the default.</p>
+<p>The function args must be the following:</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>vbm<span class="classifier">(float)</span></dt><dd><p>Valence band maximum of bulk calculation in eV.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>chemical_potentials<span class="classifier">(dict)</span></dt><dd><p>Chemical potentials of the elements involved in the defect.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>fermi_level<span class="classifier">(float)</span></dt><dd><p>Fermi level in eV (with respect to the VBM).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>temperature<span class="classifier">(float)</span></dt><dd><p>Temperature in Kelvin.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>kwargs<span class="classifier">(dict)</span></dt><dd><p>Additional custom kwargs.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>It is possible to set custom functions collectively using the
+<cite>set_formation_energy_functions</cite> method in this class.
+To reset functions to default, use <cite>reset_formation_energy_functions</cite>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemical_potentials</strong> (<em>dict</em>) – Dictionary of chemical potentials ({element: chempot})</p></li>
+<li><p><strong>fermi_level</strong> (<em>float</em>) – Fermi level in eV relative to valence band maximum.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K. If no custom formation energy is provided, this arg has no effect.</p></li>
+<li><p><strong>entries</strong> (<em>list</em>) – List of defect entries to calculate. If None all entries are considered.</p></li>
+<li><p><strong>eform_kwargs</strong> (<em>dict</em>) – Additional custom kwargs to pass to <cite>entry.formation_energy</cite></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>stable_charges</strong> – Dictionary in the format {name:(stable charge, formation energy)}</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.table">
+<span class="sig-name descname"><span class="pre">table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pretty</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_bulk</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.table"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.table" title="Link to this definition"></a></dt>
+<dd><p>Get DataFrame to display entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entries</strong> (<em>list</em>) – Entries to display. If None all entries are displayed. The default is None.</p></li>
+<li><p><strong>pretty</strong> (<em>bool</em>) – Optimize DataFrame for prettier visualization.</p></li>
+<li><p><strong>include_bulk</strong> (<em>bool</em>) – Include bulk composition and space group for each entry in DataFrame.</p></li>
+<li><p><strong>display</strong> (<em>list</em>) – List of strings with defect entry attributes or method results to display.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>DataFrame object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>df</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.thermodata">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thermodata</span></span><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.thermodata" title="Link to this definition"></a></dt>
+<dd><p>Result of thermodynamics calculation (<cite>plot_brouwer_diagram</cite> or <cite>plot_doping_diagram functions</cite>).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.to_dataframe">
+<span class="sig-name descname"><span class="pre">to_dataframe</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_structures</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">functions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.to_dataframe"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.to_dataframe" title="Link to this definition"></a></dt>
+<dd><p>Export DefectsAnalysis object as DataFrame. Default exported columns are:</p>
+<ul class="simple">
+<li><p>“name”</p></li>
+<li><p>“charge”</p></li>
+<li><p>“multiplicity”</p></li>
+<li><p>“energy_diff”</p></li>
+<li><p>“bulk_volume”</p></li>
+</ul>
+<p>Corrections dict (<cite>entry.corrections</cite>) are exported as separate columns
+for each keys in this format “corr_{key}”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entries</strong> (<em>list</em>) – Entries to export. If None all entries are displayed.</p></li>
+<li><p><strong>include_structures</strong> (<em>bool</em>) – Add full Defect object to DataFrame containing defect and bulk structures.
+This makes the DataFrame less portable.</p></li>
+<li><p><strong>include_data</strong> (<em>bool</em>) – Include entry.data dictionary.</p></li>
+<li><p><strong>properties</strong> (<em>list</em>) – List of strings with defect entry attributes or methods to include in df.</p></li>
+<li><p><strong>functions</strong> (<em>dict</em>) – Dictionary with column names as keys and functions as values.
+The function needs to take a DefectEntry as input and the output
+will be stored in df.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>df</em></p></li>
+<li><p><em>DataFrame object.</em></p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.to_file">
+<span class="sig-name descname"><span class="pre">to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">export_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.to_file" title="Link to this definition"></a></dt>
+<dd><p>Export DefectsAnalysis object to file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename</strong> (<em>str</em>) – Path of file.</p></li>
+<li><p><strong>format</strong> (<em>str</em>) – If not specified the file extension in <cite>filename</cite> is used.
+Formats available:
+- “pkl” : pickle file. Allows to store structures (default).
+- “json” : DefectsAnalysis object as json file.
+- “csv” : Does not allow to store structures.</p></li>
+<li><p><strong>export_kwargs</strong> (<em>dict</em>) – Kwargs to pass to file exporting function</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs to pass to to_dataframe function. If not provided,
+‘include_strctures’ is to True if chosen format is ‘pkl’,
+set to False if chosen format is ‘csv’ or ‘excel’.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.to_json">
+<span class="sig-name descname"><span class="pre">to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.to_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.to_json" title="Link to this definition"></a></dt>
+<dd><p>Save DefectsAnalysis object as json string or file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>path</strong> (<em>str</em>) – Path to the destination file. If ‘’ the path is set to “self.path/self.name.json”.
+If None a string is exported.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>d</strong> – If path is not set a string is returned.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.analysis.SingleDefConc">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">defermi.analysis.</span></span><span class="sig-name descname"><span class="pre">SingleDefConc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conc</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#SingleDefConc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.SingleDefConc" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MSONable</span></code></p>
+<p>Object to store defect concentrations data. It is also subscribtable like a dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – Name of defect specie.</p></li>
+<li><p><strong>charge</strong> (<em>int</em>) – Charge of defect specie.</p></li>
+<li><p><strong>conc</strong> (<em>float</em>) – Concentration value.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.SingleDefConc.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#SingleDefConc.items"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.SingleDefConc.items" title="Link to this definition"></a></dt>
+<dd><p>Returns dictionary-like key-value pairs of the object’s attributes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.SingleDefConc.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#SingleDefConc.keys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.SingleDefConc.keys" title="Link to this definition"></a></dt>
+<dd><p>Returns dictionary-like keys of the object’s attributes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.analysis.SingleDefConc.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#SingleDefConc.values"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.SingleDefConc.values" title="Link to this definition"></a></dt>
+<dd><p>Returns dictionary-like values of the object’s attributes.</p>
+</dd></dl>
+
+</dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

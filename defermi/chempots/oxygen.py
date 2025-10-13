@@ -20,19 +20,20 @@ def get_oxygen_chempot_standard_finite_temperature(temperature,muO_reference=Non
     """
     Get value of oxygen delta mu standard (mu_0(T,Po)) at a speficic temperature.
 
-    The data is taken from the following work: Reuter and Scheffler, “Composition, Structure, and Stability of RuO 2 ( 110 ) as a Function of Oxygen Pressure.”
+    The data is taken from the following work: Reuter and Scheffler, “Composition, Structure, and Stability of RuO 2 (110) as a Function of Oxygen Pressure.”
     The value at a specific temperature is extracted from a linear fitting of the behaviour of mu_O with Temperature.
     
     Parameters
     ----------
-    temperature : (float)
+    temperature : float
         Temperature in Kelvin.
-    muO_ref : (float)
+    muO_ref : float
         Oxygen reference chemical potential (O2 molecule, T = 0K)
 
     Returns
     -------
-    Chemical potential at standard p0 at given temperature.
+    chempot : float
+        Chemical potential at standard p0 at given temperature.
 
     """
     T = np.array([100,200,300,400,500,600,700,800,900,1000])
@@ -52,15 +53,15 @@ def get_oxygen_chempot_from_pO2(temperature=300,partial_pressure=0.2,muO_referen
 
     Parameters
     ----------
-    temperature : (float), optional
+    temperature : float
         Temperature in Kelvin.
-    partial_pressure : (float)
+    partial_pressure : float
         Partial pressure.
-    muO_ref : (float)
-        Oxygen reference chemical potential (O2 molecule, T = 0K)
+    muO_ref : float
+        Oxygen reference chemical potential (O2 molecule, T = 0K).
     Returns
     -------
-    (float)
+    chempot : float
         Value of oxygen chemical potential (delta) at given T and p/p0.
 
     """
@@ -73,11 +74,15 @@ def get_pressure_reservoirs_from_chempot_limits(composition,
                                                 pressure_range=(1e-20,1e10),
                                                 npoints=50,
                                                 get_pressures_as_strings=False):
+    """
+    To be implemented
+    """
     if type(composition) == str:
         composition = Composition(composition)
     partial_pressures = np.logspace(np.log10(pressure_range[0]),np.log10(pressure_range[1]),num=npoints,base=10)
     mu_standard = get_oxygen_chempot_standard_finite_temperature(temperature)
     # to be completed
+
 
 def get_pressure_reservoirs_from_phase_diagram(phase_diagram,
                                                target_composition,
@@ -102,27 +107,25 @@ def get_pressure_reservoirs_from_phase_diagram(phase_diagram,
     
     Parameters
     ----------
-    phase_diagram : (PhaseDiagram)
+    phase_diagram : PhaseDiagram
         Pymatgen PhaseDiagram object.
-    target_comp : (str or Composition)
+    target_comp : str or Composition
         Composition of target phase.
-    temperature : (float)
+    temperature : float
         Temperature in Kelvin.
-    extrinsic_chempots_range : (dict)
+    extrinsic_chempots_range : dict
         Dictionary with chemical potentials of elements not belonging to the PD ({element:(O_poor_chempot,O_rich_chempot)}). 
         The default is None.
-    pressure_range : (tuple)
+    pressure_range : tuple
         Range in which to evaluate the partial pressure.
-    interpolation_function : (function)
+    interpolation_function : function
         Function to determine the chemical potential for the other elements (the ones that are not oxygen).
 
-        interpolation_function(element,boundary_reservoir):
-        - The function inputs are the target element and the boundary_reservoirs ({'<label>':{element:value}})
-
-        If None the mean is used.    
-    npoints : (int), optional
+        interpolation_function(element,boundary_reservoir): The function inputs are the target 
+        element and the boundary_reservoirs ({'<label>':{element:value}}). If None the mean is used.    
+    npoints : int
         Number of data points to interpolate the partial pressure with. The default is 50.
-    get_pressures_as_strings : (bool), optional
+    get_pressures_as_strings : bool
         Get pressure values (keys in the Reservoirs dict) as strings. The default is set to floats.
 
     Returns
@@ -197,22 +200,23 @@ def get_pressure_reservoirs_from_precursors(precursors,
 
     Parameters
     ----------
-    precursors : (dict)
+    precursors : dict
         Dictionaly with formulas (str) as keys and total energies (float) as values.
-    oxygen_ref : (float)
+    oxygen_ref : float
         Absolute chempot of oxygen at 0K.
-    temperature : (float)
+    temperature : float
         Temperature.
-    pressure_range : (tuple)
+    pressure_range : tuple
         Range in which to evaluate the partial pressure . The default is from 1e-20 to 1e10.
-    npoints : (int)
+    npoints : int
         Number of data points to interpolate the partial pressure with. The default is 50.
-    get_pressures_as_strings : (bool)
+    get_pressures_as_strings : bool
         Get pressure values (keys in the Reservoirs dict) as strings. The default is set to floats.
 
     Returns
     -------
-    PressureReservoirs object
+    pressure_reservoirs : PressureReservoirs
+        PressureReservoirs object.
 
     """
     row_elements = []
@@ -258,20 +262,21 @@ def get_oxygen_pressure_reservoirs(oxygen_ref,temperature,pressure_range=(1e-20,
 
     Parameters
     ----------
-    oxygen_ref : (float)
+    oxygen_ref : float
         Absolute chempot of oxygen at 0K.
-    temperature : (float)
+    temperature : float
         Temperature.
-    pressure_range : (tuple)
+    pressure_range : tuple
         Range in which to evaluate the partial pressure . The default is from 1e-20 to 1e10.
-    npoints : (int)
+    npoints : int
         Number of data points to interpolate the partial pressure with. The default is 50.
-    get_pressures_as_strings : (bool)
+    get_pressures_as_strings : bool
         Get pressure values (keys in the Reservoirs dict) as strings. The default is set to floats.
 
     Returns
     -------
-    PressureReservoirs object
+    pressure_reservoirs : PressureReservoirs
+        PressureReservoirs object.
 
     """
     reservoirs = {}
@@ -307,10 +312,10 @@ def get_barycenter_chemical_potentials_absolute(composition,
     
     - fixed absolute chemical potential of oxygen
     - Total energy of target phase
-    - lower and/or upper chemical potential limits for each element
+    - lower and/or upper chemical potential limits for each element.
     
-    Parameters:
-    -----------
+    Parameters
+    ----------
     composition: str or pymatgen.core.Composition
         Target composition.
     formation_energy: float
@@ -359,8 +364,8 @@ def get_barycenter_chemical_potentials_relative(composition,
     - Formation energy of target phase
     - lower and/or upper chemical potential limits for each element
     
-    Parameters:
-    -----------
+    Parameters
+    ----------
     composition: str or pymatgen.core.Composition
         Target composition.
     formation_energy: float
@@ -372,9 +377,11 @@ def get_barycenter_chemical_potentials_relative(composition,
     max_relative_chempots: dict or Chempots
         Higher limit of chemical potentials, relative values ({element:chempot})
     
-    Returns:
+    Returns
+    -------
         Dictionary with chemical potentials, taken from the center of the
         allowed N-1 dimensional hyperplane.
+        
     """
     muO_relative = oxygen_chempot_relative
     if isinstance(composition, str):

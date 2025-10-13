@@ -1,0 +1,227 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>defermi.corrections.freysoldt &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=292eb321"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">defermi.corrections.freysoldt</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for defermi.corrections.freysoldt</h1><div class="highlight"><pre>
+<span></span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.io.vasp.outputs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Locpot</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.analysis.defects.corrections.freysoldt</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_freysoldt_correction</span><span class="p">,</span> <span class="n">plot_plnr_avg</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">..structure</span><span class="w"> </span><span class="kn">import</span> <span class="n">defect_finder</span>
+
+
+<div class="viewcode-block" id="get_freysoldt_correction_from_locpot">
+<a class="viewcode-back" href="../../../defermi.corrections.freysoldt.html#defermi.corrections.freysoldt.get_freysoldt_correction_from_locpot">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_freysoldt_correction_from_locpot</span><span class="p">(</span>
+                                    <span class="n">charge</span><span class="p">,</span>
+                                    <span class="n">dielectric_constant</span><span class="p">,</span>
+                                    <span class="n">defect_path_locpot</span><span class="p">,</span>
+                                    <span class="n">bulk_path_locpot</span><span class="p">,</span>
+                                    <span class="n">get_correction_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                    <span class="n">get_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                    <span class="n">plot_axis_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                    <span class="n">finder_kwargs</span><span class="o">=</span><span class="p">{},</span>
+                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Freysoldt correction from defect and bulk LOCPOT files, using &quot;pymatgen-analysis-defects&quot;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    charge : (int)</span>
+<span class="sd">        Charge of the defect</span>
+<span class="sd">    dielectric_constant : (float)</span>
+<span class="sd">        Dielectric constant of the material</span>
+<span class="sd">    defect_path_locpot : (str)</span>
+<span class="sd">        Defect LOCPOT file.</span>
+<span class="sd">    bulk_path_locpot : (str)</span>
+<span class="sd">        Bulk LOCPOT file.</span>
+<span class="sd">    get_correction_data : (bool)</span>
+<span class="sd">        Return pymatgen&#39;s CorrectionResult object. If False only the correction value is returned.</span>
+<span class="sd">    get_plot : (bool), optional</span>
+<span class="sd">        Get Matplotlib object with plot. The default is False.</span>
+<span class="sd">    plot_axis_index : (int), optional</span>
+<span class="sd">        Axis for planar average plot. The default is 0.</span>
+<span class="sd">    finder_kwargs : (dict)</span>
+<span class="sd">        Kwargs to pass to defect_finder.</span>
+<span class="sd">    kwargs : (dict)</span>
+<span class="sd">        Kwargs to pass to pymatgen&#39;s get_freysoldt_correction.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    correction, ax</span>
+<span class="sd">        - CorrectionResult object if get_correction_data is set to True, else just the float with correction value,</span>
+<span class="sd">        - matplotlib axis object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">charge</span>
+    <span class="n">defect_locpot</span> <span class="o">=</span> <span class="n">Locpot</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">defect_path_locpot</span><span class="p">)</span>
+    <span class="n">bulk_locpot</span> <span class="o">=</span> <span class="n">Locpot</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">bulk_path_locpot</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">finder_kwargs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="s1">&#39;verbose&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">finder_kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">finder_kwargs</span><span class="p">[</span><span class="s1">&#39;verbose&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="n">defect</span> <span class="o">=</span> <span class="n">defect_finder</span><span class="p">(</span><span class="n">defect_locpot</span><span class="o">.</span><span class="n">structure</span><span class="p">,</span><span class="n">bulk_locpot</span><span class="o">.</span><span class="n">structure</span><span class="p">,</span><span class="o">**</span><span class="n">finder_kwargs</span><span class="p">)</span>
+    <span class="n">defect_frac_coords</span> <span class="o">=</span> <span class="n">defect</span><span class="o">.</span><span class="n">site</span><span class="o">.</span><span class="n">frac_coords</span>
+    <span class="n">lattice</span> <span class="o">=</span> <span class="n">defect_locpot</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">lattice</span>
+    <span class="n">correction</span> <span class="o">=</span> <span class="n">get_freysoldt_correction</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">,</span><span class="n">dielectric</span><span class="o">=</span><span class="n">dielectric_constant</span><span class="p">,</span><span class="n">defect_locpot</span><span class="o">=</span><span class="n">defect_locpot</span><span class="p">,</span>
+                                    <span class="n">bulk_locpot</span><span class="o">=</span><span class="n">bulk_locpot</span><span class="p">,</span><span class="n">defect_frac_coords</span><span class="o">=</span><span class="n">defect_frac_coords</span><span class="p">,</span>
+                                    <span class="n">lattice</span><span class="o">=</span><span class="n">lattice</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    
+    <span class="n">corr</span> <span class="o">=</span> <span class="n">correction</span> <span class="k">if</span> <span class="n">get_correction_data</span> <span class="k">else</span> <span class="n">correction</span><span class="o">.</span><span class="n">correction_energy</span>
+    <span class="k">if</span> <span class="n">get_plot</span><span class="p">:</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">plot_plnr_avg</span><span class="p">(</span><span class="n">correction</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;plot_data&#39;</span><span class="p">][</span><span class="n">plot_axis_index</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">corr</span><span class="p">,</span> <span class="n">ax</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">corr</span> </div>
+
+    
+
+
+<div class="viewcode-block" id="get_freysoldt_correction_from_jobs">
+<a class="viewcode-back" href="../../../defermi.corrections.freysoldt.html#defermi.corrections.freysoldt.get_freysoldt_correction_from_jobs">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_freysoldt_correction_from_jobs</span><span class="p">(</span>
+                                    <span class="n">job_defect</span><span class="p">,</span>
+                                    <span class="n">job_bulk</span><span class="p">,</span>
+                                    <span class="n">dielectric_constant</span><span class="p">,</span>
+                                    <span class="n">get_correction_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                                    <span class="n">get_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                    <span class="n">plot_axis_index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+                                    <span class="n">finder_kwargs</span><span class="o">=</span><span class="p">{},</span>
+                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get Freysoldt correction from VaspJob objects using the new &quot;pymatgen-analysis-defects&quot;.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    job_defect : (VaspJob)</span>
+<span class="sd">        Defect calculation.</span>
+<span class="sd">    job_bulk : (VaspJob)</span>
+<span class="sd">        Bulk calculation.</span>
+<span class="sd">    dielectric_constant : (float)</span>
+<span class="sd">        Dielectric constant.</span>
+<span class="sd">    get_correction_data : (bool)</span>
+<span class="sd">        Return pymatgen&#39;s CorrectionResult object. If False only the correction value is returned.</span>
+<span class="sd">    get_plot : (bool), optional</span>
+<span class="sd">        Get Matplotlib object with plot. The default is False.</span>
+<span class="sd">    plot_axis_index : (int), optional</span>
+<span class="sd">        Axis for planar average plot. The default is 0.</span>
+<span class="sd">    finder_kwargs : (dict)</span>
+<span class="sd">        Kwargs to pass to defect_finder.</span>
+<span class="sd">    kwargs : (dict)</span>
+<span class="sd">        Kwargs to pass to pymatgen&#39;s get_freysoldt_correction.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    correction, ax</span>
+<span class="sd">        - CorrectionResult object if get_correction_data is set to True, else just the float with correction value,</span>
+<span class="sd">        - matplotlib axis object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="n">job_defect</span><span class="o">.</span><span class="n">charge</span>
+    <span class="n">defect_locpot</span> <span class="o">=</span> <span class="n">Locpot</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">job_defect</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;LOCPOT&#39;</span><span class="p">))</span>
+    <span class="n">bulk_locpot</span> <span class="o">=</span> <span class="n">Locpot</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">job_bulk</span><span class="o">.</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;LOCPOT&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">get_freysoldt_correction_from_locpot</span><span class="p">(</span>
+                                                <span class="n">charge</span><span class="o">=</span><span class="n">q</span><span class="p">,</span>
+                                                <span class="n">dielectric_constant</span><span class="o">=</span><span class="n">dielectric_constant</span><span class="p">,</span>
+                                                <span class="n">defect_path_locpot</span><span class="o">=</span><span class="n">defect_locpot</span><span class="p">,</span>
+                                                <span class="n">bulk_path_locpot</span><span class="o">=</span><span class="n">bulk_locpot</span><span class="p">,</span>
+                                                <span class="n">get_correction_data</span><span class="o">=</span><span class="n">get_correction_data</span><span class="p">,</span>
+                                                <span class="n">get_plot</span><span class="o">=</span><span class="n">get_plot</span><span class="p">,</span>
+                                                <span class="n">plot_axis_index</span><span class="o">=</span><span class="n">plot_axis_index</span><span class="p">,</span>
+                                                <span class="n">finder_kwargs</span><span class="o">=</span><span class="n">finder_kwargs</span><span class="p">,</span>
+                                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

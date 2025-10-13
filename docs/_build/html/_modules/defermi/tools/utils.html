@@ -1,0 +1,428 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>defermi.tools.utils &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=292eb321"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">defermi.tools.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for defermi.tools.utils</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Oct 12 15:40:26 2020</span>
+
+<span class="sd">@author: villa</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">monty.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">jsanitize</span><span class="p">,</span><span class="n">MontyEncoder</span><span class="p">,</span> <span class="n">MontyDecoder</span>
+
+
+<div class="viewcode-block" id="get_object_feature">
+<a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.get_object_feature">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_object_feature</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">feature</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get value of attribute or method of a generic Object.</span>
+<span class="sd">    If feature is a single method only the string with the method&#39;s name is required.</span>
+<span class="sd">    If the target feature is stored in a dictionary (or dict of dictionaries), a list of this format needs to be provided:</span>
+<span class="sd">        [&quot;method_name&quot;,key1,key2,...] - This will identify the value of Object.method[key1][key2][...] .</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    obj : (object)</span>
+<span class="sd">        Generic object.</span>
+<span class="sd">    feature : (str or list)</span>
+<span class="sd">        Method or attribute of class for which the value is needed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+        <span class="n">method</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">method</span><span class="p">)</span> <span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">method</span><span class="p">)</span>                
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">feature</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="n">attr</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span><span class="nb">dict</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">feature</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">feature</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">v</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">attr</span> <span class="o">=</span> <span class="n">v</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">v</span>
+            
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">met</span> <span class="o">=</span> <span class="n">feature</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">met</span><span class="p">)</span> <span class="p">()</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="n">attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">met</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">attr</span></div>
+
+
+
+<div class="viewcode-block" id="get_object_from_json">
+<a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.get_object_from_json">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_object_from_json</span><span class="p">(</span><span class="n">object_class</span><span class="p">,</span><span class="n">path_or_string</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Build class object from json file or string. The class must posses the &#39;from_dict&#39; method.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    object_class : (class)</span>
+<span class="sd">        Class of the object to decoder.</span>
+<span class="sd">    path_or_string : (str)</span>
+<span class="sd">        If an existing path to a file is given the object is constructed reading the json file.</span>
+<span class="sd">        Otherwise it will be read as a string.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Decoded object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">object_class</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="save_object_as_json">
+<a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.save_object_as_json">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">save_object_as_json</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="n">sanitize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="bp">cls</span><span class="o">=</span><span class="n">MontyEncoder</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save class object as json string or file. The class must posses the &#39;as_dict&#39; method.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    object: object of a class</span>
+<span class="sd">    path : (str)</span>
+<span class="sd">        Path to the destination file.  If None a string is exported.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    d : (str)</span>
+<span class="sd">        If path is not set a string is returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">sanitize</span><span class="p">:</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">jsanitize</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">file</span><span class="p">,</span><span class="bp">cls</span><span class="o">=</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="bp">cls</span><span class="o">=</span><span class="bp">cls</span><span class="p">)</span> </div>
+
+
+
+<div class="viewcode-block" id="select_objects">
+<a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.select_objects">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">select_objects</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;and&#39;</span><span class="p">,</span><span class="n">exclude</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">functions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Filter objects based on different criteria. Returns a list of objects.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    objects : (list)</span>
+<span class="sd">        List of objects.</span>
+<span class="sd">    mode : (str), optional</span>
+<span class="sd">        Filtering mode, possibilities are: &#39;and&#39; and &#39;or&#39;. The default is &#39;and&#39;. </span>
+<span class="sd">    exclude : (bool), optional</span>
+<span class="sd">        Exclude the entries satisfying the criteria instead of selecting them. The default is False.</span>
+<span class="sd">    functions : (list), optional</span>
+<span class="sd">        Functions containing criteria. The functions must take the object as the argument and</span>
+<span class="sd">        return a bool. </span>
+<span class="sd">    **kwargs : (dict)</span>
+<span class="sd">        Keys are methods/attributes the objects have. Values contain the criteria. </span>
+<span class="sd">        To address more than one condition relative to the same attribute,</span>
+<span class="sd">        use lists or tuples (e.g. charge=[0,1]).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    output_objects : (list)</span>
+<span class="sd">        List with selected objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="n">selected_objects</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">entered_selection</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">filtered_objects</span> <span class="o">=</span> <span class="n">objects</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">functions</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">func</span> <span class="ow">in</span> <span class="n">functions</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">func</span><span class="p">:</span>
+                <span class="n">entered_selection</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">if</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;and&#39;</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">selected_objects</span><span class="p">:</span>
+                        <span class="n">filtered_objects</span> <span class="o">=</span> <span class="n">selected_objects</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                        <span class="n">selected_objects</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">filtered_objects</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">func</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="kc">True</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">obj</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">selected_objects</span><span class="p">:</span>
+                            <span class="n">selected_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mode</span><span class="o">==</span><span class="s1">&#39;and&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">selected_objects</span> <span class="ow">or</span> <span class="n">entered_selection</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="n">filtered_objects</span> <span class="o">=</span> <span class="n">selected_objects</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">selected_objects</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">filtered_objects</span><span class="p">:</span>
+            <span class="n">feature</span> <span class="o">=</span> <span class="n">get_object_feature</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">])</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">list</span><span class="p">,</span><span class="nb">tuple</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">feature</span> <span class="o">==</span> <span class="n">value</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">obj</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">selected_objects</span><span class="p">:</span>
+                            <span class="n">selected_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">feature</span> <span class="o">==</span> <span class="n">kwargs</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">obj</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">selected_objects</span><span class="p">:</span>
+                    <span class="n">selected_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  
+    
+    <span class="n">output_objects</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objects</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">exclude</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">obj</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">selected_objects</span><span class="p">:</span>
+                <span class="n">output_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">selected_objects</span><span class="p">:</span>
+                <span class="n">output_objects</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>    
+    
+    <span class="k">return</span> <span class="n">output_objects</span></div>
+
+
+
+
+<div class="viewcode-block" id="sort_objects">
+<a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.sort_objects">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">sort_objects</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span><span class="n">features</span><span class="p">,</span><span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sort objects based on a list of features (attributes or methods of the objects, or functions)</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    objects : (list)</span>
+<span class="sd">        List of objects to sort.</span>
+<span class="sd">    features : (list)</span>
+<span class="sd">        List of features (see get_object_feature).</span>
+<span class="sd">    reverse : (bool)</span>
+<span class="sd">        Reverse order.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (list)</span>
+<span class="sd">        Sorted objects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">criteria</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="n">criteria</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">features</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">feature</span><span class="p">):</span>
+                <span class="n">criteria</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">feature</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">criteria</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_object_feature</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span><span class="n">feature</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">criteria</span>
+    <span class="n">sort_function</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">obj</span> <span class="p">:</span> <span class="n">criteria</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="n">sorted_objects</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span><span class="n">key</span><span class="o">=</span><span class="n">sort_function</span><span class="p">,</span><span class="n">reverse</span><span class="o">=</span><span class="n">reverse</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">sorted_objects</span></div>
+
+
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.core.periodic_table</span><span class="w"> </span><span class="kn">import</span> <span class="n">Element</span>
+
+<div class="viewcode-block" id="convert_conc_from_weight_to_cm3">
+<a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.convert_conc_from_weight_to_cm3">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_conc_from_weight_to_cm3</span><span class="p">(</span><span class="n">c_weight</span><span class="p">,</span><span class="n">target_el</span><span class="p">,</span><span class="n">composition</span><span class="p">,</span><span class="n">bulk_structure</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert concentration of dopand from weight % (common experimental data) to cm^-3.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    c_weight : (float)</span>
+<span class="sd">        Defect concentration in weight %.</span>
+<span class="sd">    target_el : (str)</span>
+<span class="sd">        Symbol of target element.</span>
+<span class="sd">    composition : (Composition)</span>
+<span class="sd">        Composition (Pymatgen) of the material, uses only list of elements.</span>
+<span class="sd">    bulk_structure : (Structure)</span>
+<span class="sd">        Structure (Pymatgen) of bulk, needed for lattice volume.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    conc : (float)</span>
+<span class="sd">        Concentration in cm-3^.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sum_MM</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">atomic_mass</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">composition</span><span class="o">.</span><span class="n">elements</span><span class="p">])</span>
+    <span class="n">r_MM</span> <span class="o">=</span> <span class="n">Element</span><span class="p">(</span><span class="n">target_el</span><span class="p">)</span><span class="o">.</span><span class="n">atomic_mass</span> <span class="o">/</span> <span class="n">sum_MM</span>
+    <span class="n">conc</span> <span class="o">=</span> <span class="n">c_weight</span><span class="o">/</span><span class="n">r_MM</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="n">bulk_structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">volume</span> <span class="o">*</span> <span class="mf">1e24</span> <span class="o">*</span><span class="mf">0.01</span>
+    <span class="k">return</span> <span class="n">conc</span></div>
+
+
+
+<div class="viewcode-block" id="format_composition">
+<a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.format_composition">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">format_composition</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">all_math</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format composition with latex syntax.</span>
+<span class="sd">    &quot;&quot;&quot;</span>    
+    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="n">newc</span><span class="p">,</span><span class="n">new_string</span><span class="p">,</span><span class="n">skip</span><span class="p">,</span><span class="n">all_math</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">all_math</span><span class="p">:</span>
+                    <span class="n">new_string</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;_{</span><span class="si">%s</span><span class="s1">}&#39;</span><span class="o">%</span><span class="n">newc</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">new_string</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;$_{</span><span class="si">%s</span><span class="s1">}$&#39;</span><span class="o">%</span><span class="n">newc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_string</span>
+            
+    <span class="n">skip</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">new_string</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">all_math</span><span class="p">:</span>
+        <span class="n">new_string</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">)</span>
+    <span class="n">sp</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">sp</span><span class="p">:</span>        
+        <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">nextc</span> <span class="o">=</span> <span class="n">sp</span><span class="p">[</span><span class="n">sp</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">nextc</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">if</span> <span class="n">nextc</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+                <span class="n">newc</span> <span class="o">=</span> <span class="n">c</span> <span class="o">+</span> <span class="n">nextc</span>
+                <span class="n">new_string</span> <span class="o">=</span> <span class="n">write</span><span class="p">(</span><span class="n">newc</span><span class="p">,</span><span class="n">new_string</span><span class="p">,</span><span class="n">skip</span><span class="p">,</span><span class="n">all_math</span><span class="p">)</span>
+                <span class="n">skip</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">newc</span> <span class="o">=</span> <span class="n">c</span>
+                <span class="n">new_string</span> <span class="o">=</span> <span class="n">write</span><span class="p">(</span><span class="n">newc</span><span class="p">,</span><span class="n">new_string</span><span class="p">,</span><span class="n">skip</span><span class="p">,</span><span class="n">all_math</span><span class="p">)</span>
+                <span class="n">skip</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">new_string</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">all_math</span><span class="p">:</span>
+        <span class="n">new_string</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;$&#39;</span><span class="p">)</span>       
+    <span class="n">new_string</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">new_string</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">new_string</span></div>
+
+
+
+<div class="viewcode-block" id="get_charge_from_computed_entry">
+<a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.get_charge_from_computed_entry">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">get_charge_from_computed_entry</span><span class="p">(</span><span class="n">entry</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get charge of vasp calculation from ComputedEntry object. </span>
+<span class="sd">    Subtracts the total valence electrons from potcar to &#39;NELECT&#39; value</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.io.vasp.inputs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Potcar</span>
+
+    <span class="n">potcar_symbols_bulk</span> <span class="o">=</span> <span class="p">[</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;titel&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;potcar_spec&#39;</span><span class="p">]]</span>
+    <span class="n">potcar</span> <span class="o">=</span> <span class="n">Potcar</span><span class="p">(</span><span class="n">potcar_symbols_bulk</span><span class="p">)</span>
+    <span class="n">charge</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="s1">&#39;parameters&#39;</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;parameters&#39;</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;&quot;parameters&quot; need to be present in ComputedEntry data&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;NELECT&#39;</span> <span class="ow">in</span> <span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">nelect</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="s1">&#39;NELECT&#39;</span><span class="p">]</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">potcar</span><span class="p">:</span>
+            <span class="n">val</span><span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">element</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">nelectrons</span>
+        <span class="n">neutral</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span> <span class="n">val</span><span class="p">[</span><span class="n">el</span><span class="o">.</span><span class="n">symbol</span><span class="p">]</span><span class="o">*</span><span class="n">coeff</span> 
+                       <span class="k">for</span> <span class="n">el</span><span class="p">,</span><span class="n">coeff</span> <span class="ow">in</span> <span class="n">entry</span><span class="o">.</span><span class="n">structure</span><span class="o">.</span><span class="n">composition</span><span class="o">.</span><span class="n">items</span><span class="p">()])</span>
+        <span class="n">charge</span> <span class="o">=</span> <span class="n">neutral</span> <span class="o">-</span> <span class="n">nelect</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">charge</span><span class="p">,</span><span class="nb">int</span><span class="p">):</span>
+        <span class="n">charge</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">charge</span><span class="p">,</span><span class="n">decimals</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        
+    <span class="k">return</span> <span class="n">charge</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
