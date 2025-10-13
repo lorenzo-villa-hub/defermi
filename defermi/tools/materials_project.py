@@ -10,8 +10,11 @@ class  MPDatabase:
 
         Parameters
         ----------
-        mp_id : (str), optional
-            Materials-ID. The default is None.
+        mp_id : str
+            Materials-ID.
+        API_KEY : str
+            API_KEY for MAterials Project database. If None the default key from
+            the configuration file for `pymatgen` is used.
         """
         
         self.mp_id = mp_id if mp_id else None
@@ -34,23 +37,28 @@ class  MPDatabase:
 
         Parameters
         ----------
-            chemsys_formula_id_criteria (str/dict): A chemical system
-                (e.g., Li-Fe-O), or formula (e.g., Fe2O3) or materials_id
-                (e.g., mp-1234) or full Mongo-style dict criteria.
-            compatible_only (bool): Whether to return only "compatible"
-                entries. Compatible entries are entries that have been
-                processed using the MaterialsProject2020Compatibility class,
-                which performs adjustments to allow mixing of GGA and GGA+U
-                calculations for more accurate phase diagrams and reaction
-                energies.
-            property_data (list): Specify additional properties to include in
-                entry.data. If None, no data. Should be a subset of
-                supported_properties.
-            conventional_unit_cell (bool): Whether to get the standard
-                conventional unit cell.
+        chemsys_formula_id_criteria : str or dict
+            A chemical system (e.g., Li-Fe-O), or formula (e.g., Fe2O3) 
+            or materials_id (e.g., mp-1234) or full Mongo-style dict criteria.
+        compatible_only : bool
+            Whether to return only "compatible"
+            entries. Compatible entries are entries that have been
+            processed using the MaterialsProject2020Compatibility class,
+            which performs adjustments to allow mixing of GGA and GGA+U
+            calculations for more accurate phase diagrams and reaction
+            energies.
+        property_data : list
+            Specify additional properties to include in
+            entry.data. If None, no data. Should be a subset of
+            supported_properties.
+        conventional_unit_cell : bool
+            Whether to get the standard conventional unit cell.
 
-        Returns:
-            List of ComputedEntry or ComputedStructureEntry objects.
+        Returns
+        -------
+        entries : list
+            List of ComputedStructureEntry objects.
+
         """
         with MPRester(self.API_KEY) as mpr:
             entries = mpr.get_entries(
@@ -72,24 +80,27 @@ class  MPDatabase:
 
         Parameters
         ----------
-            compositions (list): List of strings with compositions.
-            stable_only (bool): Get phase with lowest E above hull.
-            compatible_only (bool): 
-                Whether to return only "compatible"
-                entries. Compatible entries are entries that have been
-                processed using the MaterialsProject2020Compatibility class,
-                which performs adjustments to allow mixing of GGA and GGA+U
-                calculations for more accurate phase diagrams and reaction
-                energies.
-            property_data (list):
-                Specify additional properties to include in
-                entry.data. If None, no data. Should be a subset of
-                supported_properties.
-            conventional_unit_cell (bool):
-                Whether to get the standard conventional unit cell
+        compositions : list
+            List of strings with compositions.
+        compatible_only : bool
+            Whether to return only "compatible"
+            entries. Compatible entries are entries that have been
+            processed using the MaterialsProject2020Compatibility class,
+            which performs adjustments to allow mixing of GGA and GGA+U
+            calculations for more accurate phase diagrams and reaction
+            energies.
+        property_data : list
+            Specify additional properties to include in
+            entry.data. If None, no data. Should be a subset of
+            supported_properties.
+        conventional_unit_cell : bool
+            Whether to get the standard conventional unit cell.
 
-        Returns:
-            List of ComputedEntry or ComputedStructureEntry objects.
+        Returns
+        -------
+        entries : list
+            List of ComputedStructureEntry objects.
+
         """
         entries_dict = {}
         for comp in compositions:
@@ -105,19 +116,23 @@ class  MPDatabase:
 
     def get_structure(self,final=True,conventional_unit_cell=False):
         """
-        Get a Structure corresponding to a material_id.
+        Get a Structure corresponding to a material ID.
 
         Parameters
         ----------
-            material_id (str): Materials Project material_id (a string,
-                e.g., mp-1234).
-            final (bool): Whether to get the final structure, or the initial
-                (pre-relaxation) structure. Defaults to True.
-            conventional_unit_cell (bool): Whether to get the standard
-                conventional unit cell
+        material_id : str
+            Materials Project material_id (a string, e.g., mp-1234).
+        final : bool
+            Whether to get the final structure, or the initial
+            (pre-relaxation) structure.
+        conventional_unit_cell : bool
+            Whether to get the standard conventional unit cell
 
-        Returns:
+        Returns
+        -------
+        structure : Structure
             Structure object.
+            
         """
         with MPRester(self.API_KEY) as mpr:
             structure = mpr.get_structure_by_material_id(self.mp_id,final=final,conventional_unit_cell=conventional_unit_cell)

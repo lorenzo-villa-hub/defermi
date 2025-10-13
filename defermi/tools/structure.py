@@ -30,15 +30,23 @@ def _get_distance_vector_and_image(lattice,frac_coords1,frac_coords2,jimage=None
     is specified it returns the distance between the frac_coords1 and
     the specified jimage of frac_coords2, and the given jimage is also
     returned.
-    Args:
-        frac_coords1 (3x1 array): Reference fcoords to get distance from.
-        frac_coords2 (3x1 array): fcoords to get distance from.
-        jimage (3x1 array): Specific periodic image in terms of
-            lattice translations, e.g., [1,0,0] implies to take periodic
-            image that is one a-lattice vector away. If jimage is None,
-            the image that is nearest to the site is found.
-    Returns:
-        (distance, jimage): distance and periodic lattice translations
+
+    Parameters
+    ----------
+    frac_coords1 : np.array
+        Reference fractional coords to get distance from.
+    frac_coords2 : np.array
+        fractional coords to get distance from.
+    jimage : np.array
+        Specific periodic image in terms of
+        lattice translations, e.g., [1,0,0] implies to take periodic
+        image that is one a-lattice vector away. If jimage is None,
+        the image that is nearest to the site is found.
+
+    Returns
+    -------
+    mapped_vec, jimage : tuple
+        Distance and periodic lattice translations
         of the other site for which the distance applies. This means that
         the distance between frac_coords1 and (jimage + frac_coords2) is
         equal to distance.
@@ -61,14 +69,14 @@ def deform_lattice(structure,stdev=0.03):
 
     Parameters
     ----------
-    structure : 
+    structure : Structure
         Structure object.
     stdev : float
         Standard deviation.
 
     Returns
     -------
-    (Structure)
+    structure : Structure
         Structure with deformed lattice.
     """
     def get_random_strain(stdev):
@@ -90,14 +98,24 @@ def get_distance_vector(site1,site2,jimage=None):
     """
     Get distance vector between two sites assuming periodic boundary conditions.
     Same as pymatgen.core.sites.Site.distance but returns a vector instead of norm.
-    Args:
-        other (PeriodicSite): Other site to get distance from.
-        jimage (3x1 array): Specific periodic image in terms of lattice
-            translations, e.g., [1,0,0] implies to take periodic image
-            that is one a-lattice vector away. If jimage is None,
-            the image that is nearest to the site is found.
-    Returns:
-        distance (float): Distance between the two sites
+
+    Parameters
+    ----------
+    site 1 : PeriodicSite
+        PeriodicSite object
+    site 2 : PeriodicSite
+        PeriodicSite object
+    jimage : np.array
+        Specific periodic image in terms of lattice
+        translations, e.g., [1,0,0] implies to take periodic image
+        that is one a-lattice vector away. If jimage is None,
+        the image that is nearest to the site is found.
+    
+    Returns
+    -------
+    distance : float
+        Distance between the two sites in A°.
+
     """
     return _get_distance_vector_and_image(site1.lattice, site1.frac_coords, site2.frac_coords,jimage=jimage)[0]
 
@@ -108,13 +126,14 @@ def get_displacement_vectors(structures):
 
     Parameters
     ----------
-    structures : 
+    structures : list
         list of Pymatgen Structure objects.
 
     Returns
     -------
-    (numpy ndarray)
+    displacements : np.array
         Displacement vectors in cartesian coordinates.
+
     """
     traj = Trajectory.from_structures(structures,constant_lattice=True) #order of structures determines ref in traj
     traj.to_displacements()
@@ -127,13 +146,18 @@ def get_furthest_neighbors(structure, target_site, species):
     Get the indexes of atomic sites that are furthest away from the target site
     and maximally spaced apart from each other, considering periodic boundary conditions.
 
-    Parameters:
-    - structure: pymatgen Structure object
-    - target_site: a pymatgen PeriodicSite or index of the target site in the structure
-    - species: list of species to find (ordered as given)
+    Parameters
+    ----------
+    structure : Structure
+    target_site : (int or PeriodicSite)
+        PeriodicSite object or index of the target site in the structure
+    species : list 
+        List of species to find.
 
-    Returns:
-    - List of indices corresponding to the furthest sites of the given species
+    Returns
+    -------
+    selected_indices : list
+        List of indices corresponding to the furthest sites of the given species
     """
     if isinstance(target_site, int):
         target_site = structure[target_site]
@@ -170,64 +194,6 @@ def get_furthest_neighbors(structure, target_site, species):
 
     return selected_indices
 
-def get_WarrenCowley_order_parameter(
-                        structure,
-                        A_symbols,
-                        X_symbols,
-                        neighbors_cutoff):
-    """
-    Compute Warren Cowley order parameter to describe mixing tendencies in alloys
-
-    The WC order parameter is computed as:
-                alpha_{A-X} = 1 - < P_{A-X} > / C_X
-    where:
-    - <P_{A-X}> is the avg probability of finding X near A, computed as:
-        <P_{A-X}> = n_X / n_total , n = number of nighbors of A
-        C_X = concentration of X in structure
-    
-    Parameters
-    ----------
-    structure:
-        Pymatgen Structure
-    A_symbols: (list)
-        List of element symbols to consider for A-site
-    X_symbols: (list)
-        List of element symbols to consider for X-site
-    neighbors_cutoff: (float)
-        Distance cutoff for neighbors counting
-
-    Returns
-    -------
-    alpha: (float)
-        Warren-Cowley order parameter
-    """
-    total_P_AX = 0
-    n_A_sites = 0
-    n_X_sites = 0
-    for site in structure:
-        if site.specie.symbol in A_symbols:
-            n_A_sites += 1
-            neighbors_list = structure.get_neighbors(site,r=neighbors_cutoff)
-            n_X_neighbors = 0
-            n_total_neighbors = 0
-            for neighbor in neighbors_list:
-                if neighbor.specie.symbol in X_symbols:
-                    n_X_neighbors += 1
-                    n_total_neighbors += 1
-                elif neighbor.specie.symbol in A_symbols:
-                    n_total_neighbors += 1
-            total_P_AX += n_X_neighbors / n_total_neighbors
-        elif site.specie.symbol in X_symbols:
-            n_X_sites += 1
-
-    if n_A_sites == 0 or n_X_sites == 0:
-        raise ValueError("No A or X sites found to compute order parameter.")
-
-    C_X = n_X_sites / (n_A_sites + n_X_sites)
-    avg_P_AX = total_P_AX / n_A_sites
-    alpha = 1 - avg_P_AX / C_X 
-    return alpha
-
 
 def is_site_in_structure(site,structure,tol=1e-03):
     """
@@ -237,16 +203,16 @@ def is_site_in_structure(site,structure,tol=1e-03):
 
     Parameters
     ----------
-    site : (Site)
+    site : Site
         PeriodicSite or Site object.
-    structure : (Structure)
-        Pymatgen Structure object.
-    tol : (float), optional
+    structure : Structure
+        Structure object.
+    tol : float
         Tolerance for fractional coordinates. The default is 1e-03.
 
     Returns
     -------
-    is_site_in_structure : (bool)
+    is_site_in_structure : bool
     index : (int)
         Index of site in structure in case site is_site_in_structure returns True
         If False index will be None.
@@ -267,25 +233,25 @@ def is_site_in_structure_coords(site, structure, tol=1e-3, return_distance=False
 
     Parameters
     ----------
-    site : (Site)
+    site : Site
         PeriodicSite or Site object.
-    structure : (Structure)
-        Pymatgen Structure object.
-    tol : (float), optional
-        Tolerance for site comparison, normalized with respect to lattice size. 
-        Default is 1e-03.
-    return_distance : (bool)
-        Return distance btw site coords and closest site in reference structure 
+    structure : Structure
+        Structure object.
+    tol : float,
+        Tolerance for site comparison, normalized with respect to lattice size.
+    return_distance : bool
+        Return distance btw site coords and closest site in reference structure. 
 
     Returns
     -------
-    is_site_in_structure_coords : (bool)
+    is_site_in_structure_coords : bool
         Whether the site exists in the structure within tolerance.
-    index : (int or None)
+    index : int or None
         Index of matching site in structure if found, otherwise None.
-    distance : (float)
+    distance : float
+        Distance btw site coords and closest site in reference structure.
         Returned if return_distance is set to True. 
-        distance btw site coords and closest site in reference structure.
+        
     """
     # Normalize tolerance with lattice vector size
     l = site.lattice
@@ -314,15 +280,21 @@ def is_site_in_structure_coords(site, structure, tol=1e-3, return_distance=False
 def rattle_atoms(structure,stdev=0.05,seed=None):
     """
     Change randomly atomic positions. Uses the ASE.
-    Similar to the method "perturb" from the Structure class
+    Similar to the method "perturb" from the Structure class.
+
     Parameters
     ----------
-    structure :
-        Structure object
+    structure : Structure
+        Structure object.
     stdev : float
-        Standard deviation
+        Standard deviation.
     seed : int
         Seed for random number generation passed to the Atoms.rattle method.
+
+    Returns
+    -------
+    structure : Structure
+        Structure with rattled atoms.    
     """
     atoms = structure.to_ase_atoms()
     atoms.rattle(stdev=stdev,seed=seed)
@@ -331,7 +303,7 @@ def rattle_atoms(structure,stdev=0.05,seed=None):
 
 def remove_oxidation_state_from_site(site):
     """
-    Remove oxidation state decoration from site.
+    Remove `pymatgen`s oxidation state decoration from Site.
     """
     new_sp = collections.defaultdict(float)
     for el, occu in site.species.items():
@@ -340,30 +312,30 @@ def remove_oxidation_state_from_site(site):
     site.species = Composition(new_sp)
     return
 
+
 def sort_sites_to_ref_coords(structure,structure_ref,extra_sites=[],tol=1e-03,get_indexes=False):
     """
     Sort Sites of one structure to match the order of coordinates in a reference structure. 
 
     Parameters
     ----------
-    structure : (Structure)
+    structure : Structure
         Structure to sort.
-    structure_ref : (Structure)
+    structure_ref : Structure
         Reference Structure.
-    extra_sites : (list), optional
-        Sites to append at the end of the structure. The default is [].
-    tol: (float)
+    extra_sites : list
+        Sites to append at the end of the structure.
+    tol: float
         Tolerance for site comparison. The distance between sites in target and reference stucture is used, 
-        periodicity is accounted for. The tolerance is normalized with respect to lattice vector size. 
-        The default is 1e-03.
-    get_indexes : (bool), optional
-        Get list of mapping indexes for target structure sites in reference structure. The default is False.
+        periodicity is accounted for. The tolerance is normalized with respect to lattice vector size.
+    get_indexes : bool
+        Get list of mapping indexes for target structure sites in reference structure.
 
     Returns
     -------
-    new_structure : (Structure)
-        Sorted Structure
-    indexes : (list)
+    new_structure : Structure
+        Sorted Structure.
+    indexes : list
         If get_indexes is True a tuple is returned. List of mapping indexes for target structure sites
         in reference structure.
     """
@@ -405,18 +377,18 @@ def view_structures_with_ase(structures):
 
 def write_extxyz_file(file,structure,structure_ref=None,displacements=False):
     """
-    Write extxyz format. Displacements can be included for visualization in OVITO. 
+    Write extxyz format. Displacements can be included for visualization. 
 
     Parameters
     ----------
-    file : (str)
+    file : str
         Path to save extxyz file to.
-    structure : (Structure)
+    structure : Structure
         Structure to visualize.
-    structure_ref : (Structure)
-        Reference Structure if needed. The default is None.
-    displacements : (bool)
-        Include displacement vectors. The default is False.
+    structure_ref : Structure
+        Reference Structure if needed.
+    displacements : bool
+        Include displacement vectors.
     """
     atoms = structure.to_ase_atoms()
     if displacements:
@@ -431,6 +403,13 @@ def write_extxyz_file(file,structure,structure_ref=None,displacements=False):
 def write_xdatcar_from_structures(structures,file='XDATCAR'):
     """
     Write XDATCAR file from a list of structures. The first structure determines the reference for the Trajectory object.
+
+    Parameters
+    ----------
+    structures : list
+        List of Structure objects.
+    file : str
+        Path to write XDATCAR to.
     """
     traj = Trajectory.from_structures(structures,constant_lattice=True) 
     if not op.exists(op.dirname(file)):

@@ -22,10 +22,15 @@ def get_object_feature(obj,feature):
 
     Parameters
     ----------
-    obj : (object)
+    obj : object
         Generic object.
-    feature : (str or list)
+    feature : str or list
         Method or attribute of class for which the value is needed.
+    
+    Returns
+    -------
+    Object feature.
+
     """
     if isinstance(feature,list):
         method = feature[0]
@@ -61,15 +66,16 @@ def get_object_from_json(object_class,path_or_string):
 
     Parameters
     ----------
-    object_class : (class)
-        Class of the object to decoder.
-    path_or_string : (str)
+    object_class : class
+        Class of the object to decode.
+    path_or_string : str
         If an existing path to a file is given the object is constructed reading the json file.
         Otherwise it will be read as a string.
 
     Returns
     -------
     Decoded object.
+
     """
     if op.isfile(path_or_string):
         with open(path_or_string) as file:
@@ -82,18 +88,20 @@ def get_object_from_json(object_class,path_or_string):
 
 def save_object_as_json(object,path,sanitize=False,cls=MontyEncoder):
     """
-    Save class object as json string or file. The class must posses the 'as_dict' method.
+    Save class object as json string or file. The class must posses the `as_dict` method.
 
     Parameters
     ----------
-    object: object of a class
-    path : (str)
+    object: object
+        Generic object. Must posses the `as_dict` method.
+    path : str
         Path to the destination file.  If None a string is exported.
 
     Returns
     -------
-    d : (str)
+    d : str
         If path is not set a string is returned.
+
     """
     d = object.as_dict()
     if sanitize:
@@ -108,28 +116,29 @@ def save_object_as_json(object,path,sanitize=False,cls=MontyEncoder):
 
 def select_objects(objects,mode='and',exclude=False,functions=None,**kwargs):
     """
-    Filter objects based on different criteria. Returns a list of objects.
+    Select objects from a list based on different criteria. Returns a list of objects.
 
     Parameters
     ----------
-    objects : (list)
+    objects : list
         List of objects.
-    mode : (str), optional
+    mode : str
         Filtering mode, possibilities are: 'and' and 'or'. The default is 'and'. 
-    exclude : (bool), optional
+    exclude : bool
         Exclude the entries satisfying the criteria instead of selecting them. The default is False.
-    functions : (list), optional
+    functions : list
         Functions containing criteria. The functions must take the object as the argument and
         return a bool. 
-    **kwargs : (dict)
+    kwargs : dict
         Keys are methods/attributes the objects have. Values contain the criteria. 
         To address more than one condition relative to the same attribute,
         use lists or tuples (e.g. charge=[0,1]).
 
     Returns
     -------
-    output_objects : (list)
+    output_objects : list
         List with selected objects.
+
     """    
     selected_objects = []
     entered_selection = False
@@ -182,17 +191,18 @@ def sort_objects(objects,features,reverse=False):
 
     Parameters
     ----------
-    objects : (list)
+    objects : list
         List of objects to sort.
-    features : (list)
+    features : list
         List of features (see get_object_feature).
-    reverse : (bool)
+    reverse : bool
         Reverse order.
 
     Returns
     -------
-    (list)
+    sorted_objects : list
         Sorted objects.
+
     """
     def criteria(obj):
         criteria = []
@@ -210,30 +220,36 @@ def sort_objects(objects,features,reverse=False):
 
 from pymatgen.core.periodic_table import Element
 
-def convert_conc_from_weight_to_cm3(c_weight,target_el,composition,bulk_structure):
+def convert_conc_from_weight_to_cm3(c_weight,target_el,composition,bulk_volume=None,bulk_structure=None):
     """
     Convert concentration of dopand from weight % (common experimental data) to cm^-3.
 
     Parameters
     ----------
-    c_weight : (float)
+    c_weight : float
         Defect concentration in weight %.
-    target_el : (str)
+    target_el : str
         Symbol of target element.
-    composition : (Composition)
-        Composition (Pymatgen) of the material, uses only list of elements.
-    bulk_structure : (Structure)
-        Structure (Pymatgen) of bulk, needed for lattice volume.
-
+    composition : Composition
+        Composition of the material, uses only list of elements.
+    bulk_volume : float
+        Volume of bulk cell in A°^3.
+    bulk_structure : Structure
+        If `bulk_volume` is not provided, use the Structure object of
+        bulk material to optain the cell volume.
+    
     Returns
     -------
-    conc : (float)
+    conc : float
         Concentration in cm-3^.
 
     """
+    if not bulk_volume and not bulk_structure:
+        raise ValueError('You must provide either bulk_volume or bulk_structure')
     sum_MM = sum([el.atomic_mass for el in composition.elements])
     r_MM = Element(target_el).atomic_mass / sum_MM
-    conc = c_weight/r_MM * 1/bulk_structure.lattice.volume * 1e24 *0.01
+    bulk_volume = bulk_volume or bulk_structure.lattice.volume
+    conc = c_weight/r_MM * 1/bulk_volume * 1e24 *0.01
     return conc
 
 
