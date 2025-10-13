@@ -36,44 +36,45 @@ def plot_formation_energies(entries,
 
     Parameters
     ----------
-    entries : (list) 
+    entries : list 
         List of entries to calculate.
-    chemical_potentials : (dict)
+    chemical_potentials : dict
         Dictionary with chemical potentials of the elements {'element':chempot}.
-    vbm : (float)
+    vbm : float
         Valence band maximum in eV.
-    band_gap : (float)
+    band_gap : float
         Band gap of bulk material in eV.
-    temperature : (float)
+    temperature : float
         Temperature in K. If no custom formation energy is provided, this arg has no effect. 
-    xlim : (tuple)
-        Tuple (min,max) giving the range of the x (fermi energy) axis.
-    ylim : (tuple)
-        Tuple (min,max) giving the range for the formation energy axis.
-    title : (str)
+    xlim : tuple
+        Tuple giving the range of the x (fermi energy) axis.
+    ylim : tuple
+        Tuple giving the range for the formation energy axis.
+    title : str
         Title of the figure.
-    fermi_level : (float)
+    fermi_level : float
         Plot Fermi energy position with a vertical line.
-    grid : (bool)
+    grid : bool
         Show grid.
-    figsize : (float or tuple)
+    figsize : float or tuple
         Figure size.
-    fontsize : (float)
+    fontsize : float
         Font size.
-    show_legend  : (Bool)
+    show_legend  : bool
         Show legend.
-    format_legend : (bool)
+    format_legend : bool
         Get latex-like legend based on the name of defect entries.
-    get_subplot : (bool)
+    get_subplot : bool
         Get subplot.
     subplot_settings:
         List with integers for subplot setting on matplotlib (plt.subplot(nrows,ncolumns,index)). 
-    eform_kwargs : (dict)
+    eform_kwargs : dict
         Kwargs to pass to `entry.formation_energy`.
 
     Returns
     -------
-        matplotlib object
+    matplotlib object
+
     """
     from .analysis import DefectsAnalysis
     import matplotlib.pyplot as plt
@@ -171,32 +172,33 @@ def plot_binding_energies(entries,
 
     Parameters
     ----------
-    entries : (list) 
+    entries : list 
         List of entries to calculate.
-    vbm : (float)
+    vbm : float
         Valence band maximum in eV.
-    band_gap : (float)
+    band_gap : float
         Band gap of bulk material in eV.
-    temperature : (float)
+    temperature : float
         Temperature in K. If no custom formation energy is provided, this arg has no effect.
-    names : (list)
+    names : list
         List of strings with names of DefectEntry. If None, all defect complexes are plotted.
-    xlim : (tuple)
-        Tuple (min,max) giving the range of the x (fermi energy) axis
-    ylim : (tuple)
-        Tuple (min,max) giving the range for the formation energy axis
-    figsize : (tuple)
+    xlim : tuple
+        Tuple giving the range of the x (fermi energy) axis
+    ylim : tuple
+        Tuple giving the range for the formation energy axis
+    figsize : tuple
         Figure size.
-    fontsize : (float)
+    fontsize : float
         Font size.
-    format_legend : (bool)
+    format_legend : bool
         Bool for getting latex-like legend based on the name of defect entries.
-    eform_kwargs : (dict)
+    eform_kwargs : dict
         Kwargs to pass to `entry.formation_energy`.
 
     Returns
     -------
-        matplotlib object
+    matplotlib object
+
     """         
     from .analysis import DefectsAnalysis
     
@@ -262,32 +264,33 @@ def plot_charge_transition_levels(entries,
 
     Parameters
     ----------
-    entries : (list) 
+    entries : list
         List of entries to calculate.
-    vbm : (float)
+    vbm : float
         Valence band maximum in eV.
-    band_gap : (float)
+    band_gap : float
         Band gap of bulk material in eV.
-    temperature : (float)
+    temperature : float
         Temperature in K. If no custom formation energy is provided, this arg has no effect.
-    ylim : (tuple)
+    ylim : tuple
         y-axis limits.
-    figsize : (tuple)
+    figsize : tuple
         Figure size.
-    fontsize : (float)
+    fontsize : float
         Font size.
-    fermi_level : (float)
+    fermi_level : float
         Plot Fermi energy position.
-    format_legend : (bool)
+    format_legend : bool
         Bool for getting latex-like legend based on the name of defect entries.
-    get_integers : (bool)
+    get_integers : bool
         Get charge transition levels as integers.
-    eform_kwargs : (dict)
+    eform_kwargs : dict
         Kwargs to pass to `entry.formation_energy`.
 
     Returns
     -------
-        matplotlib object    
+    matplotlib object
+
     """        
     from .analysis import DefectsAnalysis
     
@@ -357,7 +360,6 @@ def plot_pO2_vs_concentrations(
                             fontsize=22,
                             xlim=(1e-20,1e10),
                             ylim=None,
-                            show_unstable=True,
                             colors=None,
                             **kwargs):
     """
@@ -365,33 +367,34 @@ def plot_pO2_vs_concentrations(
 
     Parameters
     ----------
-    thermodata: (ThermoData)
+    thermodata: ThermoData
         ThermoData object that contains the thermodynamic data:
-            partial_pressures : (list)
-                list with partial pressure values.
-            defect_concentrations : (list or dict)
-                Defect concentrations in the same format as the output of DefectsAnalysis. 
-            carrier_concentrations : (list)
-                List of tuples with intrinsic carriers concentrations (holes,electrons).
-    output : (str)
+
+        partial_pressures : (list)
+            list with partial pressure values.
+        defect_concentrations : (list or dict)
+            Defect concentrations in the same format as the output of DefectsAnalysis. 
+        carrier_concentrations : (list)
+            List of tuples with intrinsic carriers concentrations (holes,electrons).
+
+    output : str
         Type of output for defect concentrations:
-            "all": The output is the concentration of every defect entry.
-            "stable": The output is the concentration of the stable charge for every defect at each fermi level point.
-            "total": The output is the sum of the concentration in every charge for each specie.
-            The default is 'total'.
-    figsize : (tuple)
+
+        - "all": The output is the concentration of every defect entry.
+        - "stable": The output is the concentration of the stable charge for every defect at each fermi level point.
+        - "total": The output is the sum of the concentration in every charge for each specie.
+
+    figsize : tuple
         Size of the matplotlib figure.
-    fontsize : (float)
+    fontsize : float
         Size of font for matplotlib rcParams.
-    xlim : (tuple)
+    xlim : tuple
         Range of x-axis.
-    ylim : (tuple)
+    ylim : tuple
         Range of y-axis. 
-    show_unstable : (bool)
-        Show regions where the system is unstable (at least one formation energy is negative).
-    colors : (list)
+    colors : list
         List of colors to use for plotting with matplotlib. If None the defaults are used.
-    kwargs : 
+    kwargs : dict
         Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).
         If provided, only the filtered concentrations will be plotted. If output
         is set to "total", only the filtered concentrations will be used to 
@@ -399,8 +402,9 @@ def plot_pO2_vs_concentrations(
 
     Returns
     -------
-    plt : 
+    plt : matplotlib
         Matplotlib object.
+
     """
     td = thermodata
     p,dc,cc = td.partial_pressures,td.defect_concentrations,td.carrier_concentrations
@@ -415,7 +419,6 @@ def plot_pO2_vs_concentrations(
                                 fontsize=fontsize,
                                 xlim=xlim,
                                 ylim=ylim,
-                                show_unstable=show_unstable,
                                 colors=colors,
                                 **kwargs)
     return plt
@@ -434,26 +437,27 @@ def plot_pO2_vs_conductivity(
 
     Parameters
     ----------
-    partial_pressures : (list)
+    partial_pressures : list
         list with partial pressure values.
-    conductivities : (dict or list)
+    conductivities : dict or list
         If is a dict multiples lines will be plotted, with labels as keys and conductivity list
         as values. If is a list only one line is plotted with label taken from the "label" argument.
-    new_figure : (bool)
+    new_figure : bool
         Initialize a new matplotlib figure.
-    label : (str)
+    label : str
         Label for the data.
-    figsize : (tuple)
+    figsize : tuple
         Size of the matplotlib figure.
-    xlim : (tuple)
+    xlim : tuple
         Range of x-axis.
-    ylim : (tuple)
+    ylim : tuple
         Range of y-axis.
 
     Returns
     -------
-    plt : 
+    plt : matplotlib
         Matplotlib object.
+
     """
     xlabel = 'Oxygen partial pressure (atm)'
     plt = plot_x_vs_conductivity(
@@ -484,30 +488,31 @@ def plot_pO2_vs_fermi_level(
 
     Parameters
     ----------
-    partial_pressures : (list)
+    partial_pressures : list
         list with partial pressure values.
-    fermi_levels : (dict or list)
+    fermi_levels : dict or list
         If is a dict multiples lines will be plotted, with labels as keys and fermi level list
         as values. If is a list only one line is plotted with label taken from the "label" argument.
-    band_gap : (float)
+    band_gap : float
         Band gap of the bulk material.
-    new_figure : (bool)
+    new_figure : bool
         Initialize a new matplotlib figure.
-    label : (str)
+    label : str
         Label for the data.
-    figsize : (tuple)
+    figsize : tuple
         Size of the matplotlib figure.
-    xlim : (tuple)
+    xlim : tuple
         Range of x-axis.
-    ylim : (tuple)
+    ylim : tuple
         Range of y-axis.
-    colors : (list)
+    colors : list
         List with colors for Fermi level data.
 
     Returns
     -------
-    plt : 
+    plt : matplotlib
         Matplotlib object.
+
     """
     xlabel = 'Oxygen partial pressure (atm)'
     plt = plot_x_vs_fermi_level(
@@ -531,7 +536,6 @@ def plot_variable_species_vs_concentrations(
                                         fontsize=22,
                                         xlim=(1e-20,1e10),
                                         ylim=None,
-                                        show_unstable=True,
                                         colors=None,
                                         **kwargs):
     """
@@ -539,35 +543,34 @@ def plot_variable_species_vs_concentrations(
 
     Parameters
     ----------
-    thermodata: (ThermoData)
+    thermodata: ThermoData
         ThermoData object that contains the thermodynamic data:
-            variable_defect_specie : (str)
-                Name of variable defect species.
-            variable_concentrations : (list)
-                List of concentrations of variable species. 
-            defect_concentrations : (list or dict)
-                Defect concentrations in the same format as the output of DefectsAnalysis. 
-            carrier_concentrations : (list)
-                List of tuples with intrinsic carriers concentrations (holes,electrons).
-    output : (str)
+
+        partial_pressures : (list)
+            list with partial pressure values.
+        defect_concentrations : (list or dict)
+            Defect concentrations in the same format as the output of DefectsAnalysis. 
+        carrier_concentrations : (list)
+            List of tuples with intrinsic carriers concentrations (holes,electrons).
+
+    output : str
         Type of output for defect concentrations:
-            "all": The output is the concentration of every defect entry.
-            "stable": The output is the concentration of the stable charge for every defect at each fermi level point.
-            "total": The output is the sum of the concentration in every charge for each specie.
-            The default is 'total'.
-    figsize : (tuple)
+
+        - "all": The output is the concentration of every defect entry.
+        - "stable": The output is the concentration of the stable charge for every defect at each fermi level point.
+        - "total": The output is the sum of the concentration in every charge for each specie.
+
+    figsize : tuple
         Size of the matplotlib figure.
-    fontsize : (float)
+    fontsize : float
         Size of font for matplotlib rcParams.
-    xlim : (tuple)
+    xlim : tuple
         Range of x-axis.
-    ylim : (tuple)
+    ylim : tuple
         Range of y-axis.
-    show_unstable : (bool)
-        Show regions where the system is unstable (at least one formation energy is negative).
-    colors : (list)
+    colors : list
         List of colors to use for plotting with matplotlib. If None the defaults are used.
-    kwargs : 
+    kwargs : dict
         Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).
         If provided, only the filtered concentrations will be plotted. If output
         is set to "total", only the filtered concentrations will be used to 
@@ -575,7 +578,7 @@ def plot_variable_species_vs_concentrations(
 
     Returns
     -------
-    plt : 
+    plt : matplotlib
         Matplotlib object.
     """
     td = thermodata
@@ -593,7 +596,6 @@ def plot_variable_species_vs_concentrations(
                                 fontsize=fontsize,
                                 xlim=xlim,
                                 ylim=ylim,
-                                show_unstable=show_unstable,
                                 colors=colors,
                                 **kwargs)
     return plt
@@ -613,27 +615,27 @@ def plot_variable_species_vs_conductivity(
 
     Parameters
     ----------
-    xlabel : (str)
+    xlabel : str
         Label for concentration axis (cm^-3 is added).
-    variable_concentrations : (list)
+    variable_concentrations : list
         List of concentrations of variable species. 
-    conductivities : (dict or list)
+    conductivities : dict or list
         If is a dict multiples lines will be plotted, with labels as keys and conductivity list
         as values. If is a list only one line is plotted with label taken from the "label" argument.
-    new_figure : (bool)
+    new_figure : bool
         Initialize a new matplotlib figure.
-    label : (str)
+    label : str
         Label for the data.
-    figsize : (tuple)
+    figsize : tuple
         Size of the matplotlib figure.
-    xlim : (tuple)
+    xlim : tuple
         Range of x-axis.
-    ylim : (tuple)
+    ylim : tuple
         Range of y-axis.
 
     Returns
     -------
-    plt : 
+    plt : matplotlib
         Matplotlib object.
     """
     xlabel = '%s (cm$^{-3})$' %xlabel
@@ -665,32 +667,33 @@ def plot_variable_species_vs_fermi_level(
 
     Parameters
     ----------
-    xlabel : (str)
+    xlabel : str
         Label for concentration axis (cm^-3 is added).
-    variable_concentrations : (list)
+    variable_concentrations : list
         List of concentrations of variable species. 
-    fermi_levels : (dict or list)
+    fermi_levels : dict or list
         If is a dict multiples lines will be plotted, with labels as keys and fermi level list
         as values. If is a list only one line is plotted with label taken from the "label" argument.
-    band_gap : (float)
+    band_gap : float
         Band gap of the bulk material.
-    new_figure : (bool)
+    new_figure : bool
         Initialize a new matplotlib figure.
-    label : (str)
+    label : str
         Label for the data.
-    figsize : (tuple)
+    figsize : tuple
         Size of the matplotlib figure.
-    xlim : (tuple)
+    xlim : tuple
         Range of x-axis.
-    ylim : (tuple)
+    ylim : tuple
         Range of y-axis.
-    colors : (list)
+    colors : list
         List with colors for Fermi level data.
 
     Returns
     -------
-    plt : 
+    plt : matplotlib
         Matplotlib object.
+
     """
     xlabel = '%s (cm$^{-3})$' %xlabel
     plt = plot_x_vs_fermi_level(
@@ -718,7 +721,6 @@ def plot_x_vs_concentrations(
                             fontsize=22,
                             xlim=(1e-20,1e10),
                             ylim=None,
-                            show_unstable=True,
                             colors=None,
                             **kwargs):
     """
@@ -726,42 +728,42 @@ def plot_x_vs_concentrations(
     
     Parameters
     ----------
-    x : (list)
+    x : list
         List with data on x-axis.
-    xlabel : (str)
+    xlabel : str
         Label for x-axis.
-    defect_concentrations : (list)
+    defect_concentrations : list
         List of DefectConcentrations objects.
-    carrier_concentrations : (list)
+    carrier_concentrations : list
         List of tuples with carrier concentrations (holes,electrons).
-        output : (str)
-            Type of output for defect concentrations:
-                "all": The output is the concentration of every defect entry.
-                "stable": The output is the concentration of the stable charge for every defect at each fermi level point.
-                "total": The output is the sum of the concentration in every charge for each specie.
-                The default is 'total'.
-        figsize : (tuple)
-            Size of the matplotlib figure.
-        fontsize : (float)
-            Size of font for matplotlib rcParams. 
-        xlim : (tuple)
-            Range of x-axis. 
-        ylim : (tuple)
-            Range of y-axis.
-        show_unstable : (bool)
-            Show regions where the system is unstable (at least one formation energy is negative).
-        colors : (list)
-            List of colors to use for plotting with matplotlib. If None the defaults are used.
-        kwargs : 
-            Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).
-            If provided, only the filtered concentrations will be plotted. If output
-            is set to "total", only the filtered concentrations will be used to 
-            compute the total concentration.
+    output : str
+        Type of output for defect concentrations:
 
-        Returns
-        -------
-        plt : 
-            Matplotlib object.
+        - "all": The output is the concentration of every defect entry.
+        - "stable": The output is the concentration of the stable charge for every defect at each fermi level point.
+        - "total": The output is the sum of the concentration in every charge for each specie.
+        
+    figsize : tuple
+        Size of the matplotlib figure.
+    fontsize : float
+        Size of font for matplotlib rcParams. 
+    xlim : tuple
+        Range of x-axis. 
+    ylim : tuple
+        Range of y-axis.
+    colors : list
+        List of colors to use for plotting with matplotlib. If None the defaults are used.
+    kwargs : dict
+        Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).
+        If provided, only the filtered concentrations will be plotted. If output
+        is set to "total", only the filtered concentrations will be used to 
+        compute the total concentration.
+
+    Returns
+    -------
+    plt : matplotlib
+        Matplotlib object.
+
         """        
     matplotlib.rcParams.update({'font.size': 22})
     if output == 'all' or output == 'stable':
@@ -809,28 +811,29 @@ def plot_x_vs_conductivity(
 
     Parameters
     ----------
-    x : (list)
+    x : list
         List with data on x-axis.
-    xlabel : (str)
+    xlabel : str
         Label for x-axis.
-    conductivities : (dict or list)
+    conductivities : dict or list
         If is a dict multiples lines will be plotted, with labels as keys and conductivity list
         as values. If is a list only one line is plotted with label taken from the "label" argument.
-    new_figure : (bool)
+    new_figure : bool
         Initialize a new matplotlib figure. 
-    label : (str)
+    label : str
         Label for the data.
-    figsize : (tuple)
+    figsize : tuple
         Size of the matplotlib figure.
-    xlim : (tuple)
+    xlim : tuple
         Range of x-axis.
-    ylim : (tuple)
+    ylim : tuple
         Range of y-axis.
 
     Returns
     -------
-    plt : 
+    plt : matplotlib
         Matplotlib object.
+
     """
     matplotlib.rcParams.update({'font.size': 22})
     if new_figure:
@@ -869,32 +872,33 @@ def plot_x_vs_fermi_level(
     """
     Parameters
     ----------
-    x : (list)
+    x : list
         List with data on x-axis.
-    xlabel : (str)
+    xlabel : str
         Label for x-axis.
-    fermi_levels : (dict or list)
+    fermi_levels : dict or list
         If is a dict multiples lines will be plotted, with labels as keys and fermi level list
         as values. If is a list only one line is plotted with label taken from the "label" argument.
-    band_gap : (float)
+    band_gap : float
         Band gap of the bulk material.
-    new_figure : (bool)
+    new_figure : bool
         Initialize a new matplotlib figure.
-    label : (str)
+    label : str
         Label for the data.
-    figsize : (tuple)
+    figsize : tuple
         Size of the matplotlib figure.
-    xlim : (tuple)
+    xlim : tuple
         Range of x-axis. 
-    ylim : (tuple)
+    ylim : tuple
         Range of y-axis.
-    colors : (list),
+    colors : list,
         List with colors for Fermi level data.
 
     Returns
     -------
-    plt : 
+    plt : matplotlib
         Matplotlib object.
+
     """
     ylim = ylim if ylim else (-0.5, band_gap+0.5)
     matplotlib.rcParams.update({'font.size': 20})
@@ -1016,14 +1020,14 @@ class DefectConcentrationsPlotter:
     def __init__(self,concentrations,format_names=True):
         """
         Class to visualize concentrations dictionaries with pd.DataFrame and 
-        pd.Series (fortotal concentrations).
+        pd.Series (for total concentrations).
 
         Parameters
         ----------
-        concentrations : (list or dict)
+        concentrations : list or dict
             Concentrations can be in different formats: list of dict for "all" and 
             "stable_charges" and dict for "total".
-        format_names : (bool)
+        format_names : bool
             Format names with latex symbols.
         """
         # to be fixed
@@ -1065,25 +1069,26 @@ class DefectConcentrationsPlotter:
     
     def plot_bar(self,conc_range=(1e13,1e40),ylim=None,total=True,ylabel_fontsize=15,**kwargs):
         """
-        Bar plot of concentrations with pd.DataFrame.plot
+        Bar plot of concentrations with `pd.DataFrame.plot`
 
         Parameters
         ----------
-        conc_range : (tuple)
+        conc_range : tuple
             Range of concentrations to include in df.
-        ylim : (tuple)
+        ylim : tuple
             Limit of y-axis in plot. If None conc_range is used.
-        total : (bool)
+        total : bool
             plot total concentrations.
-        ylabel_fontsize : (int)
+        ylabel_fontsize : int
             Size of the label for y-axis.
-        **kwargs : (dict)
-            Kwargs to pass to df.plot().
+        **kwargs : dict
+            Kwargs to pass to `df.plot`.
 
         Returns
         -------
         plt : 
             Matplotlib object.
+
         """
         if conc_range:
             if not ylim:
@@ -1104,19 +1109,20 @@ class DefectConcentrationsPlotter:
 
     def limit_conc_range(self,conc_range=(1e10,1e40),reset_df=False):
         """
-        Limit df to a concentration range
+        Limit df to a concentration range.
 
         Parameters
         ----------
-        conc_range : (tuple)
+        conc_range : tuple
             Range of concentrations to include in df.
-        reset_df : (bool)
+        reset_df : bool
             Reset df attribute or return a new df.
 
         Returns
         -------
-        df, series : 
+        df, series : tuple 
             DataFrame object, Series object.
+            
         """
         if reset_df:
             self.df = self.df[self.df.conc.between(conc_range[0],conc_range[1])]
