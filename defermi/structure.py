@@ -20,37 +20,37 @@ from .defects import Vacancy,Substitution,Interstitial,DefectComplex
 from .generator import create_interstitials, create_vacancies, create_substitutions
 
 
-
-"""Interstitial generator to be re-implemented using the new pymatgen defects"""
     
 def create_interstitial_structures(structure,elements,supercell_size=None,**kwargs):
     """
-    Create interstitial structures based on Voronoi with pymatgen,
+    Create interstitial structures based on Voronoi with `pymatgen`,
     staring from a bulk structure (unit cell or supercell).
     Uses `Interstitial` objects generated with the `generator` module.
 
     Parameters
     ----------
-    structure : (Structure)
+    structure : Structure
         Bulk structure.
-    elements : (list)
+    elements : list
         List of element symbols.
-    supercell_size : (int), optional
+    supercell_size : int
         Input for the make_supercell function of the Structure class.
-        If None the input structure is not modified. The default is None.
+        If None the input structure is not modified.
     kwargs: 
-        Arguments to pass to VoronoiInterstitialGenerator:
-            clustering_tol: Tolerance for clustering the Voronoi nodes.
-            min_dist: Minimum distance between an interstitial and the nearest atom.
-            ltol: Tolerance for lattice matching.
-            stol: Tolerance for structure matching.
-            angle_tol: Angle tolerance for structure matching.
-            kwargs: Additional keyword arguments for the ``TopographyAnalyzer`` constructor.
+        Kwargs to pass to VoronoiInterstitialGenerator:
+
+        - clustering_tol: Tolerance for clustering the Voronoi nodes.
+        - min_dist: Minimum distance between an interstitial and the nearest atom.
+        - ltol: Tolerance for lattice matching.
+        - stol: Tolerance for structure matching.
+        - angle_tol: Angle tolerance for structure matching.
+        - kwargs: Additional keyword arguments for the `TopographyAnalyzer` constructor.
 
     Returns
     -------
-    structures : (list)
-        List of interstitial structures
+    structures : list
+        List of interstitial structures.
+
     """
     defects = create_interstitials(
                                 structure=structure,
@@ -71,28 +71,29 @@ def create_substitution_structures(structure,elements_to_replace,supercell_size=
     ----------
     structure : Structure
         Bulk structure, both unit cell or supercell can be used as input.
-    elements_to_replace : (str)
+    elements_to_replace : str
         Dict with element symbol of specie to be replaced as keys and element 
         symbol of the species to be replaced with as values ({'old_El':'new_El'}).
-    supercell_size : (int or numpy array)
+    supercell_size : int or numpy array
         Input for the make_supercell function of the Structure class.
         If None the input structure is not modified. 
-    kwargs : (dict)
+    kwargs : dict
         Kwargs to pass to SpaceGroupAnalyzer class.
-        Args:
-            symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
-            which is fairly strict and works well for properly refined
-            structures with atoms in the proper symmetry coordinates. For
-            structures with slight deviations from their proper atomic
-            positions (e.g., structures relaxed with electronic structure
-            codes), a looser tolerance of 0.1 (the value used in Materials
-            Project) is often needed.
-        angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.
+
+        - symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
+        which is fairly strict and works well for properly refined
+        structures with atoms in the proper symmetry coordinates. For
+        structures with slight deviations from their proper atomic
+        positions (e.g., structures relaxed with electronic structure
+        codes), a looser tolerance of 0.1 (the value used in Materials
+        Project) is often needed.
+        - angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.
 
     Returns
     -------
-    structures : (list)
-        List of substitution structures
+    structures : list
+        List of substitution structures.
+
     """
     defects = create_substitutions(
                                 structure=structure,
@@ -113,28 +114,28 @@ def create_vacancy_structures(structure,elements=None,supercell_size=None,**kwar
     ----------
     structure : Structure
         Bulk structure, both unit cell or supercell can be used as input.
-    elements : (str), optional
+    elements : str
         Symbol of the elements for which vacancies are needed.
-        If None all of the elements are considered. The default is None.
-    supercell_size : (int or numpy array)
+        If None all of the elements are considered.
+    supercell_size : int or numpy array
         Input for the make_supercell function of the Structure class.
         If None the input structure is not modified. 
-    kwargs : (dict)
+    kwargs : dict
         Kwargs to pass to SpaceGroupAnalyzer class.
-        Args:
-            symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
-            which is fairly strict and works well for properly refined
-            structures with atoms in the proper symmetry coordinates. For
-            structures with slight deviations from their proper atomic
-            positions (e.g., structures relaxed with electronic structure
-            codes), a looser tolerance of 0.1 (the value used in Materials
-            Project) is often needed.
-        angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.
+
+        - symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
+        which is fairly strict and works well for properly refined
+        structures with atoms in the proper symmetry coordinates. For
+        structures with slight deviations from their proper atomic
+        positions (e.g., structures relaxed with electronic structure
+        codes), a looser tolerance of 0.1 (the value used in Materials
+        Project) is often needed.
+        - angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.
 
     Returns
     -------
     structures : (list)
-        List of vacancy structures
+        List of vacancy structures.
     """
     defects = create_vacancies(
                             structure=structure,
@@ -153,26 +154,26 @@ def create_def_structure_for_visualization(structure_defect,structure_bulk,defec
 
     Parameters
     ----------
-    structure_defect : (Pymatgen Structure object)
+    structure_defect : Structure
         Defect structure.
-    structure_bulk : (Pymatgen Structure object)
+    structure_bulk : Structure
         Bulk structure.
-    defects : (tuple or list). 
-        List of defect objects.
-    sort_to_bulk : (bool)
+    defects : list 
+        List of defect objects. If None `defect_finder` is used.
+    sort_to_bulk : bool
         Sort Sites of the defect structure to match the order of coordinates in the bulk structure
         (useful if the non-relaxed defect structure is not available). 
         If False only the dummy atoms are inserted and not further changes are made.
-    tol: (float)
+    tol: float
         Tolerance for site comparison. The distance between sites in target and reference stucture is used, 
         periodicity is accounted for. The tolerance is normalized with respect to lattice vector size. 
         The default is 1e-03.
 
     Returns
     -------
-    new_structure (Pymatgen Structure object)
-        Structure with dummy atoms as vacancies and interstitials in the bottom.
-        The order of the Sites follow the order of the Bulk structure.
+    new_structure : Structure 
+        Structure with dummy atoms as vacancies and interstitials at the end of the list.
+        The order of the sites follow the order of the Bulk structure.
 
     """
     df = structure_defect.copy()
@@ -218,23 +219,24 @@ def defect_finder(
 
     Parameters
     ----------
-    structure_defect : Pymatgen Structure
+    structure_defect : Structure
         Defect structure.
-    structure_bulk : Pymatgen Structure
+    structure_bulk : Structure
         Bulk structure.
     tol : float
         Tolerance for fractional coordinates comparison (default is 1e-3).
-    max_number_of_defects : (int)
+    max_number_of_defects : int
         Impose a max number of defects to be found. If set, defects
         are ranked based on the coordinate distance btw defect and bulk sites
         (descending order), the first max_number_of_defects in the list 
         are given as the output (as single defect or defect complex).
-    verbose : (bool)
+    verbose : bool
         Print output.
 
     Returns
     -------
-    Defect object (single or complex)
+    Defect object (Vacancy, Substitution, Interstitial, DefectComplex). Not implemented for Polaron.
+
     """
     defects = []
     # Identify missing (vacancies) and additional (interstitials) sites
@@ -294,27 +296,27 @@ def defect_finder(
 
 def get_trajectory_for_visualization(structure_defect,structure_bulk,defects=None,tol=1e-03,file=None):
     """
-    Create trajectory from defect and bulk structures for visualization in OVITO. 
+    Create trajectory from defect and bulk structures for visualization. 
     The vacancies are shown by inserting in the vacant site the element of same row and next group on the periodic table.
 
     Parameters
     ----------
-    structure_defect : (Pymatgen Structure object)
+    structure_defect : Structure
         Defect structure.
-    structure_bulk : (Pymatgen Structure object)
+    structure_bulk : Structure
         Bulk structure.
-    defects : (tuple or list). 
-        Tuple or list of tuples in the format (defect_site,defect_type)
-        The format is the same as the output of defect_finder. If None defect_finder is used. The default is None.
-    tol: (float)
+    defects : list 
+        List of Defect objects. If None `defect_finder` is used.
+    tol: float
         Tolerance for site comparison. The distance between sites in target and reference stucture is used, 
         periodicity is accounted for. The tolerance is normalized with respect to lattice vector size. 
         The default is 1e-03.
-    file : (str)
+    file : str
         File to save XDATCAR. 
+    
     Returns
     -------
-    new_structure (Pymatgen Structure object)
+    new_structure : Structure
         Structure with dummy atoms as vacancies and interstitials in the bottom.
         The order of the Sites follow the order of the Bulk structure.
 
@@ -331,24 +333,24 @@ def get_trajectory_for_visualization(structure_defect,structure_bulk,defects=Non
         
 def write_extxyz_for_visualization(file,structure_defect,structure_bulk,defects=None,tol=1e-03): 
     """
-    Write extxyz file for visualization in OVITO. The displacements w.r.t the bulk structure are included.
+    Write extxyz file for visualization. The displacements w.r.t the bulk structure are included.
     The vacancies are shown by inserting in the vacant site the element of same row and next group on the periodic table.
     
     Parameters
     ----------
-    file : (str)
+    file : str
         Path to save file. 
-    structure_defect : (Pymatgen Structure object)
+    structure_defect : Structure
         Defect structure.
-    structure_bulk : (Pymatgen Structure object)
+    structure_bulk : Structure
         Bulk structure.
-    defects : (tuple or list). 
-        Tuple or list of tuples in the format (defect_site,defect_type)
-        The format is the same as the output of defect_finder. If None defect_finder is used. The default is None.
-    tol: (float)
+    defects : list 
+        List of Defect objects. If None `defect_finder` is used.
+    tol: float
         Tolerance for site comparison. The distance between sites in target and reference stucture is used, 
         periodicity is accounted for. The tolerance is normalized with respect to lattice vector size. 
         The default is 1e-03.
+    
     """
     sb = structure_bulk
     dummy = create_def_structure_for_visualization(structure_defect, structure_bulk,defects,sort_to_bulk=True,tol=tol)
