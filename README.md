@@ -4,11 +4,14 @@ Python library for the analysis and visualization of point defects. Simple and i
 
 
 ## Installation
-
+If you are using `conda` or `mamba`, creating a new environment is recommended:
 ```python
 mamba create env -n defermi python
 mamba activate defermi
+```
 
+The package can be installed with PyPI:
+```python
 pip install defermi
 ```
 
