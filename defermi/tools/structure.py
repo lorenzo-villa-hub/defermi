@@ -303,7 +303,7 @@ def rattle_atoms(structure,stdev=0.05,seed=None):
 
 def remove_oxidation_state_from_site(site):
     """
-    Remove `pymatgen`s oxidation state decoration from Site.
+    Remove `pymatgen` oxidation state decoration from Site.
     """
     new_sp = collections.defaultdict(float)
     for el, occu in site.species.items():

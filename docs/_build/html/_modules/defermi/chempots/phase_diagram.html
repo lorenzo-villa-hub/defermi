@@ -39,8 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -105,7 +108,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        phase_diagram : (PhaseDiagram)</span>
+<span class="sd">        phase_diagram : PhaseDiagram</span>
 <span class="sd">            Pymatgen PhaseDiagram object</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -122,15 +125,15 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Compositions of the phase.</span>
-<span class="sd">        chempots_ref : (Dict)</span>
+<span class="sd">        chempots_ref : Dict</span>
 <span class="sd">            Dictionary with element symbols as keys and respective chemical potential as value ({el:chempot}).</span>
 <span class="sd">            The chemical potentials used here are the ones relative to the reference (delta_mu).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        mu : (float)</span>
+<span class="sd">        mu : float</span>
 <span class="sd">            Chemical potential.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>        
@@ -155,11 +158,11 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        chempots : (Chempots)</span>
+<span class="sd">        chempots : Chempots</span>
 <span class="sd">            Chempots object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -180,7 +183,8 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Chempots object</span>
+<span class="sd">        chempots : Chempots</span>
+<span class="sd">            Chempots object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">chempots_ref</span> <span class="o">=</span> <span class="p">{}</span>
@@ -224,11 +228,13 @@
 <span class="sd">       </span>
 <span class="sd">       Parameters</span>
 <span class="sd">       ----------</span>
-<span class="sd">       comp : (str or Composition)</span>
+<span class="sd">       comp : str or Composition</span>
 <span class="sd">            Composition.</span>
+
 <span class="sd">       Returns</span>
 <span class="sd">       -------</span>
-<span class="sd">       List of Pymatgen PDEntry objects</span>
+<span class="sd">       target_entries : list</span>
+<span class="sd">        List of Pymatgen PDEntry objects.</span>
 
 <span class="sd">       &quot;&quot;&quot;</span>
        <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
@@ -252,12 +258,12 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Composition.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        from_energies : (Dict)</span>
+<span class="sd">        form_energies : dict</span>
 <span class="sd">            Dictionary with PDEntry objects as keys and Energies as values.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -279,12 +285,13 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Composition.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Energy in eV (float).</span>
+<span class="sd">        energy : float</span>
+<span class="sd">            Energy in eV.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
@@ -303,12 +310,12 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Composition.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        from_energies : (Dict)</span>
+<span class="sd">        form_energies : dict</span>
 <span class="sd">            Dictionary with PDEntry objects as keys and formation energies in eV as values.</span>
 <span class="sd">        </span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -330,12 +337,13 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Composition.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Formation energy in eV (float).</span>
+<span class="sd">        form_energy : float</span>
+<span class="sd">            Formation energy in eV (float).</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
@@ -355,15 +363,15 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Composition of the phase you want to get the chemical potentials at the boundary.</span>
-<span class="sd">        chempot_ref : (Dict)</span>
+<span class="sd">        chempot_ref : dict</span>
 <span class="sd">            Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).</span>
 <span class="sd">            The chemical potential here is the referenced value. </span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        chempots : (Dict)</span>
+<span class="sd">        chempots : dict</span>
 <span class="sd">            Dictionary with compositions at the boundaries as keys and delta chemical potentials as value.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>       
@@ -392,15 +400,15 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Target composition for which you want to get the bounday phases.</span>
-<span class="sd">        chempot_ref : (Dict)</span>
+<span class="sd">        chempot_ref : dict</span>
 <span class="sd">            Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).</span>
 <span class="sd">            The chemical potential is the referenced value</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        comp1,comp2 : (Pymatgen Composition object)</span>
+<span class="sd">        comp1,comp2 : (Composition objects)</span>
 <span class="sd">            Compositions of the boundary phases given a fixed chemical potential for one element.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -444,6 +452,7 @@
 <span class="sd">        in the boundary between two phases (region where the two phases coexist). Only works for 3-component PD (to check).</span>
 
 <span class="sd">        Given a phase P1 (formula AxByOz) and a phase P2 (formula AiBjOk) the chemical potentials have to satisfy the conditions:</span>
+
 <span class="sd">        - form_energy(P1) = x*mu(A) + y*mu(B) +z*mu(O)</span>
 <span class="sd">        - form_energy(P2) = i*mu(A) + j*mu(B) +k*mu(O)</span>
 <span class="sd">        </span>
@@ -452,15 +461,15 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp1,comp2 : (str or Composition)</span>
+<span class="sd">        comp1,comp2 : str or Composition</span>
 <span class="sd">            Compositions of the two phases at the boundary.</span>
-<span class="sd">        chempot_ref : (Dict)</span>
+<span class="sd">        chempot_ref : dict</span>
 <span class="sd">            Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}). The chemical potential</span>
 <span class="sd">            used here is the one relative to the reference (delta_mu).</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        chempots_boundary : (Dict)</span>
+<span class="sd">        chempots_boundary : dict</span>
 <span class="sd">            Dictionary of chemical potentials.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -525,9 +534,9 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        elements : (list)</span>
+<span class="sd">        elements : list</span>
 <span class="sd">            List with strings of the elements to be used as free variables.</span>
-<span class="sd">        size : (tuple)</span>
+<span class="sd">        size : tuple</span>
 <span class="sd">            New size in inches.</span>
 
 <span class="sd">        Returns</span>
@@ -555,12 +564,13 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Composition.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Pymatgen PDEntry object.</span>
+<span class="sd">        entry : PDEntry</span>
+<span class="sd">            Pymatgen PDEntry object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
@@ -589,9 +599,9 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        phase_diagram : (PhaseDiagram)</span>
+<span class="sd">        phase_diagram : PhaseDiagram</span>
 <span class="sd">            Pymatgen PhaseDiagram object.</span>
-<span class="sd">        size : (float)</span>
+<span class="sd">        size : float</span>
 <span class="sd">            Multiplier for the size of the objects added in the plot.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -608,26 +618,27 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        points : (dict)</span>
+<span class="sd">        points : dict</span>
 <span class="sd">            Dictionary with points labels as keys and tuples or list with coordinates as values.</span>
-<span class="sd">        size : (float)</span>
+<span class="sd">        size : float</span>
 <span class="sd">            Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size</span>
-<span class="sd">        label_size : (float)</span>
+<span class="sd">        label_size : float</span>
 <span class="sd">            Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size</span>
-<span class="sd">        color : </span>
+<span class="sd">        color : str</span>
 <span class="sd">            Color of filling of points</span>
-<span class="sd">        edgecolor : </span>
+<span class="sd">        edgecolor : str </span>
 <span class="sd">            Color of point edge</span>
-<span class="sd">        label_color :</span>
+<span class="sd">        label_color : str</span>
 <span class="sd">            Color of labels</span>
-<span class="sd">        linewidths : </span>
+<span class="sd">        linewidths : int</span>
 <span class="sd">            line width of point edge</span>
-<span class="sd">        kwargs : </span>
+<span class="sd">        kwargs : dict</span>
 <span class="sd">            kwargs to pass to matplotlib `scatter` function.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        plt : Matplotlib object.</span>
+<span class="sd">        plt : matplotlib</span>
+<span class="sd">            Matplotlib object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">points</span><span class="p">:</span>
@@ -645,18 +656,19 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Composition of the phase.</span>
-<span class="sd">        variable_element : (str)</span>
+<span class="sd">        variable_element : str</span>
 <span class="sd">            Element chosen as indipendent variable.</span>
-<span class="sd">        chempots_ref : (dict)</span>
+<span class="sd">        chempots_ref : dict</span>
 <span class="sd">            Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.</span>
 <span class="sd">        **kwargs : </span>
 <span class="sd">            kwargs passed to Matplotlib plot function.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        plt : Matplotlib object.</span>
+<span class="sd">        plt : matlotlib</span>
+<span class="sd">            Matplotlib object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
@@ -680,21 +692,22 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Composition of interest to compute the chemical potential.</span>
-<span class="sd">        elements : (list)</span>
+<span class="sd">        elements : list</span>
 <span class="sd">            List of strings with elements with free chemical potentials.</span>
-<span class="sd">        cbar_label : (string), optional</span>
+<span class="sd">        cbar_label : str</span>
 <span class="sd">            String with label of the colormap. The default is &#39;&#39;.</span>
-<span class="sd">        cbar_values : (tuple or bool), optional</span>
+<span class="sd">        cbar_values : tuple or bool</span>
 <span class="sd">            Show max e min chempot values on colorbar. If tuple the values are used, if not the </span>
 <span class="sd">            minimum chempot and 0 are used. The default is True.</span>
-<span class="sd">        **kwargs : (dict)</span>
+<span class="sd">        **kwargs : dict</span>
 <span class="sd">            kwargs for &quot;pcolormesh&quot; function.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Matplotlib object.</span>
+<span class="sd">        plt : matplotlib</span>
+<span class="sd">            Matplotlib object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>        
         <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
@@ -741,28 +754,29 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        reservoirs : (Reservoirs)</span>
+<span class="sd">        reservoirs : Reservoirs</span>
 <span class="sd">            Reservoirs object.</span>
-<span class="sd">        elements : (list)</span>
+<span class="sd">        elements : list</span>
 <span class="sd">            List with strings of the elements to be used as free variables.</span>
-<span class="sd">        size : (float)</span>
+<span class="sd">        size : float</span>
 <span class="sd">            Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size</span>
-<span class="sd">        label_size : (float)</span>
+<span class="sd">        label_size : float</span>
 <span class="sd">            Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size</span>
-<span class="sd">        color : </span>
+<span class="sd">        color : str</span>
 <span class="sd">            Color of filling of points</span>
-<span class="sd">        edgecolor : </span>
+<span class="sd">        edgecolor : str </span>
 <span class="sd">            Color of point edge</span>
-<span class="sd">        label_color: </span>
+<span class="sd">        label_color : str </span>
 <span class="sd">            Color of labels</span>
-<span class="sd">        linewidths : </span>
+<span class="sd">        linewidths : 3</span>
 <span class="sd">            line width of point edge</span>
-<span class="sd">        kwargs: </span>
+<span class="sd">        kwargs: dict</span>
 <span class="sd">            kwargs to pass to matplotlib `scatter` function.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        plt : Matplotlib object.</span>
+<span class="sd">        plt : matplotlib</span>
+<span class="sd">            Matplotlib object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>         
         <span class="n">points</span> <span class="o">=</span> <span class="p">{}</span>
@@ -781,18 +795,19 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        mu : (float)</span>
+<span class="sd">        mu : float</span>
 <span class="sd">            Indipendent variable of chemical potential.</span>
-<span class="sd">        comp : (str or Composition)</span>
+<span class="sd">        comp : str or Composition</span>
 <span class="sd">            Composition of the phase.</span>
-<span class="sd">        variable_element : (Pymatgen Element object)</span>
+<span class="sd">        variable_element : Pymatgen Element object</span>
 <span class="sd">            Element chosen as indipendent variable.</span>
-<span class="sd">        chempots_ref : (dict)</span>
+<span class="sd">        chempots_ref : dict</span>
 <span class="sd">            Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Chemical potential in eV.</span>
+<span class="sd">        chempot : float</span>
+<span class="sd">            Chemical potential in eV.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">comp</span> <span class="o">=</span> <span class="n">_get_composition_object</span><span class="p">(</span><span class="n">comp</span><span class="p">)</span>
@@ -809,14 +824,14 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        elements : (list)</span>
+<span class="sd">        elements : list</span>
 <span class="sd">            List with strings of the elements to be used as free variables.</span>
-<span class="sd">        figsize : (tuple)</span>
+<span class="sd">        figsize : tuple</span>
 <span class="sd">            New size in inches.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        plt : </span>
+<span class="sd">        plt : matplotlib</span>
 <span class="sd">            Matplotlib object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>

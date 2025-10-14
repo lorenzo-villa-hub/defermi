@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="defermi.plotter.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="defermi.entries.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,13 +42,70 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">create_interstitials()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.generator.create_substitutions"><code class="docutils literal notranslate"><span class="pre">create_substitutions()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.generator.create_vacancies"><code class="docutils literal notranslate"><span class="pre">create_vacancies()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="defermi.html">defermi package</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="defermi.html#subpackages">Subpackages</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="defermi.html#submodules">Submodules</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="defermi.analysis.html"><code class="docutils literal notranslate"><span class="pre">DefectConcentrations</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.analysis.html#defermi.analysis.DefectsAnalysis"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.analysis.html#defermi.analysis.SingleDefConc"><code class="docutils literal notranslate"><span class="pre">SingleDefConc</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html"><code class="docutils literal notranslate"><span class="pre">Defect</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html#defermi.defects.DefectComplex"><code class="docutils literal notranslate"><span class="pre">DefectComplex</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html#defermi.defects.Interstitial"><code class="docutils literal notranslate"><span class="pre">Interstitial</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html#defermi.defects.Polaron"><code class="docutils literal notranslate"><span class="pre">Polaron</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html#defermi.defects.Substitution"><code class="docutils literal notranslate"><span class="pre">Substitution</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html#defermi.defects.Vacancy"><code class="docutils literal notranslate"><span class="pre">Vacancy</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html#defermi.defects.format_legend_with_charge_kv"><code class="docutils literal notranslate"><span class="pre">format_legend_with_charge_kv()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html#defermi.defects.format_legend_with_charge_number"><code class="docutils literal notranslate"><span class="pre">format_legend_with_charge_number()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html#defermi.defects.get_defect_from_string"><code class="docutils literal notranslate"><span class="pre">get_defect_from_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html#defermi.defects.get_delta_atoms"><code class="docutils literal notranslate"><span class="pre">get_delta_atoms()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.defects.html#defermi.defects.get_delta_atoms_from_comp"><code class="docutils literal notranslate"><span class="pre">get_delta_atoms_from_comp()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.elasticity.html"><code class="docutils literal notranslate"><span class="pre">get_elastic_dipole_tensor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.elasticity.html#defermi.elasticity.get_relaxation_volume"><code class="docutils literal notranslate"><span class="pre">get_relaxation_volume()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.electronic_structure.html"><code class="docutils literal notranslate"><span class="pre">f0()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.electronic_structure.html#defermi.electronic_structure.get_carrier_concentrations"><code class="docutils literal notranslate"><span class="pre">get_carrier_concentrations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.electronic_structure.html#defermi.electronic_structure.get_dos_from_effective_mass"><code class="docutils literal notranslate"><span class="pre">get_dos_from_effective_mass()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.electronic_structure.html#defermi.electronic_structure.maxwell_boltzmann"><code class="docutils literal notranslate"><span class="pre">maxwell_boltzmann()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.electronic_structure.html#defermi.electronic_structure.solve_intrinsic_fermi_level"><code class="docutils literal notranslate"><span class="pre">solve_intrinsic_fermi_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.entries.html"><code class="docutils literal notranslate"><span class="pre">DefectEntry</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.entries.html#defermi.entries.fermi_dirac"><code class="docutils literal notranslate"><span class="pre">fermi_dirac()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.entries.html#defermi.entries.maxwell_boltzmann"><code class="docutils literal notranslate"><span class="pre">maxwell_boltzmann()</span></code></a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">create_interstitials()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#defermi.generator.create_substitutions"><code class="docutils literal notranslate"><span class="pre">create_substitutions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#defermi.generator.create_vacancies"><code class="docutils literal notranslate"><span class="pre">create_vacancies()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html"><code class="docutils literal notranslate"><span class="pre">DefectConcentrationsPlotter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_binding_energies"><code class="docutils literal notranslate"><span class="pre">plot_binding_energies()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_charge_transition_levels"><code class="docutils literal notranslate"><span class="pre">plot_charge_transition_levels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_formation_energies"><code class="docutils literal notranslate"><span class="pre">plot_formation_energies()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_pO2_vs_concentrations"><code class="docutils literal notranslate"><span class="pre">plot_pO2_vs_concentrations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_pO2_vs_conductivity"><code class="docutils literal notranslate"><span class="pre">plot_pO2_vs_conductivity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_pO2_vs_fermi_level"><code class="docutils literal notranslate"><span class="pre">plot_pO2_vs_fermi_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_variable_species_vs_concentrations"><code class="docutils literal notranslate"><span class="pre">plot_variable_species_vs_concentrations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_variable_species_vs_conductivity"><code class="docutils literal notranslate"><span class="pre">plot_variable_species_vs_conductivity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_variable_species_vs_fermi_level"><code class="docutils literal notranslate"><span class="pre">plot_variable_species_vs_fermi_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_x_vs_concentrations"><code class="docutils literal notranslate"><span class="pre">plot_x_vs_concentrations()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_x_vs_conductivity"><code class="docutils literal notranslate"><span class="pre">plot_x_vs_conductivity()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.plotter.html#defermi.plotter.plot_x_vs_fermi_level"><code class="docutils literal notranslate"><span class="pre">plot_x_vs_fermi_level()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.structure.html"><code class="docutils literal notranslate"><span class="pre">create_def_structure_for_visualization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.structure.html#defermi.structure.create_interstitial_structures"><code class="docutils literal notranslate"><span class="pre">create_interstitial_structures()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.structure.html#defermi.structure.create_substitution_structures"><code class="docutils literal notranslate"><span class="pre">create_substitution_structures()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.structure.html#defermi.structure.create_vacancy_structures"><code class="docutils literal notranslate"><span class="pre">create_vacancy_structures()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.structure.html#defermi.structure.defect_finder"><code class="docutils literal notranslate"><span class="pre">defect_finder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.structure.html#defermi.structure.get_trajectory_for_visualization"><code class="docutils literal notranslate"><span class="pre">get_trajectory_for_visualization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.structure.html#defermi.structure.write_extxyz_for_visualization"><code class="docutils literal notranslate"><span class="pre">write_extxyz_for_visualization()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.thermodynamics.html"><code class="docutils literal notranslate"><span class="pre">Conductivity</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.thermodynamics.html#defermi.thermodynamics.DefectThermodynamics"><code class="docutils literal notranslate"><span class="pre">DefectThermodynamics</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.thermodynamics.html#defermi.thermodynamics.ThermoData"><code class="docutils literal notranslate"><span class="pre">ThermoData</span></code></a></li>
 </ul>
-</div>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -61,6 +120,8 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="defermi.html">defermi package</a></li>
       <li class="breadcrumb-item active">&lt;no title&gt;</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/defermi.generator.rst.txt" rel="nofollow"> View page source</a>
@@ -79,27 +140,27 @@ staring from a bulk structure (unit cell or supercell).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>structure</strong> (<em>(</em><em>Structure</em><em>)</em>) – Bulk structure.</p></li>
-<li><p><strong>elements</strong> (<em>(</em><em>list</em><em>)</em>) – List of element symbols.</p></li>
-<li><p><strong>supercell_size</strong> (<em>(</em><em>int</em><em>)</em><em>, </em><em>optional</em>) – Input for the make_supercell function of the Structure class.
+<li><p><strong>structure</strong> (<em>Structure</em>) – Bulk structure.</p></li>
+<li><p><strong>elements</strong> (<em>list</em>) – List of element symbols.</p></li>
+<li><p><strong>supercell_size</strong> (<em>int</em>) – Input for the make_supercell function of the Structure class.
 If None the input structure is not modified. The default is None.</p></li>
-<li><p><strong>kwargs</strong> – <dl class="simple">
-<dt>Arguments to pass to VoronoiInterstitialGenerator:</dt><dd><p>clustering_tol: Tolerance for clustering the Voronoi nodes.
-min_dist: Minimum distance between an interstitial and the nearest atom.
-ltol: Tolerance for lattice matching.
-stol: Tolerance for structure matching.
-angle_tol: Angle tolerance for structure matching.
-kwargs: Additional keyword arguments for the <code class="docutils literal notranslate"><span class="pre">TopographyAnalyzer</span></code> constructor.</p>
-</dd>
-</dl>
+<li><p><strong>kwargs</strong> – <p>Kwargs to pass to VoronoiInterstitialGenerator:</p>
+<ul>
+<li><p>clustering_tol: Tolerance for clustering the Voronoi nodes.</p></li>
+<li><p>min_dist: Minimum distance between an interstitial and the nearest atom.</p></li>
+<li><p>ltol: Tolerance for lattice matching.</p></li>
+<li><p>stol: Tolerance for structure matching.</p></li>
+<li><p>angle_tol: Angle tolerance for structure matching.</p></li>
+<li><p>kwargs: Additional keyword arguments for the <cite>TopographyAnalyzer</cite> constructor.</p></li>
+</ul>
 </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>defects</strong> – List of Interstitial objects</p>
+<dd class="field-even"><p><strong>defects</strong> – List of Interstitial objects.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(list)</p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -113,30 +174,37 @@ staring from a bulk structure (unit cell or supercell).</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>structure</strong> (<em>Structure</em>) – Bulk structure, both unit cell or supercell can be used as input.</p></li>
-<li><p><strong>elements_to_replace</strong> (<em>(</em><em>str</em><em>)</em>) – Dict with element symbol of specie to be replaced as keys and element
+<li><p><strong>elements_to_replace</strong> (<em>str</em>) – Dict with element symbol of specie to be replaced as keys and element
 symbol of the species to be replaced with as values ({‘old_El’:’new_El’}).</p></li>
-<li><p><strong>supercell_size</strong> (<em>(</em><em>int</em><em> or </em><em>numpy array</em><em>)</em>) – Input for the make_supercell function of the Structure class.
+<li><p><strong>supercell_size</strong> (<em>int</em><em> or </em><em>numpy array</em>) – Input for the make_supercell function of the Structure class.
 If None the input structure is not modified.</p></li>
-<li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – <p>Kwargs to pass to SpaceGroupAnalyzer class.
-Args:</p>
-<blockquote>
-<div><p>symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
+<li><p><strong>kwargs</strong> (<em>dict</em>) – <p>Kwargs to pass to SpaceGroupAnalyzer class:</p>
+<ul>
+<li><dl class="simple">
+<dt>symprec (float):</dt><dd><p>Tolerance for symmetry finding. Defaults to 0.01,
 which is fairly strict and works well for properly refined
 structures with atoms in the proper symmetry coordinates. For
 structures with slight deviations from their proper atomic
 positions (e.g., structures relaxed with electronic structure
 codes), a looser tolerance of 0.1 (the value used in Materials
 Project) is often needed.</p>
-</div></blockquote>
-<p>angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>angle_tolerance (float):</dt><dd><p>Angle tolerance for symmetry finding. Defaults to 5 degrees.</p>
+</dd>
+</dl>
+</li>
+</ul>
 </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>defects</strong> – List of Substitution objects</p>
+<dd class="field-even"><p><strong>defects</strong> – List of Substitution objects.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(list)</p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -150,30 +218,37 @@ staring from a bulk structure (unit cell or supercell).</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>structure</strong> (<em>Structure</em>) – Bulk structure, both unit cell or supercell can be used as input.</p></li>
-<li><p><strong>elements</strong> (<em>(</em><em>str</em><em>)</em><em>, </em><em>optional</em>) – Symbol of the elements for which vacancies are needed.
+<li><p><strong>elements</strong> (<em>str</em>) – Symbol of the elements for which vacancies are needed.
 If None all of the elements are considered. The default is None.</p></li>
-<li><p><strong>supercell_size</strong> (<em>(</em><em>int</em><em> or </em><em>numpy array</em><em>)</em>) – Input for the make_supercell function of the Structure class.
+<li><p><strong>supercell_size</strong> (<em>int</em><em> or </em><em>numpy array</em>) – Input for the make_supercell function of the Structure class.
 If None the input structure is not modified.</p></li>
-<li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – <p>Kwargs to pass to SpaceGroupAnalyzer class.
-Args:</p>
-<blockquote>
-<div><p>symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
+<li><p><strong>kwargs</strong> (<em>dict</em>) – <p>Kwargs to pass to SpaceGroupAnalyzer class:</p>
+<ul>
+<li><dl class="simple">
+<dt>symprec (float):</dt><dd><p>Tolerance for symmetry finding. Defaults to 0.01,
 which is fairly strict and works well for properly refined
 structures with atoms in the proper symmetry coordinates. For
 structures with slight deviations from their proper atomic
 positions (e.g., structures relaxed with electronic structure
 codes), a looser tolerance of 0.1 (the value used in Materials
 Project) is often needed.</p>
-</div></blockquote>
-<p>angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>angle_tolerance (float):</dt><dd><p>Angle tolerance for symmetry finding. Defaults to 5 degrees.</p>
+</dd>
+</dl>
+</li>
+</ul>
 </p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>defects</strong> – List of Vacancy objects</p>
+<dd class="field-even"><p><strong>defects</strong> – List of Vacancy objects.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(list)</p>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -182,7 +257,10 @@ Project) is often needed.</p>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="defermi.entries.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="defermi.plotter.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

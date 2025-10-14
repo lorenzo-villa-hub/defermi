@@ -39,8 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -103,29 +106,29 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    defect_path : (str)</span>
+<span class="sd">    defect_path : str</span>
 <span class="sd">        Path of defect calculation with vasprun.xml and OUTCAR files.</span>
-<span class="sd">    bulk_path : (str)</span>
+<span class="sd">    bulk_path : str</span>
 <span class="sd">        Path of bulk calculation with vasprun.xml and OUTCAR files.</span>
-<span class="sd">    charge : (int)</span>
+<span class="sd">    charge : int</span>
 <span class="sd">        Charge of defect calculation</span>
-<span class="sd">    dielectric_tensor : (int,float 3x1 array or 3x3 array)</span>
+<span class="sd">    dielectric_tensor : int,float 3x1 array or 3x3 array</span>
 <span class="sd">        Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.</span>
-<span class="sd">    initial_structure : (bool)</span>
+<span class="sd">    initial_structure : bool</span>
 <span class="sd">        Use initial structure of defect calculation for correction computation.</span>
 <span class="sd">        Useful to compute correction on unrelaxed structure.</span>
-<span class="sd">    get_correction_data : (bool)</span>
+<span class="sd">    get_correction_data : bool</span>
 <span class="sd">        Return pymatgen&#39;s CorrectionResult object. If False only the correction value is returned.</span>
-<span class="sd">    get_plot : (bool), optional</span>
+<span class="sd">    get_plot : bool</span>
 <span class="sd">        Get Matplotlib object with plot. The default is False. </span>
-<span class="sd">    kwargs : (dict)</span>
+<span class="sd">    kwargs : dict</span>
 <span class="sd">        Kwargs to pass to pydefect `make_efnv_correction`</span>
 <span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    correction, ax</span>
-<span class="sd">        - CorrectionResult object if get_correction_data is set to True, else just the float with correction value,</span>
-<span class="sd">        - matplotlib axis object  </span>
+<span class="sd">    correction, ax : tuple</span>
+<span class="sd">        CorrectionResult object if get_correction_data is set to True, else just the float with correction value, matplotlib axis object  </span>
+<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">defect_structure</span> <span class="o">=</span> <span class="n">_get_structure_with_pot_pmg</span><span class="p">(</span><span class="n">defect_path</span><span class="p">,</span><span class="n">initial_structure</span><span class="o">=</span><span class="n">initial_structure</span><span class="p">)</span>
     <span class="n">bulk_structure</span> <span class="o">=</span> <span class="n">_get_structure_with_pot_pmg</span><span class="p">(</span><span class="n">bulk_path</span><span class="p">,</span><span class="n">initial_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -150,57 +153,6 @@
 
 
 
-<div class="viewcode-block" id="get_kumagai_correction_from_jobs">
-<a class="viewcode-back" href="../../../defermi.corrections.kumagai.html#defermi.corrections.kumagai.get_kumagai_correction_from_jobs">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_kumagai_correction_from_jobs</span><span class="p">(</span>
-                                    <span class="n">job_defect</span><span class="p">,</span>
-                                    <span class="n">job_bulk</span><span class="p">,</span>
-                                    <span class="n">dielectric_tensor</span><span class="p">,</span>
-                                    <span class="n">initial_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                                    <span class="n">get_correction_data</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                    <span class="n">get_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                                    <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get Kumagai corrections from VaspJob objects.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    job_defect : (VaspJob)</span>
-<span class="sd">        Defect calculation.</span>
-<span class="sd">    job_bulk : (VaspJob)</span>
-<span class="sd">        Bulk calculation.</span>
-<span class="sd">    dielectric_tensor : (int,float 3x1 array or 3x3 array)</span>
-<span class="sd">        Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.</span>
-<span class="sd">    initial_structure : (bool)</span>
-<span class="sd">        Use initial structure of defect calculation for correction computation.</span>
-<span class="sd">        Useful to compute correction on unrelaxed structure.</span>
-<span class="sd">    get_correction_data : (bool)</span>
-<span class="sd">        Return pymatgen&#39;s CorrectionResult object. If False only the correction value is returned.</span>
-<span class="sd">    get_plot : (bool), optional</span>
-<span class="sd">        Get Matplotlib object with plot. The default is False. </span>
-<span class="sd">    kwargs : (dict)</span>
-<span class="sd">        Kwargs to pass to pydefect `make_efnv_correction`</span>
-<span class="sd">    </span>
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    correction, ax</span>
-<span class="sd">        - CorrectionResult object if get_correction_data is set to True, else just the float with correction value,</span>
-<span class="sd">        - matplotlib axis object  </span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">defect_path</span><span class="p">,</span> <span class="n">bulk_path</span> <span class="o">=</span> <span class="n">job_defect</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">job_bulk</span><span class="o">.</span><span class="n">path</span>
-    <span class="n">charge</span> <span class="o">=</span> <span class="n">job_defect</span><span class="o">.</span><span class="n">charge</span>
-
-    <span class="n">corr</span> <span class="o">=</span> <span class="n">get_kumagai_correction</span><span class="p">(</span>
-                        <span class="n">defect_path</span><span class="p">,</span>
-                        <span class="n">bulk_path</span><span class="p">,</span>
-                        <span class="n">charge</span><span class="p">,</span>
-                        <span class="n">dielectric_tensor</span><span class="p">,</span>
-                        <span class="n">initial_structure</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="n">get_plot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                        <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>    
-    <span class="k">return</span> <span class="n">corr</span></div>
-
-
 
 <div class="viewcode-block" id="get_kumagai_correction_from_structures">
 <a class="viewcode-back" href="../../../defermi.corrections.kumagai.html#defermi.corrections.kumagai.get_kumagai_correction_from_structures">[docs]</a>
@@ -213,7 +165,7 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get Kumagai (extended FNV) correction from Structure objects with </span>
 <span class="sd">    site potentials stored into site_properties. Not recommended to use</span>
-<span class="sd">    directly, refer to get_kumagai_correction.</span>
+<span class="sd">    directly, refer to `get_kumagai_correction`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dielectric_tensor</span> <span class="o">=</span> <span class="n">_convert_dielectric_tensor</span><span class="p">(</span><span class="n">dielectric_tensor</span><span class="p">)</span>
     <span class="n">correction</span> <span class="o">=</span>  <span class="n">_get_efnv_correction_pmg_fixed</span><span class="p">(</span>
@@ -235,17 +187,23 @@
     <span class="n">dielectric_tensor</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Fixed code from pymatgen.analysis.defects.corrections.kumagai.get_efnv_correction</span>
+<span class="sd">    Fixed code from `pymatgen.analysis.defects.corrections.kumagai.get_efnv_correction`,</span>
 <span class="sd">    defect_potentials and site_potentials variables were inverted.</span>
 <span class="sd">    </span>
 <span class="sd">    Returns the Kumagai/Oba EFNV correction for a given defect.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        charge: Charge of the defect.</span>
-<span class="sd">        defect_structure: Defect structure.</span>
-<span class="sd">        bulk_structure: Bulk structure.</span>
-<span class="sd">        dielectric_tensor: Dielectric tensor.</span>
-<span class="sd">        **kwargs: Keyword arguments to pass to `make_efnv_correction`.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    charge : int or float</span>
+<span class="sd">        Charge of the defect.</span>
+<span class="sd">    defect_structure : Structure</span>
+<span class="sd">        Defect structure.</span>
+<span class="sd">    bulk_structure : Structure</span>
+<span class="sd">        Bulk structure.</span>
+<span class="sd">    dielectric_tensor : np.array</span>
+<span class="sd">        Dielectric tensor.</span>
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Kwargs to pass to `make_efnv_correction`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pydefect.analyzer.calc_results</span><span class="w"> </span><span class="kn">import</span> <span class="n">CalcResults</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">pydefect.cli.vasp.make_efnv_correction</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_efnv_correction</span>
@@ -288,10 +246,14 @@
 
 <span class="sd">    Reads vasprun.xml and OUTCAR files in a directory.</span>
 
-<span class="sd">    Args:</span>
-<span class="sd">        directory: Directory containing vasprun.xml and OUTCAR files.</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    directory : str</span>
+<span class="sd">        Directory containing vasprun.xml and OUTCAR files.</span>
 
-<span class="sd">    Returns:</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    structure : Structure</span>
 <span class="sd">        Structure with &quot;potential&quot; site property.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">_check_import_pydefect</span><span class="p">()</span>

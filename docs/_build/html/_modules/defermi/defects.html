@@ -39,8 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -103,24 +106,25 @@
                 <span class="n">bulk_volume</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span> 
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Base class for defect objets</span>
+<span class="sd">        Base class for defect objets.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        specie : (str)</span>
+<span class="sd">        specie : str</span>
 <span class="sd">            Defect element symbol.</span>
-<span class="sd">        defect_site : (Site)</span>
+<span class="sd">        defect_site : Site</span>
 <span class="sd">            Pymatgen Site object of the defect.</span>
-<span class="sd">        bulk_structure : (Structure)</span>
+<span class="sd">        bulk_structure : Structure</span>
 <span class="sd">            Pymatgen Structure without defects.</span>
-<span class="sd">        charge : (int or float)</span>
+<span class="sd">        charge : int or float</span>
 <span class="sd">            Charge of the defect.</span>
-<span class="sd">        multiplicity : (int)</span>
+<span class="sd">        multiplicity : int</span>
 <span class="sd">            Multiplicity of defect within the simulation cell.</span>
-<span class="sd">        bulk_volume : (float)</span>
+<span class="sd">        bulk_volume : float</span>
 <span class="sd">            Volume of bulk cell in A°^3.</span>
-<span class="sd">        label : (str)</span>
+<span class="sd">        label : str</span>
 <span class="sd">            Defect label.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span>  <span class="n">specie</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_specie</span> <span class="o">=</span> <span class="n">specie</span>
@@ -209,6 +213,9 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">bulk_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Volume of bulk cell in A°^3.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bulk_volume</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bulk_volume</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span><span class="p">:</span>
@@ -241,22 +248,28 @@
         <span class="k">return</span>
     
     <span class="nd">@property</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">defects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">defects</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="c1"># dummy property to integrate Defect and DefectComplex</span>
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="p">]</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">specie</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defect species.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_specie</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">defect_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Structure of the defect</span>
+<span class="sd">        Structure of the defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_defect_structure</span><span class="p">()</span> 
     
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defect type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
     
     <span class="nd">@property</span>
@@ -276,6 +289,9 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defect label.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
 
     <span class="nd">@property</span>
@@ -288,14 +304,14 @@
     <span class="nd">@abstractproperty</span>  
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Name of the defect</span>
+<span class="sd">        Name of the defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">site</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Defect position as a site object</span>
+<span class="sd">        Defect position as a Site object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defect_site</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defect_site</span>
@@ -304,12 +320,15 @@
    
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">site_concentration_in_cm3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Site concentration (multiplicity/volume) expressed in cm^-3.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span> <span class="o">*</span> <span class="mf">1e24</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_volume</span> 
    
     <span class="nd">@property</span>  
     <span class="k">def</span><span class="w"> </span><span class="nf">symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Latex formatted name of the defect</span>
+<span class="sd">        Latex formatted name of the defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> 
 
@@ -323,7 +342,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">symbol_with_charge_kv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Name in latex format with charge written with kroger and vink notation.</span>
+<span class="sd">        Name in latex format with charge written with Kröger and Vink notation.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">format_legend_with_charge_kv</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">charge</span><span class="p">)</span>
     
@@ -413,16 +432,17 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        bulk_structure : (Structure), optional</span>
-<span class="sd">            Bulk Structure. If not provided self.bulk_structure is used. The default is None.</span>
-<span class="sd">        defect_site_index : (Structure), optional</span>
+<span class="sd">        bulk_structure : Structure</span>
+<span class="sd">            Bulk Structure. If not provided `self.bulk_structure` is used.</span>
+<span class="sd">        defect_site_index : Structure</span>
 <span class="sd">            Index of the defect site in the bulk structure. If not provided </span>
-<span class="sd">            self.defect_site_index is used. The default is None.</span>
+<span class="sd">            `self.defect_site_index` is used.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        structure : (Structure)</span>
+<span class="sd">        structure : Structure</span>
 <span class="sd">            Structure containing the defect.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">bulk_structure</span> <span class="o">=</span> <span class="n">bulk_structure</span> <span class="k">if</span> <span class="n">bulk_structure</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span>
         <span class="n">defect_site_index</span> <span class="o">=</span> <span class="n">defect_site_index</span> <span class="k">if</span> <span class="n">defect_site_index</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect_site_index</span>
@@ -435,12 +455,12 @@
 <a class="viewcode-back" href="../../defermi.defects.html#defermi.defects.Vacancy.get_multiplicity">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_multiplicity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get multiplicity of the defect in the structure</span>
+<span class="sd">        Get multiplicity of the defect in the structure.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        **kwargs : (dict)</span>
-<span class="sd">            Arguments to pass to SpacegroupAnalyzer (symprec, angle_tolerance)</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Kwargs to pass to `SpacegroupAnalyzer` (&quot;symprec&quot;, &quot;angle_tolerance&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sga</span> <span class="o">=</span> <span class="n">SpacegroupAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">symmetrized_structure</span> <span class="o">=</span> <span class="n">sga</span><span class="o">.</span><span class="n">get_symmetrized_structure</span><span class="p">()</span>
@@ -451,7 +471,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Name of the defect. Behaves like a string with additional attributes.</span>
+<span class="sd">        Name of the defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Vac_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">specie</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
@@ -486,8 +506,11 @@
                 <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">site_in_bulk</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        site_in_bulk: (PeriodicSite)</span>
-<span class="sd">            Original Site in bulk structure were substitution took place</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        site_in_bulk : PeriodicSite</span>
+<span class="sd">            Original Site in bulk structure were substitution took place.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">specie</span><span class="o">=</span><span class="n">specie</span><span class="p">,</span>
                         <span class="n">defect_site</span><span class="o">=</span><span class="n">defect_site</span><span class="p">,</span>
@@ -526,7 +549,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">defect_site_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Index of the defect site in the bulk structure</span>
+<span class="sd">        Index of the defect site in the bulk structure.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site_in_bulk</span><span class="p">)</span>
 
@@ -546,15 +569,15 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        bulk_structure : (Structure), optional</span>
-<span class="sd">            Bulk Structure. If not provided self.bulk_structure is used. The default is None.</span>
-<span class="sd">        defect_site_index : (Structure), optional</span>
+<span class="sd">        bulk_structure : Structure</span>
+<span class="sd">            Bulk Structure. If not provided `self.bulk_structure` is used.</span>
+<span class="sd">        defect_site_index : Structure</span>
 <span class="sd">            Index of the defect site in the bulk structure. If not provided </span>
-<span class="sd">            self.defect_site_index is used. The default is None.</span>
+<span class="sd">            `self.defect_site_index` is used.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        structure : (Structure)</span>
+<span class="sd">        structure : Structure</span>
 <span class="sd">            Structure containing the defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">bulk_structure</span> <span class="o">=</span> <span class="n">bulk_structure</span> <span class="k">if</span> <span class="n">bulk_structure</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span>
@@ -572,8 +595,8 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        **kwargs : (dict)</span>
-<span class="sd">            Arguments to pass to SpacegroupAnalyzer (symprec, angle_tolerance)</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Kwargs to pass to `SpacegroupAnalyzer` (&quot;symprec&quot;, &quot;angle_tolerance&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sga</span> <span class="o">=</span> <span class="n">SpacegroupAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">symmetrized_structure</span> <span class="o">=</span> <span class="n">sga</span><span class="o">.</span><span class="n">get_symmetrized_structure</span><span class="p">()</span>
@@ -599,7 +622,7 @@
     <span class="nd">@property</span> 
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Name for this defect. Behaves like a string with additional attributes.</span>
+<span class="sd">        Name for this defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;Sub_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">specie</span><span class="si">}</span><span class="s1">_on_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bulk_specie</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
@@ -663,12 +686,12 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        bulk_structure : (Structure), optional</span>
-<span class="sd">            Bulk Structure. If not provided self.bulk_structure is used. The default is None.</span>
+<span class="sd">        bulk_structure : Structure</span>
+<span class="sd">            Bulk Structure. If not provided `self.bulk_structure` is used.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        structure : (Structure)</span>
+<span class="sd">        structure : Structure</span>
 <span class="sd">            Structure containing the defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">bulk_structure</span> <span class="o">=</span> <span class="n">bulk_structure</span> <span class="k">if</span> <span class="n">bulk_structure</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span>
@@ -687,7 +710,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Name of the defect. Behaves like a string with additional attributes.</span>
+<span class="sd">        Name of the defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Int_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">specie</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
@@ -707,7 +730,7 @@
 <a class="viewcode-back" href="../../defermi.defects.html#defermi.defects.Polaron">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Polaron</span><span class="p">(</span><span class="n">Defect</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Subclass of Defect for polarons</span>
+<span class="sd">    Subclass of Defect for polarons.</span>
 <span class="sd">    &quot;&quot;&quot;</span>   
     
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
@@ -720,9 +743,9 @@
                 <span class="n">bulk_volume</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                 <span class="n">defect_structure</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        defect_structure: (Structure)</span>
+<span class="sd">        defect_structure: Structure</span>
 <span class="sd">            Structure containing the polaron. If not provided the site index is searched </span>
-<span class="sd">            in the bulk structure, and the defect_structure is set equal to the bulk structure.</span>
+<span class="sd">            in the bulk structure, and `defect_structure` is set equal to the bulk structure.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">specie</span><span class="o">=</span><span class="n">specie</span><span class="p">,</span>
                         <span class="n">defect_site</span><span class="o">=</span><span class="n">defect_site</span><span class="p">,</span>
@@ -737,14 +760,14 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">defect_composition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Composition of the defect</span>
+<span class="sd">        Composition of the defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span><span class="o">.</span><span class="n">composition</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">defect_site_index</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Index of the defect site in the structure</span>
+<span class="sd">        Index of the defect site in the structure.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect_structure</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">site</span><span class="p">)</span>
         
@@ -752,7 +775,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">delta_atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dictionary with delement as keys and difference in particle number </span>
-<span class="sd">        between defect and bulk structure as values</span>
+<span class="sd">        between defect and bulk structure as values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">{}</span>
     
@@ -761,7 +784,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">generate_defect_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">bulk_structure</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Structure containing the polaron. If not provided the site index is searched </span>
-<span class="sd">        in the bulk structure, and the defect_structure is set equal to the bulk structure.</span>
+<span class="sd">        in the bulk structure, and `defect_structure` is set equal to the bulk structure.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defect_structure</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_defect_structure</span>
@@ -775,12 +798,12 @@
 <a class="viewcode-back" href="../../defermi.defects.html#defermi.defects.Polaron.get_multiplicity">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_multiplicity</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get multiplicity of the defect in the structure</span>
+<span class="sd">        Get multiplicity of the defect in the structure.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        **kwargs : (dict)</span>
-<span class="sd">            Arguments to pass to SpacegroupAnalyzer (symprec, angle_tolerance)</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Kwargs to pass to `SpacegroupAnalyzer` (&quot;symprec&quot;, &quot;angle_tolerance&quot;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sga</span> <span class="o">=</span> <span class="n">SpacegroupAnalyzer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="n">symmetrized_structure</span> <span class="o">=</span> <span class="n">sga</span><span class="o">.</span><span class="n">get_symmetrized_structure</span><span class="p">()</span>
@@ -791,7 +814,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Name of the defect. Behaves like a string with additional attributes.</span>
+<span class="sd">        Name of the defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Pol_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">specie</span><span class="si">}</span><span class="s2">&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
@@ -823,13 +846,13 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        defects : (list)</span>
+<span class="sd">        defects : list</span>
 <span class="sd">            List of Defect objects.</span>
-<span class="sd">        bulk_structure : (Structure)</span>
+<span class="sd">        bulk_structure : Structure</span>
 <span class="sd">            Pymatgen Structure of the bulk material.</span>
-<span class="sd">        charge : (int or float)</span>
+<span class="sd">        charge : int or float</span>
 <span class="sd">            Charge of the defect.</span>
-<span class="sd">        multiplicity : (int)</span>
+<span class="sd">        multiplicity : int</span>
 <span class="sd">            Multiplicity of the defect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_defects</span> <span class="o">=</span> <span class="n">defects</span>
@@ -878,6 +901,9 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">bulk_volume</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Volume of bulk cell in A°^3.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bulk_volume</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_bulk_volume</span>
         <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span><span class="p">:</span>
@@ -904,18 +930,30 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">defect_composition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Composition of defect structure.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect_structure</span><span class="o">.</span><span class="n">composition</span>
         
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">defect_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        List of names of the single defects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defects</span><span class="p">]</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">defect_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Structure containing the defect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">generate_defect_structure</span><span class="p">()</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defect type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
     
     <span class="nd">@property</span>
@@ -940,7 +978,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">generate_defect_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">bulk_structure</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Generate a structure containing the defect starting from a bulk structure.</span>
-<span class="sd">        If not provided self.bulk_structure is used.</span>
+<span class="sd">        If not provided `self.bulk_structure` is used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">bulk_structure</span> <span class="o">=</span> <span class="n">bulk_structure</span> <span class="k">if</span> <span class="n">bulk_structure</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_structure</span>
         <span class="n">structure</span> <span class="o">=</span> <span class="n">bulk_structure</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -958,6 +996,9 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">label</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Defect label.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_label</span>
 
     <span class="nd">@property</span>
@@ -979,14 +1020,23 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">site_concentration_in_cm3</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Site concentration (multiplicity/volume) expressed in cm^-3.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span> <span class="o">*</span> <span class="mf">1e24</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_volume</span> 
     
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">sites</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Site objects of single defects.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">d</span><span class="o">.</span><span class="n">site</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defects</span><span class="p">]</span>
     
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">symbol</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Latex formatted name of the defect.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">symbol</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">df</span><span class="o">.</span><span class="n">symbol</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">df</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">defects</span><span class="p">])</span> 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">label</span><span class="p">:</span>
             <span class="n">symbol</span> <span class="o">=</span> <span class="n">symbol</span> <span class="o">+</span> <span class="s1">&#39;(</span><span class="si">%s</span><span class="s1">)&#39;</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">label</span> 
@@ -1043,6 +1093,9 @@
 <div class="viewcode-block" id="get_defect_from_string">
 <a class="viewcode-back" href="../../defermi.defects.html#defermi.defects.get_defect_from_string">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_defect_from_string</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get defect object from a string (`Defect` or `DefectComplex`).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="s1">&#39;-&#39;</span> <span class="ow">in</span> <span class="n">string</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">DefectComplex</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -1058,10 +1111,15 @@
 <span class="sd">   </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    label : (str)</span>
+<span class="sd">    label : str</span>
 <span class="sd">        Original name of the defect.</span>
-<span class="sd">    charge : (int or float)</span>
+<span class="sd">    charge : int or float</span>
 <span class="sd">        Charge of the defect. Floats are converted to integers.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    string : str</span>
+<span class="sd">        Formatted defect name with charge.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">s</span> <span class="o">=</span> <span class="n">label</span>
     <span class="n">charge</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">charge</span><span class="p">)</span>
@@ -1079,14 +1137,19 @@
 <a class="viewcode-back" href="../../defermi.defects.html#defermi.defects.format_legend_with_charge_kv">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">format_legend_with_charge_kv</span><span class="p">(</span><span class="n">label</span><span class="p">,</span><span class="n">charge</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get label in latex format with charge written with kroger and vink notation.</span>
+<span class="sd">    Get label in latex format with charge written with Kröger and Vink notation.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    label : (str)</span>
+<span class="sd">    label : str</span>
 <span class="sd">        Original name of the defect.</span>
-<span class="sd">    charge : (int or float)</span>
+<span class="sd">    charge : int or float</span>
 <span class="sd">        Charge of the defect. Floats are converted to integer.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    string : str</span>
+<span class="sd">        Formatted defect name with Kröger and Vink notation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">mod_label</span> <span class="o">=</span> <span class="n">label</span> <span class="o">+</span> <span class="s1">&#39;$&#39;</span>
     <span class="n">charge</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">charge</span><span class="p">)</span>
@@ -1115,15 +1178,18 @@
 <a class="viewcode-back" href="../../defermi.defects.html#defermi.defects.get_delta_atoms">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_delta_atoms</span><span class="p">(</span><span class="n">structure_defect</span><span class="p">,</span><span class="n">structure_bulk</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function to build delta_atoms dictionary starting from Pymatgen Structure objects.</span>
+<span class="sd">    Build delta_atoms dictionary starting from Pymatgen Structure objects.</span>
+
+<span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    structure_defect : (Pymatgen Structure object)</span>
+<span class="sd">    structure_defect : Structure</span>
 <span class="sd">        Defect structure.</span>
-<span class="sd">    structure_bulk : (Pymatgen Structure object)</span>
+<span class="sd">    structure_bulk : Structure</span>
 <span class="sd">        Bulk structure.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    delta_atoms : (dict)</span>
+<span class="sd">    delta_atoms : dict</span>
 <span class="sd">        Dictionary with Element as keys and delta n as values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">comp_defect</span> <span class="o">=</span> <span class="n">structure_defect</span><span class="o">.</span><span class="n">composition</span>
@@ -1137,15 +1203,18 @@
 <a class="viewcode-back" href="../../defermi.defects.html#defermi.defects.get_delta_atoms_from_comp">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">get_delta_atoms_from_comp</span><span class="p">(</span><span class="n">comp_defect</span><span class="p">,</span><span class="n">comp_bulk</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Function to biuld delta_atoms dictionary starting from Pymatgen Structure objects.</span>
+<span class="sd">    Build delta_atoms dictionary starting from Composition objects.</span>
+
+<span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    comp_defect : (Pymatgen Composition object)</span>
+<span class="sd">    comp_defect : Composition</span>
 <span class="sd">        Defect structure.</span>
-<span class="sd">    comp_bulk : (Pymatgen Composition object)</span>
+<span class="sd">    comp_bulk : Composition</span>
 <span class="sd">        Bulk structure.</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    delta_atoms : (dict)</span>
+<span class="sd">    delta_atoms : dict</span>
 <span class="sd">        Dictionary with Element as keys and delta n as values.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">delta_atoms</span> <span class="o">=</span> <span class="p">{}</span>

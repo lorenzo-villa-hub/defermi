@@ -39,8 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -80,8 +83,11 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        mp_id : (str), optional</span>
-<span class="sd">            Materials-ID. The default is None.</span>
+<span class="sd">        mp_id : str</span>
+<span class="sd">            Materials-ID.</span>
+<span class="sd">        API_KEY : str</span>
+<span class="sd">            API_KEY for MAterials Project database. If None the default key from</span>
+<span class="sd">            the configuration file for `pymatgen` is used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         
         <span class="bp">self</span><span class="o">.</span><span class="n">mp_id</span> <span class="o">=</span> <span class="n">mp_id</span> <span class="k">if</span> <span class="n">mp_id</span> <span class="k">else</span> <span class="kc">None</span>
@@ -106,23 +112,28 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">            chemsys_formula_id_criteria (str/dict): A chemical system</span>
-<span class="sd">                (e.g., Li-Fe-O), or formula (e.g., Fe2O3) or materials_id</span>
-<span class="sd">                (e.g., mp-1234) or full Mongo-style dict criteria.</span>
-<span class="sd">            compatible_only (bool): Whether to return only &quot;compatible&quot;</span>
-<span class="sd">                entries. Compatible entries are entries that have been</span>
-<span class="sd">                processed using the MaterialsProject2020Compatibility class,</span>
-<span class="sd">                which performs adjustments to allow mixing of GGA and GGA+U</span>
-<span class="sd">                calculations for more accurate phase diagrams and reaction</span>
-<span class="sd">                energies.</span>
-<span class="sd">            property_data (list): Specify additional properties to include in</span>
-<span class="sd">                entry.data. If None, no data. Should be a subset of</span>
-<span class="sd">                supported_properties.</span>
-<span class="sd">            conventional_unit_cell (bool): Whether to get the standard</span>
-<span class="sd">                conventional unit cell.</span>
+<span class="sd">        chemsys_formula_id_criteria : str or dict</span>
+<span class="sd">            A chemical system (e.g., Li-Fe-O), or formula (e.g., Fe2O3) </span>
+<span class="sd">            or materials_id (e.g., mp-1234) or full Mongo-style dict criteria.</span>
+<span class="sd">        compatible_only : bool</span>
+<span class="sd">            Whether to return only &quot;compatible&quot;</span>
+<span class="sd">            entries. Compatible entries are entries that have been</span>
+<span class="sd">            processed using the MaterialsProject2020Compatibility class,</span>
+<span class="sd">            which performs adjustments to allow mixing of GGA and GGA+U</span>
+<span class="sd">            calculations for more accurate phase diagrams and reaction</span>
+<span class="sd">            energies.</span>
+<span class="sd">        property_data : list</span>
+<span class="sd">            Specify additional properties to include in</span>
+<span class="sd">            entry.data. If None, no data. Should be a subset of</span>
+<span class="sd">            supported_properties.</span>
+<span class="sd">        conventional_unit_cell : bool</span>
+<span class="sd">            Whether to get the standard conventional unit cell.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            List of ComputedEntry or ComputedStructureEntry objects.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        entries : list</span>
+<span class="sd">            List of ComputedStructureEntry objects.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">MPRester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
             <span class="n">entries</span> <span class="o">=</span> <span class="n">mpr</span><span class="o">.</span><span class="n">get_entries</span><span class="p">(</span>
@@ -147,24 +158,27 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">            compositions (list): List of strings with compositions.</span>
-<span class="sd">            stable_only (bool): Get phase with lowest E above hull.</span>
-<span class="sd">            compatible_only (bool): </span>
-<span class="sd">                Whether to return only &quot;compatible&quot;</span>
-<span class="sd">                entries. Compatible entries are entries that have been</span>
-<span class="sd">                processed using the MaterialsProject2020Compatibility class,</span>
-<span class="sd">                which performs adjustments to allow mixing of GGA and GGA+U</span>
-<span class="sd">                calculations for more accurate phase diagrams and reaction</span>
-<span class="sd">                energies.</span>
-<span class="sd">            property_data (list):</span>
-<span class="sd">                Specify additional properties to include in</span>
-<span class="sd">                entry.data. If None, no data. Should be a subset of</span>
-<span class="sd">                supported_properties.</span>
-<span class="sd">            conventional_unit_cell (bool):</span>
-<span class="sd">                Whether to get the standard conventional unit cell</span>
+<span class="sd">        compositions : list</span>
+<span class="sd">            List of strings with compositions.</span>
+<span class="sd">        compatible_only : bool</span>
+<span class="sd">            Whether to return only &quot;compatible&quot;</span>
+<span class="sd">            entries. Compatible entries are entries that have been</span>
+<span class="sd">            processed using the MaterialsProject2020Compatibility class,</span>
+<span class="sd">            which performs adjustments to allow mixing of GGA and GGA+U</span>
+<span class="sd">            calculations for more accurate phase diagrams and reaction</span>
+<span class="sd">            energies.</span>
+<span class="sd">        property_data : list</span>
+<span class="sd">            Specify additional properties to include in</span>
+<span class="sd">            entry.data. If None, no data. Should be a subset of</span>
+<span class="sd">            supported_properties.</span>
+<span class="sd">        conventional_unit_cell : bool</span>
+<span class="sd">            Whether to get the standard conventional unit cell.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            List of ComputedEntry or ComputedStructureEntry objects.</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        entries : list</span>
+<span class="sd">            List of ComputedStructureEntry objects.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">entries_dict</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">comp</span> <span class="ow">in</span> <span class="n">compositions</span><span class="p">:</span>
@@ -183,19 +197,23 @@
 <a class="viewcode-back" href="../../../defermi.tools.materials_project.html#defermi.tools.materials_project.MPDatabase.get_structure">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">final</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">conventional_unit_cell</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Get a Structure corresponding to a material_id.</span>
+<span class="sd">        Get a Structure corresponding to a material ID.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">            material_id (str): Materials Project material_id (a string,</span>
-<span class="sd">                e.g., mp-1234).</span>
-<span class="sd">            final (bool): Whether to get the final structure, or the initial</span>
-<span class="sd">                (pre-relaxation) structure. Defaults to True.</span>
-<span class="sd">            conventional_unit_cell (bool): Whether to get the standard</span>
-<span class="sd">                conventional unit cell</span>
+<span class="sd">        material_id : str</span>
+<span class="sd">            Materials Project material_id (a string, e.g., mp-1234).</span>
+<span class="sd">        final : bool</span>
+<span class="sd">            Whether to get the final structure, or the initial</span>
+<span class="sd">            (pre-relaxation) structure.</span>
+<span class="sd">        conventional_unit_cell : bool</span>
+<span class="sd">            Whether to get the standard conventional unit cell</span>
 
-<span class="sd">        Returns:</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        structure : Structure</span>
 <span class="sd">            Structure object.</span>
+<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">MPRester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
             <span class="n">structure</span> <span class="o">=</span> <span class="n">mpr</span><span class="o">.</span><span class="n">get_structure_by_material_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mp_id</span><span class="p">,</span><span class="n">final</span><span class="o">=</span><span class="n">final</span><span class="p">,</span><span class="n">conventional_unit_cell</span><span class="o">=</span><span class="n">conventional_unit_cell</span><span class="p">)</span>

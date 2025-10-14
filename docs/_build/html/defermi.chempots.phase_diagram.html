@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="defermi.chempots.reservoirs.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="defermi.chempots.oxygen.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,37 +42,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">PDHandler</span></code></a><ul>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.calculate_single_chempot"><code class="docutils literal notranslate"><span class="pre">PDHandler.calculate_single_chempot()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_all_boundaries_chempots"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_all_boundaries_chempots()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_chempots_reference"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_chempots_reference()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_dataframe"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_dataframe()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_energies_from_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_energies_from_comp()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_energy_from_stable_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_energy_from_stable_comp()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_entries_from_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_entries_from_comp()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_formation_energies_from_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_formation_energies_from_comp()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_formation_energy_from_stable_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_formation_energy_from_stable_comp()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_phase_boundaries_chempots"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_phase_boundaries_chempots()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_phase_boundaries_compositions"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_phase_boundaries_compositions()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_plot"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_plot()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_stability_diagram"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_stability_diagram()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.get_stable_entry_from_comp"><code class="docutils literal notranslate"><span class="pre">PDHandler.get_stable_entry_from_comp()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.PDHandler.solve_phase_boundary_chempots"><code class="docutils literal notranslate"><span class="pre">PDHandler.solve_phase_boundary_chempots()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="defermi.html">defermi package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="defermi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="defermi.chempots.html">defermi.chempots package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.corrections.html">defermi.corrections package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.tools.html">defermi.tools package</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram</span></code></a><ul>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_constant_chempot_line"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.add_constant_chempot_line()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_heatmap"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.add_heatmap()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_points"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.add_points()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.add_reservoirs"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.add_reservoirs()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.constant_chempot_line"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.constant_chempot_line()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.chempots.phase_diagram.StabilityDiagram.get_plot"><code class="docutils literal notranslate"><span class="pre">StabilityDiagram.get_plot()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.html#submodules">Submodules</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -85,6 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="defermi.html">defermi package</a></li>
+          <li class="breadcrumb-item"><a href="defermi.chempots.html">defermi.chempots package</a></li>
       <li class="breadcrumb-item active">&lt;no title&gt;</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/defermi.chempots.phase_diagram.rst.txt" rel="nofollow"> View page source</a>
@@ -104,7 +95,7 @@
 <p>Class to generate and handle Pymatgen phase diagram more rapidly.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>phase_diagram</strong> (<em>(</em><em>PhaseDiagram</em><em>)</em>) – Pymatgen PhaseDiagram object</p>
+<dd class="field-odd"><p><strong>phase_diagram</strong> (<em>PhaseDiagram</em>) – Pymatgen PhaseDiagram object</p>
 </dd>
 </dl>
 <dl class="py method">
@@ -115,8 +106,8 @@ the chemical potentials of the other elements.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Compositions of the phase.</p></li>
-<li><p><strong>chempots_ref</strong> (<em>(</em><em>Dict</em><em>)</em>) – Dictionary with element symbols as keys and respective chemical potential as value ({el:chempot}).
+<li><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Compositions of the phase.</p></li>
+<li><p><strong>chempots_ref</strong> (<em>Dict</em>) – Dictionary with element symbols as keys and respective chemical potential as value ({el:chempot}).
 The chemical potentials used here are the ones relative to the reference (delta_mu).</p></li>
 </ul>
 </dd>
@@ -124,7 +115,7 @@ The chemical potentials used here are the ones relative to the reference (delta_
 <dd class="field-even"><p><strong>mu</strong> – Chemical potential.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(float)</p>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -135,13 +126,13 @@ The chemical potentials used here are the ones relative to the reference (delta_
 <dd><p>Get chemical potentials at the corners of the stability ta given composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>)</p>
+<dd class="field-odd"><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>)</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p><strong>chempots</strong> – Chempots object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(<a class="reference internal" href="defermi.chempots.core.html#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots">Chempots</a>)</p>
+<dd class="field-odd"><p><a class="reference internal" href="defermi.chempots.core.html#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots">Chempots</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -151,8 +142,11 @@ The chemical potentials used here are the ones relative to the reference (delta_
 <span class="sig-name descname"><span class="pre">get_chempots_reference</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.get_chempots_reference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.get_chempots_reference" title="Link to this definition"></a></dt>
 <dd><p>Gets elemental reference compounds and respective e.p.a with Pymatgen el_ref attribute in PhaseDiagram class.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Chempots object</p>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>chempots</strong> – Chempots object.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="defermi.chempots.core.html#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots">Chempots</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -170,13 +164,13 @@ To display a string for ‘Structure’ the entry needs to be a ComputedStructur
 <dd><p>Get dictionary of energies for all entries of a given reduced composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+<dd class="field-odd"><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>from_energies</strong> – Dictionary with PDEntry objects as keys and Energies as values.</p>
+<dd class="field-even"><p><strong>form_energies</strong> – Dictionary with PDEntry objects as keys and Energies as values.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(Dict)</p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -187,10 +181,13 @@ To display a string for ‘Structure’ the entry needs to be a ComputedStructur
 <dd><p>Get energy of a target stable composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+<dd class="field-odd"><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Energy in eV (float).</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>energy</strong> – Energy in eV.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -201,10 +198,13 @@ To display a string for ‘Structure’ the entry needs to be a ComputedStructur
 <dd><p>Get a list of entries corrisponding to the target composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+<dd class="field-odd"><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of Pymatgen PDEntry objects</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>target_entries</strong> – List of Pymatgen PDEntry objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -215,13 +215,13 @@ To display a string for ‘Structure’ the entry needs to be a ComputedStructur
 <dd><p>Get dictionary of formation energies for all entries of a given reduced composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+<dd class="field-odd"><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>from_energies</strong> – Dictionary with PDEntry objects as keys and formation energies in eV as values.</p>
+<dd class="field-even"><p><strong>form_energies</strong> – Dictionary with PDEntry objects as keys and formation energies in eV as values.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(Dict)</p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -232,10 +232,13 @@ To display a string for ‘Structure’ the entry needs to be a ComputedStructur
 <dd><p>Get formation energy of a target stable composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+<dd class="field-odd"><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Formation energy in eV (float).</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>form_energy</strong> – Formation energy in eV (float).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -248,8 +251,8 @@ and the associated chemical potentials at the boundaries. Only works for 3 compo
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition of the phase you want to get the chemical potentials at the boundary.</p></li>
-<li><p><strong>chempot_ref</strong> (<em>(</em><em>Dict</em><em>)</em>) – Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).
+<li><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition of the phase you want to get the chemical potentials at the boundary.</p></li>
+<li><p><strong>chempot_ref</strong> (<em>dict</em>) – Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).
 The chemical potential here is the referenced value.</p></li>
 </ul>
 </dd>
@@ -257,7 +260,7 @@ The chemical potential here is the referenced value.</p></li>
 <dd class="field-even"><p><strong>chempots</strong> – Dictionary with compositions at the boundaries as keys and delta chemical potentials as value.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(Dict)</p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -272,8 +275,8 @@ converted in the global value for the analysis with the GrandPotentialPhaseDiagr
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Target composition for which you want to get the bounday phases.</p></li>
-<li><p><strong>chempot_ref</strong> (<em>(</em><em>Dict</em><em>)</em>) – Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).
+<li><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Target composition for which you want to get the bounday phases.</p></li>
+<li><p><strong>chempot_ref</strong> (<em>dict</em>) – Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}).
 The chemical potential is the referenced value</p></li>
 </ul>
 </dd>
@@ -281,7 +284,7 @@ The chemical potential is the referenced value</p></li>
 <dd class="field-even"><p><strong>comp1,comp2</strong> – Compositions of the boundary phases given a fixed chemical potential for one element.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(Pymatgen Composition object)</p>
+<dd class="field-odd"><p>(Composition objects)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -299,8 +302,8 @@ The chemical potential is the referenced value</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>elements</strong> (<em>(</em><em>list</em><em>)</em>) – List with strings of the elements to be used as free variables.</p></li>
-<li><p><strong>size</strong> (<em>(</em><em>tuple</em><em>)</em>) – New size in inches.</p></li>
+<li><p><strong>elements</strong> (<em>list</em>) – List with strings of the elements to be used as free variables.</p></li>
+<li><p><strong>size</strong> (<em>tuple</em>) – New size in inches.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -318,10 +321,13 @@ The chemical potential is the referenced value</p></li>
 <dd><p>Get the PDEntry of the stable entry of a target composition.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition.</p>
+<dd class="field-odd"><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition.</p>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Pymatgen PDEntry object.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>entry</strong> – Pymatgen PDEntry object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PDEntry</p>
 </dd>
 </dl>
 </dd></dl>
@@ -331,17 +337,19 @@ The chemical potential is the referenced value</p></li>
 <span class="sig-name descname"><span class="pre">solve_phase_boundary_chempots</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">comp1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">comp2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chempot_ref</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/phase_diagram.html#PDHandler.solve_phase_boundary_chempots"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.phase_diagram.PDHandler.solve_phase_boundary_chempots" title="Link to this definition"></a></dt>
 <dd><p>Given a fixed chemical potential, gets the values of the remaining two chemical potentials
 in the boundary between two phases (region where the two phases coexist). Only works for 3-component PD (to check).</p>
-<p>Given a phase P1 (formula AxByOz) and a phase P2 (formula AiBjOk) the chemical potentials have to satisfy the conditions:
-- form_energy(P1) = x*mu(A) + y*mu(B) +z*mu(O)
-- form_energy(P2) = i*mu(A) + j*mu(B) +k*mu(O)</p>
+<p>Given a phase P1 (formula AxByOz) and a phase P2 (formula AiBjOk) the chemical potentials have to satisfy the conditions:</p>
+<ul class="simple">
+<li><p>form_energy(P1) = x*mu(A) + y*mu(B) +z*mu(O)</p></li>
+<li><p>form_energy(P2) = i*mu(A) + j*mu(B) +k*mu(O)</p></li>
+</ul>
 <p>From these conditions the values of mu(A) and mu(B) are determined given a fixed value of mu(O).
 All of the chemical potentials used here are delta_mu, i.e. relative to the elemental phase(delta_mu(O) = mu(O) - mu_ref(O))</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>comp1</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Compositions of the two phases at the boundary.</p></li>
-<li><p><strong>comp2</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Compositions of the two phases at the boundary.</p></li>
-<li><p><strong>chempot_ref</strong> (<em>(</em><em>Dict</em><em>)</em>) – Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}). The chemical potential
+<li><p><strong>comp1</strong> (<em>str</em><em> or </em><em>Composition</em>) – Compositions of the two phases at the boundary.</p></li>
+<li><p><strong>comp2</strong> (<em>str</em><em> or </em><em>Composition</em>) – Compositions of the two phases at the boundary.</p></li>
+<li><p><strong>chempot_ref</strong> (<em>dict</em>) – Dictionary with fixed element symbol as key and respective chemical potential as value ({el:chempot}). The chemical potential
 used here is the one relative to the reference (delta_mu).</p></li>
 </ul>
 </dd>
@@ -349,7 +357,7 @@ used here is the one relative to the reference (delta_mu).</p></li>
 <dd class="field-even"><p><strong>chempots_boundary</strong> – Dictionary of chemical potentials.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>(Dict)</p>
+<dd class="field-odd"><p>dict</p>
 </dd>
 </dl>
 </dd></dl>
@@ -364,8 +372,8 @@ used here is the one relative to the reference (delta_mu).</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>phase_diagram</strong> (<em>(</em><em>PhaseDiagram</em><em>)</em>) – Pymatgen PhaseDiagram object.</p></li>
-<li><p><strong>size</strong> (<em>(</em><em>float</em><em>)</em>) – Multiplier for the size of the objects added in the plot.</p></li>
+<li><p><strong>phase_diagram</strong> (<em>PhaseDiagram</em>) – Pymatgen PhaseDiagram object.</p></li>
+<li><p><strong>size</strong> (<em>float</em>) – Multiplier for the size of the objects added in the plot.</p></li>
 </ul>
 </dd>
 </dl>
@@ -376,17 +384,17 @@ used here is the one relative to the reference (delta_mu).</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition of the phase.</p></li>
-<li><p><strong>variable_element</strong> (<em>(</em><em>str</em><em>)</em>) – Element chosen as indipendent variable.</p></li>
-<li><p><strong>chempots_ref</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.</p></li>
+<li><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition of the phase.</p></li>
+<li><p><strong>variable_element</strong> (<em>str</em>) – Element chosen as indipendent variable.</p></li>
+<li><p><strong>chempots_ref</strong> (<em>dict</em>) – Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.</p></li>
 <li><p><strong>**kwargs</strong> – kwargs passed to Matplotlib plot function.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>plt</strong></p>
+<dd class="field-even"><p><strong>plt</strong> – Matplotlib object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Matplotlib object.</p>
+<dd class="field-odd"><p>matlotlib</p>
 </dd>
 </dl>
 </dd></dl>
@@ -399,16 +407,19 @@ chemical potentials and the composition of interest. Currently works only for 3 
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition of interest to compute the chemical potential.</p></li>
-<li><p><strong>elements</strong> (<em>(</em><em>list</em><em>)</em>) – List of strings with elements with free chemical potentials.</p></li>
-<li><p><strong>cbar_label</strong> (<em>(</em><em>string</em><em>)</em><em>, </em><em>optional</em>) – String with label of the colormap. The default is ‘’.</p></li>
-<li><p><strong>cbar_values</strong> (<em>(</em><em>tuple</em><em> or </em><em>bool</em><em>)</em><em>, </em><em>optional</em>) – Show max e min chempot values on colorbar. If tuple the values are used, if not the
+<li><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition of interest to compute the chemical potential.</p></li>
+<li><p><strong>elements</strong> (<em>list</em>) – List of strings with elements with free chemical potentials.</p></li>
+<li><p><strong>cbar_label</strong> (<em>str</em>) – String with label of the colormap. The default is ‘’.</p></li>
+<li><p><strong>cbar_values</strong> (<em>tuple</em><em> or </em><em>bool</em>) – Show max e min chempot values on colorbar. If tuple the values are used, if not the
 minimum chempot and 0 are used. The default is True.</p></li>
-<li><p><strong>**kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – kwargs for “pcolormesh” function.</p></li>
+<li><p><strong>**kwargs</strong> (<em>dict</em>) – kwargs for “pcolormesh” function.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Matplotlib object.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>plt</strong> – Matplotlib object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>matplotlib</p>
 </dd>
 </dl>
 </dd></dl>
@@ -420,21 +431,21 @@ minimum chempot and 0 are used. The default is True.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>points</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with points labels as keys and tuples or list with coordinates as values.</p></li>
-<li><p><strong>size</strong> (<em>(</em><em>float</em><em>)</em>) – Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size</p></li>
-<li><p><strong>label_size</strong> (<em>(</em><em>float</em><em>)</em>) – Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size</p></li>
-<li><p><strong>color</strong> – Color of filling of points</p></li>
-<li><p><strong>edgecolor</strong> – Color of point edge</p></li>
-<li><p><strong>label_color</strong> – Color of labels</p></li>
-<li><p><strong>linewidths</strong> – line width of point edge</p></li>
-<li><p><strong>kwargs</strong> – kwargs to pass to matplotlib <cite>scatter</cite> function.</p></li>
+<li><p><strong>points</strong> (<em>dict</em>) – Dictionary with points labels as keys and tuples or list with coordinates as values.</p></li>
+<li><p><strong>size</strong> (<em>float</em>) – Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size</p></li>
+<li><p><strong>label_size</strong> (<em>float</em>) – Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size</p></li>
+<li><p><strong>color</strong> (<em>str</em>) – Color of filling of points</p></li>
+<li><p><strong>edgecolor</strong> (<em>str</em>) – Color of point edge</p></li>
+<li><p><strong>label_color</strong> (<em>str</em>) – Color of labels</p></li>
+<li><p><strong>linewidths</strong> (<em>int</em>) – line width of point edge</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – kwargs to pass to matplotlib <cite>scatter</cite> function.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>plt</strong></p>
+<dd class="field-even"><p><strong>plt</strong> – Matplotlib object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Matplotlib object.</p>
+<dd class="field-odd"><p>matplotlib</p>
 </dd>
 </dl>
 </dd></dl>
@@ -446,22 +457,22 @@ minimum chempot and 0 are used. The default is True.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>reservoirs</strong> (<em>(</em><a class="reference internal" href="defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs" title="defermi.chempots.reservoirs.Reservoirs"><em>Reservoirs</em></a><em>)</em>) – Reservoirs object.</p></li>
-<li><p><strong>elements</strong> (<em>(</em><em>list</em><em>)</em>) – List with strings of the elements to be used as free variables.</p></li>
-<li><p><strong>size</strong> (<em>(</em><em>float</em><em>)</em>) – Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size</p></li>
-<li><p><strong>label_size</strong> (<em>(</em><em>float</em><em>)</em>) – Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size</p></li>
-<li><p><strong>color</strong> – Color of filling of points</p></li>
-<li><p><strong>edgecolor</strong> – Color of point edge</p></li>
-<li><p><strong>label_color</strong> – Color of labels</p></li>
-<li><p><strong>linewidths</strong> – line width of point edge</p></li>
-<li><p><strong>kwargs</strong> – kwargs to pass to matplotlib <cite>scatter</cite> function.</p></li>
+<li><p><strong>reservoirs</strong> (<a class="reference internal" href="defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs" title="defermi.chempots.reservoirs.Reservoirs"><em>Reservoirs</em></a>) – Reservoirs object.</p></li>
+<li><p><strong>elements</strong> (<em>list</em>) – List with strings of the elements to be used as free variables.</p></li>
+<li><p><strong>size</strong> (<em>float</em>) – Float multiplier for points size. Default is 1, which would yield a default size of 450*self.size</p></li>
+<li><p><strong>label_size</strong> (<em>float</em>) – Float multiplier for labels size. Default is 1, which would yield a default size of 30*self.size</p></li>
+<li><p><strong>color</strong> (<em>str</em>) – Color of filling of points</p></li>
+<li><p><strong>edgecolor</strong> (<em>str</em>) – Color of point edge</p></li>
+<li><p><strong>label_color</strong> (<em>str</em>) – Color of labels</p></li>
+<li><p><strong>linewidths</strong> (<em>3</em>) – line width of point edge</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – kwargs to pass to matplotlib <cite>scatter</cite> function.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><strong>plt</strong></p>
+<dd class="field-even"><p><strong>plt</strong> – Matplotlib object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Matplotlib object.</p>
+<dd class="field-odd"><p>matplotlib</p>
 </dd>
 </dl>
 </dd></dl>
@@ -473,14 +484,17 @@ minimum chempot and 0 are used. The default is True.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mu</strong> (<em>(</em><em>float</em><em>)</em>) – Indipendent variable of chemical potential.</p></li>
-<li><p><strong>comp</strong> (<em>(</em><em>str</em><em> or </em><em>Composition</em><em>)</em>) – Composition of the phase.</p></li>
-<li><p><strong>variable_element</strong> (<em>(</em><em>Pymatgen Element object</em><em>)</em>) – Element chosen as indipendent variable.</p></li>
-<li><p><strong>chempots_ref</strong> (<em>(</em><em>dict</em><em>)</em>) – Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.</p></li>
+<li><p><strong>mu</strong> (<em>float</em>) – Indipendent variable of chemical potential.</p></li>
+<li><p><strong>comp</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition of the phase.</p></li>
+<li><p><strong>variable_element</strong> (<em>Pymatgen Element object</em>) – Element chosen as indipendent variable.</p></li>
+<li><p><strong>chempots_ref</strong> (<em>dict</em>) – Dictionary with fixed chemical potentials (values relative to reference phase). The format is {Element:chempot}.</p></li>
 </ul>
 </dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>Chemical potential in eV.</p>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chempot</strong> – Chemical potential in eV.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -492,15 +506,15 @@ minimum chempot and 0 are used. The default is True.</p></li>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>elements</strong> (<em>(</em><em>list</em><em>)</em>) – List with strings of the elements to be used as free variables.</p></li>
-<li><p><strong>figsize</strong> (<em>(</em><em>tuple</em><em>)</em>) – New size in inches.</p></li>
+<li><p><strong>elements</strong> (<em>list</em>) – List with strings of the elements to be used as free variables.</p></li>
+<li><p><strong>figsize</strong> (<em>tuple</em>) – New size in inches.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Matplotlib object.</p>
+<dd class="field-even"><p><strong>plt</strong> – Matplotlib object.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>plt</p>
+<dd class="field-odd"><p>matplotlib</p>
 </dd>
 </dl>
 </dd></dl>
@@ -511,7 +525,10 @@ minimum chempot and 0 are used. The default is True.</p></li>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="defermi.chempots.oxygen.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="defermi.chempots.reservoirs.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

@@ -22,6 +22,7 @@ def create_interstitials(structure,elements,supercell_size=None,**kwargs):
         Input for the make_supercell function of the Structure class.
         If None the input structure is not modified. The default is None.
     kwargs: 
+
         Kwargs to pass to VoronoiInterstitialGenerator:
 
         - clustering_tol: Tolerance for clustering the Voronoi nodes.
@@ -30,6 +31,7 @@ def create_interstitials(structure,elements,supercell_size=None,**kwargs):
         - stol: Tolerance for structure matching.
         - angle_tol: Angle tolerance for structure matching.
         - kwargs: Additional keyword arguments for the `TopographyAnalyzer` constructor.
+
 
     Returns
     -------
@@ -72,16 +74,21 @@ def create_substitutions(structure,elements_to_replace,supercell_size=None, **kw
         Input for the make_supercell function of the Structure class.
         If None the input structure is not modified. 
     kwargs : dict
+    
         Kwargs to pass to SpaceGroupAnalyzer class:
 
-        - symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
-        which is fairly strict and works well for properly refined
-        structures with atoms in the proper symmetry coordinates. For
-        structures with slight deviations from their proper atomic
-        positions (e.g., structures relaxed with electronic structure
-        codes), a looser tolerance of 0.1 (the value used in Materials
-        Project) is often needed.
-        - angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.
+        - symprec (float): 
+            Tolerance for symmetry finding. Defaults to 0.01,
+            which is fairly strict and works well for properly refined
+            structures with atoms in the proper symmetry coordinates. For
+            structures with slight deviations from their proper atomic
+            positions (e.g., structures relaxed with electronic structure
+            codes), a looser tolerance of 0.1 (the value used in Materials
+            Project) is often needed.
+
+        - angle_tolerance (float): 
+            Angle tolerance for symmetry finding. Defaults to 5 degrees.
+
 
     Returns
     -------
@@ -121,23 +128,30 @@ def create_vacancies(structure,elements=None,supercell_size=None, **kwargs):
     ----------
     structure : Structure
         Bulk structure, both unit cell or supercell can be used as input.
-    elements : (str)
+    elements : str
         Symbol of the elements for which vacancies are needed.
         If None all of the elements are considered. The default is None.
     supercell_size : int or numpy array
         Input for the make_supercell function of the Structure class.
         If None the input structure is not modified. 
     kwargs : dict
+    
         Kwargs to pass to SpaceGroupAnalyzer class:
 
-        - symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
-        which is fairly strict and works well for properly refined
-        structures with atoms in the proper symmetry coordinates. For
-        structures with slight deviations from their proper atomic
-        positions (e.g., structures relaxed with electronic structure
-        codes), a looser tolerance of 0.1 (the value used in Materials
-        Project) is often needed.
-        - angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.
+        - symprec (float): 
+            Tolerance for symmetry finding. Defaults to 0.01,
+            which is fairly strict and works well for properly refined
+            structures with atoms in the proper symmetry coordinates. For
+            structures with slight deviations from their proper atomic
+            positions (e.g., structures relaxed with electronic structure
+            codes), a looser tolerance of 0.1 (the value used in Materials
+            Project) is often needed.
+
+        - angle_tolerance (float): 
+            Angle tolerance for symmetry finding. Defaults to 5 degrees.
+
+
+
 
     Returns
     -------

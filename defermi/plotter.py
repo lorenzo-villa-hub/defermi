@@ -395,7 +395,7 @@ def plot_pO2_vs_concentrations(
     colors : list
         List of colors to use for plotting with matplotlib. If None the defaults are used.
     kwargs : dict
-        Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).
+        Kwargs to pass to `DefectConcentrations.filter_concentrations(**kwargs)`.
         If provided, only the filtered concentrations will be plotted. If output
         is set to "total", only the filtered concentrations will be used to 
         compute the total concentration.
@@ -571,7 +571,7 @@ def plot_variable_species_vs_concentrations(
     colors : list
         List of colors to use for plotting with matplotlib. If None the defaults are used.
     kwargs : dict
-        Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).
+        Kwargs to pass to `DefectConcentrations.filter_concentrations(**kwargs)`.
         If provided, only the filtered concentrations will be plotted. If output
         is set to "total", only the filtered concentrations will be used to 
         compute the total concentration.
@@ -754,7 +754,7 @@ def plot_x_vs_concentrations(
     colors : list
         List of colors to use for plotting with matplotlib. If None the defaults are used.
     kwargs : dict
-        Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).
+        Kwargs to pass to `DefectConcentrations.filter_concentrations(**kwargs)`.
         If provided, only the filtered concentrations will be plotted. If output
         is set to "total", only the filtered concentrations will be used to 
         compute the total concentration.

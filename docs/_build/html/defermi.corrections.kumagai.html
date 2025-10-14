@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="defermi.tools package" href="defermi.tools.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="defermi.corrections.freysoldt.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,13 +42,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">get_kumagai_correction()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.corrections.kumagai.get_kumagai_correction_from_jobs"><code class="docutils literal notranslate"><span class="pre">get_kumagai_correction_from_jobs()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.corrections.kumagai.get_kumagai_correction_from_structures"><code class="docutils literal notranslate"><span class="pre">get_kumagai_correction_from_structures()</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="defermi.html">defermi package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="defermi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="defermi.chempots.html">defermi.chempots package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="defermi.corrections.html">defermi.corrections package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.tools.html">defermi.tools package</a></li>
 </ul>
-</div>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.html#submodules">Submodules</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -61,6 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="defermi.html">defermi package</a></li>
+          <li class="breadcrumb-item"><a href="defermi.corrections.html">defermi.corrections package</a></li>
       <li class="breadcrumb-item active">&lt;no title&gt;</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/defermi.corrections.kumagai.rst.txt" rel="nofollow"> View page source</a>
@@ -78,56 +93,22 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>defect_path</strong> (<em>(</em><em>str</em><em>)</em>) – Path of defect calculation with vasprun.xml and OUTCAR files.</p></li>
-<li><p><strong>bulk_path</strong> (<em>(</em><em>str</em><em>)</em>) – Path of bulk calculation with vasprun.xml and OUTCAR files.</p></li>
-<li><p><strong>charge</strong> (<em>(</em><em>int</em><em>)</em>) – Charge of defect calculation</p></li>
-<li><p><strong>dielectric_tensor</strong> (<em>(</em><em>int</em><em>,</em><em>float 3x1 array</em><em> or </em><em>3x3 array</em><em>)</em>) – Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.</p></li>
-<li><p><strong>initial_structure</strong> (<em>(</em><em>bool</em><em>)</em>) – Use initial structure of defect calculation for correction computation.
+<li><p><strong>defect_path</strong> (<em>str</em>) – Path of defect calculation with vasprun.xml and OUTCAR files.</p></li>
+<li><p><strong>bulk_path</strong> (<em>str</em>) – Path of bulk calculation with vasprun.xml and OUTCAR files.</p></li>
+<li><p><strong>charge</strong> (<em>int</em>) – Charge of defect calculation</p></li>
+<li><p><strong>dielectric_tensor</strong> (<em>int</em><em>,</em><em>float 3x1 array</em><em> or </em><em>3x3 array</em>) – Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.</p></li>
+<li><p><strong>initial_structure</strong> (<em>bool</em>) – Use initial structure of defect calculation for correction computation.
 Useful to compute correction on unrelaxed structure.</p></li>
-<li><p><strong>get_correction_data</strong> (<em>(</em><em>bool</em><em>)</em>) – Return pymatgen’s CorrectionResult object. If False only the correction value is returned.</p></li>
-<li><p><strong>get_plot</strong> (<em>(</em><em>bool</em><em>)</em><em>, </em><em>optional</em>) – Get Matplotlib object with plot. The default is False.</p></li>
-<li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to pydefect <cite>make_efnv_correction</cite></p></li>
+<li><p><strong>get_correction_data</strong> (<em>bool</em>) – Return pymatgen’s CorrectionResult object. If False only the correction value is returned.</p></li>
+<li><p><strong>get_plot</strong> (<em>bool</em>) – Get Matplotlib object with plot. The default is False.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs to pass to pydefect <cite>make_efnv_correction</cite></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p>CorrectionResult object if get_correction_data is set to True, else just the float with correction value,</p></li>
-<li><p>matplotlib axis object</p></li>
-</ul>
-</p>
+<dd class="field-even"><p><strong>correction, ax</strong> – CorrectionResult object if get_correction_data is set to True, else just the float with correction value, matplotlib axis object</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>correction, ax</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="defermi.corrections.kumagai.get_kumagai_correction_from_jobs">
-<span class="sig-prename descclassname"><span class="pre">defermi.corrections.kumagai.</span></span><span class="sig-name descname"><span class="pre">get_kumagai_correction_from_jobs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">job_defect</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">job_bulk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dielectric_tensor</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_structure</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_correction_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/corrections/kumagai.html#get_kumagai_correction_from_jobs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.corrections.kumagai.get_kumagai_correction_from_jobs" title="Link to this definition"></a></dt>
-<dd><p>Get Kumagai corrections from VaspJob objects.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>job_defect</strong> (<em>(</em><em>VaspJob</em><em>)</em>) – Defect calculation.</p></li>
-<li><p><strong>job_bulk</strong> (<em>(</em><em>VaspJob</em><em>)</em>) – Bulk calculation.</p></li>
-<li><p><strong>dielectric_tensor</strong> (<em>(</em><em>int</em><em>,</em><em>float 3x1 array</em><em> or </em><em>3x3 array</em><em>)</em>) – Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.</p></li>
-<li><p><strong>initial_structure</strong> (<em>(</em><em>bool</em><em>)</em>) – Use initial structure of defect calculation for correction computation.
-Useful to compute correction on unrelaxed structure.</p></li>
-<li><p><strong>get_correction_data</strong> (<em>(</em><em>bool</em><em>)</em>) – Return pymatgen’s CorrectionResult object. If False only the correction value is returned.</p></li>
-<li><p><strong>get_plot</strong> (<em>(</em><em>bool</em><em>)</em><em>, </em><em>optional</em>) – Get Matplotlib object with plot. The default is False.</p></li>
-<li><p><strong>kwargs</strong> (<em>(</em><em>dict</em><em>)</em>) – Kwargs to pass to pydefect <cite>make_efnv_correction</cite></p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p><ul class="simple">
-<li><p>CorrectionResult object if get_correction_data is set to True, else just the float with correction value,</p></li>
-<li><p>matplotlib axis object</p></li>
-</ul>
-</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>correction, ax</p>
+<dd class="field-odd"><p>tuple</p>
 </dd>
 </dl>
 </dd></dl>
@@ -137,14 +118,17 @@ Useful to compute correction on unrelaxed structure.</p></li>
 <span class="sig-prename descclassname"><span class="pre">defermi.corrections.kumagai.</span></span><span class="sig-name descname"><span class="pre">get_kumagai_correction_from_structures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">defect_structure_with_potentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bulk_structure_with_potentials</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">charge</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dielectric_tensor</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/corrections/kumagai.html#get_kumagai_correction_from_structures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.corrections.kumagai.get_kumagai_correction_from_structures" title="Link to this definition"></a></dt>
 <dd><p>Get Kumagai (extended FNV) correction from Structure objects with
 site potentials stored into site_properties. Not recommended to use
-directly, refer to get_kumagai_correction.</p>
+directly, refer to <cite>get_kumagai_correction</cite>.</p>
 </dd></dl>
 
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="defermi.corrections.freysoldt.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="defermi.tools.html" class="btn btn-neutral float-right" title="defermi.tools package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 

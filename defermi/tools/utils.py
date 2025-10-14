@@ -17,8 +17,10 @@ def get_object_feature(obj,feature):
     """
     Get value of attribute or method of a generic Object.
     If feature is a single method only the string with the method's name is required.
-    If the target feature is stored in a dictionary (or dict of dictionaries), a list of this format needs to be provided:
-        ["method_name",key1,key2,...] - This will identify the value of Object.method[key1][key2][...] .
+    If the target feature is stored in a dictionary (or dict of dictionaries), a list of
+    this format needs to be provided: ["method_name",key1,key2,...]. 
+        
+    This will identify the value of Object.method[key1][key2][...] .
 
     Parameters
     ----------

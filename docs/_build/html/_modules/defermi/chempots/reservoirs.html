@@ -39,8 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -98,14 +101,14 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        res_dict : (dict)</span>
+<span class="sd">        res_dict : dict</span>
 <span class="sd">            Dictionary with reservoir names as key and dictionaries of chemical potentials as values.</span>
-<span class="sd">        phase_diagram : (PhaseDiagram object)</span>
-<span class="sd">            PhaseDiagram object (Pymatgen), useful to convert absolute chempots in referenced chempots.</span>
-<span class="sd">        mu_refs : (dict)</span>
+<span class="sd">        phase_diagram : PhaseDiagram</span>
+<span class="sd">            PhaseDiagram object, useful to convert absolute chempots in referenced chempots.</span>
+<span class="sd">        mu_refs : dict</span>
 <span class="sd">            Dictionary with chemical potentials of reference elements ({Element:chempot}).</span>
 <span class="sd">            If the PhaseDiagram is provided mu_refs is taken from the mu_refs attribute. </span>
-<span class="sd">        are_chempots_delta : (bool)</span>
+<span class="sd">        are_chempots_delta : bool</span>
 <span class="sd">            Set this variable to True if chempots in dictionary are referenced values.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -198,7 +201,7 @@
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        dict</span>
+<span class="sd">        d : dict</span>
 <span class="sd">            Json-serializable dict of a Reservoirs object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -221,14 +224,14 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        path : (str)</span>
-<span class="sd">            Path to the destination file.  If None a string is exported.</span>
-<span class="sd">        cls : (cls)</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the destination file. If None a string is exported.</span>
+<span class="sd">        cls : cls</span>
 <span class="sd">            Encoder class for json.dump. The default is MontyEncoder.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        d : (str)</span>
+<span class="sd">        d : str</span>
 <span class="sd">            If path is not set a string is returned.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -252,10 +255,12 @@
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        d : dict</span>
+<span class="sd">            Json-serializable dict of a Reservoirs object.</span>
 <span class="sd">        </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        Reservoirs object.</span>
+<span class="sd">        reservoirs : Reservoirs</span>
+<span class="sd">            Reservoirs object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">res_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -278,7 +283,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        path_or_string : (str)</span>
+<span class="sd">        path_or_string : str</span>
 <span class="sd">            If an existing path to a file is given the object is constructed reading the json file.</span>
 <span class="sd">            Otherwise it will be read as a string.</span>
 
@@ -304,14 +309,14 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        inplace : (bool)</span>
+<span class="sd">        inplace : bool</span>
 <span class="sd">            Apply changes to current Reservoirs object.</span>
-<span class="sd">        elements : (list)</span>
+<span class="sd">        elements : list</span>
 <span class="sd">            List of element symbols.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        res : </span>
+<span class="sd">        res : Reservoirs</span>
 <span class="sd">            Reservoirs object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -370,18 +375,18 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        format_symbols : (bool)</span>
+<span class="sd">        format_symbols : bool</span>
 <span class="sd">            Format labels of element chempots in latex math format.</span>
-<span class="sd">        format_compositions : (bool)</span>
+<span class="sd">        format_compositions : bool</span>
 <span class="sd">            Get Latex format of compositions.</span>
-<span class="sd">        all_math : (bool)</span>
+<span class="sd">        all_math : bool</span>
 <span class="sd">            Get all characters in composition written in latex&#39;s math format.</span>
-<span class="sd">        ndecimals : (int)</span>
+<span class="sd">        ndecimals : int</span>
 <span class="sd">            Number of decimals to round the chemical potentials, if None the numbers are not changed.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        df : </span>
+<span class="sd">        df : DataFrame</span>
 <span class="sd">            DataFrame object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -420,17 +425,16 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        elements : (list)</span>
+<span class="sd">        elements : list</span>
 <span class="sd">            List of strings with element symbols on the diagram axis.</span>
-<span class="sd">        size : (float)</span>
+<span class="sd">        size : float</span>
 <span class="sd">            Size of the points. The default is 1.</span>
-<span class="sd">        **kwargs : (dict)</span>
+<span class="sd">        **kwargs : dict</span>
 <span class="sd">            Kwargs for the add_reservoirs function.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        plt : </span>
-<span class="sd">            Matplotlib object.</span>
+<span class="sd">        Matplotlib object.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">pynter.phase_diagram.plotter</span><span class="w"> </span><span class="kn">import</span> <span class="n">PDPlotterAdder</span> <span class="c1"># import here to avoid circular import</span>
@@ -523,7 +527,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        dict</span>
+<span class="sd">        d : dict</span>
 <span class="sd">            Json-serializable dict of a PressureReservoirs object.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
@@ -573,7 +577,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        path_or_string : (str)</span>
+<span class="sd">        path_or_string : str</span>
 <span class="sd">            If an existing path to a file is given the object is constructed reading the json file.</span>
 <span class="sd">            Otherwise it will be read as a string.</span>
 

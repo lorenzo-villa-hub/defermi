@@ -39,8 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -98,15 +101,23 @@
 <span class="sd">    is specified it returns the distance between the frac_coords1 and</span>
 <span class="sd">    the specified jimage of frac_coords2, and the given jimage is also</span>
 <span class="sd">    returned.</span>
-<span class="sd">    Args:</span>
-<span class="sd">        frac_coords1 (3x1 array): Reference fcoords to get distance from.</span>
-<span class="sd">        frac_coords2 (3x1 array): fcoords to get distance from.</span>
-<span class="sd">        jimage (3x1 array): Specific periodic image in terms of</span>
-<span class="sd">            lattice translations, e.g., [1,0,0] implies to take periodic</span>
-<span class="sd">            image that is one a-lattice vector away. If jimage is None,</span>
-<span class="sd">            the image that is nearest to the site is found.</span>
-<span class="sd">    Returns:</span>
-<span class="sd">        (distance, jimage): distance and periodic lattice translations</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    frac_coords1 : np.array</span>
+<span class="sd">        Reference fractional coords to get distance from.</span>
+<span class="sd">    frac_coords2 : np.array</span>
+<span class="sd">        fractional coords to get distance from.</span>
+<span class="sd">    jimage : np.array</span>
+<span class="sd">        Specific periodic image in terms of</span>
+<span class="sd">        lattice translations, e.g., [1,0,0] implies to take periodic</span>
+<span class="sd">        image that is one a-lattice vector away. If jimage is None,</span>
+<span class="sd">        the image that is nearest to the site is found.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mapped_vec, jimage : tuple</span>
+<span class="sd">        Distance and periodic lattice translations</span>
 <span class="sd">        of the other site for which the distance applies. This means that</span>
 <span class="sd">        the distance between frac_coords1 and (jimage + frac_coords2) is</span>
 <span class="sd">        equal to distance.</span>
@@ -131,14 +142,14 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    structure : </span>
+<span class="sd">    structure : Structure</span>
 <span class="sd">        Structure object.</span>
 <span class="sd">    stdev : float</span>
 <span class="sd">        Standard deviation.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    (Structure)</span>
+<span class="sd">    structure : Structure</span>
 <span class="sd">        Structure with deformed lattice.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_random_strain</span><span class="p">(</span><span class="n">stdev</span><span class="p">):</span>
@@ -163,14 +174,24 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get distance vector between two sites assuming periodic boundary conditions.</span>
 <span class="sd">    Same as pymatgen.core.sites.Site.distance but returns a vector instead of norm.</span>
-<span class="sd">    Args:</span>
-<span class="sd">        other (PeriodicSite): Other site to get distance from.</span>
-<span class="sd">        jimage (3x1 array): Specific periodic image in terms of lattice</span>
-<span class="sd">            translations, e.g., [1,0,0] implies to take periodic image</span>
-<span class="sd">            that is one a-lattice vector away. If jimage is None,</span>
-<span class="sd">            the image that is nearest to the site is found.</span>
-<span class="sd">    Returns:</span>
-<span class="sd">        distance (float): Distance between the two sites</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    site 1 : PeriodicSite</span>
+<span class="sd">        PeriodicSite object</span>
+<span class="sd">    site 2 : PeriodicSite</span>
+<span class="sd">        PeriodicSite object</span>
+<span class="sd">    jimage : np.array</span>
+<span class="sd">        Specific periodic image in terms of lattice</span>
+<span class="sd">        translations, e.g., [1,0,0] implies to take periodic image</span>
+<span class="sd">        that is one a-lattice vector away. If jimage is None,</span>
+<span class="sd">        the image that is nearest to the site is found.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    distance : float</span>
+<span class="sd">        Distance between the two sites in A°.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_get_distance_vector_and_image</span><span class="p">(</span><span class="n">site1</span><span class="o">.</span><span class="n">lattice</span><span class="p">,</span> <span class="n">site1</span><span class="o">.</span><span class="n">frac_coords</span><span class="p">,</span> <span class="n">site2</span><span class="o">.</span><span class="n">frac_coords</span><span class="p">,</span><span class="n">jimage</span><span class="o">=</span><span class="n">jimage</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
@@ -184,13 +205,14 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    structures : </span>
+<span class="sd">    structures : list</span>
 <span class="sd">        list of Pymatgen Structure objects.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    (numpy ndarray)</span>
+<span class="sd">    displacements : np.array</span>
 <span class="sd">        Displacement vectors in cartesian coordinates.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">traj</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="o">.</span><span class="n">from_structures</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span><span class="n">constant_lattice</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="c1">#order of structures determines ref in traj</span>
     <span class="n">traj</span><span class="o">.</span><span class="n">to_displacements</span><span class="p">()</span>
@@ -206,13 +228,18 @@
 <span class="sd">    Get the indexes of atomic sites that are furthest away from the target site</span>
 <span class="sd">    and maximally spaced apart from each other, considering periodic boundary conditions.</span>
 
-<span class="sd">    Parameters:</span>
-<span class="sd">    - structure: pymatgen Structure object</span>
-<span class="sd">    - target_site: a pymatgen PeriodicSite or index of the target site in the structure</span>
-<span class="sd">    - species: list of species to find (ordered as given)</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    structure : Structure</span>
+<span class="sd">    target_site : (int or PeriodicSite)</span>
+<span class="sd">        PeriodicSite object or index of the target site in the structure</span>
+<span class="sd">    species : list </span>
+<span class="sd">        List of species to find.</span>
 
-<span class="sd">    Returns:</span>
-<span class="sd">    - List of indices corresponding to the furthest sites of the given species</span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    selected_indices : list</span>
+<span class="sd">        List of indices corresponding to the furthest sites of the given species</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target_site</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">target_site</span> <span class="o">=</span> <span class="n">structure</span><span class="p">[</span><span class="n">target_site</span><span class="p">]</span>
@@ -250,67 +277,6 @@
     <span class="k">return</span> <span class="n">selected_indices</span></div>
 
 
-<div class="viewcode-block" id="get_WarrenCowley_order_parameter">
-<a class="viewcode-back" href="../../../defermi.tools.structure.html#defermi.tools.structure.get_WarrenCowley_order_parameter">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">get_WarrenCowley_order_parameter</span><span class="p">(</span>
-                        <span class="n">structure</span><span class="p">,</span>
-                        <span class="n">A_symbols</span><span class="p">,</span>
-                        <span class="n">X_symbols</span><span class="p">,</span>
-                        <span class="n">neighbors_cutoff</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Compute Warren Cowley order parameter to describe mixing tendencies in alloys</span>
-
-<span class="sd">    The WC order parameter is computed as:</span>
-<span class="sd">                alpha_{A-X} = 1 - &lt; P_{A-X} &gt; / C_X</span>
-<span class="sd">    where:</span>
-<span class="sd">    - &lt;P_{A-X}&gt; is the avg probability of finding X near A, computed as:</span>
-<span class="sd">        &lt;P_{A-X}&gt; = n_X / n_total , n = number of nighbors of A</span>
-<span class="sd">        C_X = concentration of X in structure</span>
-<span class="sd">    </span>
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    structure:</span>
-<span class="sd">        Pymatgen Structure</span>
-<span class="sd">    A_symbols: (list)</span>
-<span class="sd">        List of element symbols to consider for A-site</span>
-<span class="sd">    X_symbols: (list)</span>
-<span class="sd">        List of element symbols to consider for X-site</span>
-<span class="sd">    neighbors_cutoff: (float)</span>
-<span class="sd">        Distance cutoff for neighbors counting</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    alpha: (float)</span>
-<span class="sd">        Warren-Cowley order parameter</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">total_P_AX</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">n_A_sites</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="n">n_X_sites</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">for</span> <span class="n">site</span> <span class="ow">in</span> <span class="n">structure</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">site</span><span class="o">.</span><span class="n">specie</span><span class="o">.</span><span class="n">symbol</span> <span class="ow">in</span> <span class="n">A_symbols</span><span class="p">:</span>
-            <span class="n">n_A_sites</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">neighbors_list</span> <span class="o">=</span> <span class="n">structure</span><span class="o">.</span><span class="n">get_neighbors</span><span class="p">(</span><span class="n">site</span><span class="p">,</span><span class="n">r</span><span class="o">=</span><span class="n">neighbors_cutoff</span><span class="p">)</span>
-            <span class="n">n_X_neighbors</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="n">n_total_neighbors</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">neighbor</span> <span class="ow">in</span> <span class="n">neighbors_list</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">neighbor</span><span class="o">.</span><span class="n">specie</span><span class="o">.</span><span class="n">symbol</span> <span class="ow">in</span> <span class="n">X_symbols</span><span class="p">:</span>
-                    <span class="n">n_X_neighbors</span> <span class="o">+=</span> <span class="mi">1</span>
-                    <span class="n">n_total_neighbors</span> <span class="o">+=</span> <span class="mi">1</span>
-                <span class="k">elif</span> <span class="n">neighbor</span><span class="o">.</span><span class="n">specie</span><span class="o">.</span><span class="n">symbol</span> <span class="ow">in</span> <span class="n">A_symbols</span><span class="p">:</span>
-                    <span class="n">n_total_neighbors</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">total_P_AX</span> <span class="o">+=</span> <span class="n">n_X_neighbors</span> <span class="o">/</span> <span class="n">n_total_neighbors</span>
-        <span class="k">elif</span> <span class="n">site</span><span class="o">.</span><span class="n">specie</span><span class="o">.</span><span class="n">symbol</span> <span class="ow">in</span> <span class="n">X_symbols</span><span class="p">:</span>
-            <span class="n">n_X_sites</span> <span class="o">+=</span> <span class="mi">1</span>
-
-    <span class="k">if</span> <span class="n">n_A_sites</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n_X_sites</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No A or X sites found to compute order parameter.&quot;</span><span class="p">)</span>
-
-    <span class="n">C_X</span> <span class="o">=</span> <span class="n">n_X_sites</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_A_sites</span> <span class="o">+</span> <span class="n">n_X_sites</span><span class="p">)</span>
-    <span class="n">avg_P_AX</span> <span class="o">=</span> <span class="n">total_P_AX</span> <span class="o">/</span> <span class="n">n_A_sites</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">avg_P_AX</span> <span class="o">/</span> <span class="n">C_X</span> 
-    <span class="k">return</span> <span class="n">alpha</span></div>
-
-
 
 <div class="viewcode-block" id="is_site_in_structure">
 <a class="viewcode-back" href="../../../defermi.tools.structure.html#defermi.tools.structure.is_site_in_structure">[docs]</a>
@@ -322,16 +288,16 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    site : (Site)</span>
+<span class="sd">    site : Site</span>
 <span class="sd">        PeriodicSite or Site object.</span>
-<span class="sd">    structure : (Structure)</span>
-<span class="sd">        Pymatgen Structure object.</span>
-<span class="sd">    tol : (float), optional</span>
+<span class="sd">    structure : Structure</span>
+<span class="sd">        Structure object.</span>
+<span class="sd">    tol : float</span>
 <span class="sd">        Tolerance for fractional coordinates. The default is 1e-03.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    is_site_in_structure : (bool)</span>
+<span class="sd">    is_site_in_structure : bool</span>
 <span class="sd">    index : (int)</span>
 <span class="sd">        Index of site in structure in case site is_site_in_structure returns True</span>
 <span class="sd">        If False index will be None.</span>
@@ -355,25 +321,25 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    site : (Site)</span>
+<span class="sd">    site : Site</span>
 <span class="sd">        PeriodicSite or Site object.</span>
-<span class="sd">    structure : (Structure)</span>
-<span class="sd">        Pymatgen Structure object.</span>
-<span class="sd">    tol : (float), optional</span>
-<span class="sd">        Tolerance for site comparison, normalized with respect to lattice size. </span>
-<span class="sd">        Default is 1e-03.</span>
-<span class="sd">    return_distance : (bool)</span>
-<span class="sd">        Return distance btw site coords and closest site in reference structure </span>
+<span class="sd">    structure : Structure</span>
+<span class="sd">        Structure object.</span>
+<span class="sd">    tol : float,</span>
+<span class="sd">        Tolerance for site comparison, normalized with respect to lattice size.</span>
+<span class="sd">    return_distance : bool</span>
+<span class="sd">        Return distance btw site coords and closest site in reference structure. </span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    is_site_in_structure_coords : (bool)</span>
+<span class="sd">    is_site_in_structure_coords : bool</span>
 <span class="sd">        Whether the site exists in the structure within tolerance.</span>
-<span class="sd">    index : (int or None)</span>
+<span class="sd">    index : int or None</span>
 <span class="sd">        Index of matching site in structure if found, otherwise None.</span>
-<span class="sd">    distance : (float)</span>
+<span class="sd">    distance : float</span>
+<span class="sd">        Distance btw site coords and closest site in reference structure.</span>
 <span class="sd">        Returned if return_distance is set to True. </span>
-<span class="sd">        distance btw site coords and closest site in reference structure.</span>
+<span class="sd">        </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Normalize tolerance with lattice vector size</span>
     <span class="n">l</span> <span class="o">=</span> <span class="n">site</span><span class="o">.</span><span class="n">lattice</span>
@@ -405,15 +371,21 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">rattle_atoms</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span><span class="n">stdev</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span><span class="n">seed</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Change randomly atomic positions. Uses the ASE.</span>
-<span class="sd">    Similar to the method &quot;perturb&quot; from the Structure class</span>
+<span class="sd">    Similar to the method &quot;perturb&quot; from the Structure class.</span>
+
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    structure :</span>
-<span class="sd">        Structure object</span>
+<span class="sd">    structure : Structure</span>
+<span class="sd">        Structure object.</span>
 <span class="sd">    stdev : float</span>
-<span class="sd">        Standard deviation</span>
+<span class="sd">        Standard deviation.</span>
 <span class="sd">    seed : int</span>
 <span class="sd">        Seed for random number generation passed to the Atoms.rattle method.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    structure : Structure</span>
+<span class="sd">        Structure with rattled atoms.    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">atoms</span> <span class="o">=</span> <span class="n">structure</span><span class="o">.</span><span class="n">to_ase_atoms</span><span class="p">()</span>
     <span class="n">atoms</span><span class="o">.</span><span class="n">rattle</span><span class="p">(</span><span class="n">stdev</span><span class="o">=</span><span class="n">stdev</span><span class="p">,</span><span class="n">seed</span><span class="o">=</span><span class="n">seed</span><span class="p">)</span>
@@ -425,7 +397,7 @@
 <a class="viewcode-back" href="../../../defermi.tools.structure.html#defermi.tools.structure.remove_oxidation_state_from_site">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">remove_oxidation_state_from_site</span><span class="p">(</span><span class="n">site</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Remove oxidation state decoration from site.</span>
+<span class="sd">    Remove `pymatgen` oxidation state decoration from Site.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">new_sp</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">el</span><span class="p">,</span> <span class="n">occu</span> <span class="ow">in</span> <span class="n">site</span><span class="o">.</span><span class="n">species</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -433,6 +405,7 @@
         <span class="n">new_sp</span><span class="p">[</span><span class="n">Element</span><span class="p">(</span><span class="n">sym</span><span class="p">)]</span> <span class="o">+=</span> <span class="n">occu</span>
     <span class="n">site</span><span class="o">.</span><span class="n">species</span> <span class="o">=</span> <span class="n">Composition</span><span class="p">(</span><span class="n">new_sp</span><span class="p">)</span>
     <span class="k">return</span></div>
+
 
 
 <div class="viewcode-block" id="sort_sites_to_ref_coords">
@@ -443,24 +416,23 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    structure : (Structure)</span>
+<span class="sd">    structure : Structure</span>
 <span class="sd">        Structure to sort.</span>
-<span class="sd">    structure_ref : (Structure)</span>
+<span class="sd">    structure_ref : Structure</span>
 <span class="sd">        Reference Structure.</span>
-<span class="sd">    extra_sites : (list), optional</span>
-<span class="sd">        Sites to append at the end of the structure. The default is [].</span>
-<span class="sd">    tol: (float)</span>
+<span class="sd">    extra_sites : list</span>
+<span class="sd">        Sites to append at the end of the structure.</span>
+<span class="sd">    tol: float</span>
 <span class="sd">        Tolerance for site comparison. The distance between sites in target and reference stucture is used, </span>
-<span class="sd">        periodicity is accounted for. The tolerance is normalized with respect to lattice vector size. </span>
-<span class="sd">        The default is 1e-03.</span>
-<span class="sd">    get_indexes : (bool), optional</span>
-<span class="sd">        Get list of mapping indexes for target structure sites in reference structure. The default is False.</span>
+<span class="sd">        periodicity is accounted for. The tolerance is normalized with respect to lattice vector size.</span>
+<span class="sd">    get_indexes : bool</span>
+<span class="sd">        Get list of mapping indexes for target structure sites in reference structure.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    new_structure : (Structure)</span>
-<span class="sd">        Sorted Structure</span>
-<span class="sd">    indexes : (list)</span>
+<span class="sd">    new_structure : Structure</span>
+<span class="sd">        Sorted Structure.</span>
+<span class="sd">    indexes : list</span>
 <span class="sd">        If get_indexes is True a tuple is returned. List of mapping indexes for target structure sites</span>
 <span class="sd">        in reference structure.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -508,18 +480,18 @@
 <a class="viewcode-back" href="../../../defermi.tools.structure.html#defermi.tools.structure.write_extxyz_file">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">write_extxyz_file</span><span class="p">(</span><span class="n">file</span><span class="p">,</span><span class="n">structure</span><span class="p">,</span><span class="n">structure_ref</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">displacements</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Write extxyz format. Displacements can be included for visualization in OVITO. </span>
+<span class="sd">    Write extxyz format. Displacements can be included for visualization. </span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    file : (str)</span>
+<span class="sd">    file : str</span>
 <span class="sd">        Path to save extxyz file to.</span>
-<span class="sd">    structure : (Structure)</span>
+<span class="sd">    structure : Structure</span>
 <span class="sd">        Structure to visualize.</span>
-<span class="sd">    structure_ref : (Structure)</span>
-<span class="sd">        Reference Structure if needed. The default is None.</span>
-<span class="sd">    displacements : (bool)</span>
-<span class="sd">        Include displacement vectors. The default is False.</span>
+<span class="sd">    structure_ref : Structure</span>
+<span class="sd">        Reference Structure if needed.</span>
+<span class="sd">    displacements : bool</span>
+<span class="sd">        Include displacement vectors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">atoms</span> <span class="o">=</span> <span class="n">structure</span><span class="o">.</span><span class="n">to_ase_atoms</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">displacements</span><span class="p">:</span>
@@ -537,6 +509,13 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">write_xdatcar_from_structures</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span><span class="n">file</span><span class="o">=</span><span class="s1">&#39;XDATCAR&#39;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Write XDATCAR file from a list of structures. The first structure determines the reference for the Trajectory object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    structures : list</span>
+<span class="sd">        List of Structure objects.</span>
+<span class="sd">    file : str</span>
+<span class="sd">        Path to write XDATCAR to.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">traj</span> <span class="o">=</span> <span class="n">Trajectory</span><span class="o">.</span><span class="n">from_structures</span><span class="p">(</span><span class="n">structures</span><span class="p">,</span><span class="n">constant_lattice</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">op</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">file</span><span class="p">)):</span>

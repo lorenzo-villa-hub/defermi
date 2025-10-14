@@ -39,8 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -87,15 +90,22 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Get value of attribute or method of a generic Object.</span>
 <span class="sd">    If feature is a single method only the string with the method&#39;s name is required.</span>
-<span class="sd">    If the target feature is stored in a dictionary (or dict of dictionaries), a list of this format needs to be provided:</span>
-<span class="sd">        [&quot;method_name&quot;,key1,key2,...] - This will identify the value of Object.method[key1][key2][...] .</span>
+<span class="sd">    If the target feature is stored in a dictionary (or dict of dictionaries), a list of</span>
+<span class="sd">    this format needs to be provided: [&quot;method_name&quot;,key1,key2,...]. </span>
+<span class="sd">        </span>
+<span class="sd">    This will identify the value of Object.method[key1][key2][...] .</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    obj : (object)</span>
+<span class="sd">    obj : object</span>
 <span class="sd">        Generic object.</span>
-<span class="sd">    feature : (str or list)</span>
+<span class="sd">    feature : str or list</span>
 <span class="sd">        Method or attribute of class for which the value is needed.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Object feature.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">feature</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
         <span class="n">method</span> <span class="o">=</span> <span class="n">feature</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
@@ -134,15 +144,16 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    object_class : (class)</span>
-<span class="sd">        Class of the object to decoder.</span>
-<span class="sd">    path_or_string : (str)</span>
+<span class="sd">    object_class : class</span>
+<span class="sd">        Class of the object to decode.</span>
+<span class="sd">    path_or_string : str</span>
 <span class="sd">        If an existing path to a file is given the object is constructed reading the json file.</span>
 <span class="sd">        Otherwise it will be read as a string.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    Decoded object.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">):</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
@@ -158,18 +169,20 @@
 <a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.save_object_as_json">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">save_object_as_json</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="n">sanitize</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="bp">cls</span><span class="o">=</span><span class="n">MontyEncoder</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Save class object as json string or file. The class must posses the &#39;as_dict&#39; method.</span>
+<span class="sd">    Save class object as json string or file. The class must posses the `as_dict` method.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    object: object of a class</span>
-<span class="sd">    path : (str)</span>
+<span class="sd">    object: object</span>
+<span class="sd">        Generic object. Must posses the `as_dict` method.</span>
+<span class="sd">    path : str</span>
 <span class="sd">        Path to the destination file.  If None a string is exported.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    d : (str)</span>
+<span class="sd">    d : str</span>
 <span class="sd">        If path is not set a string is returned.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">d</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">sanitize</span><span class="p">:</span>
@@ -187,28 +200,29 @@
 <a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.select_objects">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">select_objects</span><span class="p">(</span><span class="n">objects</span><span class="p">,</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;and&#39;</span><span class="p">,</span><span class="n">exclude</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">functions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Filter objects based on different criteria. Returns a list of objects.</span>
+<span class="sd">    Select objects from a list based on different criteria. Returns a list of objects.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    objects : (list)</span>
+<span class="sd">    objects : list</span>
 <span class="sd">        List of objects.</span>
-<span class="sd">    mode : (str), optional</span>
+<span class="sd">    mode : str</span>
 <span class="sd">        Filtering mode, possibilities are: &#39;and&#39; and &#39;or&#39;. The default is &#39;and&#39;. </span>
-<span class="sd">    exclude : (bool), optional</span>
+<span class="sd">    exclude : bool</span>
 <span class="sd">        Exclude the entries satisfying the criteria instead of selecting them. The default is False.</span>
-<span class="sd">    functions : (list), optional</span>
+<span class="sd">    functions : list</span>
 <span class="sd">        Functions containing criteria. The functions must take the object as the argument and</span>
 <span class="sd">        return a bool. </span>
-<span class="sd">    **kwargs : (dict)</span>
+<span class="sd">    kwargs : dict</span>
 <span class="sd">        Keys are methods/attributes the objects have. Values contain the criteria. </span>
 <span class="sd">        To address more than one condition relative to the same attribute,</span>
 <span class="sd">        use lists or tuples (e.g. charge=[0,1]).</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    output_objects : (list)</span>
+<span class="sd">    output_objects : list</span>
 <span class="sd">        List with selected objects.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>    
     <span class="n">selected_objects</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">entered_selection</span> <span class="o">=</span> <span class="kc">False</span>
@@ -264,17 +278,18 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    objects : (list)</span>
+<span class="sd">    objects : list</span>
 <span class="sd">        List of objects to sort.</span>
-<span class="sd">    features : (list)</span>
+<span class="sd">    features : list</span>
 <span class="sd">        List of features (see get_object_feature).</span>
-<span class="sd">    reverse : (bool)</span>
+<span class="sd">    reverse : bool</span>
 <span class="sd">        Reverse order.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    (list)</span>
+<span class="sd">    sorted_objects : list</span>
 <span class="sd">        Sorted objects.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">criteria</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
         <span class="n">criteria</span> <span class="o">=</span> <span class="p">[]</span>
@@ -295,30 +310,36 @@
 
 <div class="viewcode-block" id="convert_conc_from_weight_to_cm3">
 <a class="viewcode-back" href="../../../defermi.tools.utils.html#defermi.tools.utils.convert_conc_from_weight_to_cm3">[docs]</a>
-<span class="k">def</span><span class="w"> </span><span class="nf">convert_conc_from_weight_to_cm3</span><span class="p">(</span><span class="n">c_weight</span><span class="p">,</span><span class="n">target_el</span><span class="p">,</span><span class="n">composition</span><span class="p">,</span><span class="n">bulk_structure</span><span class="p">):</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_conc_from_weight_to_cm3</span><span class="p">(</span><span class="n">c_weight</span><span class="p">,</span><span class="n">target_el</span><span class="p">,</span><span class="n">composition</span><span class="p">,</span><span class="n">bulk_volume</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">bulk_structure</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convert concentration of dopand from weight % (common experimental data) to cm^-3.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    c_weight : (float)</span>
+<span class="sd">    c_weight : float</span>
 <span class="sd">        Defect concentration in weight %.</span>
-<span class="sd">    target_el : (str)</span>
+<span class="sd">    target_el : str</span>
 <span class="sd">        Symbol of target element.</span>
-<span class="sd">    composition : (Composition)</span>
-<span class="sd">        Composition (Pymatgen) of the material, uses only list of elements.</span>
-<span class="sd">    bulk_structure : (Structure)</span>
-<span class="sd">        Structure (Pymatgen) of bulk, needed for lattice volume.</span>
-
+<span class="sd">    composition : Composition</span>
+<span class="sd">        Composition of the material, uses only list of elements.</span>
+<span class="sd">    bulk_volume : float</span>
+<span class="sd">        Volume of bulk cell in A°^3.</span>
+<span class="sd">    bulk_structure : Structure</span>
+<span class="sd">        If `bulk_volume` is not provided, use the Structure object of</span>
+<span class="sd">        bulk material to optain the cell volume.</span>
+<span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    conc : (float)</span>
+<span class="sd">    conc : float</span>
 <span class="sd">        Concentration in cm-3^.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bulk_volume</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">bulk_structure</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You must provide either bulk_volume or bulk_structure&#39;</span><span class="p">)</span>
     <span class="n">sum_MM</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">el</span><span class="o">.</span><span class="n">atomic_mass</span> <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">composition</span><span class="o">.</span><span class="n">elements</span><span class="p">])</span>
     <span class="n">r_MM</span> <span class="o">=</span> <span class="n">Element</span><span class="p">(</span><span class="n">target_el</span><span class="p">)</span><span class="o">.</span><span class="n">atomic_mass</span> <span class="o">/</span> <span class="n">sum_MM</span>
-    <span class="n">conc</span> <span class="o">=</span> <span class="n">c_weight</span><span class="o">/</span><span class="n">r_MM</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="n">bulk_structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">volume</span> <span class="o">*</span> <span class="mf">1e24</span> <span class="o">*</span><span class="mf">0.01</span>
+    <span class="n">bulk_volume</span> <span class="o">=</span> <span class="n">bulk_volume</span> <span class="ow">or</span> <span class="n">bulk_structure</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">volume</span>
+    <span class="n">conc</span> <span class="o">=</span> <span class="n">c_weight</span><span class="o">/</span><span class="n">r_MM</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="n">bulk_volume</span> <span class="o">*</span> <span class="mf">1e24</span> <span class="o">*</span><span class="mf">0.01</span>
     <span class="k">return</span> <span class="n">conc</span></div>
 
 

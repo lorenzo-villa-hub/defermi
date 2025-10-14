@@ -39,8 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -96,7 +99,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        mobilities : (dict)</span>
+<span class="sd">        mobilities : dict</span>
 <span class="sd">            Dictionary with mobility values for the defect species in [cm^2/(V*s)].</span>
 <span class="sd">            Keys must contain &quot;electrons&quot;, &quot;holes&quot; and the defect species names.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -111,14 +114,14 @@
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        carrier_concentrations : (list)</span>
+<span class="sd">        carrier_concentrations : list</span>
 <span class="sd">            List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
-<span class="sd">        defect_concentrations : (list)</span>
+<span class="sd">        defect_concentrations : list</span>
 <span class="sd">            Defect concentrations in the same format as the output of DefectsAnalysis in cm^-3. </span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        sigma : (float)</span>
+<span class="sd">        sigma : float</span>
 <span class="sd">            Conductivity in S/m.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -148,13 +151,14 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        thermodata: (ThermoData)</span>
+<span class="sd">        thermodata: ThermoData</span>
 <span class="sd">            ThermoData object that contains the thermodynamic data.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        conductivities: (list)</span>
+<span class="sd">        conductivities: list</span>
 <span class="sd">            List with conductivity values in S/m.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">conductivities</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">thermodata</span><span class="o">.</span><span class="n">carrier_concentrations</span><span class="p">)):</span>
@@ -193,35 +197,38 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        defects_analysis : (DefectsAnalysis)</span>
+<span class="sd">        defects_analysis : DefectsAnalysis</span>
 <span class="sd">            DefectsAnalysis object.</span>
-<span class="sd">        bulk_dos: (dict or Dos)</span>
+<span class="sd">        bulk_dos : dict or Dos</span>
 <span class="sd">            Density of states to integrate. Can be provided as density of states D(E)</span>
 <span class="sd">            or using effective masses.</span>
-<span class="sd">            Format for effective masses:</span>
-<span class="sd">                dict with following keys:</span>
-<span class="sd">                    - &quot;m_eff_h&quot; : holes effective mass in units of m_e (electron mass)</span>
-<span class="sd">                    - &quot;m_eff_e&quot; : electrons effective mass in units of m_h          </span>
-<span class="sd">                    - `band_gap` needs to be provided in args</span>
-<span class="sd">            Formats for explicit DOS:</span>
-<span class="sd">                dictionary with following keys:</span>
-<span class="sd">                    - &#39;energies&#39; : list or np.array with energy values</span>
-<span class="sd">                    - &#39;densitites&#39; : list or np.array with total density values</span>
-<span class="sd">                    - &#39;structure&#39; : pymatgen Structure of the material, </span>
-<span class="sd">                                    needed for DOS volume and charge normalization.</span>
-<span class="sd">                or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</span>
-<span class="sd">        fixed_concentrations: (dict)</span>
+
+<span class="sd">            Format for effective masses is a dict with the following keys:</span>
+
+<span class="sd">            - &quot;m_eff_h&quot; : holes effective mass in units of m_e (electron mass)</span>
+<span class="sd">            - &quot;m_eff_e&quot; : electrons effective mass in units of m_h</span>
+<span class="sd">            - `band_gap` : needs to be provided in arguments</span>
+
+<span class="sd">            Format for explicit DOS (dictionary) with the following keys:</span>
+
+<span class="sd">            - &#39;energies&#39; : list or np.array with energy values</span>
+<span class="sd">            - &#39;densities&#39; : list or np.array with total density values</span>
+<span class="sd">            - &#39;structure&#39; : pymatgen Structure of the material, needed for DOS volume and charge normalization</span>
+
+<span class="sd">            Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).</span>
+
+<span class="sd">        fixed_concentrations: dict</span>
 <span class="sd">            Dictionary with fixed concentrations. Keys are defect entry names in the standard</span>
 <span class="sd">            format, values are the concentrations. (ex {&#39;Vac_Na&#39;:1e20}) </span>
-<span class="sd">        external_defects : (list)</span>
+<span class="sd">        external_defects : list</span>
 <span class="sd">            List of external defect concentrations (not present in defect entries).</span>
 <span class="sd">            Must either be a list of dictionaries with {&#39;charge&#39;: float, &#39;conc&#39;: float} </span>
 <span class="sd">            or a list of SingleDefConc objects. </span>
-<span class="sd">        xtol : (float)</span>
-<span class="sd">            Tolerance for bisect (scipy) to solve charge neutrality.</span>
-<span class="sd">        eform_kwargs : (dict)</span>
+<span class="sd">        xtol : float</span>
+<span class="sd">            Tolerance for `bisect` (scipy) to solve charge neutrality.</span>
+<span class="sd">        eform_kwargs : dict</span>
 <span class="sd">            Kwargs to pass to `entry.formation_energy`.</span>
-<span class="sd">        dconc_kwargs : (dict)</span>
+<span class="sd">        dconc_kwargs : dict</span>
 <span class="sd">            Kwargs to pass to `entry.defect_concentration`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">da</span> <span class="o">=</span> <span class="n">defects_analysis</span>
@@ -245,25 +252,27 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        reservoirs : (dict, Reservoirs or PressureReservoirs)</span>
+<span class="sd">        reservoirs : dict, Reservoirs or PressureReservoirs</span>
 <span class="sd">            Object with partial pressure values as keys and chempots dictionary as values.</span>
-<span class="sd">        temperature : (float), optional</span>
-<span class="sd">            Temperature in Kelvin. If None reservoirs.temperature is used. The default is None.</span>
-<span class="sd">        name : (str), optional</span>
+<span class="sd">        temperature : float</span>
+<span class="sd">            Temperature in Kelvin. If None reservoirs.temperature is used.</span>
+<span class="sd">        name : str</span>
 <span class="sd">            Name to assign to ThermoData.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        thermodata : (ThermoData)</span>
+<span class="sd">        thermodata : ThermoData</span>
 <span class="sd">            ThermoData object that contains the thermodynamic data:</span>
-<span class="sd">                partial_pressures : (list)</span>
-<span class="sd">                    List of partial pressure values in atm.</span>
-<span class="sd">                defect_concentrations : (list)</span>
-<span class="sd">                    List of DefectConcentrations objects (cm^-3)</span>
-<span class="sd">                carrier_concentrations : (list)</span>
-<span class="sd">                    List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
-<span class="sd">                fermi_levels : (list)</span>
-<span class="sd">                    list of Fermi level values in eV.</span>
+
+<span class="sd">            partial_pressures : (list)</span>
+<span class="sd">                List of partial pressure values in atm.</span>
+<span class="sd">            defect_concentrations : (list)</span>
+<span class="sd">                List of DefectConcentrations objects (cm^-3)</span>
+<span class="sd">            carrier_concentrations : (list)</span>
+<span class="sd">                List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
+<span class="sd">            fermi_levels : (list)</span>
+<span class="sd">                list of Fermi level values in eV.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">reservoirs</span>
         <span class="k">if</span> <span class="n">temperature</span><span class="p">:</span>
@@ -316,33 +325,36 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        reservoirs : (dict, Reservoirs or PressureReservoirs)</span>
+<span class="sd">        reservoirs : dict, Reservoirs or PressureReservoirs</span>
 <span class="sd">            Object with partial pressure values as keys and chempots dictionary as values.</span>
-<span class="sd">        initial_temperature : (float)</span>
-<span class="sd">            Value of initial temperature (K).</span>
-<span class="sd">        final_temperature : (float)</span>
-<span class="sd">            Value of final temperature (K).</span>
-<span class="sd">        quenched_species : (list), optional</span>
+<span class="sd">        initial_temperature : float</span>
+<span class="sd">            Value of initial temperature in K.</span>
+<span class="sd">        final_temperature : float</span>
+<span class="sd">            Value of final temperature in K.</span>
+<span class="sd">        quenched_species : list</span>
 <span class="sd">            List of defect species to quench. If None all defect species are quenched.The default is None.</span>
-<span class="sd">        quench_elements : (bool)</span>
+<span class="sd">        quench_elements : bool</span>
 <span class="sd">            If True the total concentrations of elements at high temperature go in the charge neutrality at low temperature.</span>
 <span class="sd">            If False the quenched concentrations are the ones of single defect species (e.g. elements are not allowed</span>
 <span class="sd">            to equilibrate on different sites). The default is False.</span>
-<span class="sd">        name : (str), optional</span>
+<span class="sd">        name : str</span>
 <span class="sd">            Name to assign to ThermoData.</span>
 <span class="sd">            </span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        thermodata : (ThermoData)</span>
+<span class="sd">        thermodata : ThermoData</span>
 <span class="sd">            ThermoData object that contains the thermodynamic data:</span>
-<span class="sd">                partial_pressures : (list)</span>
-<span class="sd">                    List of partial pressure values in atm.</span>
-<span class="sd">                defect_concentrations : (list)</span>
-<span class="sd">                    List of DefectConcentrations objects (cm^-3)</span>
-<span class="sd">                carrier_concentrations : (list)</span>
-<span class="sd">                    List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
-<span class="sd">                fermi_levels : (list)</span>
-<span class="sd">                    list of Fermi level values in eV.</span>
+
+<span class="sd">            partial_pressures : (list)</span>
+<span class="sd">                List of partial pressure values in atm.</span>
+<span class="sd">            defect_concentrations : (list)</span>
+<span class="sd">                List of DefectConcentrations objects (cm^-3)</span>
+<span class="sd">            carrier_concentrations : (list)</span>
+<span class="sd">                List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
+<span class="sd">            fermi_levels : (list)</span>
+<span class="sd">                list of Fermi level values in eV.</span>
+
+
 <span class="sd">        &quot;&quot;&quot;</span>        
         <span class="n">res</span> <span class="o">=</span> <span class="n">reservoirs</span>
         <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="s1">&#39;temperature&#39;</span><span class="p">):</span>
@@ -393,34 +405,36 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        chemical_potentials : (Chempots)</span>
+<span class="sd">        chemical_potentials : dict or Chempots</span>
 <span class="sd">            Chempots object containing chemical potentials.</span>
-<span class="sd">        temperature : (int)</span>
-<span class="sd">            Temperature.</span>
-<span class="sd">        fixed_concentrations: (dict)</span>
+<span class="sd">        temperature : int</span>
+<span class="sd">            Temperature in K.</span>
+<span class="sd">        fixed_concentrations: dict</span>
 <span class="sd">            Dictionary with fixed concentrations. Keys are defect entry names in the standard</span>
 <span class="sd">            format, values are the concentrations. (ex {&#39;Vac_Na&#39;:1e20}) </span>
-<span class="sd">        external_defects : (list)</span>
+<span class="sd">        external_defects : list</span>
 <span class="sd">            List of external defect concentrations (not present in defect entries).</span>
 <span class="sd">            Must either be a list of dictionaries with {&#39;charge&#39;: float, &#39;conc&#39;: float} </span>
 <span class="sd">            or a list of SingleDefConc objects. </span>
-<span class="sd">        name : (str)</span>
-<span class="sd">            Label for ThermoData. The default is None.</span>
-<span class="sd">        eform_kwargs : (dict)</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Label for ThermoData.</span>
+<span class="sd">        eform_kwargs : dict</span>
 <span class="sd">            Kwargs to pass to `entry.formation_energy`.</span>
-<span class="sd">        dconc_kwargs : (dict)</span>
+<span class="sd">        dconc_kwargs : dict</span>
 <span class="sd">            Kwargs to pass to `entry.defect_concentration`.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        thermodata : (ThermoData)</span>
+<span class="sd">        thermodata : ThermoData</span>
 <span class="sd">            ThermoData object that contains the thermodynamic data:</span>
-<span class="sd">                defect_concentrations : (DefectConcentrations)</span>
-<span class="sd">                    DefectConcentrations object (cm^-3).</span>
-<span class="sd">                carrier_concentrations : (tuple)</span>
-<span class="sd">                    Tuple with intrinsic carriers concentrations in cm^-3 (holes,electrons).</span>
-<span class="sd">                fermi_levels : (float)</span>
-<span class="sd">                    Fermi level value in eV.</span>
+
+<span class="sd">            defect_concentrations : (DefectConcentrations)</span>
+<span class="sd">                DefectConcentrations object (cm^-3).</span>
+<span class="sd">            carrier_concentrations : (tuple)</span>
+<span class="sd">                Tuple with intrinsic carriers concentrations in cm^-3 (holes,electrons).</span>
+<span class="sd">            fermi_levels : (float)</span>
+<span class="sd">                Fermi level value in eV.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">dos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bulk_dos</span>
         <span class="n">fixed_df</span> <span class="o">=</span> <span class="n">fixed_concentrations</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_concentrations</span>
@@ -480,38 +494,40 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        chemical_potentials : (Chempots)</span>
+<span class="sd">        chemical_potentials : dict or Chempots</span>
 <span class="sd">            Chempots object containing chemical potentials.</span>
-<span class="sd">        initial_temperature : (float)</span>
-<span class="sd">            Value of initial temperature (K).</span>
-<span class="sd">        final_temperature : (float)</span>
-<span class="sd">            Value of final temperature (K).</span>
-<span class="sd">        quenched_species : (list), optional</span>
-<span class="sd">            List of defect species to quench. If None all defect species are quenched.The default is None.</span>
-<span class="sd">        quench_elements : (bool)</span>
+<span class="sd">        initial_temperature : float</span>
+<span class="sd">            Initial temperature in K.</span>
+<span class="sd">        final_temperature : float</span>
+<span class="sd">            Final temperature in K</span>
+<span class="sd">        quenched_species : list</span>
+<span class="sd">            List of defect species to quench. If None all defect species are quenched.</span>
+<span class="sd">        quench_elements : bool</span>
 <span class="sd">            If True the total concentrations of elements at high temperature go in the charge neutrality at low temperature.</span>
 <span class="sd">            If False the quenched concentrations are the ones of single defect species (e.g. elements are not allowed</span>
-<span class="sd">            to equilibrate on different sites). The default is False.</span>
-<span class="sd">        fixed_concentrations: (dict)</span>
+<span class="sd">            to equilibrate on different sites).</span>
+<span class="sd">        fixed_concentrations : dict</span>
 <span class="sd">            Dictionary with fixed concentrations. Keys are defect entry names in the standard</span>
 <span class="sd">            format, values are the concentrations. (ex {&#39;Vac_Na&#39;:1e20}) </span>
-<span class="sd">        external_defects : (list)</span>
+<span class="sd">        external_defects : list</span>
 <span class="sd">            List of external defect concentrations (not present in defect entries).</span>
 <span class="sd">            Must either be a list of dictionaries with {&#39;charge&#39;: float, &#39;conc&#39;: float} </span>
 <span class="sd">            or a list of SingleDefConc objects. </span>
-<span class="sd">        name : (str)</span>
-<span class="sd">            Label for ThermoData. The default is None.</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Label for ThermoData.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        thermodata : (ThermoData)</span>
+<span class="sd">        thermodata : ThermoData</span>
 <span class="sd">            ThermoData object that contains the thermodynamic data:</span>
-<span class="sd">                defect_concentrations : (DefectConcentrations)</span>
-<span class="sd">                    DefectConcentrations object (cm^-3).</span>
-<span class="sd">                carrier_concentrations : (tuple)</span>
-<span class="sd">                    Tuple with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
-<span class="sd">                fermi_levels : (float)</span>
-<span class="sd">                    Fermi level value in eV.</span>
+
+<span class="sd">            defect_concentrations : (DefectConcentrations)</span>
+<span class="sd">                DefectConcentrations object (cm^-3).</span>
+<span class="sd">            carrier_concentrations : (tuple)</span>
+<span class="sd">                Tuple with intrinsic carriers concentrations in cm^-3 (holes,electrons).</span>
+<span class="sd">            fermi_levels : (float)</span>
+<span class="sd">                Fermi level value in eV.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">fixed_df</span> <span class="o">=</span> <span class="n">fixed_concentrations</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_concentrations</span>
         <span class="n">ext_df</span> <span class="o">=</span> <span class="n">external_defects</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">external_defects</span>
@@ -590,39 +606,45 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        variable_defect_specie : (str or dict)</span>
+<span class="sd">        variable_defect_specie : str or dict</span>
+
 <span class="sd">            Variable species. Possible formats are:</span>
+
 <span class="sd">            - str: name or element, if the variable defect species is in defect entries.</span>
 <span class="sd">            - dict : {&#39;name&#39;:str,&#39;charge&#39;:int or float} if the variable species is not in defect entries. </span>
-<span class="sd">        concentration_range : (tuple or list)</span>
-<span class="sd">            Logaritmic range of the concentration of the variable species in cm^-3 (ex. [1,20]).</span>
-<span class="sd">        chemical_potentials : (Chempots)</span>
+
+<span class="sd">        concentration_range : tuple or list</span>
+<span class="sd">            Range of the concentration of the variable species in cm^-3.</span>
+<span class="sd">        chemical_potentials : dict or Chempots</span>
 <span class="sd">            Chempots object containing chemical potentials.</span>
-<span class="sd">        temperature : (float)</span>
+<span class="sd">        temperature : float</span>
 <span class="sd">            Temperature.</span>
-<span class="sd">        npoints : (int), optional</span>
-<span class="sd">            Number of points to divide concentration range. The default is 50.</span>
-<span class="sd">        external_defects : (list)</span>
+<span class="sd">        npoints : int</span>
+<span class="sd">            Number of points to divide concentration range.</span>
+<span class="sd">        external_defects : list</span>
 <span class="sd">            List of external defect concentrations (not present in defect entries).</span>
 <span class="sd">            Must either be a list of dictionaries with {&#39;charge&#39;: float, &#39;conc&#39;: float} </span>
 <span class="sd">            or a list of SingleDefConc objects. </span>
-<span class="sd">        name : (str), optional</span>
-<span class="sd">            Label for ThermoData. The default is None.</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Label for ThermoData.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        thermodata : (ThermoData)</span>
+<span class="sd">        thermodata : ThermoData</span>
+
 <span class="sd">            ThermoData object that contains the thermodynamic data:</span>
-<span class="sd">                variable_defect_specie : (str)</span>
-<span class="sd">                    Name of variable defect species.</span>
-<span class="sd">                variable_concentrations : (list)</span>
-<span class="sd">                    List of concentrations of variable species. </span>
-<span class="sd">                defect_concentrations : (list or dict)</span>
-<span class="sd">                    Defect concentrations in the same format as the output of DefectsAnalysis. </span>
-<span class="sd">                carrier_concentrations : (list)</span>
-<span class="sd">                    List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
-<span class="sd">                fermi_levels : (list)</span>
-<span class="sd">                    List of Fermi level values in eV.</span>
+
+<span class="sd">            variable_defect_specie : (str)</span>
+<span class="sd">                Name of variable defect species.</span>
+<span class="sd">            variable_concentrations : (list)</span>
+<span class="sd">                List of concentrations of variable species. </span>
+<span class="sd">            defect_concentrations : (list)</span>
+<span class="sd">                List of DefectConcentrations objects in the same format as the output of DefectsAnalysis. </span>
+<span class="sd">            carrier_concentrations : (list)</span>
+<span class="sd">                List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
+<span class="sd">            fermi_levels : (list)</span>
+<span class="sd">                List of Fermi level values in eV.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">carrier_concentrations</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">defect_concentrations</span> <span class="o">=</span> <span class="p">[]</span>
@@ -683,47 +705,53 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        variable_defect_specie : (str or dict)</span>
+<span class="sd">        variable_defect_specie : str or dict</span>
+
 <span class="sd">            Variable species. Possible formats are:</span>
+
 <span class="sd">            - str: name or element, if the variable defect species is in defect entries.</span>
 <span class="sd">            - dict : {&#39;name&#39;:str,&#39;charge&#39;:int or float} if the variable species is not in defect entries. </span>
-<span class="sd">        concentration_range : (tuple or list)</span>
+<span class="sd">        </span>
+<span class="sd">        concentration_range : tuple or list</span>
 <span class="sd">            Range of the concentration of the variable species in cm^-3.</span>
-<span class="sd">        chemical_potentials : (Chempots)</span>
+<span class="sd">        chemical_potentials : dict or Chempots</span>
 <span class="sd">            Chempots object containing chemical potentials.</span>
-<span class="sd">        initial_temperature : (float)</span>
-<span class="sd">            Value of initial temperature (K).</span>
-<span class="sd">        final_temperature : (float)</span>
-<span class="sd">            Value of final temperature (K).</span>
-<span class="sd">        quenched_species : (list), optional</span>
-<span class="sd">            List of defect species to quench. If None all defect species are quenched.The default is None.</span>
-<span class="sd">        quench_elements : (bool)</span>
+<span class="sd">        initial_temperature : float</span>
+<span class="sd">            Value of initial temperature in K.</span>
+<span class="sd">        final_temperature : float</span>
+<span class="sd">            Value of final temperature in K.</span>
+<span class="sd">        quenched_species : list</span>
+<span class="sd">            List of defect species to quench. If None all defect species are quenched.</span>
+<span class="sd">        quench_elements : bool</span>
 <span class="sd">            If True the total concentrations of elements at high temperature go in the charge neutrality at low temperature.</span>
 <span class="sd">            If False the quenched concentrations are the ones of single defect species (e.g. elements are not allowed</span>
-<span class="sd">            to equilibrate on different sites). The default is False.</span>
-<span class="sd">        external_defects : (list)</span>
+<span class="sd">            to equilibrate on different sites).</span>
+<span class="sd">        external_defects : list</span>
 <span class="sd">            List of external defect concentrations (not present in defect entries).</span>
 <span class="sd">            Must either be a list of dictionaries with {&#39;charge&#39;: float, &#39;conc&#39;: float} </span>
 <span class="sd">            or a list of SingleDefConc objects. </span>
-<span class="sd">        npoints : (int), optional</span>
-<span class="sd">            Number of points to divide concentration range. The default is 50.</span>
-<span class="sd">        name : (str), optional</span>
+<span class="sd">        npoints : int</span>
+<span class="sd">            Number of points to divide concentration range.</span>
+<span class="sd">        name : str</span>
 <span class="sd">            Name to assign to ThermoData.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        thermodata : (ThermoData)</span>
+<span class="sd">        thermodata : ThermoData</span>
+
 <span class="sd">            ThermoData object that contains the thermodynamic data:</span>
-<span class="sd">                variable_defect_specie : (str)</span>
-<span class="sd">                    Name of variable defect species.</span>
-<span class="sd">                variable_concentrations : (list)</span>
-<span class="sd">                    List of concentrations of variable species. </span>
-<span class="sd">                defect_concentrations : (list or dict)</span>
-<span class="sd">                    Defect concentrations in the same format as the output of DefectsAnalysis. </span>
-<span class="sd">                carrier_concentrations : (list)</span>
-<span class="sd">                    List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
-<span class="sd">                fermi_levels : (list)</span>
-<span class="sd">                    List of Fermi level values in eV.</span>
+
+<span class="sd">            variable_defect_specie : (str)</span>
+<span class="sd">                Name of variable defect species.</span>
+<span class="sd">            variable_concentrations : (list)</span>
+<span class="sd">                List of concentrations of variable species. </span>
+<span class="sd">            defect_concentrations : (list)</span>
+<span class="sd">                List of DefectConcentrations objects in the same format as the output of DefectsAnalysis. </span>
+<span class="sd">            carrier_concentrations : (list)</span>
+<span class="sd">                List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
+<span class="sd">            fermi_levels : (list)</span>
+<span class="sd">                List of Fermi level values in eV.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">carrier_concentrations</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">defect_concentrations</span> <span class="o">=</span> <span class="p">[]</span>
@@ -778,29 +806,32 @@
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        thermodata : (dict)</span>
+<span class="sd">        thermodata : dict</span>
 <span class="sd">            Dict that contains the thermodynamic data, typically output from </span>
-<span class="sd">            ConcentrationAnalysis and PressureAnalysis class.</span>
+<span class="sd">            the methods in the `DefectThermodynamics` class.</span>
 <span class="sd">            Keys of the dict are set as attributes of ThermoData.</span>
-<span class="sd">            The items of the dict usually can be:</span>
-<span class="sd">                partial_pressures : (list)</span>
-<span class="sd">                    List of partial pressure values.</span>
-<span class="sd">                variable_defect_specie : (str)</span>
-<span class="sd">                    Name of variable defect species.</span>
-<span class="sd">                variable_concentrations : (list)</span>
-<span class="sd">                    List of concentrations of variable species. </span>
-<span class="sd">                defect_concentrations : (list)</span>
-<span class="sd">                    List of DefectConcentrations objects (cm^-3).</span>
-<span class="sd">                carrier_concentrations : (list)</span>
-<span class="sd">                    List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
-<span class="sd">                conductivities : (list)</span>
-<span class="sd">                    List of conductivity values (in S/m).</span>
-<span class="sd">                fermi_levels : (list)</span>
-<span class="sd">                    list of Fermi level values in eV.</span>
-<span class="sd">        temperature : (float), optional</span>
-<span class="sd">            Temperature in K at which the data is computed. The default is None.</span>
-<span class="sd">        name : (str), optional</span>
-<span class="sd">            Name to assign to ThermoData. The default is None.</span>
+
+<span class="sd">            The possible items are:</span>
+
+<span class="sd">            partial_pressures : (list)</span>
+<span class="sd">                List of partial pressure values.</span>
+<span class="sd">            variable_defect_specie : (str)</span>
+<span class="sd">                Name of variable defect species.</span>
+<span class="sd">            variable_concentrations : (list)</span>
+<span class="sd">                List of concentrations of variable species. </span>
+<span class="sd">            defect_concentrations : (list)</span>
+<span class="sd">                List of DefectConcentrations objects (cm^-3).</span>
+<span class="sd">            carrier_concentrations : (list)</span>
+<span class="sd">                List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.</span>
+<span class="sd">            conductivities : (list)</span>
+<span class="sd">                List of conductivity values (in S/m).</span>
+<span class="sd">            fermi_levels : (list)</span>
+<span class="sd">                list of Fermi level values in eV.</span>
+
+<span class="sd">        temperature : float</span>
+<span class="sd">            Temperature in K at which the data is computed.</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name to assign to ThermoData.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">thermodata</span>  
         <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="n">temperature</span> <span class="k">if</span> <span class="n">temperature</span> <span class="k">else</span> <span class="kc">None</span>
@@ -861,12 +892,12 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        path : (str), optional</span>
+<span class="sd">        path : str</span>
 <span class="sd">            Path to the destination file.  If None the name of ThermoData is used as filename.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        d : (str)</span>
+<span class="sd">        d : str</span>
 <span class="sd">            If path is not set a string is returned.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
@@ -886,11 +917,15 @@
 <span class="sd">        Reconstitute a ThermoData object from a dict representation created using</span>
 <span class="sd">        as_dict().</span>
 
-<span class="sd">        Args:</span>
-<span class="sd">            d (dict): dict representation of ThermoData.</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        d : dict </span>
+<span class="sd">            Dictionary representation of ThermoData.</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            ThermoData object</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ThermoData object.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="s1">&#39;thermodata&#39;</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">data</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;thermodata&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -915,7 +950,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        path_or_string : (str)</span>
+<span class="sd">        path_or_string : str</span>
 <span class="sd">            If an existing path to a file is given the object is constructed reading the json file.</span>
 <span class="sd">            Otherwise it will be read as a string.</span>
 
@@ -942,7 +977,7 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        p_values : (list)</span>
+<span class="sd">        p_values : list</span>
 <span class="sd">            List of partial pressure values.</span>
 
 <span class="sd">        Returns</span>
@@ -972,9 +1007,9 @@
     
 <div class="viewcode-block" id="ThermoData.set_data">
 <a class="viewcode-back" href="../../defermi.thermodynamics.html#defermi.thermodynamics.ThermoData.set_data">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">key</span><span class="p">,</span><span class="n">value</span><span class="p">):</span> <span class="c1"># chosen over __setitem__ to not accidentally overwrite data</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set data dictionary (chosen over __setitem__ to not override data by accident).</span>
+<span class="sd">        Set data dictionary.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>

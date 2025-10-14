@@ -39,8 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -106,44 +109,45 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    entries : (list) </span>
+<span class="sd">    entries : list </span>
 <span class="sd">        List of entries to calculate.</span>
-<span class="sd">    chemical_potentials : (dict)</span>
+<span class="sd">    chemical_potentials : dict</span>
 <span class="sd">        Dictionary with chemical potentials of the elements {&#39;element&#39;:chempot}.</span>
-<span class="sd">    vbm : (float)</span>
+<span class="sd">    vbm : float</span>
 <span class="sd">        Valence band maximum in eV.</span>
-<span class="sd">    band_gap : (float)</span>
+<span class="sd">    band_gap : float</span>
 <span class="sd">        Band gap of bulk material in eV.</span>
-<span class="sd">    temperature : (float)</span>
+<span class="sd">    temperature : float</span>
 <span class="sd">        Temperature in K. If no custom formation energy is provided, this arg has no effect. </span>
-<span class="sd">    xlim : (tuple)</span>
-<span class="sd">        Tuple (min,max) giving the range of the x (fermi energy) axis.</span>
-<span class="sd">    ylim : (tuple)</span>
-<span class="sd">        Tuple (min,max) giving the range for the formation energy axis.</span>
-<span class="sd">    title : (str)</span>
+<span class="sd">    xlim : tuple</span>
+<span class="sd">        Tuple giving the range of the x (fermi energy) axis.</span>
+<span class="sd">    ylim : tuple</span>
+<span class="sd">        Tuple giving the range for the formation energy axis.</span>
+<span class="sd">    title : str</span>
 <span class="sd">        Title of the figure.</span>
-<span class="sd">    fermi_level : (float)</span>
+<span class="sd">    fermi_level : float</span>
 <span class="sd">        Plot Fermi energy position with a vertical line.</span>
-<span class="sd">    grid : (bool)</span>
+<span class="sd">    grid : bool</span>
 <span class="sd">        Show grid.</span>
-<span class="sd">    figsize : (float or tuple)</span>
+<span class="sd">    figsize : float or tuple</span>
 <span class="sd">        Figure size.</span>
-<span class="sd">    fontsize : (float)</span>
+<span class="sd">    fontsize : float</span>
 <span class="sd">        Font size.</span>
-<span class="sd">    show_legend  : (Bool)</span>
+<span class="sd">    show_legend  : bool</span>
 <span class="sd">        Show legend.</span>
-<span class="sd">    format_legend : (bool)</span>
+<span class="sd">    format_legend : bool</span>
 <span class="sd">        Get latex-like legend based on the name of defect entries.</span>
-<span class="sd">    get_subplot : (bool)</span>
+<span class="sd">    get_subplot : bool</span>
 <span class="sd">        Get subplot.</span>
 <span class="sd">    subplot_settings:</span>
 <span class="sd">        List with integers for subplot setting on matplotlib (plt.subplot(nrows,ncolumns,index)). </span>
-<span class="sd">    eform_kwargs : (dict)</span>
+<span class="sd">    eform_kwargs : dict</span>
 <span class="sd">        Kwargs to pass to `entry.formation_energy`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        matplotlib object</span>
+<span class="sd">    matplotlib object</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefectsAnalysis</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
@@ -244,32 +248,33 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    entries : (list) </span>
+<span class="sd">    entries : list </span>
 <span class="sd">        List of entries to calculate.</span>
-<span class="sd">    vbm : (float)</span>
+<span class="sd">    vbm : float</span>
 <span class="sd">        Valence band maximum in eV.</span>
-<span class="sd">    band_gap : (float)</span>
+<span class="sd">    band_gap : float</span>
 <span class="sd">        Band gap of bulk material in eV.</span>
-<span class="sd">    temperature : (float)</span>
+<span class="sd">    temperature : float</span>
 <span class="sd">        Temperature in K. If no custom formation energy is provided, this arg has no effect.</span>
-<span class="sd">    names : (list)</span>
+<span class="sd">    names : list</span>
 <span class="sd">        List of strings with names of DefectEntry. If None, all defect complexes are plotted.</span>
-<span class="sd">    xlim : (tuple)</span>
-<span class="sd">        Tuple (min,max) giving the range of the x (fermi energy) axis</span>
-<span class="sd">    ylim : (tuple)</span>
-<span class="sd">        Tuple (min,max) giving the range for the formation energy axis</span>
-<span class="sd">    figsize : (tuple)</span>
+<span class="sd">    xlim : tuple</span>
+<span class="sd">        Tuple giving the range of the x (fermi energy) axis</span>
+<span class="sd">    ylim : tuple</span>
+<span class="sd">        Tuple giving the range for the formation energy axis</span>
+<span class="sd">    figsize : tuple</span>
 <span class="sd">        Figure size.</span>
-<span class="sd">    fontsize : (float)</span>
+<span class="sd">    fontsize : float</span>
 <span class="sd">        Font size.</span>
-<span class="sd">    format_legend : (bool)</span>
+<span class="sd">    format_legend : bool</span>
 <span class="sd">        Bool for getting latex-like legend based on the name of defect entries.</span>
-<span class="sd">    eform_kwargs : (dict)</span>
+<span class="sd">    eform_kwargs : dict</span>
 <span class="sd">        Kwargs to pass to `entry.formation_energy`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        matplotlib object</span>
+<span class="sd">    matplotlib object</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>         
     <span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefectsAnalysis</span>
     
@@ -338,32 +343,33 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    entries : (list) </span>
+<span class="sd">    entries : list</span>
 <span class="sd">        List of entries to calculate.</span>
-<span class="sd">    vbm : (float)</span>
+<span class="sd">    vbm : float</span>
 <span class="sd">        Valence band maximum in eV.</span>
-<span class="sd">    band_gap : (float)</span>
+<span class="sd">    band_gap : float</span>
 <span class="sd">        Band gap of bulk material in eV.</span>
-<span class="sd">    temperature : (float)</span>
+<span class="sd">    temperature : float</span>
 <span class="sd">        Temperature in K. If no custom formation energy is provided, this arg has no effect.</span>
-<span class="sd">    ylim : (tuple)</span>
+<span class="sd">    ylim : tuple</span>
 <span class="sd">        y-axis limits.</span>
-<span class="sd">    figsize : (tuple)</span>
+<span class="sd">    figsize : tuple</span>
 <span class="sd">        Figure size.</span>
-<span class="sd">    fontsize : (float)</span>
+<span class="sd">    fontsize : float</span>
 <span class="sd">        Font size.</span>
-<span class="sd">    fermi_level : (float)</span>
+<span class="sd">    fermi_level : float</span>
 <span class="sd">        Plot Fermi energy position.</span>
-<span class="sd">    format_legend : (bool)</span>
+<span class="sd">    format_legend : bool</span>
 <span class="sd">        Bool for getting latex-like legend based on the name of defect entries.</span>
-<span class="sd">    get_integers : (bool)</span>
+<span class="sd">    get_integers : bool</span>
 <span class="sd">        Get charge transition levels as integers.</span>
-<span class="sd">    eform_kwargs : (dict)</span>
+<span class="sd">    eform_kwargs : dict</span>
 <span class="sd">        Kwargs to pass to `entry.formation_energy`.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        matplotlib object    </span>
+<span class="sd">    matplotlib object</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>        
     <span class="kn">from</span><span class="w"> </span><span class="nn">.analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefectsAnalysis</span>
     
@@ -436,7 +442,6 @@
                             <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
                             <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
                             <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                            <span class="n">show_unstable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                             <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -444,42 +449,44 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    thermodata: (ThermoData)</span>
+<span class="sd">    thermodata: ThermoData</span>
 <span class="sd">        ThermoData object that contains the thermodynamic data:</span>
-<span class="sd">            partial_pressures : (list)</span>
-<span class="sd">                list with partial pressure values.</span>
-<span class="sd">            defect_concentrations : (list or dict)</span>
-<span class="sd">                Defect concentrations in the same format as the output of DefectsAnalysis. </span>
-<span class="sd">            carrier_concentrations : (list)</span>
-<span class="sd">                List of tuples with intrinsic carriers concentrations (holes,electrons).</span>
-<span class="sd">    output : (str)</span>
+
+<span class="sd">        partial_pressures : (list)</span>
+<span class="sd">            list with partial pressure values.</span>
+<span class="sd">        defect_concentrations : (list or dict)</span>
+<span class="sd">            Defect concentrations in the same format as the output of DefectsAnalysis. </span>
+<span class="sd">        carrier_concentrations : (list)</span>
+<span class="sd">            List of tuples with intrinsic carriers concentrations (holes,electrons).</span>
+
+<span class="sd">    output : str</span>
 <span class="sd">        Type of output for defect concentrations:</span>
-<span class="sd">            &quot;all&quot;: The output is the concentration of every defect entry.</span>
-<span class="sd">            &quot;stable&quot;: The output is the concentration of the stable charge for every defect at each fermi level point.</span>
-<span class="sd">            &quot;total&quot;: The output is the sum of the concentration in every charge for each specie.</span>
-<span class="sd">            The default is &#39;total&#39;.</span>
-<span class="sd">    figsize : (tuple)</span>
+
+<span class="sd">        - &quot;all&quot;: The output is the concentration of every defect entry.</span>
+<span class="sd">        - &quot;stable&quot;: The output is the concentration of the stable charge for every defect at each fermi level point.</span>
+<span class="sd">        - &quot;total&quot;: The output is the sum of the concentration in every charge for each specie.</span>
+
+<span class="sd">    figsize : tuple</span>
 <span class="sd">        Size of the matplotlib figure.</span>
-<span class="sd">    fontsize : (float)</span>
+<span class="sd">    fontsize : float</span>
 <span class="sd">        Size of font for matplotlib rcParams.</span>
-<span class="sd">    xlim : (tuple)</span>
+<span class="sd">    xlim : tuple</span>
 <span class="sd">        Range of x-axis.</span>
-<span class="sd">    ylim : (tuple)</span>
+<span class="sd">    ylim : tuple</span>
 <span class="sd">        Range of y-axis. </span>
-<span class="sd">    show_unstable : (bool)</span>
-<span class="sd">        Show regions where the system is unstable (at least one formation energy is negative).</span>
-<span class="sd">    colors : (list)</span>
+<span class="sd">    colors : list</span>
 <span class="sd">        List of colors to use for plotting with matplotlib. If None the defaults are used.</span>
-<span class="sd">    kwargs : </span>
-<span class="sd">        Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).</span>
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Kwargs to pass to `DefectConcentrations.filter_concentrations(**kwargs)`.</span>
 <span class="sd">        If provided, only the filtered concentrations will be plotted. If output</span>
 <span class="sd">        is set to &quot;total&quot;, only the filtered concentrations will be used to </span>
 <span class="sd">        compute the total concentration.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plt : </span>
+<span class="sd">    plt : matplotlib</span>
 <span class="sd">        Matplotlib object.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">td</span> <span class="o">=</span> <span class="n">thermodata</span>
     <span class="n">p</span><span class="p">,</span><span class="n">dc</span><span class="p">,</span><span class="n">cc</span> <span class="o">=</span> <span class="n">td</span><span class="o">.</span><span class="n">partial_pressures</span><span class="p">,</span><span class="n">td</span><span class="o">.</span><span class="n">defect_concentrations</span><span class="p">,</span><span class="n">td</span><span class="o">.</span><span class="n">carrier_concentrations</span>
@@ -494,7 +501,6 @@
                                 <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
                                 <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>
                                 <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span>
-                                <span class="n">show_unstable</span><span class="o">=</span><span class="n">show_unstable</span><span class="p">,</span>
                                 <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
                                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">plt</span></div>
@@ -516,26 +522,27 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    partial_pressures : (list)</span>
+<span class="sd">    partial_pressures : list</span>
 <span class="sd">        list with partial pressure values.</span>
-<span class="sd">    conductivities : (dict or list)</span>
+<span class="sd">    conductivities : dict or list</span>
 <span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and conductivity list</span>
 <span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
-<span class="sd">    new_figure : (bool)</span>
+<span class="sd">    new_figure : bool</span>
 <span class="sd">        Initialize a new matplotlib figure.</span>
-<span class="sd">    label : (str)</span>
+<span class="sd">    label : str</span>
 <span class="sd">        Label for the data.</span>
-<span class="sd">    figsize : (tuple)</span>
+<span class="sd">    figsize : tuple</span>
 <span class="sd">        Size of the matplotlib figure.</span>
-<span class="sd">    xlim : (tuple)</span>
+<span class="sd">    xlim : tuple</span>
 <span class="sd">        Range of x-axis.</span>
-<span class="sd">    ylim : (tuple)</span>
+<span class="sd">    ylim : tuple</span>
 <span class="sd">        Range of y-axis.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plt : </span>
+<span class="sd">    plt : matplotlib</span>
 <span class="sd">        Matplotlib object.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Oxygen partial pressure (atm)&#39;</span>
     <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_x_vs_conductivity</span><span class="p">(</span>
@@ -569,30 +576,31 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    partial_pressures : (list)</span>
+<span class="sd">    partial_pressures : list</span>
 <span class="sd">        list with partial pressure values.</span>
-<span class="sd">    fermi_levels : (dict or list)</span>
+<span class="sd">    fermi_levels : dict or list</span>
 <span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and fermi level list</span>
 <span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
-<span class="sd">    band_gap : (float)</span>
+<span class="sd">    band_gap : float</span>
 <span class="sd">        Band gap of the bulk material.</span>
-<span class="sd">    new_figure : (bool)</span>
+<span class="sd">    new_figure : bool</span>
 <span class="sd">        Initialize a new matplotlib figure.</span>
-<span class="sd">    label : (str)</span>
+<span class="sd">    label : str</span>
 <span class="sd">        Label for the data.</span>
-<span class="sd">    figsize : (tuple)</span>
+<span class="sd">    figsize : tuple</span>
 <span class="sd">        Size of the matplotlib figure.</span>
-<span class="sd">    xlim : (tuple)</span>
+<span class="sd">    xlim : tuple</span>
 <span class="sd">        Range of x-axis.</span>
-<span class="sd">    ylim : (tuple)</span>
+<span class="sd">    ylim : tuple</span>
 <span class="sd">        Range of y-axis.</span>
-<span class="sd">    colors : (list)</span>
+<span class="sd">    colors : list</span>
 <span class="sd">        List with colors for Fermi level data.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plt : </span>
+<span class="sd">    plt : matplotlib</span>
 <span class="sd">        Matplotlib object.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;Oxygen partial pressure (atm)&#39;</span>
     <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_x_vs_fermi_level</span><span class="p">(</span>
@@ -619,7 +627,6 @@
                                         <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
                                         <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
                                         <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                                        <span class="n">show_unstable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                                         <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                         <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -627,43 +634,42 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    thermodata: (ThermoData)</span>
+<span class="sd">    thermodata: ThermoData</span>
 <span class="sd">        ThermoData object that contains the thermodynamic data:</span>
-<span class="sd">            variable_defect_specie : (str)</span>
-<span class="sd">                Name of variable defect species.</span>
-<span class="sd">            variable_concentrations : (list)</span>
-<span class="sd">                List of concentrations of variable species. </span>
-<span class="sd">            defect_concentrations : (list or dict)</span>
-<span class="sd">                Defect concentrations in the same format as the output of DefectsAnalysis. </span>
-<span class="sd">            carrier_concentrations : (list)</span>
-<span class="sd">                List of tuples with intrinsic carriers concentrations (holes,electrons).</span>
-<span class="sd">    output : (str)</span>
+
+<span class="sd">        partial_pressures : (list)</span>
+<span class="sd">            list with partial pressure values.</span>
+<span class="sd">        defect_concentrations : (list or dict)</span>
+<span class="sd">            Defect concentrations in the same format as the output of DefectsAnalysis. </span>
+<span class="sd">        carrier_concentrations : (list)</span>
+<span class="sd">            List of tuples with intrinsic carriers concentrations (holes,electrons).</span>
+
+<span class="sd">    output : str</span>
 <span class="sd">        Type of output for defect concentrations:</span>
-<span class="sd">            &quot;all&quot;: The output is the concentration of every defect entry.</span>
-<span class="sd">            &quot;stable&quot;: The output is the concentration of the stable charge for every defect at each fermi level point.</span>
-<span class="sd">            &quot;total&quot;: The output is the sum of the concentration in every charge for each specie.</span>
-<span class="sd">            The default is &#39;total&#39;.</span>
-<span class="sd">    figsize : (tuple)</span>
+
+<span class="sd">        - &quot;all&quot;: The output is the concentration of every defect entry.</span>
+<span class="sd">        - &quot;stable&quot;: The output is the concentration of the stable charge for every defect at each fermi level point.</span>
+<span class="sd">        - &quot;total&quot;: The output is the sum of the concentration in every charge for each specie.</span>
+
+<span class="sd">    figsize : tuple</span>
 <span class="sd">        Size of the matplotlib figure.</span>
-<span class="sd">    fontsize : (float)</span>
+<span class="sd">    fontsize : float</span>
 <span class="sd">        Size of font for matplotlib rcParams.</span>
-<span class="sd">    xlim : (tuple)</span>
+<span class="sd">    xlim : tuple</span>
 <span class="sd">        Range of x-axis.</span>
-<span class="sd">    ylim : (tuple)</span>
+<span class="sd">    ylim : tuple</span>
 <span class="sd">        Range of y-axis.</span>
-<span class="sd">    show_unstable : (bool)</span>
-<span class="sd">        Show regions where the system is unstable (at least one formation energy is negative).</span>
-<span class="sd">    colors : (list)</span>
+<span class="sd">    colors : list</span>
 <span class="sd">        List of colors to use for plotting with matplotlib. If None the defaults are used.</span>
-<span class="sd">    kwargs : </span>
-<span class="sd">        Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).</span>
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Kwargs to pass to `DefectConcentrations.filter_concentrations(**kwargs)`.</span>
 <span class="sd">        If provided, only the filtered concentrations will be plotted. If output</span>
 <span class="sd">        is set to &quot;total&quot;, only the filtered concentrations will be used to </span>
 <span class="sd">        compute the total concentration.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plt : </span>
+<span class="sd">    plt : matplotlib</span>
 <span class="sd">        Matplotlib object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">td</span> <span class="o">=</span> <span class="n">thermodata</span>
@@ -681,7 +687,6 @@
                                 <span class="n">fontsize</span><span class="o">=</span><span class="n">fontsize</span><span class="p">,</span>
                                 <span class="n">xlim</span><span class="o">=</span><span class="n">xlim</span><span class="p">,</span>
                                 <span class="n">ylim</span><span class="o">=</span><span class="n">ylim</span><span class="p">,</span>
-                                <span class="n">show_unstable</span><span class="o">=</span><span class="n">show_unstable</span><span class="p">,</span>
                                 <span class="n">colors</span><span class="o">=</span><span class="n">colors</span><span class="p">,</span>
                                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">plt</span></div>
@@ -704,27 +709,27 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    xlabel : (str)</span>
+<span class="sd">    xlabel : str</span>
 <span class="sd">        Label for concentration axis (cm^-3 is added).</span>
-<span class="sd">    variable_concentrations : (list)</span>
+<span class="sd">    variable_concentrations : list</span>
 <span class="sd">        List of concentrations of variable species. </span>
-<span class="sd">    conductivities : (dict or list)</span>
+<span class="sd">    conductivities : dict or list</span>
 <span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and conductivity list</span>
 <span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
-<span class="sd">    new_figure : (bool)</span>
+<span class="sd">    new_figure : bool</span>
 <span class="sd">        Initialize a new matplotlib figure.</span>
-<span class="sd">    label : (str)</span>
+<span class="sd">    label : str</span>
 <span class="sd">        Label for the data.</span>
-<span class="sd">    figsize : (tuple)</span>
+<span class="sd">    figsize : tuple</span>
 <span class="sd">        Size of the matplotlib figure.</span>
-<span class="sd">    xlim : (tuple)</span>
+<span class="sd">    xlim : tuple</span>
 <span class="sd">        Range of x-axis.</span>
-<span class="sd">    ylim : (tuple)</span>
+<span class="sd">    ylim : tuple</span>
 <span class="sd">        Range of y-axis.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plt : </span>
+<span class="sd">    plt : matplotlib</span>
 <span class="sd">        Matplotlib object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (cm$^{-3})$&#39;</span> <span class="o">%</span><span class="n">xlabel</span>
@@ -759,32 +764,33 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    xlabel : (str)</span>
+<span class="sd">    xlabel : str</span>
 <span class="sd">        Label for concentration axis (cm^-3 is added).</span>
-<span class="sd">    variable_concentrations : (list)</span>
+<span class="sd">    variable_concentrations : list</span>
 <span class="sd">        List of concentrations of variable species. </span>
-<span class="sd">    fermi_levels : (dict or list)</span>
+<span class="sd">    fermi_levels : dict or list</span>
 <span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and fermi level list</span>
 <span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
-<span class="sd">    band_gap : (float)</span>
+<span class="sd">    band_gap : float</span>
 <span class="sd">        Band gap of the bulk material.</span>
-<span class="sd">    new_figure : (bool)</span>
+<span class="sd">    new_figure : bool</span>
 <span class="sd">        Initialize a new matplotlib figure.</span>
-<span class="sd">    label : (str)</span>
+<span class="sd">    label : str</span>
 <span class="sd">        Label for the data.</span>
-<span class="sd">    figsize : (tuple)</span>
+<span class="sd">    figsize : tuple</span>
 <span class="sd">        Size of the matplotlib figure.</span>
-<span class="sd">    xlim : (tuple)</span>
+<span class="sd">    xlim : tuple</span>
 <span class="sd">        Range of x-axis.</span>
-<span class="sd">    ylim : (tuple)</span>
+<span class="sd">    ylim : tuple</span>
 <span class="sd">        Range of y-axis.</span>
-<span class="sd">    colors : (list)</span>
+<span class="sd">    colors : list</span>
 <span class="sd">        List with colors for Fermi level data.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plt : </span>
+<span class="sd">    plt : matplotlib</span>
 <span class="sd">        Matplotlib object.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">xlabel</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> (cm$^{-3})$&#39;</span> <span class="o">%</span><span class="n">xlabel</span>
     <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_x_vs_fermi_level</span><span class="p">(</span>
@@ -815,7 +821,6 @@
                             <span class="n">fontsize</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span>
                             <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
                             <span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                            <span class="n">show_unstable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                             <span class="n">colors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -823,42 +828,42 @@
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x : (list)</span>
+<span class="sd">    x : list</span>
 <span class="sd">        List with data on x-axis.</span>
-<span class="sd">    xlabel : (str)</span>
+<span class="sd">    xlabel : str</span>
 <span class="sd">        Label for x-axis.</span>
-<span class="sd">    defect_concentrations : (list)</span>
+<span class="sd">    defect_concentrations : list</span>
 <span class="sd">        List of DefectConcentrations objects.</span>
-<span class="sd">    carrier_concentrations : (list)</span>
+<span class="sd">    carrier_concentrations : list</span>
 <span class="sd">        List of tuples with carrier concentrations (holes,electrons).</span>
-<span class="sd">        output : (str)</span>
-<span class="sd">            Type of output for defect concentrations:</span>
-<span class="sd">                &quot;all&quot;: The output is the concentration of every defect entry.</span>
-<span class="sd">                &quot;stable&quot;: The output is the concentration of the stable charge for every defect at each fermi level point.</span>
-<span class="sd">                &quot;total&quot;: The output is the sum of the concentration in every charge for each specie.</span>
-<span class="sd">                The default is &#39;total&#39;.</span>
-<span class="sd">        figsize : (tuple)</span>
-<span class="sd">            Size of the matplotlib figure.</span>
-<span class="sd">        fontsize : (float)</span>
-<span class="sd">            Size of font for matplotlib rcParams. </span>
-<span class="sd">        xlim : (tuple)</span>
-<span class="sd">            Range of x-axis. </span>
-<span class="sd">        ylim : (tuple)</span>
-<span class="sd">            Range of y-axis.</span>
-<span class="sd">        show_unstable : (bool)</span>
-<span class="sd">            Show regions where the system is unstable (at least one formation energy is negative).</span>
-<span class="sd">        colors : (list)</span>
-<span class="sd">            List of colors to use for plotting with matplotlib. If None the defaults are used.</span>
-<span class="sd">        kwargs : </span>
-<span class="sd">            Kwargs to pass to DefectConcentrations.filter_concentrations(**kwargs).</span>
-<span class="sd">            If provided, only the filtered concentrations will be plotted. If output</span>
-<span class="sd">            is set to &quot;total&quot;, only the filtered concentrations will be used to </span>
-<span class="sd">            compute the total concentration.</span>
+<span class="sd">    output : str</span>
+<span class="sd">        Type of output for defect concentrations:</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        plt : </span>
-<span class="sd">            Matplotlib object.</span>
+<span class="sd">        - &quot;all&quot;: The output is the concentration of every defect entry.</span>
+<span class="sd">        - &quot;stable&quot;: The output is the concentration of the stable charge for every defect at each fermi level point.</span>
+<span class="sd">        - &quot;total&quot;: The output is the sum of the concentration in every charge for each specie.</span>
+<span class="sd">        </span>
+<span class="sd">    figsize : tuple</span>
+<span class="sd">        Size of the matplotlib figure.</span>
+<span class="sd">    fontsize : float</span>
+<span class="sd">        Size of font for matplotlib rcParams. </span>
+<span class="sd">    xlim : tuple</span>
+<span class="sd">        Range of x-axis. </span>
+<span class="sd">    ylim : tuple</span>
+<span class="sd">        Range of y-axis.</span>
+<span class="sd">    colors : list</span>
+<span class="sd">        List of colors to use for plotting with matplotlib. If None the defaults are used.</span>
+<span class="sd">    kwargs : dict</span>
+<span class="sd">        Kwargs to pass to `DefectConcentrations.filter_concentrations(**kwargs)`.</span>
+<span class="sd">        If provided, only the filtered concentrations will be plotted. If output</span>
+<span class="sd">        is set to &quot;total&quot;, only the filtered concentrations will be used to </span>
+<span class="sd">        compute the total concentration.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    plt : matplotlib</span>
+<span class="sd">        Matplotlib object.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>        
     <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">22</span><span class="p">})</span>
     <span class="k">if</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;all&#39;</span> <span class="ow">or</span> <span class="n">output</span> <span class="o">==</span> <span class="s1">&#39;stable&#39;</span><span class="p">:</span>
@@ -909,28 +914,29 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x : (list)</span>
+<span class="sd">    x : list</span>
 <span class="sd">        List with data on x-axis.</span>
-<span class="sd">    xlabel : (str)</span>
+<span class="sd">    xlabel : str</span>
 <span class="sd">        Label for x-axis.</span>
-<span class="sd">    conductivities : (dict or list)</span>
+<span class="sd">    conductivities : dict or list</span>
 <span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and conductivity list</span>
 <span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
-<span class="sd">    new_figure : (bool)</span>
+<span class="sd">    new_figure : bool</span>
 <span class="sd">        Initialize a new matplotlib figure. </span>
-<span class="sd">    label : (str)</span>
+<span class="sd">    label : str</span>
 <span class="sd">        Label for the data.</span>
-<span class="sd">    figsize : (tuple)</span>
+<span class="sd">    figsize : tuple</span>
 <span class="sd">        Size of the matplotlib figure.</span>
-<span class="sd">    xlim : (tuple)</span>
+<span class="sd">    xlim : tuple</span>
 <span class="sd">        Range of x-axis.</span>
-<span class="sd">    ylim : (tuple)</span>
+<span class="sd">    ylim : tuple</span>
 <span class="sd">        Range of y-axis.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plt : </span>
+<span class="sd">    plt : matplotlib</span>
 <span class="sd">        Matplotlib object.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">22</span><span class="p">})</span>
     <span class="k">if</span> <span class="n">new_figure</span><span class="p">:</span>
@@ -972,32 +978,33 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    x : (list)</span>
+<span class="sd">    x : list</span>
 <span class="sd">        List with data on x-axis.</span>
-<span class="sd">    xlabel : (str)</span>
+<span class="sd">    xlabel : str</span>
 <span class="sd">        Label for x-axis.</span>
-<span class="sd">    fermi_levels : (dict or list)</span>
+<span class="sd">    fermi_levels : dict or list</span>
 <span class="sd">        If is a dict multiples lines will be plotted, with labels as keys and fermi level list</span>
 <span class="sd">        as values. If is a list only one line is plotted with label taken from the &quot;label&quot; argument.</span>
-<span class="sd">    band_gap : (float)</span>
+<span class="sd">    band_gap : float</span>
 <span class="sd">        Band gap of the bulk material.</span>
-<span class="sd">    new_figure : (bool)</span>
+<span class="sd">    new_figure : bool</span>
 <span class="sd">        Initialize a new matplotlib figure.</span>
-<span class="sd">    label : (str)</span>
+<span class="sd">    label : str</span>
 <span class="sd">        Label for the data.</span>
-<span class="sd">    figsize : (tuple)</span>
+<span class="sd">    figsize : tuple</span>
 <span class="sd">        Size of the matplotlib figure.</span>
-<span class="sd">    xlim : (tuple)</span>
+<span class="sd">    xlim : tuple</span>
 <span class="sd">        Range of x-axis. </span>
-<span class="sd">    ylim : (tuple)</span>
+<span class="sd">    ylim : tuple</span>
 <span class="sd">        Range of y-axis.</span>
-<span class="sd">    colors : (list),</span>
+<span class="sd">    colors : list,</span>
 <span class="sd">        List with colors for Fermi level data.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    plt : </span>
+<span class="sd">    plt : matplotlib</span>
 <span class="sd">        Matplotlib object.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ylim</span> <span class="o">=</span> <span class="n">ylim</span> <span class="k">if</span> <span class="n">ylim</span> <span class="k">else</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">band_gap</span><span class="o">+</span><span class="mf">0.5</span><span class="p">)</span>
     <span class="n">matplotlib</span><span class="o">.</span><span class="n">rcParams</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s1">&#39;font.size&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
@@ -1122,14 +1129,14 @@
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">concentrations</span><span class="p">,</span><span class="n">format_names</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Class to visualize concentrations dictionaries with pd.DataFrame and </span>
-<span class="sd">        pd.Series (fortotal concentrations).</span>
+<span class="sd">        pd.Series (for total concentrations).</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        concentrations : (list or dict)</span>
+<span class="sd">        concentrations : list or dict</span>
 <span class="sd">            Concentrations can be in different formats: list of dict for &quot;all&quot; and </span>
 <span class="sd">            &quot;stable_charges&quot; and dict for &quot;total&quot;.</span>
-<span class="sd">        format_names : (bool)</span>
+<span class="sd">        format_names : bool</span>
 <span class="sd">            Format names with latex symbols.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># to be fixed</span>
@@ -1176,25 +1183,26 @@
 <a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.DefectConcentrationsPlotter.plot_bar">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_bar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">conc_range</span><span class="o">=</span><span class="p">(</span><span class="mf">1e13</span><span class="p">,</span><span class="mf">1e40</span><span class="p">),</span><span class="n">ylim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">total</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ylabel_fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Bar plot of concentrations with pd.DataFrame.plot</span>
+<span class="sd">        Bar plot of concentrations with `pd.DataFrame.plot`</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        conc_range : (tuple)</span>
+<span class="sd">        conc_range : tuple</span>
 <span class="sd">            Range of concentrations to include in df.</span>
-<span class="sd">        ylim : (tuple)</span>
+<span class="sd">        ylim : tuple</span>
 <span class="sd">            Limit of y-axis in plot. If None conc_range is used.</span>
-<span class="sd">        total : (bool)</span>
+<span class="sd">        total : bool</span>
 <span class="sd">            plot total concentrations.</span>
-<span class="sd">        ylabel_fontsize : (int)</span>
+<span class="sd">        ylabel_fontsize : int</span>
 <span class="sd">            Size of the label for y-axis.</span>
-<span class="sd">        **kwargs : (dict)</span>
-<span class="sd">            Kwargs to pass to df.plot().</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Kwargs to pass to `df.plot`.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        plt : </span>
 <span class="sd">            Matplotlib object.</span>
+
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">conc_range</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">ylim</span><span class="p">:</span>
@@ -1218,19 +1226,20 @@
 <a class="viewcode-back" href="../../defermi.plotter.html#defermi.plotter.DefectConcentrationsPlotter.limit_conc_range">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">limit_conc_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">conc_range</span><span class="o">=</span><span class="p">(</span><span class="mf">1e10</span><span class="p">,</span><span class="mf">1e40</span><span class="p">),</span><span class="n">reset_df</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Limit df to a concentration range</span>
+<span class="sd">        Limit df to a concentration range.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        conc_range : (tuple)</span>
+<span class="sd">        conc_range : tuple</span>
 <span class="sd">            Range of concentrations to include in df.</span>
-<span class="sd">        reset_df : (bool)</span>
+<span class="sd">        reset_df : bool</span>
 <span class="sd">            Reset df attribute or return a new df.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        df, series : </span>
+<span class="sd">        df, series : tuple </span>
 <span class="sd">            DataFrame object, Series object.</span>
+<span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">reset_df</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">df</span><span class="o">.</span><span class="n">conc</span><span class="o">.</span><span class="n">between</span><span class="p">(</span><span class="n">conc_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">conc_range</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span>

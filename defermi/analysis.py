@@ -959,7 +959,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         temperature : float
             Temperature in K. If no custom formation energy is provided, this arg has no effect.
         eform_kwargs : dict
-            Kwargs to pass to `entry.formation_energy.
+            Kwargs to pass to `entry.formation_energy`.
 
         Returns
         -------

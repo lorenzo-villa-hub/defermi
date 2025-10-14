@@ -39,8 +39,11 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"></div>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -94,35 +97,37 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">        dos : (dict or Dos)</span>
-<span class="sd">            Density of states to integrate. Can be provided as density of states D(E)</span>
-<span class="sd">            or using effective masses.</span>
-<span class="sd">            Format for effective masses:</span>
-<span class="sd">                dict with following keys:</span>
-<span class="sd">                    - &quot;m_eff_h&quot; : holes effective mass in units of m_e (electron mass)</span>
-<span class="sd">                    - &quot;m_eff_e&quot; : electrons effective mass in units of m_h          </span>
-<span class="sd">                    - `band_gap` needs to be provided in args</span>
-<span class="sd">            Formats for explicit DOS:</span>
-<span class="sd">                dictionary with following keys:</span>
-<span class="sd">                    - &#39;energies&#39; : list or np.array with energy values</span>
-<span class="sd">                    - &#39;densitites&#39; : list or np.array with total density values</span>
-<span class="sd">                    - &#39;structure&#39; : pymatgen Structure of the material, </span>
-<span class="sd">                                    needed for DOS volume and charge normalization.</span>
-<span class="sd">                or a pymatgen Dos object (Dos, CompleteDos or FermiDos).</span>
+<span class="sd">    dos : dict or Dos</span>
+<span class="sd">        Density of states to integrate. Can be provided as density of states D(E)</span>
+<span class="sd">        or using effective masses.</span>
 
-<span class="sd">        fermi_level : (float)</span>
-<span class="sd">            The Fermi level relative to the VBM in eV.</span>
-<span class="sd">        temperature : (float)</span>
-<span class="sd">            The temperature in Kelvin.</span>
-<span class="sd">        band_gap : (float)</span>
-<span class="sd">            The band gap in eV. If None is determined from the DOS.</span>
+<span class="sd">        Format for effective masses is a dict with the following keys:</span>
+
+<span class="sd">        - &quot;m_eff_h&quot; : holes effective mass in units of m_e (electron mass)</span>
+<span class="sd">        - &quot;m_eff_e&quot; : electrons effective mass in units of m_h</span>
+<span class="sd">        - `band_gap` : needs to be provided in arguments</span>
+
+<span class="sd">        Format for explicit DOS (dictionary) with the following keys:</span>
+
+<span class="sd">        - &#39;energies&#39; : list or np.array with energy values</span>
+<span class="sd">        - &#39;densities&#39; : list or np.array with total density values</span>
+<span class="sd">        - &#39;structure&#39; : pymatgen Structure of the material, needed for DOS volume and charge normalization</span>
+
+<span class="sd">        Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).</span>
+
+<span class="sd">    fermi_level : float</span>
+<span class="sd">        The Fermi level relative to the VBM in eV.</span>
+<span class="sd">    temperature : float</span>
+<span class="sd">        The temperature in Kelvin.</span>
+<span class="sd">    band_gap : float</span>
+<span class="sd">        The band gap in eV. If None is determined from the DOS.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">    --------</span>
-<span class="sd">        h : (float)</span>
-<span class="sd">            Absolute value of hole concentration in 1/cm^3</span>
-<span class="sd">        n : (float)</span>
-<span class="sd">            Absolute value of electron concentration in 1/cm^3</span>
+<span class="sd">        h : float</span>
+<span class="sd">            Absolute value of hole concentration in 1/cm^3.</span>
+<span class="sd">        n : float</span>
+<span class="sd">            Absolute value of electron concentration in 1/cm^3.</span>
 <span class="sd">    &quot;&quot;&quot;</span>   
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">dos</span><span class="p">)</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
         <span class="k">if</span> <span class="s1">&#39;energies&#39;</span> <span class="ow">in</span> <span class="n">dos</span> <span class="ow">and</span> <span class="s1">&#39;densities&#39;</span> <span class="ow">in</span> <span class="n">dos</span><span class="p">:</span>
@@ -178,7 +183,42 @@
 <div class="viewcode-block" id="solve_intrinsic_fermi_level">
 <a class="viewcode-back" href="../../defermi.electronic_structure.html#defermi.electronic_structure.solve_intrinsic_fermi_level">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">solve_intrinsic_fermi_level</span><span class="p">(</span><span class="n">dos</span><span class="p">,</span><span class="n">temperature</span><span class="p">,</span><span class="n">band_gap</span><span class="p">,</span><span class="n">xtol</span><span class="o">=</span><span class="mf">1e-05</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find Fermi level by solving the charge neutrality condition.</span>
 
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dos : dict or Dos</span>
+<span class="sd">        Density of states to integrate. Can be provided as density of states D(E)</span>
+<span class="sd">        or using effective masses.</span>
+
+<span class="sd">        Format for effective masses is a dict with the following keys:</span>
+
+<span class="sd">        - &quot;m_eff_h&quot; : holes effective mass in units of m_e (electron mass)</span>
+<span class="sd">        - &quot;m_eff_e&quot; : electrons effective mass in units of m_h</span>
+<span class="sd">        - `band_gap` : needs to be provided in arguments</span>
+
+<span class="sd">        Format for explicit DOS (dictionary) with the following keys:</span>
+
+<span class="sd">        - &#39;energies&#39; : list or np.array with energy values</span>
+<span class="sd">        - &#39;densities&#39; : list or np.array with total density values</span>
+<span class="sd">        - &#39;structure&#39; : pymatgen Structure of the material, needed for DOS volume and charge normalization</span>
+
+<span class="sd">        Alternatively, a pymatgen Dos object (Dos, CompleteDos, or FermiDos).</span>
+
+<span class="sd">    temperature : float</span>
+<span class="sd">        The temperature in Kelvin.</span>
+<span class="sd">    band_gap : float</span>
+<span class="sd">        The band gap in eV. If None is determined from the DOS.</span>
+<span class="sd">    xtol : float</span>
+<span class="sd">        Tolerance for `bisect` method (scipy).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    fermi_level : float</span>
+<span class="sd">        Fermi level dictated by charge neutrality.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_total_q</span><span class="p">(</span><span class="n">ef</span><span class="p">):</span>
         <span class="n">h</span><span class="p">,</span><span class="n">n</span> <span class="o">=</span> <span class="n">get_carrier_concentrations</span><span class="p">(</span><span class="n">dos</span><span class="o">=</span><span class="n">dos</span><span class="p">,</span><span class="n">fermi_level</span><span class="o">=</span><span class="n">ef</span><span class="p">,</span><span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span><span class="n">band_gap</span><span class="o">=</span><span class="n">band_gap</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">h</span> <span class="o">-</span> <span class="n">n</span>
@@ -195,16 +235,17 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    E : (float)</span>
+<span class="sd">    E : float</span>
 <span class="sd">        Energy in eV.</span>
-<span class="sd">    fermi : (float)</span>
-<span class="sd">        The Fermi level in eV.</span>
-<span class="sd">    T : (float)</span>
-<span class="sd">        The temperature in kelvin.</span>
+<span class="sd">    fermi : float</span>
+<span class="sd">        Fermi level in eV.</span>
+<span class="sd">    T : float</span>
+<span class="sd">        Temperature in kelvin.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        float: The Fermi-Dirac occupation probability at energy E.</span>
+<span class="sd">    occupation : float</span>
+<span class="sd">        Fermi-Dirac occupation probability at energy E.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">expit</span>
     <span class="n">exponent</span> <span class="o">=</span> <span class="p">(</span><span class="n">E</span> <span class="o">-</span> <span class="n">fermi</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">kb</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span>
@@ -220,18 +261,20 @@
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    E : (float)</span>
+<span class="sd">    E : float</span>
 <span class="sd">        Energy in eV.</span>
-<span class="sd">    fermi : (float)</span>
-<span class="sd">        The Fermi level in eV.</span>
-<span class="sd">    T : (float)</span>
-<span class="sd">        The temperature in kelvin.</span>
-<span class="sd">    clip : (bool)</span>
-<span class="sd">        Clip exponential factor to 700, returns 1e304.</span>
+<span class="sd">    fermi : float</span>
+<span class="sd">        Fermi level in eV.</span>
+<span class="sd">    T : float</span>
+<span class="sd">        Temperature in kelvin.</span>
+<span class="sd">    clip : bool</span>
+<span class="sd">        Clip exponential factor to 700 to avoid divergence, returns 1e304.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">        float: The Maxwell-Boltzmann occupation probability at energy E.</span>
+<span class="sd">    occupation : float</span>
+<span class="sd">        Maxwell-Boltzmann occupation probability at energy E.</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">factor</span> <span class="o">=</span> <span class="o">-</span><span class="n">E</span> <span class="o">/</span> <span class="p">(</span><span class="n">kb</span><span class="o">*</span><span class="n">T</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">clip</span><span class="p">:</span>
@@ -257,7 +300,8 @@
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    N : float</span>
-<span class="sd">        Effective density of states (in cm^-3)</span>
+<span class="sd">        Density of states (in cm^-3).</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">scipy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">k</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">pi</span><span class="p">,</span> <span class="n">m_e</span>
     <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span> <span class="o">*</span> <span class="n">m_eff</span> <span class="o">*</span> <span class="n">k</span> <span class="o">*</span> <span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">h</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mi">3</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span><span class="mf">1e-06</span>  <span class="c1"># units of cm^-3</span></div>
@@ -266,6 +310,9 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_fermidos_from_data</span><span class="p">(</span><span class="n">E</span><span class="p">,</span><span class="n">D</span><span class="p">,</span><span class="n">structure</span><span class="p">,</span><span class="n">bandgap</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get `FermiDos` object from energies, densities and Structure. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">E</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>
         <span class="n">E</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">D</span><span class="p">)</span> <span class="o">==</span> <span class="nb">list</span><span class="p">:</span>

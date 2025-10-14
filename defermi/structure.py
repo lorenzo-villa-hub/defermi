@@ -78,16 +78,21 @@ def create_substitution_structures(structure,elements_to_replace,supercell_size=
         Input for the make_supercell function of the Structure class.
         If None the input structure is not modified. 
     kwargs : dict
-        Kwargs to pass to SpaceGroupAnalyzer class.
+    
+        Kwargs to pass to SpaceGroupAnalyzer class:
 
-        - symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
-        which is fairly strict and works well for properly refined
-        structures with atoms in the proper symmetry coordinates. For
-        structures with slight deviations from their proper atomic
-        positions (e.g., structures relaxed with electronic structure
-        codes), a looser tolerance of 0.1 (the value used in Materials
-        Project) is often needed.
-        - angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.
+        - symprec (float): 
+            Tolerance for symmetry finding. Defaults to 0.01,
+            which is fairly strict and works well for properly refined
+            structures with atoms in the proper symmetry coordinates. For
+            structures with slight deviations from their proper atomic
+            positions (e.g., structures relaxed with electronic structure
+            codes), a looser tolerance of 0.1 (the value used in Materials
+            Project) is often needed.
+
+        - angle_tolerance (float): 
+            Angle tolerance for symmetry finding. Defaults to 5 degrees.
+
 
     Returns
     -------
@@ -121,16 +126,21 @@ def create_vacancy_structures(structure,elements=None,supercell_size=None,**kwar
         Input for the make_supercell function of the Structure class.
         If None the input structure is not modified. 
     kwargs : dict
-        Kwargs to pass to SpaceGroupAnalyzer class.
+    
+        Kwargs to pass to SpaceGroupAnalyzer class:
 
-        - symprec (float): Tolerance for symmetry finding. Defaults to 0.01,
-        which is fairly strict and works well for properly refined
-        structures with atoms in the proper symmetry coordinates. For
-        structures with slight deviations from their proper atomic
-        positions (e.g., structures relaxed with electronic structure
-        codes), a looser tolerance of 0.1 (the value used in Materials
-        Project) is often needed.
-        - angle_tolerance (float): Angle tolerance for symmetry finding. Defaults to 5 degrees.
+        - symprec (float): 
+            Tolerance for symmetry finding. Defaults to 0.01,
+            which is fairly strict and works well for properly refined
+            structures with atoms in the proper symmetry coordinates. For
+            structures with slight deviations from their proper atomic
+            positions (e.g., structures relaxed with electronic structure
+            codes), a looser tolerance of 0.1 (the value used in Materials
+            Project) is often needed.
+
+        - angle_tolerance (float): 
+            Angle tolerance for symmetry finding. Defaults to 5 degrees.
+            
 
     Returns
     -------

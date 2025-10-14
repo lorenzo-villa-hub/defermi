@@ -18,7 +18,9 @@
       <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="defermi.tools.structure.html" />
+    <link rel="prev" title="defermi.tools package" href="defermi.tools.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -40,17 +42,23 @@
   </form>
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <!-- Local TOC -->
-              <div class="local-toc"><ul>
-<li><a class="reference internal" href="#"><code class="docutils literal notranslate"><span class="pre">MPDatabase</span></code></a><ul>
-<li><a class="reference internal" href="#defermi.tools.materials_project.MPDatabase.get_entries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_entries()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.tools.materials_project.MPDatabase.get_entries_from_compositions"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_entries_from_compositions()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.tools.materials_project.MPDatabase.get_structure"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_structure()</span></code></a></li>
-<li><a class="reference internal" href="#defermi.tools.materials_project.MPDatabase.mp_rester"><code class="docutils literal notranslate"><span class="pre">MPDatabase.mp_rester</span></code></a></li>
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Reference</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="defermi.html">defermi package</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="defermi.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="defermi.chempots.html">defermi.chempots package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="defermi.corrections.html">defermi.corrections package</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="defermi.tools.html">defermi.tools package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.html#submodules">Submodules</a></li>
 </ul>
 </li>
 </ul>
-</div>
+</li>
+</ul>
+
         </div>
       </div>
     </nav>
@@ -65,6 +73,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="defermi.html">defermi package</a></li>
+          <li class="breadcrumb-item"><a href="defermi.tools.html">defermi.tools package</a></li>
       <li class="breadcrumb-item active">&lt;no title&gt;</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/defermi.tools.materials_project.rst.txt" rel="nofollow"> View page source</a>
@@ -87,20 +98,25 @@ to a chemical system, formula, or materials_id or full criteria.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>str/dict</strong><strong>)</strong> (<em>chemsys_formula_id_criteria</em>) – (e.g., Li-Fe-O), or formula (e.g., Fe2O3) or materials_id
-(e.g., mp-1234) or full Mongo-style dict criteria.</p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>conventional_unit_cell</em>) – entries. Compatible entries are entries that have been
+<li><p><strong>chemsys_formula_id_criteria</strong> (<em>str</em><em> or </em><em>dict</em>) – A chemical system (e.g., Li-Fe-O), or formula (e.g., Fe2O3)
+or materials_id (e.g., mp-1234) or full Mongo-style dict criteria.</p></li>
+<li><p><strong>compatible_only</strong> (<em>bool</em>) – Whether to return only “compatible”
+entries. Compatible entries are entries that have been
 processed using the MaterialsProject2020Compatibility class,
 which performs adjustments to allow mixing of GGA and GGA+U
 calculations for more accurate phase diagrams and reaction
 energies.</p></li>
-<li><p><strong>(</strong><strong>list</strong><strong>)</strong> (<em>property_data</em>) – entry.data. If None, no data. Should be a subset of
+<li><p><strong>property_data</strong> (<em>list</em>) – Specify additional properties to include in
+entry.data. If None, no data. Should be a subset of
 supported_properties.</p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – conventional unit cell.</p></li>
+<li><p><strong>conventional_unit_cell</strong> (<em>bool</em>) – Whether to get the standard conventional unit cell.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of ComputedEntry or ComputedStructureEntry objects.</p>
+<dd class="field-even"><p><strong>entries</strong> – List of ComputedStructureEntry objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -113,22 +129,24 @@ or ComputedStructureEntries as values.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>list</strong><strong>)</strong> (<em>property_data</em>)</p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>conventional_unit_cell</em>)</p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – Whether to return only “compatible”
+<li><p><strong>compositions</strong> (<em>list</em>) – List of strings with compositions.</p></li>
+<li><p><strong>compatible_only</strong> (<em>bool</em>) – Whether to return only “compatible”
 entries. Compatible entries are entries that have been
 processed using the MaterialsProject2020Compatibility class,
 which performs adjustments to allow mixing of GGA and GGA+U
 calculations for more accurate phase diagrams and reaction
 energies.</p></li>
-<li><p><strong>(</strong><strong>list</strong><strong>)</strong> – Specify additional properties to include in
+<li><p><strong>property_data</strong> (<em>list</em>) – Specify additional properties to include in
 entry.data. If None, no data. Should be a subset of
 supported_properties.</p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – Whether to get the standard conventional unit cell</p></li>
+<li><p><strong>conventional_unit_cell</strong> (<em>bool</em>) – Whether to get the standard conventional unit cell.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>List of ComputedEntry or ComputedStructureEntry objects.</p>
+<dd class="field-even"><p><strong>entries</strong> – List of ComputedStructureEntry objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
 </dd>
 </dl>
 </dd></dl>
@@ -136,17 +154,21 @@ supported_properties.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.get_structure">
 <span class="sig-name descname"><span class="pre">get_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">final</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conventional_unit_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/materials_project.html#MPDatabase.get_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.get_structure" title="Link to this definition"></a></dt>
-<dd><p>Get a Structure corresponding to a material_id.</p>
+<dd><p>Get a Structure corresponding to a material ID.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>(</strong><strong>str</strong><strong>)</strong> (<em>material_id</em>) – e.g., mp-1234).</p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>conventional_unit_cell</em>) – (pre-relaxation) structure. Defaults to True.</p></li>
-<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> – conventional unit cell</p></li>
+<li><p><strong>material_id</strong> (<em>str</em>) – Materials Project material_id (a string, e.g., mp-1234).</p></li>
+<li><p><strong>final</strong> (<em>bool</em>) – Whether to get the final structure, or the initial
+(pre-relaxation) structure.</p></li>
+<li><p><strong>conventional_unit_cell</strong> (<em>bool</em>) – Whether to get the standard conventional unit cell</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Structure object.</p>
+<dd class="field-even"><p><strong>structure</strong> – Structure object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Structure</p>
 </dd>
 </dl>
 </dd></dl>
@@ -162,7 +184,10 @@ supported_properties.</p></li>
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="defermi.tools.html" class="btn btn-neutral float-left" title="defermi.tools package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="defermi.tools.structure.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
 
   <hr/>
 
