@@ -61,7 +61,7 @@ def get_carrier_concentrations(dos, fermi_level, temperature, band_gap=None):
             E = dos['energies']
             D = dos['densities']
             structure = dos['structure']
-            fdos = _get_fermidos_from_data(E=E,D=D,structure=structure,bandgap=band_gap)
+            fdos = _get_fermidos_from_data(efermi=fermi_level,E=E,D=D,structure=structure,bandgap=band_gap)
 
         elif 'm_eff_e' in dos and 'm_eff_h' in dos:
             if not band_gap:
@@ -223,7 +223,7 @@ def get_dos_from_effective_mass(m_eff, T):
 
 
 
-def _get_fermidos_from_data(E,D,structure,bandgap=None):
+def _get_fermidos_from_data(efermi, E, D, structure, bandgap=None):
     """
     Get `FermiDos` object from energies, densities and Structure. 
     """
@@ -232,5 +232,5 @@ def _get_fermidos_from_data(E,D,structure,bandgap=None):
     if type(D) == list:
         D = np.array(D)
 
-    dos = Dos(energies=E,densities={Spin.up:D})
+    dos = Dos(efermi=efermi,energies=E,densities={Spin.up:D})
     return FermiDos(dos=dos,structure=structure,bandgap=bandgap)

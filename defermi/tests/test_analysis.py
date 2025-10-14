@@ -25,6 +25,47 @@ from defermi.testing.defects import DefectEntryTest
 from defermi.tests.test_entries import TestDefectEntry
 
 
+def get_textbook_case_with_ctl():
+
+    bulk_volume = 800 # A^3
+
+    data_dict = [
+    {'name': 'Vac_O',
+    'charge': 2,
+    'multiplicity': 1,
+    'energy_diff': 7,
+    'bulk_volume': bulk_volume},
+
+    {'name': 'Vac_Sr',
+    'charge': -2,
+    'multiplicity': 1,
+    'energy_diff': 8,
+    'bulk_volume': bulk_volume},
+
+    {'name': 'Vac_O',
+    'charge':0,
+    'multiplicity':1,
+    'energy_diff': 10.8, 
+    'bulk_volume': bulk_volume},
+
+    {'name': 'Vac_Sr',
+    'charge': 0,
+    'multiplicity': 1,
+    'energy_diff': 7.8,
+    'bulk_volume': bulk_volume},
+    ]
+
+    df = pd.DataFrame(data_dict)
+    df
+
+    vbm = 0 # eV
+    band_gap = 2 # eV
+    chempots = {'O': -4.95, 'Sr': -2}
+    bulk_dos = {'m_eff_e': 0.5, 'm_eff_h': 0.4} # effective masses
+    da = DefectsAnalysis.from_dataframe(df,band_gap=band_gap,vbm=vbm)
+    return da, chempots , bulk_dos
+
+
 
 class TestDefectsAnalysis(DefermiTest):
     
