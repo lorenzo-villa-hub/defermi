@@ -221,6 +221,7 @@ def sort_objects(objects,features,reverse=False):
 
 
 from pymatgen.core.periodic_table import Element
+from pymatgen.core.composition import Composition
 
 def convert_conc_from_weight_to_cm3(c_weight,target_el,composition,bulk_volume=None,bulk_structure=None):
     """
@@ -246,8 +247,12 @@ def convert_conc_from_weight_to_cm3(c_weight,target_el,composition,bulk_volume=N
         Concentration in cm-3^.
 
     """
+    if type(composition) == str:
+        composition = Composition(composition)
+
     if not bulk_volume and not bulk_structure:
         raise ValueError('You must provide either bulk_volume or bulk_structure')
+    
     sum_MM = sum([el.atomic_mass for el in composition.elements])
     r_MM = Element(target_el).atomic_mass / sum_MM
     bulk_volume = bulk_volume or bulk_structure.lattice.volume
