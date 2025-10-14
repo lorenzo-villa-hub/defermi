@@ -11,7 +11,9 @@ import copy
 import warnings
 import matplotlib.pyplot as plt
 
-
+from .chempots.core import Chempots
+from .chempots.reservoirs import Reservoirs
+from .chempots.generator import generate_chempots_from_mp
 from .chempots.oxygen import get_pressure_reservoirs_from_precursors, get_oxygen_pressure_reservoirs
 from .corrections.kumagai import get_kumagai_correction
 from .corrections.freysoldt import get_freysoldt_correction_from_locpot
@@ -1335,12 +1337,16 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             'subplot_settings':None,
             'eform_kwargs':eform_kwargs
             }
-        if chemical_potentials:
+
+
+        if type(chemical_potentials) in (tuple, str):
+            chemical_potentials = generate_chempots_from_mp(target=chemical_potentials)
+
+        if type(chemical_potentials) in (dict, Reservoirs):
             values = list(chemical_potentials.values())
-            if type(values[0]) == dict:
+            if type(values[0]) in (dict, Chempots):
                 ncolumns = 2
                 nrows = len(values) // ncolumns + len(values) % ncolumns 
-                print(len(values),nrows,ncolumns)
                 res = chemical_potentials
                 idx = 0
                 for key,value in res.items():
@@ -1351,7 +1357,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                     kwargs['subplot_settings'] = (nrows,ncolumns,idx)
                     plt = plot_formation_energies(**kwargs)
             else:
-                plt = plot_formation_energies(**kwargs)
+                plt = plot_formation_energies(**kwargs)        
         else:
             plt = plot_formation_energies(**kwargs)
         return plt
