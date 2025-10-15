@@ -1051,6 +1051,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         Dictionary with {formula:energy} for synthesis precursors and oxygen reference chempot at 0 K.
         If you provide only the formulas, the data is pulled from the Materials Project database.
+        IMPORTANT: Using data from the MP database is useful to get a feeling of the defect behaviour.
+        For more accurate analysis you should always carefully define the chemical potentials.
 
         Parameters
         ----------
@@ -1221,6 +1223,9 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
             Generated chemical potentials are stored as property (`self.chempots`).
 
+            IMPORTANT: Using data from the MP database is useful to get a feeling of the defect behaviour.
+            For more accurate analysis you should always carefully define the chemical potentials.
+
             Examples:
 
             - `chemical_potentials = {'Sr':value, 'O':value}`
@@ -1347,6 +1352,9 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             The second item is either the target element (multiple plots are generated),
             or a condition: "<el>-poor/middle/rich", a single figure is generated. 
             Generated chemical potentials are stored as property (`self.chempots`).
+
+            IMPORTANT: Using data from the MP database is useful to get a feeling of the defect behaviour.
+            For more accurate analysis you should always carefully define the chemical potentials.
 
             Examples:
 
@@ -1677,6 +1685,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             the second item is a condition: "<el>-poor/middle/rich"
 
             Generated chemical potentials are stored as property (`self.chempots`).
+            IMPORTANT: Using data from the MP database is useful to get a feeling of the defect behaviour.
+            For more accurate analysis you should always carefully define the chemical potentials.
 
             Examples:
 
