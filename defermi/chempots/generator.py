@@ -50,6 +50,10 @@ def generate_chempots_from_condition(
                                                         thermo_type=thermo_type,
                                                         **kwargs)
     
+    stable_compositions = [entry.composition.get_reduced_composition_and_factor()[0] for entry in pd.stable_entries]
+    if comp not in stable_compositions:
+        raise ValueError(f'No entry with composition={comp} is stable in phase diagram pulled from Materials Project')
+
     element, cond = condition.split('-')
     chempots_ranges = pd.get_chempot_range_stability_phase(target_comp=comp,open_elt=Element(element))
     if cond == 'poor':

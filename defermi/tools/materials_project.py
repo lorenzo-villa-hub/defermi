@@ -119,7 +119,7 @@ class  MPDatabase:
         return entries_dict
     
 
-    def get_phase_diagram_from_chemsys(self,chemsys,thermo_type=['GGA_GGA+U'], **kwargs):
+    def get_phase_diagram_from_chemsys(self,chemsys,thermo_type='GGA_GGA+U', **kwargs):
         """
         Pull `PhaseDiagram` object from MP database given a chemical system (eg. "Li-Nb-O").
 
