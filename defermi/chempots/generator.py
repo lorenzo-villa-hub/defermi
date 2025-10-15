@@ -5,11 +5,17 @@ from pymatgen.core.periodic_table import Element
 from pymatgen.core.composition import Composition
 
 from .core import Chempots
+from .oxygen import get_pressure_reservoirs_from_precursors
 from .phase_diagram import _get_composition_object, PDHandler
 from .reservoirs import Reservoirs
 
 
-def generate_chempots_from_condition(composition, condition, API_KEY=None, **kwargs):
+def generate_chempots_from_condition(
+                                composition,
+                                condition,
+                                API_KEY=None,
+                                thermo_type='GGA_GGA+U',
+                                **kwargs):
     """
     Generate Chempots dictionary using the data from the Materials Project. 
     Condition must be specified as "<el>-rich" or "<el>-poor".
@@ -34,20 +40,15 @@ def generate_chempots_from_condition(composition, condition, API_KEY=None, **kwa
     Chempots object
 
     """
-    from mp_api.client import MPRester
+    from ..tools.materials_project import MPDatabase
 
     comp = _get_composition_object(composition)
     chemsys = '-'.join(el.symbol for el in comp.elements)
     
-    default_thermo_type = 'GGA_GGA+U'
-    if kwargs: 
-        if 'thermo_type' not in kwargs:
-            kwargs['thermo_type'] = default_thermo_type
-    else:
-        kwargs = {'thermo_type':default_thermo_type}
-
-    with MPRester(API_KEY) as mpr:
-        pd = mpr.materials.thermo.get_phase_diagram_from_chemsys(chemsys=chemsys,**kwargs)
+    pd = MPDatabase(API_KEY=API_KEY).get_phase_diagram_from_chemsys(
+                                                        chemsys=chemsys,
+                                                        thermo_type=thermo_type,
+                                                        **kwargs)
     
     element, cond = condition.split('-')
     chempots_ranges = pd.get_chempot_range_stability_phase(target_comp=comp,open_elt=Element(element))
@@ -142,4 +143,43 @@ def generate_chempots_from_mp(composition, element=None, API_KEY=None, **kwargs)
         print(f'Chemical potentials:\n {chemical_potentials}')       
 
     return chemical_potentials 
+
+
+def generate_pressure_reservoirs_from_precursors(
+                                            precursors,
+                                            temperature,
+                                            oxygen_ref=None,
+                                            pressure_range=(1e-20,1e10),
+                                            npoints=50,
+                                            get_pressures_as_strings=False,
+                                            thermo_type='GGA_GGA+U',
+                                            **kwargs):
+    
+    from ..tools.materials_project import MPDatabase
+    if type(precursors) == str:
+        precursors = [precursors]
+    if not oxygen_ref:
+        oxygen_ref = MPDatabase().get_stable_energy_pfu_from_composition(
+                                                                composition='O2',
+                                                                thermo_types=[thermo_type],
+                                                                **kwargs)
+        oxygen_ref /= 2        
+    
+    precursors_dict = {}
+    for prec in precursors:
+        energy_pfu = MPDatabase().get_stable_energy_pfu_from_composition(
+                                                                composition=prec,
+                                                                thermo_types=[thermo_type],
+                                                                **kwargs)
+        precursors_dict[prec] = energy_pfu
+
+    reservoirs = get_pressure_reservoirs_from_precursors(
+                                            precursors=precursors,
+                                            oxygen_ref=oxygen_ref,
+                                            temperature=temperature,
+                                            pressure_range=pressure_range,
+                                            npoints=npoints,
+                                            get_pressures_as_strings=get_pressures_as_strings)
+
+    
 

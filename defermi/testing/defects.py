@@ -31,7 +31,6 @@ class DefectEntryTest(DefermiTest):
         self.assertEqual(entry1.energy_diff,entry2.energy_diff)
         self.assertEqual(entry1.corrections,entry2.corrections)
         self.assertEqual(entry1.data,entry2.data)
-        self.assertEqual(entry1.label,entry2.label)
         
 
             

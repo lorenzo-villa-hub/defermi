@@ -40,7 +40,8 @@ class TestDefectEntry(DefermiTest):
                             defect_site=defect_site,
                             bulk_structure=bulk_structure,
                             charge=-1.0,
-                            multiplicity=54)
+                            multiplicity=54,
+                            label='mult54')
         
         energy_diff = 5.168792819999965
         corrections = {'kumagai': -0.08825262621975172}
@@ -48,8 +49,7 @@ class TestDefectEntry(DefermiTest):
                 [[39.5772376, -0.0, 0.0],
                  [0.0, 39.57723773, 0.0],
                  [0.0, -0.0, 39.57723775]]}
-        label = 'mult54'
-        entry = DefectEntry(defect,energy_diff,corrections,data,label)
+        entry = DefectEntry(defect,energy_diff,corrections,data)
         return entry 
     
     

@@ -1115,6 +1115,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         from .thermodynamics import DefectThermodynamics
         
         if not reservoirs:
+            if type(precursors) in (str,list):
+                pass
             if not precursors:
                 if self.elements != ['O']:
                     raise ValueError('You need to either directly provide reservoirs, or precursors + oxygen chempot reference')
@@ -1192,8 +1194,19 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             Name or element of the variable defect species.
         concentration_range : tuple or list
             Logaritmic range of the concentration of the variable species in cm^-3 (ex. [1,20]).
-        chemical_potentials : dict
-            Dictionary containing chemical potentials {element:chempot}.
+        chemical_potentials : (tuple, list or dict)
+            
+            - Dictionary with chemical potentials of the elements `chempots={'element':chempot}` 
+            - List or tuple: the first item is the composition formula,
+            the second item is a condition: "<el>-poor/middle/rich"
+
+            Generated chemical potentials are stored as property (`self.chempots`).
+
+            Examples:
+
+            - `chemical_potentials = {'Sr':value, 'O':value}`
+            - `chemical_potentials = ('SrO','O-rich')`
+
         bulk_dos : dict or Dos
             Density of states to integrate. Can be provided as density of states D(E)
             or using effective masses.
@@ -1246,6 +1259,9 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                                 xtol=xtol,
                                                 eform_kwargs=eform_kwargs,
                                                 dconc_kwargs=dconc_kwargs)
+        
+        if type(chemical_potentials) in (tuple, list):
+            chemical_potentials = self._generate_chemical_potentials(target=chemical_potentials)
         
         if quench_temperature:
             thermodata = defects_analysis.get_variable_species_quenched_thermodata(

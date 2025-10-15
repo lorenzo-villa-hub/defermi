@@ -1,10 +1,15 @@
 #!/usr/bin/env python
 
+import warnings
+
+
+
 
 class  MPDatabase:
     
+    from mp_api.client import MPRester # only import within this class
+
     def __init__(self,mp_id=None,API_KEY=None):
-        from mp_api.client import MPRester
         """
         Class to retrieve data from Materials Project database
 
@@ -22,7 +27,7 @@ class  MPDatabase:
     
     @property
     def mp_rester(self):
-        return MPRester(self.API_KEY)
+        return self.MPRester(self.API_KEY)
         
         
     def get_entries(self,
@@ -60,7 +65,7 @@ class  MPDatabase:
             List of ComputedStructureEntry objects.
 
         """
-        with MPRester(self.API_KEY) as mpr:
+        with self.MPRester(self.API_KEY) as mpr:
             entries = mpr.get_entries(
                                 chemsys_formula_mpids=chemsys_formula_mpids,
                                 compatible_only=compatible_only,
@@ -114,6 +119,66 @@ class  MPDatabase:
         return entries_dict
     
 
+    def get_phase_diagram_from_chemsys(self,chemsys,thermo_type=['GGA_GGA+U'], **kwargs):
+        """
+        Pull `PhaseDiagram` object from MP database given a chemical system (eg. "Li-Nb-O").
+
+        Parameters
+        ----------
+        chemsys : str
+            Chemical system (eg. "Li-Nb-O").
+        thermo_type : str
+            Thermo types to return data for (e.g. "GGA_GGA+U").
+            Check `mp_api` docs for information on thermo types.
+        kwargs : dict
+            Kwargs to pass to `MPRester().materials.thermo.get_phase_diagram_from_chemsys`.
+
+        Returns
+        -------
+        pd : PhaseDiagram
+            `PhaseDiagram` object.
+        """
+        with self.MPRester(self.API_KEY) as mpr:
+            pd = mpr.materials.thermo.get_phase_diagram_from_chemsys(
+                                                                chemsys=chemsys,
+                                                                thermo_type=thermo_type,
+                                                                **kwargs)
+        return pd
+        
+
+    def get_stable_energy_pfu_from_composition(self,composition,thermo_types=['GGA_GGA+U'],**kwargs):
+        """
+        Pull from MP database for a target composition the energy per formula 
+        unit (pfu) in eV of the entry with E above Convex Hull = 0 eV.
+
+        Parameters
+        ----------
+        composition : str
+            Target composition (eg. "SrTiO3").
+        thermo_type : str
+            Thermo types to return data for (e.g. "GGA_GGA+U").
+            Check `mp_api` docs for information on thermo types.
+        kwargs : dict
+            Kwargs to pass to `MPRester().materials.thermo.get_phase_diagram_from_chemsys`.
+
+        Returns
+        -------
+        energy_pfu : float
+            Energy per formula unit in eV.
+
+        """
+        with self.MPRester(self.API_KEY) as mpr:
+            docs = mpr.materials.thermo.search(formula=composition,energy_above_hull=(0,0),thermo_types=thermo_types,**kwargs)
+        
+        if len(docs) > 1:
+            warnings.warn('Search returned more than one entry with E above hull = 0 eV, check manually. Returning the first entry...')
+        
+        entry = docs[0]
+        nfu = entry.composition.get_reduced_composition_and_factor()[1]
+        energy_pfu = entry.energy_per_atom * (entry.composition.num_atoms/nfu)
+        return energy_pfu, docs
+        
+
     def get_structure(self,final=True,conventional_unit_cell=False):
         """
         Get a Structure corresponding to a material ID.
@@ -134,7 +199,7 @@ class  MPDatabase:
             Structure object.
             
         """
-        with MPRester(self.API_KEY) as mpr:
+        with self.MPRester(self.API_KEY) as mpr:
             structure = mpr.get_structure_by_material_id(self.mp_id,final=final,conventional_unit_cell=conventional_unit_cell)
         return structure
 

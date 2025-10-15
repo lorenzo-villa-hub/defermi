@@ -27,7 +27,6 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                 energy_diff=None,
                 corrections={},
                 data=None,
-                label=None,
                 formation_energy_function=None,
                 defect_concentration_function=None):
         """
@@ -59,7 +58,6 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
         self._energy_diff = energy_diff
         self._corrections = corrections
         self._data = data if data else {}
-        self._defect.set_label(label)
         self._formation_energy_function = formation_energy_function
         self._defect_concentration_function = defect_concentration_function
     
@@ -260,7 +258,6 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
         d['energy_diff'] = self.energy_diff
         d['corrections'] = jsanitize(self.corrections)
         d['data'] = jsanitize(self.data)
-        d['label'] = self.label
         return d
 
 
@@ -285,8 +282,7 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
         energy_diff = d['energy_diff']
         corrections = d['corrections']
         data = d['data']
-        label = d['label']
-        return cls(defect=defect,energy_diff=energy_diff,corrections=corrections,data=data,label=label)
+        return cls(defect=defect,energy_diff=energy_diff,corrections=corrections,data=data)
 
 
     @staticmethod
@@ -396,6 +392,7 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
         if not defect:
             raise ValueError('Cannot create DefectEntry from empty defect object')
         defect.set_charge(charge)
+        defect.set_label(label)
         if multiplicity:
             defect.set_multiplicity(multiplicity)
         else:
@@ -406,7 +403,7 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                 warnings.warn(f'get_multiplicity not implemented for {defect.defect_type}, setting multiplicity to 1')
                 defect.set_multiplicity(1)
         
-        return DefectEntry(defect, energy_diff, corrections,data,label)
+        return DefectEntry(defect, energy_diff, corrections, data)
 
 
     @staticmethod
