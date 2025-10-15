@@ -57,6 +57,9 @@ class Reservoirs(MSONable):
     
     def __repr__(self):
         return self.__str__()
+    
+    def _repr_html_(self):
+        return self.get_dataframe()._repr_html_()
 
     def __len__(self):
         return len(self.res_dict)
