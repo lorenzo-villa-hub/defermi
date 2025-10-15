@@ -92,7 +92,6 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         """
         return self._chempots
 
-
     @property
     def thermodata(self):
         """
@@ -1122,7 +1121,9 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         """
         from .thermodynamics import DefectThermodynamics
         
+        # if reservoirs not provided, use precursors
         if not reservoirs:
+            # if precursor energies not provided, pull from MP
             if type(precursors) in (str,list):
                 reservoirs = generate_pressure_reservoirs_from_precursors(
                                                         precursors=precursors,
@@ -1130,6 +1131,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                                         oxygen_ref=oxygen_ref,
                                                         pressure_range=pressure_range,
                                                         npoints=npoints)
+                
+            # if precursors not provided, if only oxygen is present use oxygen_ref
             elif not precursors:
                 if self.elements != ['O']:
                     raise ValueError('You need to either directly provide reservoirs, or precursors + oxygen chempot reference')
@@ -1142,13 +1145,15 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                                                 temperature=temperature,
                                                                 pressure_range=pressure_range,
                                                                 npoints=npoints)
-        else:
-            reservoirs = get_pressure_reservoirs_from_precursors(
-                                                                precursors=precursors,
-                                                                oxygen_ref=oxygen_ref,
-                                                                temperature=temperature,
-                                                                pressure_range=pressure_range,
-                                                                npoints=npoints)
+            else:
+                reservoirs = get_pressure_reservoirs_from_precursors(
+                                                                    precursors=precursors,
+                                                                    oxygen_ref=oxygen_ref,
+                                                                    temperature=temperature,
+                                                                    pressure_range=pressure_range,
+                                                                    npoints=npoints)
+            # store reservoirs
+            self._chempots = reservoirs
                 
         defects_analysis =  DefectThermodynamics(
                                                 defects_analysis=self,
@@ -1159,6 +1164,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                                 eform_kwargs=eform_kwargs,
                                                 dconc_kwargs=dconc_kwargs)
         
+        # if quenching temperature is provided, use quenched routine
         if quench_temperature:
             thermodata = defects_analysis.get_pO2_quenched_thermodata(
                                                                     reservoirs=reservoirs,
@@ -1273,8 +1279,10 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                                 eform_kwargs=eform_kwargs,
                                                 dconc_kwargs=dconc_kwargs)
         
+        # if chemical potentials are not provided, pull from MP and store them
         if type(chemical_potentials) in (tuple, list):
             chemical_potentials = self._generate_chemical_potentials(target=chemical_potentials)
+            self._chempots = chemical_potentials
         
         if quench_temperature:
             thermodata = defects_analysis.get_variable_species_quenched_thermodata(
@@ -1400,7 +1408,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             'eform_kwargs':eform_kwargs
             }
 
-
+        # if chemical potentials are not provided, pull from MP and store them
         if type(chemical_potentials) in (str, tuple, list):
             chemical_potentials = self._generate_chemical_potentials(target=chemical_potentials)
 

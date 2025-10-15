@@ -186,6 +186,8 @@ def generate_pressure_reservoirs_from_precursors(
 
     """
     from ..tools.materials_project import MPDatabase
+
+    print('Pulling precursors energies from Materials Project database')
     if type(precursors) == str:
         precursors = [precursors]
     if not oxygen_ref:
@@ -193,7 +195,7 @@ def generate_pressure_reservoirs_from_precursors(
                                                                 composition='O2',
                                                                 thermo_types=[thermo_type],
                                                                 **kwargs)
-        oxygen_ref /= 2        
+        oxygen_ref /= 2       
     
     precursors_dict = {}
     for prec in precursors:
