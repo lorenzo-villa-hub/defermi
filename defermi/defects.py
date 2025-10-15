@@ -895,7 +895,7 @@ class DefectComplex(MSONable,metaclass=ABCMeta):
         """
         Latex formatted name of the defect.
         """
-        symbol = '-'.join([df.symbol.split('(')[0] for df in self.defects]) 
+        symbol = '-'.join([df.symbol for df in self.defects])  #'-'.join([df.symbol.split('(')[0] for df in self.defects]) without single df labels
         if self.label:
             symbol = symbol + '(%s)'%self.label 
         return symbol

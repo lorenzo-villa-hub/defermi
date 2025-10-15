@@ -166,9 +166,9 @@ class TestDefect(DefermiTest):
         assert comp.charge == 1
         assert comp.delta_atoms == {'Si': -2, 'P': 1}
         assert comp.multiplicity == 216
-        assert comp.symbol == '$V_{Si}$-$P_{Si}$(test)'
-        assert comp.symbol_with_charge == '$V_{Si}$-$P_{Si}$(test)$^{+1}$'
-        assert comp.symbol_with_charge_kv == '$V_{Si}$-$P_{Si}$(test)$^{°}$'
+        assert comp.symbol == '$V_{Si}$(vac)-$P_{Si}$(sub)(test)'
+        assert comp.symbol_with_charge == '$V_{Si}$(vac)-$P_{Si}$(sub)(test)$^{+1}$'
+        assert comp.symbol_with_charge_kv == '$V_{Si}$(vac)-$P_{Si}$(sub)(test)$^{°}$'
     
     
 

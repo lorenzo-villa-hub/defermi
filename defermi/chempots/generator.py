@@ -180,6 +180,8 @@ def generate_pressure_reservoirs_from_precursors(
                                             pressure_range=pressure_range,
                                             npoints=npoints,
                                             get_pressures_as_strings=get_pressures_as_strings)
+    
+    return reservoirs
 
     
 
