@@ -205,7 +205,7 @@ def get_pressure_reservoirs_from_precursors(precursors,
     oxygen_ref : float
         Absolute chempot of oxygen at 0K.
     temperature : float
-        Temperature.
+        Temperature in K.
     pressure_range : tuple
         Range in which to evaluate the partial pressure . The default is from 1e-20 to 1e10.
     npoints : int

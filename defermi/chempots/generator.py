@@ -154,7 +154,37 @@ def generate_pressure_reservoirs_from_precursors(
                                             get_pressures_as_strings=False,
                                             thermo_type='GGA_GGA+U',
                                             **kwargs):
-    
+    """
+    Generate reservoirs dependent on oxygen partial pressure (`PressureReservoirs`)
+    starting from precursors compostitions.
+    A dictionary with precursor composition and energy per formula unit in eV is generated 
+    with data from the Materials Project database.
+    If not provided, the reference for the oxygen chempot at 0 K is also pulled from the DB.
+    Chemical potentials are found from the energies of the precursors and the oxygen chempot value 
+    (uses the np.linalg.lstsq function). 
+    If the system is underdetermined the minimum-norm solution is found.
+
+    Parameters
+    ----------
+    precursors : str or list
+        Compositions of precursors.
+    oxygen_ref : float
+        Absolute chempot of oxygen at 0K. If not provided it is pulled from the MP database.
+    temperature : float
+        Temperature in K.
+    pressure_range : tuple
+        Range in which to evaluate the partial pressure . The default is from 1e-20 to 1e10.
+    npoints : int
+        Number of data points to interpolate the partial pressure with. The default is 50.
+    get_pressures_as_strings : bool
+        Get pressure values (keys in the Reservoirs dict) as strings. The default is set to floats.
+
+    Returns
+    -------
+    pressure_reservoirs : PressureReservoirs
+        PressureReservoirs object.
+
+    """
     from ..tools.materials_project import MPDatabase
     if type(precursors) == str:
         precursors = [precursors]
@@ -174,7 +204,7 @@ def generate_pressure_reservoirs_from_precursors(
         precursors_dict[prec] = energy_pfu
 
     reservoirs = get_pressure_reservoirs_from_precursors(
-                                            precursors=precursors,
+                                            precursors=precursors_dict,
                                             oxygen_ref=oxygen_ref,
                                             temperature=temperature,
                                             pressure_range=pressure_range,

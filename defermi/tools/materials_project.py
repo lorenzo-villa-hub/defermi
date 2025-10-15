@@ -176,7 +176,7 @@ class  MPDatabase:
         entry = docs[0]
         nfu = entry.composition.get_reduced_composition_and_factor()[1]
         energy_pfu = entry.energy_per_atom * (entry.composition.num_atoms/nfu)
-        return energy_pfu, docs
+        return energy_pfu
         
 
     def get_structure(self,final=True,conventional_unit_cell=False):

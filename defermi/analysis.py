@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 from .chempots.core import Chempots
 from .chempots.reservoirs import Reservoirs
-from .chempots.generator import generate_chempots_from_mp
+from .chempots.generator import generate_chempots_from_mp, generate_pressure_reservoirs_from_precursors
 from .chempots.oxygen import get_pressure_reservoirs_from_precursors, get_oxygen_pressure_reservoirs
 from .corrections.kumagai import get_kumagai_correction
 from .corrections.freysoldt import get_freysoldt_correction_from_locpot
@@ -1024,7 +1024,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                             oxygen_ref = None,
                             pressure_range=(1e-20,1e10),
                             npoints = 50,
-                            xtol=1e-10,
+                            xtol=1e-20,
                             eform_kwargs={},
                             dconc_kwargs={},
                             **kwargs):
@@ -1048,8 +1048,10 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         `reservoirs`: Dictionary with oxygen partial pressures as keys and dictionary with chemical potential
         as values ({pO2:{'element':chempot}}), or PressureReservoirs object.
         
-        Alternatively: `precursors` + `oxygen_ref`: Dictionary with {formula:energy} for 
-        synthesis precursors and oxygen reference chempot at 0 K.
+        Alternatively: `precursors` + `oxygen_ref`:
+        
+        Dictionary with {formula:energy} for synthesis precursors and oxygen reference chempot at 0 K.
+        If you provide only the formulas, the data is pulled from the Materials Project database.
 
         Parameters
         ----------
@@ -1087,12 +1089,18 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             Must either be a list of dictionaries with {'charge': float, 'conc': float} or a list of SingleDefConc objects. 
         reservoirs: dict or PressureReservoirs
             Dictionary with pO2 (float) as keys and chemical potential dictionary as values ({pO2:{'element':mu_element}})
-        precursors: dict
-            Dictionary with formulas (str) as keys and total energies as values. Chemical potentials are found from the energies of the 
+        precursors: str, list or dict
+            Dictionary with formulas (str) as keys and total energies as values.
+            If a str or list is provided, the dictionary is generated with data from the Materials Project database.
+            Chemical potentials are found from the energies of the precursors and the oxygen chempot value 
+            (uses the np.linalg.lstsq function). 
+            If the system is underdetermined the minimum-norm solution is found. 
+            Chemical potentials are found from the energies of the 
             precursors and the oxygen chempot value (uses the np.linalg.lstsq function). 
             If the system is underdetermined the minimum-norm solution is found.
         oxygen_ref : float
             Absolute chempot of oxygen at 0K.
+            If not provided and precursors are set, it is pulled from the Materials Project DB.
         pressure_range : tuple
             Range in which to evaluate the partial pressure. Only used if `reservoirs` are not provided.
         npoints : int
@@ -1116,26 +1124,31 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         if not reservoirs:
             if type(precursors) in (str,list):
-                pass
-            if not precursors:
+                reservoirs = generate_pressure_reservoirs_from_precursors(
+                                                        precursors=precursors,
+                                                        temperature=temperature,
+                                                        oxygen_ref=oxygen_ref,
+                                                        pressure_range=pressure_range,
+                                                        npoints=npoints)
+            elif not precursors:
                 if self.elements != ['O']:
                     raise ValueError('You need to either directly provide reservoirs, or precursors + oxygen chempot reference')
-            if not oxygen_ref:
-                raise ValueError('You need to provide the oxygen chempot reference when using precursors')
+                if not oxygen_ref:
+                    raise ValueError('You need to provide the oxygen chempot reference when using precursors')
 
-            if self.elements == ['O']:
-                reservoirs = get_oxygen_pressure_reservoirs(
-                                                            oxygen_ref=oxygen_ref,
-                                                            temperature=temperature,
-                                                            pressure_range=pressure_range,
-                                                            npoints=npoints)
-            else:
-                reservoirs = get_pressure_reservoirs_from_precursors(
-                                                                    precursors=precursors,
-                                                                    oxygen_ref=oxygen_ref,
-                                                                    temperature=temperature,
-                                                                    pressure_range=pressure_range,
-                                                                    npoints=npoints)
+                if self.elements == ['O']:
+                    reservoirs = get_oxygen_pressure_reservoirs(
+                                                                oxygen_ref=oxygen_ref,
+                                                                temperature=temperature,
+                                                                pressure_range=pressure_range,
+                                                                npoints=npoints)
+        else:
+            reservoirs = get_pressure_reservoirs_from_precursors(
+                                                                precursors=precursors,
+                                                                oxygen_ref=oxygen_ref,
+                                                                temperature=temperature,
+                                                                pressure_range=pressure_range,
+                                                                npoints=npoints)
                 
         defects_analysis =  DefectThermodynamics(
                                                 defects_analysis=self,
@@ -1180,7 +1193,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                             fixed_concentrations=None,
                             external_defects=[],
                             npoints=50,
-                            xtol=1e-10,
+                            xtol=1e-20,
                             eform_kwargs={},
                             dconc_kwargs={},
                             **kwargs):
@@ -1641,7 +1654,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                         temperature=300,
                         fixed_concentrations=None,
                         external_defects=[],
-                        xtol=1e-05,
+                        xtol=1e-20,
                         eform_kwargs={},
                         dconc_kwargs={}):
         """
@@ -1649,8 +1662,19 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         Parameters
         ----------
-        chemical_potentials : dict
-            Dictionary of chemical potentials in the format {'element':chempot}.
+        chemical_potentials : (tuple, list or dict)
+            
+            - Dictionary with chemical potentials of the elements `chempots={'element':chempot}` 
+            - List or tuple: the first item is the composition formula,
+            the second item is a condition: "<el>-poor/middle/rich"
+
+            Generated chemical potentials are stored as property (`self.chempots`).
+
+            Examples:
+
+            - `chemical_potentials = {'Sr':value, 'O':value}`
+            - `chemical_potentials = ('SrO','O-rich')`
+
         bulk_dos : dict or Dos
             Density of states to integrate. Can be provided as density of states D(E)
             or using effective masses.
@@ -1691,7 +1715,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             Fermi level satisfying charge neutrality.
 
         """
-                
+        if type(chemical_potentials) in (tuple, list):
+            chemical_potentials = self._generate_chemical_potentials(target=chemical_potentials)
         def _get_total_q(ef):
             qd_tot = self._get_total_charge(fermi_level=ef,
                                             chemical_potentials=chemical_potentials,
