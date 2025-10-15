@@ -71,13 +71,18 @@
   <h1>Source code for defermi.tools.materials_project</h1><div class="highlight"><pre>
 <span></span><span class="ch">#!/usr/bin/env python</span>
 
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+
+
 
 <div class="viewcode-block" id="MPDatabase">
 <a class="viewcode-back" href="../../../defermi.tools.materials_project.html#defermi.tools.materials_project.MPDatabase">[docs]</a>
 <span class="k">class</span><span class="w">  </span><span class="nc">MPDatabase</span><span class="p">:</span>
     
+    <span class="kn">from</span><span class="w"> </span><span class="nn">mp_api.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPRester</span> <span class="c1"># only import within this class</span>
+
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">mp_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">API_KEY</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="kn">from</span><span class="w"> </span><span class="nn">mp_api.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">MPRester</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Class to retrieve data from Materials Project database</span>
 
@@ -95,7 +100,7 @@
     
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">mp_rester</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">MPRester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">MPRester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">)</span>
         
         
 <div class="viewcode-block" id="MPDatabase.get_entries">
@@ -135,7 +140,7 @@
 <span class="sd">            List of ComputedStructureEntry objects.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="n">MPRester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">MPRester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
             <span class="n">entries</span> <span class="o">=</span> <span class="n">mpr</span><span class="o">.</span><span class="n">get_entries</span><span class="p">(</span>
                                 <span class="n">chemsys_formula_mpids</span><span class="o">=</span><span class="n">chemsys_formula_mpids</span><span class="p">,</span>
                                 <span class="n">compatible_only</span><span class="o">=</span><span class="n">compatible_only</span><span class="p">,</span>
@@ -193,6 +198,72 @@
 
     
 
+<div class="viewcode-block" id="MPDatabase.get_phase_diagram_from_chemsys">
+<a class="viewcode-back" href="../../../defermi.tools.materials_project.html#defermi.tools.materials_project.MPDatabase.get_phase_diagram_from_chemsys">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_phase_diagram_from_chemsys</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">chemsys</span><span class="p">,</span><span class="n">thermo_type</span><span class="o">=</span><span class="s1">&#39;GGA_GGA+U&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pull `PhaseDiagram` object from MP database given a chemical system (eg. &quot;Li-Nb-O&quot;).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        chemsys : str</span>
+<span class="sd">            Chemical system (eg. &quot;Li-Nb-O&quot;).</span>
+<span class="sd">        thermo_type : str</span>
+<span class="sd">            Thermo types to return data for (e.g. &quot;GGA_GGA+U&quot;).</span>
+<span class="sd">            Check `mp_api` docs for information on thermo types.</span>
+<span class="sd">        kwargs : dict</span>
+<span class="sd">            Kwargs to pass to `MPRester().materials.thermo.get_phase_diagram_from_chemsys`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pd : PhaseDiagram</span>
+<span class="sd">            `PhaseDiagram` object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">MPRester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
+            <span class="n">pd</span> <span class="o">=</span> <span class="n">mpr</span><span class="o">.</span><span class="n">materials</span><span class="o">.</span><span class="n">thermo</span><span class="o">.</span><span class="n">get_phase_diagram_from_chemsys</span><span class="p">(</span>
+                                                                <span class="n">chemsys</span><span class="o">=</span><span class="n">chemsys</span><span class="p">,</span>
+                                                                <span class="n">thermo_type</span><span class="o">=</span><span class="n">thermo_type</span><span class="p">,</span>
+                                                                <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pd</span></div>
+
+        
+
+<div class="viewcode-block" id="MPDatabase.get_stable_energy_pfu_from_composition">
+<a class="viewcode-back" href="../../../defermi.tools.materials_project.html#defermi.tools.materials_project.MPDatabase.get_stable_energy_pfu_from_composition">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_stable_energy_pfu_from_composition</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">composition</span><span class="p">,</span><span class="n">thermo_types</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;GGA_GGA+U&#39;</span><span class="p">],</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Pull from MP database for a target composition the energy per formula </span>
+<span class="sd">        unit (pfu) in eV of the entry with E above Convex Hull = 0 eV.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        composition : str</span>
+<span class="sd">            Target composition (eg. &quot;SrTiO3&quot;).</span>
+<span class="sd">        thermo_type : str</span>
+<span class="sd">            Thermo types to return data for (e.g. &quot;GGA_GGA+U&quot;).</span>
+<span class="sd">            Check `mp_api` docs for information on thermo types.</span>
+<span class="sd">        kwargs : dict</span>
+<span class="sd">            Kwargs to pass to `MPRester().materials.thermo.get_phase_diagram_from_chemsys`.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        energy_pfu : float</span>
+<span class="sd">            Energy per formula unit in eV.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">MPRester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
+            <span class="n">docs</span> <span class="o">=</span> <span class="n">mpr</span><span class="o">.</span><span class="n">materials</span><span class="o">.</span><span class="n">thermo</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">formula</span><span class="o">=</span><span class="n">composition</span><span class="p">,</span><span class="n">energy_above_hull</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span><span class="n">thermo_types</span><span class="o">=</span><span class="n">thermo_types</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">docs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Search returned more than one entry with E above hull = 0 eV, check manually. Returning the first entry...&#39;</span><span class="p">)</span>
+        
+        <span class="n">entry</span> <span class="o">=</span> <span class="n">docs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">nfu</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">composition</span><span class="o">.</span><span class="n">get_reduced_composition_and_factor</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">energy_pfu</span> <span class="o">=</span> <span class="n">entry</span><span class="o">.</span><span class="n">energy_per_atom</span> <span class="o">*</span> <span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">composition</span><span class="o">.</span><span class="n">num_atoms</span><span class="o">/</span><span class="n">nfu</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">energy_pfu</span></div>
+
+        
+
 <div class="viewcode-block" id="MPDatabase.get_structure">
 <a class="viewcode-back" href="../../../defermi.tools.materials_project.html#defermi.tools.materials_project.MPDatabase.get_structure">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_structure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">final</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">conventional_unit_cell</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -215,7 +286,7 @@
 <span class="sd">            Structure object.</span>
 <span class="sd">            </span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="n">MPRester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">MPRester</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">API_KEY</span><span class="p">)</span> <span class="k">as</span> <span class="n">mpr</span><span class="p">:</span>
             <span class="n">structure</span> <span class="o">=</span> <span class="n">mpr</span><span class="o">.</span><span class="n">get_structure_by_material_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mp_id</span><span class="p">,</span><span class="n">final</span><span class="o">=</span><span class="n">final</span><span class="p">,</span><span class="n">conventional_unit_cell</span><span class="o">=</span><span class="n">conventional_unit_cell</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">structure</span></div>
 </div>

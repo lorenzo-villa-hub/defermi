@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>&lt;no title&gt; &mdash; defermi 1.0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=292eb321"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="&lt;no title&gt;" href="defermi.chempots.oxygen.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="defermi.chempots.core.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            defermi
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">defermi</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="api.html">API Reference</a></li>
+          <li class="breadcrumb-item"><a href="defermi.html">defermi package</a></li>
+          <li class="breadcrumb-item"><a href="defermi.chempots.html">defermi.chempots package</a></li>
+      <li class="breadcrumb-item active">&lt;no title&gt;</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/defermi.chempots.generator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <dl class="py function" id="module-defermi.chempots.generator">
+<dt class="sig sig-object py" id="defermi.chempots.generator.generate_chempots_from_condition">
+<span class="sig-prename descclassname"><span class="pre">defermi.chempots.generator.</span></span><span class="sig-name descname"><span class="pre">generate_chempots_from_condition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">condition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">API_KEY</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermo_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'GGA_GGA+U'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/generator.html#generate_chempots_from_condition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.generator.generate_chempots_from_condition" title="Link to this definition"></a></dt>
+<dd><p>Generate Chempots dictionary using the data from the Materials Project.
+Condition must be specified as “&lt;el&gt;-rich” or “&lt;el&gt;-poor”.
+The phase diagram with the elements contained in the target composition is build and
+used to create the chemical potentials range for the target element.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition of the target material.</p></li>
+<li><p><strong>condition</strong> (<em>str</em>) – Condition for the choice of chemical potential. “&lt;el&gt;-poor” or “&lt;el&gt;-rich&gt;”.</p></li>
+<li><p><strong>API_KEY</strong> (<em>str</em>) – API KEY for the Materials Project database. If not provided, <cite>pymatgen</cite> looks
+in the configuration file.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>get_phase_diagram_from_chemsys</cite>.
+‘thermo_type’ is set by default as ‘GGA_GGA+U’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>Chempots object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.chempots.generator.generate_chempots_from_mp">
+<span class="sig-prename descclassname"><span class="pre">defermi.chempots.generator.</span></span><span class="sig-name descname"><span class="pre">generate_chempots_from_mp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">API_KEY</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/generator.html#generate_chempots_from_mp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.generator.generate_chempots_from_mp" title="Link to this definition"></a></dt>
+<dd><p>Generate Chempots dictionary using the data from the Materials Project.
+<cite>element</cite> can be a periodic table element, or a condition “&lt;el&gt;-poor/rich”
+(see docs in <cite>generate_chempots_from_condition</cite>).
+If not provided, oxygen is chosen as target element if present,
+otherwise the last element in the composition formula is picked.</p>
+<p>If <cite>element</cite> is provided as condition (“&lt;el&gt;-poor/rich”), a <cite>Chempots</cite> object is
+returned, otherwise all conditions are pulled from the database and a <cite>Reservoirs</cite>
+object is returned (a <cite>Chempots</cite> object for every condition).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>str</em><em> or </em><em>Composition</em>) – Composition of the target material.</p></li>
+<li><p><strong>element</strong> (<em>str</em>) – Periodic table element or condition (“&lt;el&gt;-poor/rich”) for the choice of chemical potential.
+if a condition is provided, a <cite>Chempots</cite> object is
+returned, otherwise all conditions are pulled from the database and a <cite>Reservoirs</cite>
+object is returned (a <cite>Chempots</cite> object for every condition).</p></li>
+<li><p><strong>API_KEY</strong> (<em>str</em>) – API KEY for the Materials Project database. If not provided, <cite>pymatgen</cite> looks
+in the configuration file.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>get_phase_diagram_from_chemsys</cite>.
+‘thermo_type’ is set by default as ‘GGA_GGA+U’.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>chemical_potentials</strong> – Chemical potentials for the target composition and condition.
+If <cite>element</cite> is provided as condition (“&lt;el&gt;-poor/rich”), a <cite>Chempots</cite> object is
+returned, otherwise all conditions are pulled from the database and a <cite>Reservoirs</cite>
+object is returned (a <cite>Chempots</cite> object for every condition).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="defermi.chempots.core.html#defermi.chempots.core.Chempots" title="defermi.chempots.core.Chempots">Chempots</a> or <a class="reference internal" href="defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs" title="defermi.chempots.reservoirs.Reservoirs">Reservoirs</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.chempots.generator.generate_pressure_reservoirs_from_precursors">
+<span class="sig-prename descclassname"><span class="pre">defermi.chempots.generator.</span></span><span class="sig-name descname"><span class="pre">generate_pressure_reservoirs_from_precursors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">precursors</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temperature</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">oxygen_ref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pressure_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">(1e-20,</span> <span class="pre">10000000000.0)</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">npoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">50</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_pressures_as_strings</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermo_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'GGA_GGA+U'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/chempots/generator.html#generate_pressure_reservoirs_from_precursors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.chempots.generator.generate_pressure_reservoirs_from_precursors" title="Link to this definition"></a></dt>
+<dd><p>Generate reservoirs dependent on oxygen partial pressure (<cite>PressureReservoirs</cite>)
+starting from precursors compostitions.
+A dictionary with precursor composition and energy per formula unit in eV is generated
+with data from the Materials Project database.
+If not provided, the reference for the oxygen chempot at 0 K is also pulled from the DB.
+Chemical potentials are found from the energies of the precursors and the oxygen chempot value
+(uses the np.linalg.lstsq function).
+If the system is underdetermined the minimum-norm solution is found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>precursors</strong> (<em>str</em><em> or </em><em>list</em>) – Compositions of precursors.</p></li>
+<li><p><strong>oxygen_ref</strong> (<em>float</em>) – Absolute chempot of oxygen at 0K. If not provided it is pulled from the MP database.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K.</p></li>
+<li><p><strong>pressure_range</strong> (<em>tuple</em>) – Range in which to evaluate the partial pressure . The default is from 1e-20 to 1e10.</p></li>
+<li><p><strong>npoints</strong> (<em>int</em>) – Number of data points to interpolate the partial pressure with. The default is 50.</p></li>
+<li><p><strong>get_pressures_as_strings</strong> (<em>bool</em>) – Get pressure values (keys in the Reservoirs dict) as strings. The default is set to floats.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>pressure_reservoirs</strong> – PressureReservoirs object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.PressureReservoirs" title="defermi.chempots.reservoirs.PressureReservoirs">PressureReservoirs</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="defermi.chempots.core.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="defermi.chempots.oxygen.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Lorenzo Villa.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

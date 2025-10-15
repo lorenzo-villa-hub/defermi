@@ -13,6 +13,7 @@ Submodules
    :maxdepth: 4
 
    defermi.chempots.core
+   defermi.chempots.generator
    defermi.chempots.oxygen
    defermi.chempots.phase_diagram
    defermi.chempots.reservoirs

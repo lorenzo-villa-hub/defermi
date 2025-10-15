@@ -20,7 +20,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="&lt;no title&gt;" href="defermi.chempots.phase_diagram.html" />
-    <link rel="prev" title="&lt;no title&gt;" href="defermi.chempots.core.html" /> 
+    <link rel="prev" title="&lt;no title&gt;" href="defermi.chempots.generator.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -43,20 +43,8 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="api.html">API Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="defermi.html">defermi package</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="defermi.html#subpackages">Subpackages</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="defermi.chempots.html">defermi.chempots package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="defermi.corrections.html">defermi.corrections package</a></li>
-<li class="toctree-l4"><a class="reference internal" href="defermi.tools.html">defermi.tools package</a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="defermi.html#submodules">Submodules</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
 </ul>
 
         </div>
@@ -262,7 +250,7 @@ Chemical potentials are found from the energies of the precursors and the oxygen
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>precursors</strong> (<em>dict</em>) – Dictionaly with formulas (str) as keys and total energies (float) as values.</p></li>
 <li><p><strong>oxygen_ref</strong> (<em>float</em>) – Absolute chempot of oxygen at 0K.</p></li>
-<li><p><strong>temperature</strong> (<em>float</em>) – Temperature.</p></li>
+<li><p><strong>temperature</strong> (<em>float</em>) – Temperature in K.</p></li>
 <li><p><strong>pressure_range</strong> (<em>tuple</em>) – Range in which to evaluate the partial pressure . The default is from 1e-20 to 1e10.</p></li>
 <li><p><strong>npoints</strong> (<em>int</em>) – Number of data points to interpolate the partial pressure with. The default is 50.</p></li>
 <li><p><strong>get_pressures_as_strings</strong> (<em>bool</em>) – Get pressure values (keys in the Reservoirs dict) as strings. The default is set to floats.</p></li>
@@ -282,7 +270,7 @@ Chemical potentials are found from the energies of the precursors and the oxygen
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="defermi.chempots.core.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="defermi.chempots.generator.html" class="btn btn-neutral float-left" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="defermi.chempots.phase_diagram.html" class="btn btn-neutral float-right" title="&lt;no title&gt;" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

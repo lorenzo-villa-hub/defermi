@@ -82,7 +82,9 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-
+<span class="kn">from</span><span class="w"> </span><span class="nn">.chempots.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chempots</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.chempots.reservoirs</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reservoirs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.chempots.generator</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_chempots_from_mp</span><span class="p">,</span> <span class="n">generate_pressure_reservoirs_from_precursors</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.chempots.oxygen</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_pressure_reservoirs_from_precursors</span><span class="p">,</span> <span class="n">get_oxygen_pressure_reservoirs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.corrections.kumagai</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_kumagai_correction</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.corrections.freysoldt</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_freysoldt_correction_from_locpot</span>
@@ -123,6 +125,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_group_entries</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_thermodata</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_chempots</span> <span class="o">=</span> <span class="kc">None</span>
         
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>     
@@ -161,6 +164,13 @@
         <span class="k">return</span> <span class="n">DefectsAnalysis</span><span class="p">(</span><span class="n">entries</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">entries</span><span class="p">,</span><span class="n">band_gap</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">band_gap</span><span class="p">,</span><span class="n">vbm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vbm</span><span class="p">)</span></div>
 
     
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">chempots</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return chemical potential values if they were generated automatically</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_chempots</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">thermodata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1145,7 +1155,7 @@
                             <span class="n">oxygen_ref</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                             <span class="n">pressure_range</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-20</span><span class="p">,</span><span class="mf">1e10</span><span class="p">),</span>
                             <span class="n">npoints</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span>
-                            <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span>
+                            <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-20</span><span class="p">,</span>
                             <span class="n">eform_kwargs</span><span class="o">=</span><span class="p">{},</span>
                             <span class="n">dconc_kwargs</span><span class="o">=</span><span class="p">{},</span>
                             <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1169,8 +1179,12 @@
 <span class="sd">        `reservoirs`: Dictionary with oxygen partial pressures as keys and dictionary with chemical potential</span>
 <span class="sd">        as values ({pO2:{&#39;element&#39;:chempot}}), or PressureReservoirs object.</span>
 <span class="sd">        </span>
-<span class="sd">        Alternatively: `precursors` + `oxygen_ref`: Dictionary with {formula:energy} for </span>
-<span class="sd">        synthesis precursors and oxygen reference chempot at 0 K.</span>
+<span class="sd">        Alternatively: `precursors` + `oxygen_ref`:</span>
+<span class="sd">        </span>
+<span class="sd">        Dictionary with {formula:energy} for synthesis precursors and oxygen reference chempot at 0 K.</span>
+<span class="sd">        If you provide only the formulas, the data is pulled from the Materials Project database.</span>
+<span class="sd">        IMPORTANT: Using data from the MP database is useful to get a feeling of the defect behaviour.</span>
+<span class="sd">        For more accurate analysis you should always carefully define the chemical potentials.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1208,12 +1222,18 @@
 <span class="sd">            Must either be a list of dictionaries with {&#39;charge&#39;: float, &#39;conc&#39;: float} or a list of SingleDefConc objects. </span>
 <span class="sd">        reservoirs: dict or PressureReservoirs</span>
 <span class="sd">            Dictionary with pO2 (float) as keys and chemical potential dictionary as values ({pO2:{&#39;element&#39;:mu_element}})</span>
-<span class="sd">        precursors: dict</span>
-<span class="sd">            Dictionary with formulas (str) as keys and total energies as values. Chemical potentials are found from the energies of the </span>
+<span class="sd">        precursors: str, list or dict</span>
+<span class="sd">            Dictionary with formulas (str) as keys and total energies as values.</span>
+<span class="sd">            If a str or list is provided, the dictionary is generated with data from the Materials Project database.</span>
+<span class="sd">            Chemical potentials are found from the energies of the precursors and the oxygen chempot value </span>
+<span class="sd">            (uses the np.linalg.lstsq function). </span>
+<span class="sd">            If the system is underdetermined the minimum-norm solution is found. </span>
+<span class="sd">            Chemical potentials are found from the energies of the </span>
 <span class="sd">            precursors and the oxygen chempot value (uses the np.linalg.lstsq function). </span>
 <span class="sd">            If the system is underdetermined the minimum-norm solution is found.</span>
 <span class="sd">        oxygen_ref : float</span>
 <span class="sd">            Absolute chempot of oxygen at 0K.</span>
+<span class="sd">            If not provided and precursors are set, it is pulled from the Materials Project DB.</span>
 <span class="sd">        pressure_range : tuple</span>
 <span class="sd">            Range in which to evaluate the partial pressure. Only used if `reservoirs` are not provided.</span>
 <span class="sd">        npoints : int</span>
@@ -1235,19 +1255,30 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.thermodynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefectThermodynamics</span>
         
+        <span class="c1"># if reservoirs not provided, use precursors</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">reservoirs</span><span class="p">:</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">precursors</span><span class="p">:</span>
+            <span class="c1"># if precursor energies not provided, pull from MP</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">precursors</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span><span class="nb">list</span><span class="p">):</span>
+                <span class="n">reservoirs</span> <span class="o">=</span> <span class="n">generate_pressure_reservoirs_from_precursors</span><span class="p">(</span>
+                                                        <span class="n">precursors</span><span class="o">=</span><span class="n">precursors</span><span class="p">,</span>
+                                                        <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                                        <span class="n">oxygen_ref</span><span class="o">=</span><span class="n">oxygen_ref</span><span class="p">,</span>
+                                                        <span class="n">pressure_range</span><span class="o">=</span><span class="n">pressure_range</span><span class="p">,</span>
+                                                        <span class="n">npoints</span><span class="o">=</span><span class="n">npoints</span><span class="p">)</span>
+                
+            <span class="c1"># if precursors not provided, if only oxygen is present use oxygen_ref</span>
+            <span class="k">elif</span> <span class="ow">not</span> <span class="n">precursors</span><span class="p">:</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">!=</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">]:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You need to either directly provide reservoirs, or precursors + oxygen chempot reference&#39;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="ow">not</span> <span class="n">oxygen_ref</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You need to provide the oxygen chempot reference when using precursors&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">oxygen_ref</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;You need to provide the oxygen chempot reference when using precursors&#39;</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">]:</span>
-                <span class="n">reservoirs</span> <span class="o">=</span> <span class="n">get_oxygen_pressure_reservoirs</span><span class="p">(</span>
-                                                            <span class="n">oxygen_ref</span><span class="o">=</span><span class="n">oxygen_ref</span><span class="p">,</span>
-                                                            <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
-                                                            <span class="n">pressure_range</span><span class="o">=</span><span class="n">pressure_range</span><span class="p">,</span>
-                                                            <span class="n">npoints</span><span class="o">=</span><span class="n">npoints</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">==</span> <span class="p">[</span><span class="s1">&#39;O&#39;</span><span class="p">]:</span>
+                    <span class="n">reservoirs</span> <span class="o">=</span> <span class="n">get_oxygen_pressure_reservoirs</span><span class="p">(</span>
+                                                                <span class="n">oxygen_ref</span><span class="o">=</span><span class="n">oxygen_ref</span><span class="p">,</span>
+                                                                <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
+                                                                <span class="n">pressure_range</span><span class="o">=</span><span class="n">pressure_range</span><span class="p">,</span>
+                                                                <span class="n">npoints</span><span class="o">=</span><span class="n">npoints</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">reservoirs</span> <span class="o">=</span> <span class="n">get_pressure_reservoirs_from_precursors</span><span class="p">(</span>
                                                                     <span class="n">precursors</span><span class="o">=</span><span class="n">precursors</span><span class="p">,</span>
@@ -1255,6 +1286,8 @@
                                                                     <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
                                                                     <span class="n">pressure_range</span><span class="o">=</span><span class="n">pressure_range</span><span class="p">,</span>
                                                                     <span class="n">npoints</span><span class="o">=</span><span class="n">npoints</span><span class="p">)</span>
+            <span class="c1"># store reservoirs</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_chempots</span> <span class="o">=</span> <span class="n">reservoirs</span>
                 
         <span class="n">defects_analysis</span> <span class="o">=</span>  <span class="n">DefectThermodynamics</span><span class="p">(</span>
                                                 <span class="n">defects_analysis</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
@@ -1265,6 +1298,7 @@
                                                 <span class="n">eform_kwargs</span><span class="o">=</span><span class="n">eform_kwargs</span><span class="p">,</span>
                                                 <span class="n">dconc_kwargs</span><span class="o">=</span><span class="n">dconc_kwargs</span><span class="p">)</span>
         
+        <span class="c1"># if quenching temperature is provided, use quenched routine</span>
         <span class="k">if</span> <span class="n">quench_temperature</span><span class="p">:</span>
             <span class="n">thermodata</span> <span class="o">=</span> <span class="n">defects_analysis</span><span class="o">.</span><span class="n">get_pO2_quenched_thermodata</span><span class="p">(</span>
                                                                     <span class="n">reservoirs</span><span class="o">=</span><span class="n">reservoirs</span><span class="p">,</span>
@@ -1302,7 +1336,7 @@
                             <span class="n">fixed_concentrations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                             <span class="n">external_defects</span><span class="o">=</span><span class="p">[],</span>
                             <span class="n">npoints</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
-                            <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span>
+                            <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-20</span><span class="p">,</span>
                             <span class="n">eform_kwargs</span><span class="o">=</span><span class="p">{},</span>
                             <span class="n">dconc_kwargs</span><span class="o">=</span><span class="p">{},</span>
                             <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -1316,8 +1350,21 @@
 <span class="sd">            Name or element of the variable defect species.</span>
 <span class="sd">        concentration_range : tuple or list</span>
 <span class="sd">            Logaritmic range of the concentration of the variable species in cm^-3 (ex. [1,20]).</span>
-<span class="sd">        chemical_potentials : dict</span>
-<span class="sd">            Dictionary containing chemical potentials {element:chempot}.</span>
+<span class="sd">        chemical_potentials : tuple, list or dict</span>
+<span class="sd">            Chemical potentials of the elements, in the format `{&#39;element&#39;:chempot}`.</span>
+<span class="sd">            Alternatively, provide a list or tuple: the first item is the composition formula,</span>
+<span class="sd">            the second item is a condition: &quot;&lt;el&gt;-poor/middle/rich&quot;.</span>
+
+<span class="sd">            Generated chemical potentials are stored as property (`self.chempots`).</span>
+
+<span class="sd">            IMPORTANT: Using data from the MP database is useful to get a feeling of the defect behaviour.</span>
+<span class="sd">            For more accurate analysis you should always carefully define the chemical potentials.</span>
+
+<span class="sd">            Examples:</span>
+
+<span class="sd">            - `chemical_potentials = {&#39;Sr&#39;:value, &#39;O&#39;:value}`</span>
+<span class="sd">            - `chemical_potentials = (&#39;SrO&#39;,&#39;O-rich&#39;)`</span>
+
 <span class="sd">        bulk_dos : dict or Dos</span>
 <span class="sd">            Density of states to integrate. Can be provided as density of states D(E)</span>
 <span class="sd">            or using effective masses.</span>
@@ -1371,6 +1418,11 @@
                                                 <span class="n">eform_kwargs</span><span class="o">=</span><span class="n">eform_kwargs</span><span class="p">,</span>
                                                 <span class="n">dconc_kwargs</span><span class="o">=</span><span class="n">dconc_kwargs</span><span class="p">)</span>
         
+        <span class="c1"># if chemical potentials are not provided, pull from MP and store them</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">chemical_potentials</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">chemical_potentials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_chemical_potentials</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_chempots</span> <span class="o">=</span> <span class="n">chemical_potentials</span>
+        
         <span class="k">if</span> <span class="n">quench_temperature</span><span class="p">:</span>
             <span class="n">thermodata</span> <span class="o">=</span> <span class="n">defects_analysis</span><span class="o">.</span><span class="n">get_variable_species_quenched_thermodata</span><span class="p">(</span>
                                                         <span class="n">variable_defect_specie</span><span class="o">=</span><span class="n">variable_defect_specie</span><span class="p">,</span>
@@ -1420,8 +1472,34 @@
 
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------        </span>
-<span class="sd">        chemical_potentials : dict</span>
-<span class="sd">            Dictionary with chemical potentials of the elements {&#39;element&#39;:chempot}</span>
+<span class="sd">        chemical_potentials : (str, tuple, list or dict)</span>
+<span class="sd">            If a dictionary is provided, either a dict with chemical potentials</span>
+<span class="sd">            of the elements `chempots={&#39;element&#39;:chempot}` or a dict of chempots </span>
+<span class="sd">            dictionaries for multiple subfigures (`{label:chempots}`). </span>
+<span class="sd">            </span>
+<span class="sd">            If a string or tuple are provided, chemical potentials will be generated</span>
+<span class="sd">            from the phase diagram data in the Materials Project database.</span>
+<span class="sd">            If a string is provided: pass the composition formula of the target material,</span>
+<span class="sd">            and chemical potential conditions are automatically generated by checking the stability</span>
+<span class="sd">            range of a target element in the phase of interest. If the composition contains</span>
+<span class="sd">            oxygen, it is chosen as target, otherwise the last element in the formula is chosen.</span>
+<span class="sd">            Multiple subfigure are generated.</span>
+<span class="sd">            If a tuple or list is provided, the first item is the composition formula.</span>
+<span class="sd">            The second item is either the target element (multiple plots are generated),</span>
+<span class="sd">            or a condition: &quot;&lt;el&gt;-poor/middle/rich&quot;, a single figure is generated. </span>
+<span class="sd">            Generated chemical potentials are stored as property (`self.chempots`).</span>
+
+<span class="sd">            IMPORTANT: Using data from the MP database is useful to get a feeling of the defect behaviour.</span>
+<span class="sd">            For more accurate analysis you should always carefully define the chemical potentials.</span>
+
+<span class="sd">            Examples:</span>
+
+<span class="sd">            - `chemical_potentials = {&#39;Sr&#39;:value, &#39;O&#39;:value}`</span>
+<span class="sd">            - `chemical_potentials = {&#39;A-label&#39;:{&#39;Sr&#39;:a_value, &#39;O&#39;:a_value}, &#39;B-label&#39;:{&#39;Sr&#39;:b_value, &#39;O&#39;:b_value}}`</span>
+<span class="sd">            - `chemical_potentials = &#39;SrO&#39;`</span>
+<span class="sd">            - `chemical_potentials = (&#39;SrO&#39;,&#39;O&#39;)`</span>
+<span class="sd">            - `chemical_potentials = (&#39;SrO&#39;,&#39;O-rich&#39;)`</span>
+
 <span class="sd">        temperature : float</span>
 <span class="sd">            Temperature in K. If no custom formation energy is provided, this arg has no effect.</span>
 <span class="sd">        entries : list </span>
@@ -1473,12 +1551,16 @@
             <span class="s1">&#39;subplot_settings&#39;</span><span class="p">:</span><span class="kc">None</span><span class="p">,</span>
             <span class="s1">&#39;eform_kwargs&#39;</span><span class="p">:</span><span class="n">eform_kwargs</span>
             <span class="p">}</span>
-        <span class="k">if</span> <span class="n">chemical_potentials</span><span class="p">:</span>
+
+        <span class="c1"># if chemical potentials are not provided, pull from MP and store them</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">chemical_potentials</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">chemical_potentials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_chemical_potentials</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">chemical_potentials</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Chempots</span><span class="p">,</span> <span class="n">Reservoirs</span><span class="p">):</span>
             <span class="n">values</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">chemical_potentials</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="nb">dict</span><span class="p">:</span>
-                <span class="n">ncolumns</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">dict</span><span class="p">,</span> <span class="n">Chempots</span><span class="p">):</span>
+                <span class="n">ncolumns</span> <span class="o">=</span> <span class="mi">3</span>
                 <span class="n">nrows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">//</span> <span class="n">ncolumns</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">%</span> <span class="n">ncolumns</span> 
-                <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">),</span><span class="n">nrows</span><span class="p">,</span><span class="n">ncolumns</span><span class="p">)</span>
                 <span class="n">res</span> <span class="o">=</span> <span class="n">chemical_potentials</span>
                 <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
                 <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="n">res</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
@@ -1489,7 +1571,8 @@
                     <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;subplot_settings&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">nrows</span><span class="p">,</span><span class="n">ncolumns</span><span class="p">,</span><span class="n">idx</span><span class="p">)</span>
                     <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_formation_energies</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_formation_energies</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;chemical_potentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chemical_potentials</span>
+                <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_formation_energies</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>        
         <span class="k">else</span><span class="p">:</span>
             <span class="n">plt</span> <span class="o">=</span> <span class="n">plot_formation_energies</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">plt</span></div>
@@ -1750,7 +1833,7 @@
                         <span class="n">temperature</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
                         <span class="n">fixed_concentrations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                         <span class="n">external_defects</span><span class="o">=</span><span class="p">[],</span>
-                        <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-05</span><span class="p">,</span>
+                        <span class="n">xtol</span><span class="o">=</span><span class="mf">1e-20</span><span class="p">,</span>
                         <span class="n">eform_kwargs</span><span class="o">=</span><span class="p">{},</span>
                         <span class="n">dconc_kwargs</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1758,8 +1841,20 @@
 <span class="sd">        </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        chemical_potentials : dict</span>
-<span class="sd">            Dictionary of chemical potentials in the format {&#39;element&#39;:chempot}.</span>
+<span class="sd">        chemical_potentials : tuple, list or dict</span>
+<span class="sd">            Chemical potentials of the elements, in the format `{&#39;element&#39;:chempot}`.</span>
+<span class="sd">            Alternatively, provide a list or tuple: the first item is the composition formula,</span>
+<span class="sd">            the second item is a condition: &quot;&lt;el&gt;-poor/middle/rich&quot;.</span>
+
+<span class="sd">            Generated chemical potentials are stored as property (`self.chempots`).</span>
+<span class="sd">            IMPORTANT: Using data from the MP database is useful to get a feeling of the defect behaviour.</span>
+<span class="sd">            For more accurate analysis you should always carefully define the chemical potentials.</span>
+
+<span class="sd">            Examples:</span>
+
+<span class="sd">            - `chemical_potentials = {&#39;Sr&#39;:value, &#39;O&#39;:value}`</span>
+<span class="sd">            - `chemical_potentials = (&#39;SrO&#39;,&#39;O-rich&#39;)`</span>
+
 <span class="sd">        bulk_dos : dict or Dos</span>
 <span class="sd">            Density of states to integrate. Can be provided as density of states D(E)</span>
 <span class="sd">            or using effective masses.</span>
@@ -1800,7 +1895,8 @@
 <span class="sd">            Fermi level satisfying charge neutrality.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-                
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">chemical_potentials</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">chemical_potentials</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_chemical_potentials</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">)</span>
         <span class="k">def</span><span class="w"> </span><span class="nf">_get_total_q</span><span class="p">(</span><span class="n">ef</span><span class="p">):</span>
             <span class="n">qd_tot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_total_charge</span><span class="p">(</span><span class="n">fermi_level</span><span class="o">=</span><span class="n">ef</span><span class="p">,</span>
                                             <span class="n">chemical_potentials</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">,</span>
@@ -2040,7 +2136,27 @@
                                 <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
                                 <span class="n">band_gap</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">band_gap</span><span class="p">)</span>
         <span class="n">qd_tot</span> <span class="o">+=</span> <span class="n">h</span> <span class="o">-</span> <span class="n">n</span>
-        <span class="k">return</span> <span class="n">qd_tot</span></div>
+        <span class="k">return</span> <span class="n">qd_tot</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_chemical_potentials</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">target</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate chemical potentials with .chempots.generator</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">composition</span><span class="p">,</span> <span class="n">element</span> <span class="o">=</span> <span class="n">target</span>
+            <span class="n">chemical_potentials</span> <span class="o">=</span> <span class="n">generate_chempots_from_mp</span><span class="p">(</span>
+                                            <span class="n">composition</span><span class="o">=</span><span class="n">composition</span><span class="p">,</span>
+                                            <span class="n">element</span><span class="o">=</span><span class="n">element</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">target</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">:</span>
+            <span class="n">composition</span> <span class="o">=</span> <span class="n">target</span>
+            <span class="n">chemical_potentials</span> <span class="o">=</span> <span class="n">generate_chempots_from_mp</span><span class="p">(</span>
+                                    <span class="n">composition</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+                                    <span class="n">element</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_chempots</span> <span class="o">=</span> <span class="n">chemical_potentials</span>
+
+        <span class="k">return</span> <span class="n">chemical_potentials</span></div>
+
 
 
 

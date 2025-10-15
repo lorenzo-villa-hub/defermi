@@ -1215,11 +1215,10 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             Name or element of the variable defect species.
         concentration_range : tuple or list
             Logaritmic range of the concentration of the variable species in cm^-3 (ex. [1,20]).
-        chemical_potentials : (tuple, list or dict)
-            
-            - Dictionary with chemical potentials of the elements `chempots={'element':chempot}` 
-            - List or tuple: the first item is the composition formula,
-            the second item is a condition: "<el>-poor/middle/rich"
+        chemical_potentials : tuple, list or dict
+            Chemical potentials of the elements, in the format `{'element':chempot}`.
+            Alternatively, provide a list or tuple: the first item is the composition formula,
+            the second item is a condition: "<el>-poor/middle/rich".
 
             Generated chemical potentials are stored as property (`self.chempots`).
 
@@ -1336,7 +1335,6 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         Parameters
         -----------        
         chemical_potentials : (str, tuple, list or dict)
-            
             If a dictionary is provided, either a dict with chemical potentials
             of the elements `chempots={'element':chempot}` or a dict of chempots 
             dictionaries for multiple subfigures (`{label:chempots}`). 
@@ -1678,11 +1676,10 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         Parameters
         ----------
-        chemical_potentials : (tuple, list or dict)
-            
-            - Dictionary with chemical potentials of the elements `chempots={'element':chempot}` 
-            - List or tuple: the first item is the composition formula,
-            the second item is a condition: "<el>-poor/middle/rich"
+        chemical_potentials : tuple, list or dict
+            Chemical potentials of the elements, in the format `{'element':chempot}`.
+            Alternatively, provide a list or tuple: the first item is the composition formula,
+            the second item is a condition: "<el>-poor/middle/rich".
 
             Generated chemical potentials are stored as property (`self.chempots`).
             IMPORTANT: Using data from the MP database is useful to get a feeling of the defect behaviour.
