@@ -169,7 +169,7 @@ with right_col:
             fig1.grid()
             fig1.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
             fig1.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-            st.pyplot(fig1, clear_figure=True, width="content")
+            st.pyplot(fig1, clear_figure=False, width="content")
 
         with c2:
             st.markdown("**Brouwer Diagram**")
