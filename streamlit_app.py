@@ -10,6 +10,7 @@ sns.set_theme(context='talk',style='whitegrid')
 fontsize = 18
 label_size = 16
 npoints = 100
+pressure_range = (1e-35,1e25)
 
 # ---- INPUT DATA ----
 bulk_volume = 800  # Å³
@@ -26,7 +27,7 @@ oxygen_ref = -5
 da = DefectsAnalysis.from_dataframe(df, band_gap=band_gap, vbm=vbm)
 
 # ---- PAGE CONFIG ----
-st.set_page_config(layout="wide", page_title="Defect Thermodynamics")
+st.set_page_config(layout="wide", page_title="defermi example")
 
 # ---- COMPACT GLOBAL STYLING ----
 st.markdown("""
@@ -61,7 +62,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-st.title("Defect Thermodynamics App")
+st.title("`defermi` example")
 
 # ---- LAYOUT ----
 left_col, right_col = st.columns([0.7, 2.3])
@@ -76,13 +77,15 @@ with left_col:
 
     st.markdown(r"**Effective Masses ($m^*/m_e$)**")
     dos = {
-        'm_eff_e': st.slider("Electron", 0.1, 2.0, 0.5, 0.1, key="me"),
-        'm_eff_h': st.slider("Hole", 0.1, 2.0, 0.4, 0.1, key="mh"),
+        'm_eff_e': st.slider("Electron", 0.1, 1.1, 0.5, 0.05, key="me"),
+        'm_eff_h': st.slider("Hole",     0.1, 1.1, 0.4, 0.05, key="mh"),
     }
 
     st.markdown("**Thermodynamic Parameters**")
     precursor_energy_pfu = st.slider("Precursor energy/f.u. (eV)", -20.0, -6.0, -10.0, 0.1, key="prec")
     temperature = st.slider("Temperature (K)", 0, 1500, 1000, 50, key="temp")
+    if temperature == 0:
+        temperature = 0.1
 
     enable_quench = st.checkbox("Enable quenching", value=False, key="enable_quench")
     if enable_quench:
@@ -157,7 +160,7 @@ with right_col:
                 quenched_species=quenched_species,
                 precursors=precursors,
                 oxygen_ref=oxygen_ref,
-                pressure_range=(1e-35, 1e25),
+                pressure_range=pressure_range,
                 external_defects=external_defects,
                 figsize=figsize,
                 fontsize=fontsize,
@@ -200,6 +203,7 @@ with right_col:
                     band_gap=da.band_gap,
                     figsize=figsize,
                     fontsize=fontsize,
+                    xlim=pressure_range,
             )
             fig4.grid()
             fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
