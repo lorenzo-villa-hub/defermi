@@ -170,7 +170,6 @@ with right_col:
             fig1.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
             fig1.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
             st.pyplot(fig1, clear_figure=False, width="content")
-            plt.close(fig1)
 
         with c2:
             st.markdown("**Brouwer Diagram**")
@@ -193,7 +192,6 @@ with right_col:
             fig2.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
             thermodata = da.thermodata
             st.pyplot(fig2, clear_figure=False, width="content")
-            plt.close(fig2)
 
         # 2nd row
         c3, c4 = st.columns(2)
@@ -217,7 +215,6 @@ with right_col:
                 fig3.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
                 fig3.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
                 st.pyplot(fig3, clear_figure=False, width="content")
-            plt.close(fig3)
 
         with c4:
             st.markdown("**Electron chemical potential**")
@@ -233,4 +230,3 @@ with right_col:
             fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
             fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
             st.pyplot(fig4, clear_figure=False, width="content")
-            plt.close(fig4)
