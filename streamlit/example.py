@@ -37,30 +37,40 @@ st.markdown("""
         padding-bottom: 0rem;
         padding-left: 0.4rem;
         padding-right: 0.4rem;
-        max-width: 85%;  /* reduced from 95% */
+        max-width: 85%;  /* keep slightly narrower than full width */
     }
+
+    /* Reset labels and text to readable size */
     h1, h2, h3, h4, h5, label, .stSlider label, .stRadio label, .stSelectbox label, .stMarkdown {
-        font-size: 0.55rem !important;
+        font-size: 0.85rem !important;
     }
+
+    /* Reset sliders to normal size */
     div[data-baseweb="slider"] {
-        transform: scale(0.6);
+        transform: scale(1);
         transform-origin: left center;
-        margin-bottom: -20px;
+        margin-bottom: 0;
     }
+
+    /* Reset buttons to normal size */
     .stButton button {
-        font-size: 0.55rem !important;
-        padding: 0.05rem 0.15rem;
-        height: 1.2rem !important;
+        font-size: 0.9rem !important;
+        padding: 0.2rem 0.4rem;
+        height: auto !important;
     }
+
+    /* Reset markdown paragraph text */
     div[data-testid="stMarkdownContainer"] p {
-        font-size: 0.6rem !important;
-        margin-bottom: -0.3rem !important;
+        font-size: 0.85rem !important;
+        margin-bottom: 0.2rem !important;
     }
+
     .stRadio > div {
-        gap: 0.2rem !important;
+        gap: 0.5rem !important;
     }
 </style>
 """, unsafe_allow_html=True)
+
 
 st.title("`defermi` example")
 
