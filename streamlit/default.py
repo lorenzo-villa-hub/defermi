@@ -82,13 +82,13 @@ left_col, right_col = st.columns([0.7, 2.3])
 
 # ---- LEFT COLUMN ----
 with left_col:
-    # st.markdown("**Defect energies (eV)**")
-    # for idx,entry in enumerate(da.entries):
-    #     den = entry.energy_diff
-    #     range = (den-5,den+5)
-    #     slider_label = entry.defect.name + ', q = ' + str(entry.defect.charge)
-    #     new_energy = st.slider(slider_label, range[0], range[1], entry.energy_diff, 0.1, key=f"ed_entry{idx}")
-    #     entry._energy_diff = new_energy
+    st.markdown("**Defect energies (eV)**")
+    for idx,entry in enumerate(da.entries):
+        den = entry.energy_diff
+        range = (den-5,den+5)
+        slider_label = entry.defect.name + ', q = ' + str(entry.defect.charge)
+        new_energy = st.slider(slider_label, range[0], range[1], entry.energy_diff, 0.1, key=f"ed_entry{idx}")
+        entry._energy_diff = new_energy
 
     st.markdown("**Chemical Potentials (eV)**")
     chempots = {
