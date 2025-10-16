@@ -430,6 +430,7 @@ def plot_pO2_vs_conductivity(
                             new_figure=True,
                             label=None,
                             figsize=(8,8),
+                            fontsize=22,
                             xlim=(1e-20,1e10),
                             ylim=None):
     """
@@ -448,6 +449,8 @@ def plot_pO2_vs_conductivity(
         Label for the data.
     figsize : tuple
         Size of the matplotlib figure.
+    fontsize : float
+        Size of font for matplotlib rcParams. 
     xlim : tuple
         Range of x-axis.
     ylim : tuple
@@ -467,6 +470,7 @@ def plot_pO2_vs_conductivity(
                                 new_figure=new_figure,
                                 label=label,
                                 figsize=figsize,
+                                fontsize=fontsize,
                                 xlim=xlim,
                                 ylim=ylim)
     return plt    
@@ -480,6 +484,7 @@ def plot_pO2_vs_fermi_level(
                             new_figure=True,
                             label=None,
                             figsize=(8,8),
+                            fontsize=22,
                             xlim=(1e-20,1e10),
                             ylim=None,
                             colors=None):
@@ -501,6 +506,8 @@ def plot_pO2_vs_fermi_level(
         Label for the data.
     figsize : tuple
         Size of the matplotlib figure.
+    fontsize : float
+        Size of font for matplotlib rcParams. 
     xlim : tuple
         Range of x-axis.
     ylim : tuple
@@ -523,6 +530,7 @@ def plot_pO2_vs_fermi_level(
                                 new_figure=new_figure,
                                 label=label,
                                 figsize=figsize,
+                                fontsize=fontsize,
                                 xlim=xlim,
                                 ylim=ylim,
                                 colors=colors)
@@ -608,6 +616,7 @@ def plot_variable_species_vs_conductivity(
                                         new_figure=True,
                                         label=None,
                                         figsize=(8,8),
+                                        fontsize=22,
                                         xlim=(1e-20,1e10),
                                         ylim=None):
     """
@@ -628,6 +637,8 @@ def plot_variable_species_vs_conductivity(
         Label for the data.
     figsize : tuple
         Size of the matplotlib figure.
+    fontsize : float
+        Size of font for matplotlib rcParams. 
     xlim : tuple
         Range of x-axis.
     ylim : tuple
@@ -646,6 +657,7 @@ def plot_variable_species_vs_conductivity(
                                 new_figure=new_figure,
                                 label=label,
                                 figsize=figsize,
+                                fontsize=fontsize,
                                 xlim=xlim,
                                 ylim=ylim)
     return plt
@@ -659,6 +671,7 @@ def plot_variable_species_vs_fermi_level(
                                         new_figure=True,
                                         label=None,
                                         figsize=(8,8),
+                                        fontsize=22,
                                         xlim=(1e-20,1e10),
                                         ylim=None,
                                         colors=None):
@@ -682,6 +695,8 @@ def plot_variable_species_vs_fermi_level(
         Label for the data.
     figsize : tuple
         Size of the matplotlib figure.
+    fontsize : float
+        Size of font for matplotlib rcParams. 
     xlim : tuple
         Range of x-axis.
     ylim : tuple
@@ -704,6 +719,7 @@ def plot_variable_species_vs_fermi_level(
                                 new_figure=new_figure,
                                 label=label,
                                 figsize=figsize,
+                                fontsize=fontsize,
                                 xlim=xlim,
                                 ylim=ylim,
                                 colors=colors)
@@ -804,6 +820,7 @@ def plot_x_vs_conductivity(
                         new_figure=True,
                         label=None,
                         figsize=(8,8),
+                        fontsize=22,
                         xlim=(1e-20,1e10),
                         ylim=None):
     """
@@ -824,6 +841,8 @@ def plot_x_vs_conductivity(
         Label for the data.
     figsize : tuple
         Size of the matplotlib figure.
+    fontsize : float
+        Size of font for matplotlib rcParams. 
     xlim : tuple
         Range of x-axis.
     ylim : tuple
@@ -835,7 +854,7 @@ def plot_x_vs_conductivity(
         Matplotlib object.
 
     """
-    matplotlib.rcParams.update({'font.size': 22})
+    matplotlib.rcParams.update({'font.size': fontsize})
     if new_figure:
         plt.figure(figsize=figsize)
     if isinstance(conductivities,dict):
@@ -866,6 +885,7 @@ def plot_x_vs_fermi_level(
                         new_figure=True,
                         label=None,
                         figsize=(8,8),
+                        fontsize=22,
                         xlim=(1e-20,1e10),
                         ylim=None,
                         colors=None):
@@ -887,6 +907,8 @@ def plot_x_vs_fermi_level(
         Label for the data.
     figsize : tuple
         Size of the matplotlib figure.
+    fontsize : float
+        Size of font for matplotlib rcParams. 
     xlim : tuple
         Range of x-axis. 
     ylim : tuple
@@ -901,7 +923,7 @@ def plot_x_vs_fermi_level(
 
     """
     ylim = ylim if ylim else (-0.5, band_gap+0.5)
-    matplotlib.rcParams.update({'font.size': 20})
+    matplotlib.rcParams.update({'font.size': fontsize})
     if new_figure:
         plt.figure(figsize=figsize)
     if isinstance(fermi_levels,dict):
