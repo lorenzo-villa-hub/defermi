@@ -2,6 +2,7 @@ import streamlit as st
 import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
+
 from defermi import DefectsAnalysis
 from defermi.plotter import plot_pO2_vs_fermi_level
 
@@ -11,6 +12,7 @@ fontsize = 18
 label_size = 16
 npoints = 100
 pressure_range = (1e-35,1e25)
+precursor_energy_pfu = -10
 
 # ---- INPUT DATA ----
 bulk_volume = 800  # Å³
@@ -20,6 +22,7 @@ data_dict = [
     {'name': 'Vac_O', 'charge': 0, 'multiplicity': 1, 'energy_diff': 10.8, 'bulk_volume': bulk_volume},
     {'name': 'Vac_Sr', 'charge': 0, 'multiplicity': 1, 'energy_diff': 7.8, 'bulk_volume': bulk_volume},
 ]
+
 df = pd.DataFrame(data_dict)
 band_gap = 2
 vbm = 0
@@ -79,7 +82,15 @@ left_col, right_col = st.columns([0.7, 2.3])
 
 # ---- LEFT COLUMN ----
 with left_col:
-    st.markdown("**Chemical Potentials**")
+    st.markdown("**Defect energies (eV)**")
+    for idx,entry in enumerate(da.entries):
+        den = entry.energy_diff
+        range = (den-5,den+5)
+        slider_label = entry.defect.name + ', q = ' + str(entry.defect.charge)
+        new_energy = st.slider(slider_label, range[0], range[1], entry.energy_diff, 0.1, key=f"ed_entry{idx}")
+        entry._energy_diff = new_energy
+
+    st.markdown("**Chemical Potentials (eV)**")
     chempots = {
         'O': st.slider("μ(O)", -10.0, -5.0, -5.0, 0.1, key="muO"),
         'Sr': st.slider("μ(Sr)", -5.0, -1.0, -2.0, 0.1, key="muSr"),
@@ -92,7 +103,7 @@ with left_col:
     }
 
     st.markdown("**Thermodynamic Parameters**")
-    precursor_energy_pfu = st.slider("Precursor energy/f.u. (eV)", -20.0, -6.0, -10.0, 0.1, key="prec")
+    #precursor_energy_pfu = st.slider("Precursor energy/f.u. (eV)", -20.0, -6.0, -10.0, 0.1, key="prec")
     temperature = st.slider("Temperature (K)", 0, 1500, 1000, 50, key="temp")
     if temperature == 0:
         temperature = 0.1
