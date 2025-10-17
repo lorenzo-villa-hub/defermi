@@ -804,7 +804,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
     def _get_frozen_correction(self,e,frozen,dc):
         corr = 1
-        lower_limit = 1e-100
+        lower_limit = 1e-250
         df = Defect.from_string(e.name)
         for defect in df:
             typ, specie, name = defect.type, defect.specie, defect.name

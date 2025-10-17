@@ -152,27 +152,55 @@ with left_col:
         if temperature == 0:
             temperature = 0.1
 
-        subcol5, subcol6 = st.columns([0.5,0.5])
+
+
+        import uuid
+
         st.markdown("**Precursors**")
-        if "precursors" not in st.session_state:
-            st.session_state.precursors = {}
 
-        oxygen_ref = st.number_input(f"{mu_string}O (0K,p0)",value=-5.0,max_value=0.0,step=0.5)
-        if "num_inputs" not in st.session_state:
-            st.session_state.num_inputs = 0
-        
+        # Initialize session state
+        if "precursor_entries" not in st.session_state:
+            st.session_state.precursor_entries = []
+
+        # Add new input
         if st.button("+ Add"):
-            st.session_state.num_inputs += 1
+            # Generate a unique ID for this entry
+            entry_id = str(uuid.uuid4())
+            st.session_state.precursor_entries.append({
+                "id": entry_id,
+                "composition": "",
+                "energy": 0.0
+            })
+
+        def remove_precursor_entry(entry_id):
+            for idx,entry in enumerate(st.session_state.precursor_entries):
+                if entry['id'] == entry_id:
+                    del st.session_state.precursor_entries[idx]
 
 
-        for i in range(st.session_state.num_inputs):
-            with subcol5:
-                composition = st.text_input("Compostition",key=F"prec_id{i}")
-            with subcol6:
-                energy_pfu = st.number_input("Energy p.f.u in eV", value=0.0, key=f"en_{composition}")
-            if composition:
-                st.session_state.precursors[composition] = energy_pfu
-        
+        # Render inputs
+        for entry in st.session_state.precursor_entries:
+            cols = st.columns([0.45, 0.45, 0.1])
+            with cols[0]:
+                entry["composition"] = st.text_input("Composition", value=entry["composition"], key=f"comp_{entry['id']}")
+            with cols[1]:
+                entry["energy"] = st.number_input("Energy p.f.u (eV)", value=entry["energy"], key=f"energy_{entry['id']}")
+            with cols[2]:
+                st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"del_{entry['id']}")
+                    #to_remove.append(entry["id"])
+
+        # # Remove entries after the loop
+        # st.session_state.precursor_entries = [
+        #     e for e in st.session_state.precursor_entries if e["id"] not in to_remove
+        # ]
+
+        # Update dictionary
+        st.session_state.precursors = {
+                            entry["composition"]: entry["energy"] 
+                            for entry in st.session_state.precursor_entries
+                            if entry["composition"]}
+
+
         elements_in_precursors = set()
         if st.session_state.precursors:
             for comp in st.session_state.precursors:
