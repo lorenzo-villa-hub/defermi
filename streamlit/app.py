@@ -1,6 +1,7 @@
 
 import tempfile
 import os
+import uuid
 
 import streamlit as st
 import seaborn as sns
@@ -153,9 +154,6 @@ with left_col:
             temperature = 0.1
 
 
-
-        import uuid
-
         st.markdown("**Precursors**")
 
         # Initialize session state
@@ -163,7 +161,7 @@ with left_col:
             st.session_state.precursor_entries = []
 
         # Add new input
-        if st.button("+ Add"):
+        if st.button("+ Add",key="add_precursor"):
             # Generate a unique ID for this entry
             entry_id = str(uuid.uuid4())
             st.session_state.precursor_entries.append({
@@ -187,14 +185,7 @@ with left_col:
                 entry["energy"] = st.number_input("Energy p.f.u (eV)", value=entry["energy"], key=f"energy_{entry['id']}")
             with cols[2]:
                 st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"del_{entry['id']}")
-                    #to_remove.append(entry["id"])
 
-        # # Remove entries after the loop
-        # st.session_state.precursor_entries = [
-        #     e for e in st.session_state.precursor_entries if e["id"] not in to_remove
-        # ]
-
-        # Update dictionary
         st.session_state.precursors = {
                             entry["composition"]: entry["energy"] 
                             for entry in st.session_state.precursor_entries
@@ -227,46 +218,68 @@ with left_col:
             quench_temperature = st.slider("Quench Temperature (K)", 0, 1500, 1000, 50, key="qt")
             if quench_temperature == 0:
                 quench_temperature = 0.1 
-            quenched_species = st.radio(
-                "Select quenched species",
-                ("All", r"$V_O$", r"$V_{Sr}$"),
-                horizontal=True,
-                key="quenched_species",
-                index=0,
-            )
-            if quenched_species == 'All':
-                quenched_species = None
-            elif quenched_species == r"$V_O$":
-                quenched_species = ['Vac_O']
-            elif quenched_species == r"$V_{Sr}$":
-                quenched_species = ['Vac_Sr']
+
+            
+            quench_mode = st.radio("Quenching mode",("species","elements"),horizontal=True,key="quench_mode",index=0)
+
+            if quench_mode == "species":
+                species = [name for name in da.names]
+                quenched_species = st.multiselect("Select quenched species",species,key="quenched_species",default=species)
         else:
             quenched_species = None
             quench_temperature = None
 
 
-        st.markdown("**Dopant Settings**")
-        dopant_type = st.radio(
-            "Select dopant",
-            ("None", "Donor", "Acceptor"),
-            horizontal=True,
-            key="dtype",
-            index=0,
-        )
+        st.markdown("**External Dopants**")
 
-        if dopant_type != "None":
-            log_conc = st.slider(r"log₁₀(concentration (cm⁻³))", 10.0, 22.0, 18.0, 0.5, key="logconc")
-            dopant_concentration = 10 ** log_conc
+        if "external_defects_entries" not in st.session_state:
+            st.session_state.external_defects_entries = []
 
-        if dopant_type == "None":
-            dopant = None
-            external_defects = []
-        elif dopant_type == "Donor":
-            dopant = {'name': 'Sub_D_on_Sr', 'charge': 1, 'conc': dopant_concentration}
-            external_defects = [dopant]
-        else:
-            dopant = {'name': 'Sub_A_on_Sr', 'charge': -1, 'conc': dopant_concentration}
-            external_defects = [dopant]
+        if st.button("+ Add",key="add_external_defect"):
+            # Generate a unique ID for this entry
+            entry_id = str(uuid.uuid4())
+            st.session_state.precursor_entries.append({
+                "id": entry_id,
+                "name": "",
+                "charge": 0.0,
+                "conc":0.0})
+
+        def remove_external_defects_entries(entry_id):
+            for idx,entry in enumerate(st.session_state.external_defects_entries):
+                if entry['id'] == entry_id:
+                    del st.session_state.external_defects_entries[idx]
+
+
+        for defect in st.session_state.external_defects_entries:
+            cols = st.columns([0.3, 0.3, 0.3, 0.1])
+            with cols[0]:
+                entry["name"] = st.text_input("Name", value=entry["name"], key=f"name_{defect['id']}")
+            with cols[1]:
+                entry["charge"] = st.number_input("Charge", value=entry["charge"], key=f"charge_{defect['id']}")
+            with cols[3]:
+                entry["conc"] = st.number_input("Concentration", value=entry["conc"], key=f"conc_{defect['id']}")
+            with cols[4]:
+                st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"del_{defect['id']}")
+
+        external_defects = [{
+                            'name':e['name'],
+                            'charge':e['charge'],
+                            'conc':e['conc']
+                            } for e in st.session_state.external_defects_entries]
+
+        # if dopant_type != "None":
+        #     log_conc = st.slider(r"log₁₀(concentration (cm⁻³))", 10.0, 22.0, 18.0, 0.5, key="logconc")
+        #     dopant_concentration = 10 ** log_conc
+
+        # if dopant_type == "None":
+        #     dopant = None
+        #     external_defects = []
+        # elif dopant_type == "Donor":
+        #     dopant = {'name': 'Sub_D_on_D', 'charge': 1, 'conc': dopant_concentration}
+        #     external_defects = [dopant]
+        # else:
+        #     dopant = {'name': 'Pol_A', 'charge': -1, 'conc': dopant_concentration}
+        #     external_defects = [dopant]
 
         run_button = st.button("Update Plots")
 
@@ -319,7 +332,7 @@ if "da" in st.session_state and band_gap:
             # 2nd row
             c3, c4 = st.columns(2)
             with c3:
-                if dopant:
+                if False:
                     if dos:
                         st.markdown("**Doping Diagram**")
                         dopant.pop('conc')
