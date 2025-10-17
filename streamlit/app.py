@@ -238,7 +238,7 @@ with left_col:
         if st.button("+ Add",key="add_external_defect"):
             # Generate a unique ID for this entry
             entry_id = str(uuid.uuid4())
-            st.session_state.precursor_entries.append({
+            st.session_state.external_defects_entries.append({
                 "id": entry_id,
                 "name": "",
                 "charge": 0.0,
@@ -251,15 +251,15 @@ with left_col:
 
 
         for defect in st.session_state.external_defects_entries:
-            cols = st.columns([0.3, 0.3, 0.3, 0.1])
-            with cols[0]:
-                entry["name"] = st.text_input("Name", value=entry["name"], key=f"name_{defect['id']}")
-            with cols[1]:
-                entry["charge"] = st.number_input("Charge", value=entry["charge"], key=f"charge_{defect['id']}")
-            with cols[3]:
-                entry["conc"] = st.number_input("Concentration", value=entry["conc"], key=f"conc_{defect['id']}")
-            with cols[4]:
-                st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"del_{defect['id']}")
+            dcols = st.columns([0.3, 0.3, 0.3, 0.1])
+            with dcols[0]:
+                defect["name"] = st.text_input("Name", value=defect["name"], key=f"name_{defect['id']}")
+            with dcols[1]:
+                defect["charge"] = st.number_input("Charge", value=defect["charge"], key=f"charge_{defect['id']}")
+            with dcols[2]:
+                defect["conc"] = st.number_input("Concentration", value=defect["conc"], key=f"conc_{defect['id']}")
+            with dcols[3]:
+                st.button("🗑️", on_click=remove_external_defects_entries, args=[defect['id']], key=f"del_{defect['id']}")
 
         external_defects = [{
                             'name':e['name'],
