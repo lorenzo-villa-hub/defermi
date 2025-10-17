@@ -804,6 +804,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
     def _get_frozen_correction(self,e,frozen,dc):
         corr = 1
+        lower_limit = 1e-100
         df = Defect.from_string(e.name)
         for defect in df:
             typ, specie, name = defect.type, defect.specie, defect.name
@@ -811,6 +812,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 k = name
                 if k in frozen.keys():
                     eltot = dc.get_element_total(specie,vacancy=True)
+                    eltot = eltot if eltot > lower_limit else lower_limit # prevent division by zero
                     corr = corr * (frozen[k]/eltot)
             else:
                 if name in frozen.keys():
@@ -818,11 +820,13 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                     for n,c in dc.total.items(): # sum over all defects containing the specific specie
                         if name in n:
                             dtot += c
+                    dtot = dtot if dtot > lower_limit else lower_limit
                     corr = corr * (frozen[name]/dtot) 
                 else:
                     k = specie
                     if k in frozen.keys():
                         eltot = dc.get_element_total(specie,vacancy=False)
+                        eltot = eltot if eltot > lower_limit else lower_limit
                         corr = corr * (frozen[k]/eltot)
         return corr
 

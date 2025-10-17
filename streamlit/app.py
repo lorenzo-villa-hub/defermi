@@ -5,10 +5,13 @@ import os
 import streamlit as st
 import seaborn as sns
 import pandas as pd
+import matplotlib
 import matplotlib.pyplot as plt
 
+from monty.json import MontyDecoder
+from pymatgen.core.composition import Composition
+
 from defermi import DefectsAnalysis
-from defermi.tools.utils import get_object_from_json
 from defermi.plotter import plot_pO2_vs_fermi_level
 
 sns.set_theme(context='talk',style='whitegrid')
@@ -68,9 +71,14 @@ fontsize = 18
 label_size = 16
 npoints = 100
 pressure_range = (1e-35,1e25)
-precursor_energy_pfu = -10
+colors = matplotlib.color_sequences['tab10']
+
+
+precursors = None
 band_gap = None
 vbm=None
+dos = None
+thermodata = None
 
 oxygen_ref = -4.95
 
@@ -86,7 +94,7 @@ with left_col:
     with subcol1:
         st.markdown("**Dataset**")
     with subcol2:
-        uploaded_file = st.file_uploader("", type=["csv","json","pkl"], label_visibility="collapsed")
+        uploaded_file = st.file_uploader("Upload", type=["csv","json","pkl"], label_visibility="collapsed")
 
     # --- Display dataset ---
     if uploaded_file is not None:
@@ -102,6 +110,8 @@ with left_col:
 
         if band_gap is not None:
             st.session_state.da = DefectsAnalysis.from_file(tmp_path, band_gap=band_gap, vbm=vbm)
+            if not "color_dict" in st.session_state:
+                st.session_state.color_dict = {name:colors[idx] for idx,name in enumerate(st.session_state.da.names)}
             # clean up the temp file
             os.unlink(tmp_path)
             st.success("DefectsAnalysis object initialized")
@@ -109,7 +119,8 @@ with left_col:
 
     if "da" in st.session_state:
         da = st.session_state.da
-        st.dataframe(da.table(pretty=True))
+        st.dataframe(da.table())
+
         st.markdown("**Chemical Potentials (eV)**")
         mu_string = "μ"
         chempots = {}
@@ -119,30 +130,75 @@ with left_col:
         st.markdown("**Density of states**")
         subcol3, subcol4 = st.columns([0.5, 0.5])
         with subcol3:
-            dos_type = st.radio("",("m*","DOS"),horizontal=True,key="dos",index=0)
+            dos_type = st.radio("Select",("$m^*/m_e$","DOS"),horizontal=True,key="dos",index=0,label_visibility='collapsed')
         with subcol4:
             if dos_type == "DOS":
-                # Save the uploaded file temporarily
-                with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp:
-                    tmp.write(uploaded_file.getbuffer())
-                    tmp_path = tmp.name
-
-
-        # st.markdown(r"**Effective Masses ($m^*/m_e$)**")
-        # dos = {
-        #     'm_eff_e': st.slider("Electron", 0.1, 1.1, 0.5, 0.05, key="me"),
-        #     'm_eff_h': st.slider("Hole",     0.1, 1.1, 0.4, 0.05, key="mh"),
-        # }
+                uploaded_dos = st.file_uploader("Upload", type=["json"], label_visibility="collapsed")
+                if uploaded_dos is not None:
+                    # Save the uploaded file temporarily
+                    with tempfile.NamedTemporaryFile(delete=False, suffix=".csv") as tmp:
+                        tmp.write(uploaded_dos.getbuffer())
+                        tmp_path = tmp.name
+                        with open(tmp_path) as file:
+                            dos = MontyDecoder().decode(file.read())
+                    os.unlink(tmp_path)
+            elif dos_type == '$m^*/m_e$':
+                m_eff_e = st.number_input(f"e", value=1.0, max_value=1.1,step=0.1)
+                m_eff_h = st.number_input(f"h", value=1.0, max_value=1.1,step=0.1)
+                dos = {'m_eff_e':m_eff_e, 'm_eff_h':m_eff_h}
 
         st.markdown("**Thermodynamic Parameters**")
-        #precursor_energy_pfu = st.slider("Precursor energy/f.u. (eV)", -20.0, -6.0, -10.0, 0.1, key="prec")
         temperature = st.slider("Temperature (K)", 0, 1500, 1000, 50, key="temp")
         if temperature == 0:
             temperature = 0.1
 
+        subcol5, subcol6 = st.columns([0.5,0.5])
+        st.markdown("**Precursors**")
+        if "precursors" not in st.session_state:
+            st.session_state.precursors = {}
+
+        oxygen_ref = st.number_input(f"{mu_string}O (0K,p0)",value=-5.0,max_value=0.0,step=0.5)
+        if "num_inputs" not in st.session_state:
+            st.session_state.num_inputs = 0
+        
+        if st.button("+ Add"):
+            st.session_state.num_inputs += 1
+
+
+        for i in range(st.session_state.num_inputs):
+            with subcol5:
+                composition = st.text_input("Compostition",key=F"prec_id{i}")
+            with subcol6:
+                energy_pfu = st.number_input("Energy p.f.u in eV", value=0.0, key=f"en_{composition}")
+            if composition:
+                st.session_state.precursors[composition] = energy_pfu
+        
+        elements_in_precursors = set()
+        if st.session_state.precursors:
+            for comp in st.session_state.precursors:
+                if comp:
+                    for element in Composition(comp).elements:
+                        elements_in_precursors.add(element.symbol)
+
+        filter_elements = set()
+        for el in da.elements:
+            if el in elements_in_precursors:
+                filter_elements.add(el)
+            else:
+                st.warning(f'{el} missing from precursors')
+
+        if filter_elements:
+            if "brouwer_da" not in st.session_state:
+                st.session_state.brouwer_da = da
+            st.session_state.brouwer_da = da.filter_entries(elements=filter_elements)
+            precursors = st.session_state.precursors
+
+
         enable_quench = st.checkbox("Enable quenching", value=False, key="enable_quench")
         if enable_quench:
-            quench_temperature = st.slider("Quench Temperature (K)", 200, 1500, 1000, 50, key="qt")
+            quench_temperature = st.slider("Quench Temperature (K)", 0, 1500, 1000, 50, key="qt")
+            if quench_temperature == 0:
+                quench_temperature = 0.1 
             quenched_species = st.radio(
                 "Select quenched species",
                 ("All", r"$V_O$", r"$V_{Sr}$"),
@@ -206,63 +262,70 @@ if "da" in st.session_state and band_gap:
                 st.pyplot(fig1, clear_figure=False, width="content")
 
             with c2:
-                st.markdown("**Brouwer Diagram**")
-                precursors = {'SrO': precursor_energy_pfu}
-                fig2 = da.plot_brouwer_diagram(
-                    bulk_dos=dos,
-                    temperature=temperature,
-                    quench_temperature=quench_temperature,
-                    quenched_species=quenched_species,
-                    precursors=precursors,
-                    oxygen_ref=oxygen_ref,
-                    pressure_range=pressure_range,
-                    external_defects=external_defects,
-                    figsize=figsize,
-                    fontsize=fontsize,
-                    npoints=npoints,
-                )
-                fig2.grid()
-                fig2.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-                fig2.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                thermodata = da.thermodata
-                st.pyplot(fig2, clear_figure=False, width="content")
+                if dos and precursors:
+                    if "brouwer_da" not in st.session_state:
+                        st.session_state.brouwer_da = st.session_state.da
+                    brouwer_da = st.session_state.brouwer_da
+                    colors = [st.session_state.color_dict[name] for name in brouwer_da.names]
+                    st.markdown("**Brouwer Diagram**")
+                    fig2 = brouwer_da.plot_brouwer_diagram(
+                        bulk_dos=dos,
+                        temperature=temperature,
+                        quench_temperature=quench_temperature,
+                        quenched_species=quenched_species,
+                        precursors=precursors,
+                        oxygen_ref=oxygen_ref,
+                        pressure_range=pressure_range,
+                        external_defects=external_defects,
+                        figsize=figsize,
+                        fontsize=fontsize,
+                        npoints=npoints,
+                        colors=colors,
+                    )
+                    fig2.grid()
+                    fig2.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                    fig2.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                    thermodata = da.thermodata
+                    st.pyplot(fig2, clear_figure=False, width="content")
 
             # 2nd row
             c3, c4 = st.columns(2)
             with c3:
                 if dopant:
-                    st.markdown("**Doping Diagram**")
-                    dopant.pop('conc')
-                    fig3 = da.plot_doping_diagram(
-                        variable_defect_specie=dopant,
-                        concentration_range=(1e10, 1e20),
-                        chemical_potentials=chempots,
-                        bulk_dos=dos,
-                        temperature=temperature,
-                        quench_temperature=quench_temperature,
-                        quenched_species=quenched_species,
-                        figsize=figsize,
-                        fontsize=fontsize,
-                        npoints=npoints
-                    )
-                    fig3.grid()
-                    fig3.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-                    fig3.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                    st.pyplot(fig3, clear_figure=False, width="content")
+                    if dos:
+                        st.markdown("**Doping Diagram**")
+                        dopant.pop('conc')
+                        fig3 = da.plot_doping_diagram(
+                            variable_defect_specie=dopant,
+                            concentration_range=(1e10, 1e20),
+                            chemical_potentials=chempots,
+                            bulk_dos=dos,
+                            temperature=temperature,
+                            quench_temperature=quench_temperature,
+                            quenched_species=quenched_species,
+                            figsize=figsize,
+                            fontsize=fontsize,
+                            npoints=npoints
+                        )
+                        fig3.grid()
+                        fig3.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                        fig3.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                        st.pyplot(fig3, clear_figure=False, width="content")
 
             with c4:
-                st.markdown("**Electron chemical potential**")
-                fig4 = plot_pO2_vs_fermi_level(
-                        partial_pressures=thermodata.partial_pressures,
-                        fermi_levels=thermodata.fermi_levels,
-                        band_gap=da.band_gap,
-                        figsize=figsize,
-                        fontsize=fontsize,
-                        xlim=pressure_range,
-                )
-                fig4.grid()
-                fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-                fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                st.pyplot(fig4, clear_figure=False, width="content")
+                if thermodata:
+                    st.markdown("**Electron chemical potential**")
+                    fig4 = plot_pO2_vs_fermi_level(
+                            partial_pressures=thermodata.partial_pressures,
+                            fermi_levels=thermodata.fermi_levels,
+                            band_gap=da.band_gap,
+                            figsize=figsize,
+                            fontsize=fontsize,
+                            xlim=pressure_range,
+                    )
+                    fig4.grid()
+                    fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                    fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                    st.pyplot(fig4, clear_figure=False, width="content")
 
     
