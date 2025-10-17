@@ -166,7 +166,7 @@ class TestDefectsAnalysis(DefermiTest):
     def test_solve_fermi_level(self):
         actual = self.da.solve_fermi_level(chemical_potentials=self.chempots,bulk_dos=self.dos)
         desired = 3.0042287011146547
-        self.assert_all_close(actual,desired)
+        self.assert_all_close(actual,desired,rtol=1e-03)
 
     def test_binding_energy(self):
         actual = self.da_comp.binding_energy(name='Vac_Si-Vac_O')

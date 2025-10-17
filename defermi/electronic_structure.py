@@ -1,5 +1,7 @@
 
 import numpy as np
+import json
+import os
 from scipy.constants import k, h, pi, m_e
 from scipy.optimize import bisect
 
@@ -7,6 +9,7 @@ from pymatgen.electronic_structure.dos import Dos, FermiDos, CompleteDos
 from pymatgen.electronic_structure.core import Spin
 from pymatgen.core.units import kb
 
+from defermi.tools.utils import decode_object_from_json
 
 
 def get_carrier_concentrations(dos, fermi_level, temperature, band_gap=None):
@@ -221,6 +224,12 @@ def get_dos_from_effective_mass(m_eff, T):
     from scipy.constants import k, h, pi, m_e
     return 2 * ((2 * pi * m_eff * k * T) / (h**2))**(3/2) *1e-06  # units of cm^-3
 
+
+def get_dos_object_from_json(path_or_string):
+    """
+    Get `Dos` object from json file or string.
+    """
+    return decode_object_from_json(path_or_string)
 
 
 def _get_fermidos_from_data(efermi, E, D, structure, bandgap=None):

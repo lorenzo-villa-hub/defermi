@@ -62,6 +62,28 @@ def get_object_feature(obj,feature):
         return attr
 
 
+def decode_object_from_json(path_or_string):
+    """
+    Build MSONable object from json file or string.
+
+    Parameters
+    ----------
+    path_or_string : str
+        If an existing path to a file is given the object is constructed reading the json file.
+        Otherwise it will be read as a string.
+
+    Returns
+    -------
+    Decoded object.
+
+    """
+    if op.isfile(path_or_string):
+        with open(path_or_string) as file:
+            return MontyDecoder().decode(file.read())
+    else:
+        return MontyDecoder().decode(path_or_string)
+
+
 def get_object_from_json(object_class,path_or_string):
     """
     Build class object from json file or string. The class must posses the 'from_dict' method.
