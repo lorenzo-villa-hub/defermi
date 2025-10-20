@@ -472,6 +472,7 @@ class DefectThermodynamics:
 
 
     def _update_variable_species_concentration(self,variable_defect_specie, c, fixed_df, ext_df):
+
         if type(variable_defect_specie) == str :
             fixed_df.update({variable_defect_specie:c})
             variable_defect_specie_str = variable_defect_specie
@@ -482,17 +483,19 @@ class DefectThermodynamics:
                 variable_defect_specie_str = get_defect_from_string(vds['name']).specie
             except:
                 variable_defect_specie_str = vds['name']
+            
             if not ext_df:
                 single_df_conc = SingleDefConc(
                                 name=vds['name'],
                                 charge=vds['charge'],
                                 conc=c) # variable concentration
-                ext_df = DefectConcentrations([single_df_conc])
+                ext_df_update = DefectConcentrations([single_df_conc])
             else:
-                single_df_conc = ext_df.select_concentrations(name=vds['name'],charge=vds['charge'])[0]
+                ext_df_update = ext_df.copy()
+                single_df_conc = ext_df_update.select_concentrations(name=vds['name'],charge=vds['charge'])[0]
                 single_df_conc.conc = c 
 
-            return fixed_df, ext_df, variable_defect_specie_str  
+            return fixed_df, ext_df_update, variable_defect_specie_str  
 
         else:
             raise ValueError('Variable species has to be either a string (if present in DefectsAnalysis) or dict (if not present in DefectsAnalysis)')

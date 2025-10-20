@@ -1161,7 +1161,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             # store reservoirs
             self._chempots = reservoirs
                 
-        defects_analysis =  DefectThermodynamics(
+        defects_thermo =  DefectThermodynamics(
                                                 defects_analysis=self,
                                                 bulk_dos=bulk_dos,
                                                 fixed_concentrations=fixed_concentrations,
@@ -1172,7 +1172,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         # if quenching temperature is provided, use quenched routine
         if quench_temperature:
-            thermodata = defects_analysis.get_pO2_quenched_thermodata(
+            thermodata = defects_thermo.get_pO2_quenched_thermodata(
                                                                     reservoirs=reservoirs,
                                                                     initial_temperature=temperature,
                                                                     final_temperature=quench_temperature,
@@ -1180,7 +1180,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                                                     quench_elements=quench_elements,
                                                                     name='QuenchedBrowerDiagram')
         else:
-            thermodata = defects_analysis.get_pO2_thermodata(
+            thermodata = defects_thermo.get_pO2_thermodata(
                                                             reservoirs=reservoirs,
                                                             temperature=temperature,
                                                             name='BrowerDiagram')
@@ -1277,8 +1277,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         """
         from .thermodynamics import DefectThermodynamics
-        
-        defects_analysis = DefectThermodynamics(
+
+        defects_thermo = DefectThermodynamics(
                                                 defects_analysis=self,
                                                 bulk_dos=bulk_dos,
                                                 fixed_concentrations=fixed_concentrations,
@@ -1293,7 +1293,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             self._chempots = chemical_potentials
         
         if quench_temperature:
-            thermodata = defects_analysis.get_variable_species_quenched_thermodata(
+            thermodata = defects_thermo.get_variable_species_quenched_thermodata(
                                                         variable_defect_specie=variable_defect_specie,
                                                         concentration_range=concentration_range,
                                                         chemical_potentials=chemical_potentials,
@@ -1304,7 +1304,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                                         npoints=npoints,
                                                         name='QuenchedDopingDiagram')  
                 
-        thermodata = defects_analysis.get_variable_species_thermodata(
+        thermodata = defects_thermo.get_variable_species_thermodata(
                                                         variable_defect_specie=variable_defect_specie,
                                                         concentration_range=concentration_range,
                                                         chemical_potentials=chemical_potentials,
@@ -2018,6 +2018,9 @@ class SingleDefConc(MSONable):
     def __getitem__(self,key):
         return getattr(self,key)
     
+    def copy(self):
+        return SingleDefConc(name=self.name,charge=self.charge,conc=self.conc)
+    
     def keys(self):
         """
         Returns dictionary-like keys of the object's attributes.
@@ -2097,8 +2100,8 @@ class DefectConcentrations:
     def __print__(self):
         return '['+ '\n'.join([c.__print__() for c in self.concentrations])+']'  
 
-    def copy(self):
-        return DefectConcentrations(self.concentrations.copy())
+    def copy(self): 
+        return DefectConcentrations([c.copy() for c in self.concentrations])
    
     def as_dict(self):
         d = [c.as_dict() for c in self.concentrations]
@@ -2116,15 +2119,18 @@ class DefectConcentrations:
         """
         d = {}
         for c in self:
-            df = Defect.from_string(c.name)
-            for defect in df:
-                if defect.specie not in d.keys() or defect.name not in d.keys():
-                    if defect.type == 'Vacancy':
-                        ekey = defect.name
-                        d[ekey] = self.get_element_total(defect.specie,vacancy=True)
-                    else:
-                        ekey = defect.specie
-                        d[ekey] = self.get_element_total(defect.specie,vacancy=False)
+            try:
+                df = Defect.from_string(c.name)
+                for defect in df:
+                    if defect.specie not in d.keys() or defect.name not in d.keys():
+                        if defect.type == 'Vacancy':
+                            ekey = defect.name
+                            d[ekey] = self.get_element_total(defect.specie,vacancy=True)
+                        else:
+                            ekey = defect.specie
+                            d[ekey] = self.get_element_total(defect.specie,vacancy=False)
+            except:
+                d[c.name] = self.get_element_total(element=c.name)
         return d
                     
     
@@ -2219,13 +2225,17 @@ class DefectConcentrations:
         """
         eltot = 0
         for c in self:
-            df = Defect.from_string(c.name)
-            for defect in df:
-                if element == defect.specie:
-                    if vacancy and defect.type=='Vacancy':
-                        eltot += c.conc
-                    elif vacancy == False and defect.type!='Vacancy':
-                        eltot += c.conc
+            try:
+                df = Defect.from_string(c.name)
+                for defect in df:
+                    if element == defect.specie:
+                        if vacancy and defect.type=='Vacancy':
+                            eltot += c.conc
+                        elif vacancy == False and defect.type!='Vacancy':
+                            eltot += c.conc
+            except:
+                if element in c.name:
+                    eltot += c.conc
         return eltot
         
 
