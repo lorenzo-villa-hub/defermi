@@ -1594,9 +1594,11 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         
         if elements:
             def felements(entry):
+                filter = True
                 for defect in entry.defect:
-                    if defect.specie in elements:
-                        return True
+                    if defect.specie not in elements:
+                        filter = False
+                return filter
             functions.append(felements)
                 
         if names:
