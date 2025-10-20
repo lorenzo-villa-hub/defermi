@@ -478,7 +478,10 @@ class DefectThermodynamics:
             return fixed_df, ext_df, variable_defect_specie_str 
         elif type(variable_defect_specie) == dict:
             vds = variable_defect_specie
-            variable_defect_specie_str = get_defect_from_string(vds['name']).specie
+            try:
+                variable_defect_specie_str = get_defect_from_string(vds['name']).specie
+            except:
+                variable_defect_specie_str = vds['name']
             if not ext_df:
                 single_df_conc = SingleDefConc(
                                 name=vds['name'],

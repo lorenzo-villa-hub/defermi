@@ -116,12 +116,12 @@ with left_col:
             tmp.write(uploaded_file.getbuffer())
             tmp_path = tmp.name
 
-        st.markdown("**Band Structure Parameters**")
+        #st.markdown("**Band Structure Parameters**")
         cols = st.columns(2)
         with cols[0]:
-            vbm = st.number_input("VBM (eV)", value=0.0, step=0.1)
-        with cols[1]:
             band_gap = st.number_input("Band gap (eV)", value=None, step=0.1, placeholder="Enter band gap")
+        with cols[1]:
+            vbm = st.number_input("VBM (eV)", value=0.0, step=0.1)
 
         if band_gap is not None:
             st.session_state.da = DefectsAnalysis.from_file(tmp_path, band_gap=band_gap, vbm=vbm)
@@ -174,8 +174,11 @@ with left_col:
                             dos = MontyDecoder().decode(file.read())
                     os.unlink(tmp_path)
             elif dos_type == '$m^*/m_e$':
-                m_eff_e = st.number_input(f"e", value=1.0, max_value=1.1,step=0.1)
-                m_eff_h = st.number_input(f"h", value=1.0, max_value=1.1,step=0.1)
+                cols = st.columns(2)
+                with cols[0]:
+                    m_eff_e = st.number_input(f"e", value=1.0, max_value=1.1,step=0.1)
+                with cols[1]:
+                    m_eff_h = st.number_input(f"h", value=1.0, max_value=1.1,step=0.1)
                 dos = {'m_eff_e':m_eff_e, 'm_eff_h':m_eff_h}
 
         st.markdown("**Thermodynamic Parameters**")
@@ -298,7 +301,8 @@ with left_col:
             with dcols[1]:
                 defect["charge"] = st.number_input("Charge", key=f"charge_{defect['id']}")
             with dcols[2]:
-                defect["conc"] = st.number_input("Concentration", key=f"conc_{defect['id']}")
+                defect["conc"] = st.number_input(r"log₁₀(concentration (cm⁻³))", key=f"conc_{defect['id']}")
+                defect["conc"] = 10**defect["conc"]
             with dcols[3]:
                 st.button("🗑️", on_click=remove_external_defects_entries, args=[defect['id']], key=f"del_{defect['id']}")
 
@@ -318,7 +322,7 @@ if "da" in st.session_state and band_gap:
         if run_button or True:
             cols = st.columns([0.05,0.95])
             with cols[0]:
-                show_formation_energies = st.checkbox("formation energies",label_visibility='collapsed')
+                show_formation_energies = st.checkbox("formation energies",value=True,label_visibility='collapsed')
             with cols[1]:
                 st.markdown("<h3 style='font-size:24px;'>Formation energies</h3>", unsafe_allow_html=True)
 

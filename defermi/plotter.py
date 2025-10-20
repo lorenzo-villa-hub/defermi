@@ -983,7 +983,10 @@ def _plot_conc(
     for i in range(0,len(dc[0])):
             conc = [c[i].conc for c in dc]
             charges = [c[i].charge for c in dc]
-            label_txt = get_defect_from_string(dc[0][i].name).symbol
+            try:
+                label_txt = get_defect_from_string(dc[0][i].name).symbol
+            except:
+                label_txt = dc[0][i].name
             if output == 'all':
                 label_txt = format_legend_with_charge_number(label_txt,dc[0][i].charge)
             elif output == 'stable':
@@ -1016,7 +1019,10 @@ def _plot_conc_total(
     n = [cr[1] for cr in carrier_concentrations]
     for name in dc[0].names:
         conc = [c.total[name] for c in dc]
-        label_txt = get_defect_from_string(name).symbol
+        try:
+            label_txt = get_defect_from_string(name).symbol
+        except:
+            label_txt = name
         color = colors[dc[0].names.index(name)] if colors else None
         plt.plot(x,conc,label=label_txt,linewidth=4,color=color)
     plt.plot(x,h,label='$n_{h}$',linestyle='--',color='r',linewidth=4)
