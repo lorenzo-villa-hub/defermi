@@ -23,59 +23,6 @@ sns.set_theme(context='talk',style='whitegrid')
 # ---- PAGE CONFIG ----
 st.set_page_config(layout="wide", page_title="defermi")
 
-# # ---- COMPACT GLOBAL STYLING ----
-# st.markdown("""
-# <style>
-#     .block-container {
-#         padding-top: 0.2rem;
-#         padding-bottom: 0rem;
-#         padding-left: 0.4rem;
-#         padding-right: 0.4rem;
-#         max-width: 85%;  /* keep slightly narrower than full width */
-#     }
-
-#     /* Labels and text size */
-#     h1, h2, h3, h4, h5, label, .stSlider label, .stRadio label, .stSelectbox label, .stMarkdown {
-#         font-size: 0.85rem !important;
-#     }
-
-#     /* Slider size reset */
-#     div[data-baseweb="slider"] {
-#         transform: scale(1);
-#         transform-origin: left center;
-#         margin-bottom: 0;
-#     }
-
-#     /* Button styling */
-#     .stButton button {
-#         font-size: 0.9rem !important;
-#         padding: 0.2rem 0.4rem;
-#         height: auto !important;
-#     }
-
-#     /* Markdown paragraph text */
-#     div[data-testid="stMarkdownContainer"] p {
-#         font-size: 0.85rem !important;
-#         margin-bottom: 0.2rem !important;
-#     }
-
-#     .stRadio > div {
-#         gap: 0.5rem !important;
-#     }
-
-#     /* ---- Checkbox styling ---- */
-#     div[data-testid="stCheckbox"] input[type="checkbox"] {
-#         transform: scale(1.5);  /* increase checkbox size */
-#         margin-right: 8px;      /* space between box and label */
-#     }
-
-#     div[data-testid="stCheckbox"] label {
-#         font-size: 0.9rem !important;  /* slightly larger label for balance */
-#         vertical-align: middle;
-#     }
-# </style>
-# """, unsafe_allow_html=True)
-
 
 st.title("`defermi`")
 
@@ -139,11 +86,39 @@ with left_col:
                 st.session_state.init = True
 
 
-
-
     if "da" in st.session_state:
+        st.session_state.original_da = st.session_state.da.copy()
+        st.markdown('**Filter entries**')
+        cols = st.columns([0.11,0.15,0.25,0.22,0.28])
+        with cols[0]:
+            mode = st.radio("Mode",options=["and","or"], index=0)
+        with cols[1]:
+            exclude = st.checkbox("Exclude",value=False)
+        with cols[2]:
+            defect_types = []
+            for entry in st.session_state.original_da:
+                dtype = entry.defect.type
+                if dtype not in defect_types:
+                    defect_types.append(dtype)
+            types = st.multiselect("types",defect_types,default=None)
+        with cols[3]:
+            defect_elements = st.session_state.da.elements
+            elements = st.multiselect("elements",defect_elements,default=None)
+        with cols[4]:
+            defect_names = st.session_state.da.names
+            names = st.multiselect("names",defect_names,default=None)
+
+        st.session_state.da = st.session_state.original_da.filter_entries(
+                                                                inplace=False,
+                                                                mode=mode,
+                                                                exclude=exclude,
+                                                                types=types,
+                                                                elements=elements,
+                                                                names=names)
+
         da = st.session_state.da
-        st.dataframe(da.table())
+        df = da.table(display=['energy_diff']).drop('delta atoms',axis=1)
+        st.dataframe(df)
 
         st.markdown("**Chemical Potentials (eV)**")
         mu_string = "μ"
@@ -155,6 +130,7 @@ with left_col:
             with cols[col_idx]:
                 chempots[el] = st.number_input(f"{mu_string}({el})", value=0.0, max_value=0.0,step=0.5)
 
+        st.divider()
         st.divider()
 
 
@@ -189,19 +165,20 @@ with left_col:
 
         st.markdown("**Precursors**")
 
-        # Initialize session state
+        # Initialize entries
         if "precursor_entries" not in st.session_state:
             st.session_state.precursor_entries = []
-
-        # Add new input
-        if st.button("+ Add",key="add_precursor"):
-            # Generate a unique ID for this entry
-            entry_id = str(uuid.uuid4())
-            st.session_state.precursor_entries.append({
-                "id": entry_id,
-                "composition": "",
-                "energy": 0.0
-            })
+        
+        cols = st.columns([0.1, 0.4, 0.4, 0.1])
+        with cols[0]:
+            if st.button("➕",key="add_precursor"):
+                # Generate a unique ID for this entry
+                entry_id = str(uuid.uuid4())
+                st.session_state.precursor_entries.append({
+                    "id": entry_id,
+                    "composition": "",
+                    "energy": 0.0
+                })
 
         def remove_precursor_entry(entry_id):
             for idx,entry in enumerate(st.session_state.precursor_entries):
@@ -209,14 +186,12 @@ with left_col:
                     del st.session_state.precursor_entries[idx]
 
 
-        # Render inputs
         for entry in st.session_state.precursor_entries:
-            cols = st.columns([0.45, 0.45, 0.1])
-            with cols[0]:
-                entry["composition"] = st.text_input("Composition", value=entry["composition"], key=f"comp_{entry['id']}")
             with cols[1]:
-                entry["energy"] = st.number_input("Energy p.f.u (eV)", value=entry["energy"], key=f"energy_{entry['id']}")
+                entry["composition"] = st.text_input("Composition", value=entry["composition"], key=f"comp_{entry['id']}")
             with cols[2]:
+                entry["energy"] = st.number_input("Energy p.f.u (eV)", value=entry["energy"], step=1.0, key=f"energy_{entry['id']}")
+            with cols[3]:
                 st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"del_{entry['id']}")
 
         st.session_state.precursors = {
@@ -233,10 +208,18 @@ with left_col:
                         elements_in_precursors.add(element.symbol)
 
         filter_elements = set()
+        missing_elements = set()
         for el in da.elements:
             if el in elements_in_precursors:
                 filter_elements.add(el)
             else:
+                missing_elements.add(el)
+
+        cols = st.columns(5)
+        for idx,el in enumerate(missing_elements):
+            ncolumns = 5
+            col_idx = idx%ncolumns
+            with cols[col_idx]:
                 st.warning(f'{el} missing from precursors')
 
         if filter_elements:
@@ -248,62 +231,63 @@ with left_col:
 
         enable_quench = st.checkbox("Enable quenching", value=False, key="enable_quench")
         if enable_quench:
-            quench_temperature = st.slider("Quench Temperature (K)", 0, 1500, 1000, 50, key="qt")
+            quench_temperature = st.slider("Quench Temperature (K)", 0, 1500, 300, 50, key="qt")
             if quench_temperature == 0:
                 quench_temperature = 0.1 
 
             
             quench_mode = st.radio("Quenching mode",("species","elements"),horizontal=True,key="quench_mode",index=0)
 
-            if quench_mode == "species":
-                species = [name for name in st.session_state.brouwer_da.names]
-                quenched_species = st.multiselect("Select quenched species",species,key="quenched_species",default=species)
-                quench_elements = False
-            elif quench_mode == "elements":
-                species = set()
-                for entry in st.session_state.brouwer_da:
-                    if entry.defect.type == 'Vacancy':
-                        species.add(entry.defect.name)
-                    else:
-                        species.add(entry.defect.specie)
-                quenched_species = st.multiselect("Select quenched species",species,key="quenched_species",default=species)
-                quench_elements = True
+            if "brouwer_da" in st.session_state:
+                if quench_mode == "species":
+                    species = [name for name in st.session_state.brouwer_da.names]
+                    quenched_species = st.multiselect("Select quenched species",species,key="quenched_species",default=species)
+                    quench_elements = False
+                elif quench_mode == "elements":
+                    species = set()
+                    for entry in st.session_state.brouwer_da:
+                        if entry.defect.type == 'Vacancy':
+                            species.add(entry.defect.name)
+                        else:
+                            species.add(entry.defect.specie)
+                    quenched_species = st.multiselect("Select quenched elements",species,key="quenched_species",default=species)
+                    quench_elements = True
         else:
             quenched_species = None
             quench_elements = False
             quench_temperature = None
 
 
-        st.markdown("**External Dopants**")
+        st.markdown("**External defects**")
 
         if "external_defects_entries" not in st.session_state:
             st.session_state.external_defects_entries = []
 
-        if st.button("+ Add",key="add_external_defect"):
-            # Generate a unique ID for this entry
-            entry_id = str(uuid.uuid4())
-            st.session_state.external_defects_entries.append({
-                "id": entry_id,
-                "name": "",
-                "charge": 0.0,
-                "conc":0.0})
+        cols = st.columns([0.11, 0.26, 0.26, 0.26, 0.11])
+        with cols[0]:
+            if st.button("➕",key="add_external_defect"):
+                # Generate a unique ID for this entry
+                entry_id = str(uuid.uuid4())
+                st.session_state.external_defects_entries.append({
+                    "id": entry_id,
+                    "name": "",
+                    "charge": 0.0,
+                    "conc":0.0})
 
         def remove_external_defects_entries(entry_id):
             for idx,entry in enumerate(st.session_state.external_defects_entries):
                 if entry['id'] == entry_id:
                     del st.session_state.external_defects_entries[idx]
 
-
         for defect in st.session_state.external_defects_entries:
-            dcols = st.columns([0.3, 0.3, 0.3, 0.1])
-            with dcols[0]:
+            with cols[1]:
                 defect["name"] = st.text_input("Name", key=f"name_{defect['id']}")
-            with dcols[1]:
-                defect["charge"] = st.number_input("Charge", key=f"charge_{defect['id']}")
-            with dcols[2]:
-                defect["conc"] = st.number_input(r"log₁₀(concentration (cm⁻³))", key=f"conc_{defect['id']}")
+            with cols[2]:
+                defect["charge"] = st.number_input("Charge", step=1.0,key=f"charge_{defect['id']}")
+            with cols[3]:
+                defect["conc"] = st.number_input(r"log₁₀(concentration (cm⁻³))", step=1.0, key=f"conc_{defect['id']}")
                 defect["conc"] = 10**defect["conc"]
-            with dcols[3]:
+            with cols[4]:
                 st.button("🗑️", on_click=remove_external_defects_entries, args=[defect['id']], key=f"del_{defect['id']}")
 
         external_defects = [{
@@ -311,10 +295,59 @@ with left_col:
                             'charge':e['charge'],
                             'conc':e['conc']
                             } for e in st.session_state.external_defects_entries if e["name"]]
+        
+        st.markdown("**Dopant settings**")
+        possible_dopants = ["None","Donor","Acceptor"]
+        for entry in da:
+            if entry.defect.type == "Substitution":
+                el = entry.defect.specie
+                if el not in possible_dopants:
+                    possible_dopants.append(el)
+        possible_dopants.append('custom')
+        dopant = st.radio("Select dopant",options=possible_dopants,index=0, horizontal=True)
+        
+        if dopant == "None":
+            dopant = None
+        elif dopant == "Donor":
+            cols = st.columns(2)
+            with cols[0]:
+                charge = st.number_input("Charge", min_value=0.0, value=1.0, step = 1.0, key="charge_dopant")
+            with cols[1]:
+                min_conc, max_conc = st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=25,value=(1, 18), key="conc_range")
+            conc_range = ( float(10**min_conc), float(10**max_conc) )
+            dopant = {"name":"D","charge":charge}
+
+        elif dopant == "Acceptor":
+            cols = st.columns(2)
+            with cols[0]:
+                charge = st.number_input("Charge", max_value=0.0, value=-1.0, step = 1.0, key="charge_dopant")
+            with cols[1]:
+                min_conc, max_conc = st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=25,value=(1, 18), key="conc_range")
+            conc_range = ( float(10**min_conc), float(10**max_conc) )
+            dopant = {"name":"A","charge":charge}
+
+        elif dopant == "custom":
+            cols = st.columns(3)
+            with cols[0]:
+                name = st.text_input("Name", key="name_dopant")
+            with cols[1]:
+               charge = st.number_input("Charge", step=1.0,key="charge_dopant")
+            with cols[2]:
+                min_conc, max_conc = st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=25,value=(1, 18), key="conc_range")
+            conc_range = ( float(10**min_conc), float(10**max_conc) )
+            dopant = {"name":name,"charge":charge}
+
+        else:
+            min_conc, max_conc = st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=(1, 18), key="conc_range")
+            conc_range = ( float(10**min_conc), float(10**max_conc) )            
+
 
         run_button = st.button("Update Plots")
 
 
+### PLOTS #####
+
+st.session_state.brouwer_thermodata = None
 if "da" in st.session_state and band_gap:
     with right_col:
         figsize = (8, 8)
@@ -347,7 +380,7 @@ if "da" in st.session_state and band_gap:
 
                 cols = st.columns([0.05,0.95])
                 with cols[0]:
-                    show_brouwer_diagram = st.checkbox("brouwer diagram",label_visibility='collapsed')
+                    show_brouwer_diagram = st.checkbox("brouwer diagram",value=True,label_visibility='collapsed')
                 with cols[1]:
                     st.markdown("<h3 style='font-size:24px;'>Brouwer diagram</h3>", unsafe_allow_html=True)
                 if show_brouwer_diagram:
@@ -369,47 +402,53 @@ if "da" in st.session_state and band_gap:
                     fig2.grid()
                     fig2.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
                     fig2.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                    thermodata = da.thermodata
+                    st.session_state.brouwer_thermodata = brouwer_da.thermodata
                     st.pyplot(fig2, clear_figure=False, width=fig_width_in_pixels)
 
-            # # 2nd row
-            # c3, c4 = st.columns(2)
-            # with c3:
-            #     if False:
-            #         if dos:
-            #             st.markdown("**Doping Diagram**")
-            #             dopant.pop('conc')
-            #             fig3 = da.plot_doping_diagram(
-            #                 variable_defect_specie=dopant,
-            #                 concentration_range=(1e10, 1e20),
-            #                 chemical_potentials=chempots,
-            #                 bulk_dos=dos,
-            #                 temperature=temperature,
-            #                 quench_temperature=quench_temperature,
-            #                 quenched_species=quenched_species,
-            #                 figsize=figsize,
-            #                 fontsize=fontsize,
-            #                 npoints=npoints
-            #             )
-            #             fig3.grid()
-            #             fig3.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-            #             fig3.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-            #             st.pyplot(fig3, clear_figure=False, width="content")
 
-            # with c4:
-            #     if thermodata:
-            #         st.markdown("**Electron chemical potential**")
-            #         fig4 = plot_pO2_vs_fermi_level(
-            #                 partial_pressures=thermodata.partial_pressures,
-            #                 fermi_levels=thermodata.fermi_levels,
-            #                 band_gap=da.band_gap,
-            #                 figsize=figsize,
-            #                 fontsize=fontsize,
-            #                 xlim=pressure_range,
-            #         )
-            #         fig4.grid()
-            #         fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-            #         fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-            #         st.pyplot(fig4, clear_figure=False, width="content")
+            if dos and dopant:
+                cols = st.columns([0.05,0.95])
+                with cols[0]:
+                    show_doping_diagram = st.checkbox("doping diagram",value=True,label_visibility='collapsed')
+                with cols[1]:
+                    st.markdown("<h3 style='font-size:24px;'>Doping diagram</h3>", unsafe_allow_html=True)
+                if show_doping_diagram:
+                    fig3 = da.plot_doping_diagram(
+                        variable_defect_specie=dopant,
+                        concentration_range=conc_range,
+                        chemical_potentials=chempots,
+                        bulk_dos=dos,
+                        temperature=temperature,
+                        quench_temperature=quench_temperature,
+                        quenched_species=quenched_species,
+                        figsize=figsize,
+                        fontsize=fontsize,
+                        npoints=npoints
+                    )
+                    fig3.grid()
+                    fig3.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                    fig3.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                    st.pyplot(fig3, clear_figure=False, width=fig_width_in_pixels)
+
+            if st.session_state.brouwer_thermodata:
+                thermodata = st.session_state.brouwer_thermodata
+                cols = st.columns([0.05,0.95])
+                with cols[0]:
+                    show_mue_diagram = st.checkbox("mue diagram",value=True,label_visibility='collapsed')
+                with cols[1]:
+                    st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
+                if show_mue_diagram:
+                    fig4 = plot_pO2_vs_fermi_level(
+                            partial_pressures=thermodata.partial_pressures,
+                            fermi_levels=thermodata.fermi_levels,
+                            band_gap=da.band_gap,
+                            figsize=figsize,
+                            fontsize=fontsize,
+                            xlim=pressure_range,
+                    )
+                    fig4.grid()
+                    fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                    fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                    st.pyplot(fig4, clear_figure=False, width=fig_width_in_pixels)
 
     
