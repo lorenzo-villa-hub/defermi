@@ -1906,7 +1906,6 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                     d['bulk space group'] = e.bulk_structure.get_space_group_info()
                 d['bulk_volume'] = e.defect.bulk_volume
             if not pretty:
-                d['symbol'] = e.symbol    
                 d['delta atoms'] = e.delta_atoms
             d['charge'] = e.charge
             d['multiplicity'] = e.multiplicity

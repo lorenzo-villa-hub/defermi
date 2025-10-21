@@ -195,16 +195,19 @@ def select_objects(objects,mode='and',exclude=False,functions=None,**kwargs):
             elif feature == kwargs[key]:
                 if obj not in selected_objects:
                     selected_objects.append(obj)  
-    
-    output_objects = []
-    for obj in objects:
-        if exclude:
-            if obj not in selected_objects:
-                output_objects.append(obj)
-        else:
-            if obj in selected_objects:
-                output_objects.append(obj)    
-    
+
+    if not functions and not kwargs:
+        output_objects = filtered_objects
+    else:
+        output_objects = []
+        for obj in objects:
+            if exclude:
+                if obj not in selected_objects:
+                    output_objects.append(obj)
+            else:
+                if obj in selected_objects:
+                    output_objects.append(obj)    
+        
     return output_objects
 
 
