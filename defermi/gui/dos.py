@@ -8,12 +8,12 @@ def dos():
     """
     Import DOS file or set effective mass
     """
-    if "da" in st.session_state:
+    if st.session_state.da:
         st.markdown("**Density of states**")
 
         cols = st.columns([0.5, 0.5])
         with cols[0]:
-            dos_type = st.radio("Select",("$m^*/m_e$","DOS"),horizontal=True,key="dos",index=0,label_visibility='collapsed')
+            dos_type = st.radio("Select",("$m^*/m_e$","DOS"),horizontal=True,key="dos_type",index=0,label_visibility='collapsed')
         with cols[1]:
             if dos_type == "DOS":
                 uploaded_dos = st.file_uploader("Upload", type=["json"], label_visibility="collapsed")
@@ -33,5 +33,4 @@ def dos():
                     m_eff_h = st.number_input(f"h", value=1.0, max_value=1.1,step=0.1)
                 dos = {'m_eff_e':m_eff_e, 'm_eff_h':m_eff_h}
 
-        if "dos" not in st.session_state:
-            st.session_state.dos = dos
+        st.session_state.dos = dos

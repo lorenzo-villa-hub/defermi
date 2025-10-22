@@ -5,7 +5,7 @@ def chempots():
     """
     GUI elements for chemical potentials 
     """
-    if "da" in st.session_state:
+    if st.session_state.da:
         da = st.session_state.da
 
         st.markdown("**Chemical Potentials (eV)**")

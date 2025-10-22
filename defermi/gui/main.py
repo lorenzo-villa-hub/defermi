@@ -5,6 +5,7 @@ from defermi.gui.initialize import initialize, filter_entries
 from defermi.gui.chempots import chempots
 from defermi.gui.dos import dos
 from defermi.gui.thermodynamics import thermodynamics
+from defermi.gui.plotter import plotter
 
 def main():
     st.set_page_config(layout="wide", page_title="defermi")
@@ -17,11 +18,18 @@ def main():
         initialize()
         filter_entries()
         chempots()
+        
+        st.write('')
+        st.divider()
+        st.write('')
+        
         dos()
+        st.divider()
+
         thermodynamics()
         
     with right_col:
-        pass
+        plotter()
 
 if __name__ == "__main__":
     main()
