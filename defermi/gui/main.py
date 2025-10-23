@@ -24,7 +24,6 @@ def main():
         st.write('')
         
         dos()
-        st.divider()
 
         thermodynamics()
         

@@ -5,6 +5,7 @@ import seaborn as sns
 
 import streamlit as st
 
+from defermi.plotter import plot_pO2_vs_fermi_level, plot_variable_species_vs_fermi_level
 
 
 def plotter():
@@ -27,7 +28,10 @@ def plotter():
         if run_button or True:
             formation_energies()            
             brouwer_diagram()
+            po2_vs_fermi_level_diagram()
             doping_diagram()
+            doping_vs_fermi_level_diagram()
+
 
 
 
@@ -39,9 +43,6 @@ def formation_energies():
     pressure_range = st.session_state.pressure_range
     figsize = st.session_state.figsize
     fig_width_in_pixels = st.session_state.fig_width_in_pixels
-
-    def store_axis_limits():
-        st.session_state.set_xlim_eform
 
     da = st.session_state.da
     cols = st.columns([0.05,0.95])
@@ -130,21 +131,6 @@ def brouwer_diagram():
                                                                 boundaries=(-50,30))
                     ylim = (float(10**ylim[0]) , float(10**ylim[1]))
                     ylim = ylim if set_ylim else None   
-                    # subcols = st.columns([0.3,0.7])
-                    # with subcols[0]:
-                    #     set_xlim = st.checkbox("xlim (log)",value=False,label_visibility='visible', key='set_xlim_brouwer')
-                    # with subcols[1]:
-                    #     default_xlim = int(np.log10(pressure_range[0])) , int(np.log10(pressure_range[1]))
-                    #     xlim = st.slider("xlim (log)", min_value=-50,max_value=30,value=default_xlim,label_visibility='collapsed', key='xlim_brouwer')
-                    #     xlim = (float(10**xlim[0]) , float(10**xlim[1]))
-                    # xlim = xlim if set_xlim else pressure_range
-
-                    # with subcols[0]:
-                    #     set_ylim = st.checkbox("ylim (log)",value=False,label_visibility='visible', key='set_ylim_brouwer')
-                    # with subcols[1]:
-                    #     ylim = st.slider("ylim (log)", min_value=-50,max_value=30,value=(-20,25),label_visibility='collapsed', key='ylim_brouwer')
-                    #     ylim = (float(10**ylim[0]) , float(10**ylim[1]))
-                    # ylim = ylim if set_ylim else None
 
                 with cols[0]:
                     fig2 = brouwer_da.plot_brouwer_diagram(
@@ -192,21 +178,22 @@ def doping_diagram():
             if show_doping_diagram:
                 cols = st.columns([0.7,0.3])
                 with cols[1]:
-                    subcols = st.columns([0.3,0.7])
-                    with subcols[0]:
-                        set_xlim = st.checkbox("xlim (log)",value=False,label_visibility='visible', key='set_xlim_doping')
-                    with subcols[1]:
-                        default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
-                        xlim = st.slider("xlim (log)", min_value=-10,max_value=30,value=default_xlim,label_visibility='collapsed', key='xlim_doping')
-                        xlim = (float(10**xlim[0]) , float(10**xlim[1]))
+                    default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
+                    set_xlim, xlim = get_axis_limits_with_widgets(
+                                                                label='xlim (log)',
+                                                                key='doping',
+                                                                default=default_xlim,
+                                                                boundaries=default_xlim) 
+                    xlim = (float(10**xlim[0]) , float(10**xlim[1]))
                     xlim = xlim if set_xlim else conc_range
 
-                    with subcols[0]:
-                        set_ylim = st.checkbox("ylim (log)",value=False,label_visibility='visible', key='set_ylim_doping')
-                    with subcols[1]:
-                        ylim = st.slider("ylim (log)", min_value=-50,max_value=30,value=(-20,25),label_visibility='collapsed', key='ylim_doping')
-                        ylim = (float(10**ylim[0]) , float(10**ylim[1]))
-                    ylim = ylim if set_ylim else None
+                    set_ylim, ylim = get_axis_limits_with_widgets(
+                                                                label='ylim (log)',
+                                                                key='doping',
+                                                                default=(-20,25),
+                                                                boundaries=(-50,30))
+                    ylim = (float(10**ylim[0]) , float(10**ylim[1]))
+                    ylim = ylim if set_ylim else None   
 
                 with cols[0]:
                     fig3 = da.plot_doping_diagram(
@@ -226,7 +213,109 @@ def doping_diagram():
                     fig3.grid()
                     fig3.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
                     fig3.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                    st.session_state['doping_thermodata'] = da.thermodata
                     st.pyplot(fig3, clear_figure=False, width="content")
+
+
+
+def po2_vs_fermi_level_diagram():
+    
+    if st.session_state.brouwer_thermodata:    
+        fontsize = st.session_state.fontsize
+        label_size = st.session_state.label_size
+        pressure_range = st.session_state.pressure_range
+        figsize = st.session_state.figsize
+
+        da = st.session_state.da
+        thermodata = st.session_state.brouwer_thermodata
+        cols = st.columns([0.05,0.95])
+        with cols[0]:
+            show_mue_diagram = st.checkbox("mue diagram",value=False,label_visibility='collapsed',key='show_fermi_brouwer')
+        with cols[1]:
+            st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
+        if show_mue_diagram:
+            cols = st.columns([0.7,0.3])
+            with cols[1]:
+                default_xlim = int(np.log10(pressure_range[0])) , int(np.log10(pressure_range[1]))
+                set_xlim, xlim = get_axis_limits_with_widgets(
+                                                            label='xlim (log)',
+                                                            key='fermi_brouwer',
+                                                            default=default_xlim,
+                                                            boundaries=default_xlim) 
+                xlim = (float(10**xlim[0]) , float(10**xlim[1]))
+                xlim = xlim if set_xlim else pressure_range
+
+                set_ylim, ylim = get_axis_limits_with_widgets(
+                                                            label='ylim (log)',
+                                                            key='fermi_brouwer',
+                                                            default=(-0.5,da.band_gap+0.5),
+                                                            boundaries=(-3.,da.band_gap+3.))
+                ylim = ylim if set_ylim else None  
+            with cols[0]:
+                fig4 = plot_pO2_vs_fermi_level(
+                        partial_pressures=thermodata.partial_pressures,
+                        fermi_levels=thermodata.fermi_levels,
+                        band_gap=da.band_gap,
+                        figsize=figsize,
+                        fontsize=fontsize,
+                        xlim=xlim,
+                        ylim=ylim
+                )
+                fig4.grid()
+                fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                st.pyplot(fig4, clear_figure=False, width="content")
+
+
+def doping_vs_fermi_level_diagram():
+    if 'doping_thermodata' in st.session_state:
+        if st.session_state['doping_thermodata']:    
+            fontsize = st.session_state['fontsize']
+            label_size = st.session_state['label_size']
+            conc_range = st.session_state['conc_range']
+            figsize = st.session_state['figsize']
+
+            da = st.session_state['da']
+            thermodata = st.session_state['doping_thermodata']
+            cols = st.columns([0.05,0.95])
+            with cols[0]:
+                show_mue_diagram = st.checkbox("show_fermi_doping",value=False,label_visibility='collapsed')
+            with cols[1]:
+                st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
+            if show_mue_diagram:
+                cols = st.columns([0.7,0.3])
+                with cols[1]:
+                    default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
+                    set_xlim, xlim = get_axis_limits_with_widgets(
+                                                                label='xlim (log)',
+                                                                key='fermi_doping',
+                                                                default=default_xlim,
+                                                                boundaries=default_xlim) 
+                    xlim = (float(10**xlim[0]) , float(10**xlim[1]))
+                    xlim = xlim if set_xlim else conc_range
+
+                    set_ylim, ylim = get_axis_limits_with_widgets(
+                                                                label='ylim (log)',
+                                                                key='fermi_doping',
+                                                                default=(-0.5,da.band_gap+0.5),
+                                                                boundaries=(-3.,da.band_gap+3.))
+                    ylim = ylim if set_ylim else None
+                with cols[0]:
+                    fig4 = plot_variable_species_vs_fermi_level(
+                            xlabel = st.session_state['dopant']['name'], 
+                            variable_concentrations=thermodata.variable_concentrations,
+                            fermi_levels=thermodata.fermi_levels,
+                            band_gap=da.band_gap,
+                            figsize=figsize,
+                            fontsize=fontsize,
+                            xlim=xlim,
+                            ylim=ylim
+                    )
+                    fig4.grid()
+                    fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                    fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                    st.pyplot(fig4, clear_figure=False, width="content")
+
 
 
 

@@ -34,3 +34,4 @@ def dos():
                 dos = {'m_eff_e':m_eff_e, 'm_eff_h':m_eff_h}
 
         st.session_state.dos = dos
+        st.divider()
