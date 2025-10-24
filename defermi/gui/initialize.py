@@ -40,6 +40,7 @@ def initialize():
 
         if ".defermi" in tmp_path:
             load_session(tmp_path)  
+        #st.write(st.session_state.da)
 
         cols = st.columns(2)
         with cols[0]:
@@ -134,20 +135,18 @@ def filter_entries():
 def save_session(file_path):
     """Save Streamlit session state to a JSON file."""
     try:
-        data = {k:v for k,v in st.session_state.items()}
-        # import joblib 
-        # joblib.dump(data,'temp.joblib')
-        if 'da' in data:
-            data['da'] = data['da'].as_dict()
-        if 'original_da' in data:
-            data['original_da'] = data['original_da'].as_dict()
+        data = {k:v for k,v in st.session_state.items() if 'widget' not in k}
         d = MontyEncoder().encode(data)
         folder = os.path.dirname(file_path)
         if folder and not os.path.exists(folder):
             os.makedirs(folder, exist_ok=True)
         with open(file_path, "w") as f:
             json.dump(d, f, indent=2)
-        st.success(f"Session saved to {file_path}")
+        
+        msg = st.empty()
+        msg.success(f"Session saved to {file_path}")
+        time.sleep(2)
+        msg.empty()
     except Exception as e:
         st.error(f"Failed to save session: {e}")
 

@@ -254,7 +254,9 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
             Json-serializable dict representation of DefectEntry.
         """
         d = {}
-        d['defect'] = MontyEncoder().encode(self.defect)
+        d["@module"] = self.__class__.__module__
+        d["@class"] = self.__class__.__name__
+        d['defect'] = self.defect.as_dict()
         d['energy_diff'] = self.energy_diff
         d['corrections'] = jsanitize(self.corrections)
         d['data'] = jsanitize(self.data)
@@ -278,7 +280,7 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
             DefectEntry object
 
         """
-        defect = MontyDecoder().decode(d['defect'])
+        defect = MontyDecoder().process_decoded(d['defect'])
         energy_diff = d['energy_diff']
         corrections = d['corrections']
         data = d['data']

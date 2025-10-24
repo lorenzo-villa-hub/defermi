@@ -254,6 +254,10 @@ class TestDefectsAnalysis(DefermiTest):
         self.test_formation_energies()
         self.test_charge_transition_levels()
 
+    def test_as_dict_from_dict(self):
+        da1 = DefectsAnalysis.from_dict(self.da.as_dict())
+        assert type(da1) == DefectsAnalysis
+
     def test_to_json(self):
         try:
             da = self.da

@@ -121,7 +121,9 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         """
         d = {
-        "entries" : MontyEncoder().encode(self.entries),
+        "@module": self.__class__.__module__,
+        "@class": self.__class__.__name__,
+        "entries" : [e.as_dict() for e in self.entries],
         "vbm":self.vbm,
         "band_gap":self.band_gap
             }
@@ -144,7 +146,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         DefectsAnalysis object
             
         """
-        entries = MontyDecoder().decode(d['entries'])        
+        entries = [DefectEntry.from_dict(e) for e in d['entries']]        
         vbm = d['vbm']
         band_gap = d['band_gap']
         return cls(entries,vbm,band_gap)
