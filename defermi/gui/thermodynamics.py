@@ -4,6 +4,7 @@ import uuid
 
 from pymatgen.core.composition import Composition
 
+from defermi.gui.utils import init_state_variable
 
 def thermodynamics():
     """
@@ -11,19 +12,24 @@ def thermodynamics():
     """
     if st.session_state.da:
         st.markdown("**Thermodynamic Parameters**")
+        init_state_variable('temperature',value=1000)
+        init_state_variable('oxygen_ref',value=-4.95)
+
         cols = st.columns(2)
         with cols[0]:
-            temperature = st.slider("Temperature (K)", 0, 1500, 1000, 50, key="temperature")
+            temperature = st.slider("Temperature (K)", min_value=0, max_value=1500, value=st.session_state['temperature'], step=50, key="widget_temperature")
             if temperature == 0:
                 temperature = 0.1 # prevent division by zero
+            st.session_state['temperature'] = temperature
         with cols[1]:
-            st.number_input("μO (0K, p0) [eV]", value=-4.95, step=0.5, key='oxygen_ref')
+            oxygen_ref = st.number_input("μO (0K, p0) [eV]", value=st.session_state['oxygen_ref'], step=0.5, key='widget_oxygen_ref')
+            st.session_state['oxygen_ref'] = oxygen_ref
         
         precursors()
-        filter_entries_with_missing_elements()
-        quenching()
-        external_defects()
-        dopants()
+       # filter_entries_with_missing_elements()
+       # quenching()
+      #  external_defects()
+      #  dopants()
 
 
     
@@ -33,13 +39,11 @@ def precursors():
         da = st.session_state.da
         st.markdown("**Precursors**")
 
-        # Initialize entries
-        if "precursor_entries" not in st.session_state:
-            st.session_state.precursor_entries = []
+        init_state_variable('precursor_entries',value=[])
         
         cols = st.columns([0.1, 0.4, 0.4, 0.1])
         with cols[0]:
-            if st.button("➕",key="add_precursor"):
+            if st.button("➕",key="widget_add_precursor"):
                 # Generate a unique ID for this entry
                 entry_id = str(uuid.uuid4())
                 st.session_state.precursor_entries.append({
@@ -49,24 +53,37 @@ def precursors():
                 })
 
         def remove_precursor_entry(entry_id):
-            for idx,entry in enumerate(st.session_state.precursor_entries):
+            updated_entries = []
+            for idx,entry in enumerate(st.session_state['precursor_entries']):
+                if entry['id'] != entry_id:
+                    updated_entries.append(st.session_state['precursor_entries'][idx])
+            st.session_state['precursor_entries'] = updated_entries.copy()
+
+        def update_composition(entry_id):
+            for entry in st.session_state['precursor_entries']:
                 if entry['id'] == entry_id:
-                    del st.session_state.precursor_entries[idx]
+                    entry['composition'] = st.session_state[f'widget_comp_{entry_id}']
 
-
-        for entry in st.session_state.precursor_entries:
+        updated_entries = []
+        for entry in st.session_state['precursor_entries']:
+            st.write(entry)
             with cols[1]:
-                entry["composition"] = st.text_input("Composition", value=entry["composition"], key=f"comp_{entry['id']}")
+                comp = st.text_input("Composition", value=entry["composition"], key=f"widget_comp_{entry['id']}", on_change=update_composition, args=[entry['id']])
             with cols[2]:
-                entry["energy"] = st.number_input("Energy p.f.u (eV)", value=entry["energy"], step=1.0, key=f"energy_{entry['id']}")
+                energy = st.number_input("Energy p.f.u (eV)", value=entry["energy"], step=1.0, key=f"widget_energy_{entry['id']}")
             with cols[3]:
-                st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"del_{entry['id']}")
+                st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"widget_del_{entry['id']}")
+            updated_entries.append({"id": entry["id"], "composition": comp, "energy": energy})
 
+        st.session_state.precursor_entries = updated_entries
+        st.write(st.session_state['precursor_entries'])
+        st.write(updated_entries)
         st.session_state.precursors = {
                             entry["composition"]: entry["energy"] 
                             for entry in st.session_state.precursor_entries
                             if entry["composition"]}
 
+       # st.write(st.session_state['precursor_entries'])
 
 
 def filter_entries_with_missing_elements():

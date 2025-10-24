@@ -21,4 +21,4 @@ def chempots():
             col_idx = idx%ncolumns
             with cols[col_idx]:
                 value = st.session_state['chempots'][el] if el in st.session_state['chempots'] else 0.0
-                st.session_state.chempots[el] = st.number_input(f"{mu_string}({el})", value=value, max_value=0.0,step=0.5)
+                st.session_state.chempots[el] = st.number_input(f"{mu_string}({el})", value=value, max_value=0.0,step=0.5, key=f'widget_chempot{el}')

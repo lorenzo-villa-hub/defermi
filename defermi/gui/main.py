@@ -36,9 +36,9 @@ def main():
         st.divider()
         st.write('')
         
-    #    dos()
+        dos()
 
-    #    thermodynamics()
+        thermodynamics()
         
     with right_col:
         plotter()
