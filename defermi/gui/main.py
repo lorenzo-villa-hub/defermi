@@ -30,7 +30,7 @@ def main():
 
         initialize()
         filter_entries()
-        chempots()
+    #    chempots()
         
         st.write('')
         st.divider()

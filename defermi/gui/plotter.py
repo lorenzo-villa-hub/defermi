@@ -44,41 +44,42 @@ def formation_energies():
     figsize = st.session_state.figsize
     fig_width_in_pixels = st.session_state.fig_width_in_pixels
 
-    da = st.session_state.da
-    cols = st.columns([0.05,0.95])
-    with cols[0]:
-        show_formation_energies = st.checkbox("formation energies",value=True,label_visibility='collapsed')
-    with cols[1]:
-        st.markdown("<h3 style='font-size:24px;'>Formation energies</h3>", unsafe_allow_html=True)
-
-    if show_formation_energies:
-        cols = st.columns([0.7,0.3])
-        with cols[1]:
-            set_xlim, xlim = get_axis_limits_with_widgets(
-                                                        label='xlim',
-                                                        key='eform',
-                                                        default=(-0.5,da.band_gap+0.5),
-                                                        boundaries=(-3.,da.band_gap+3.)) 
-            xlim = xlim if set_xlim else None
-
-            set_ylim, ylim = get_axis_limits_with_widgets(
-                                                        label='ylim',
-                                                        key='eform',
-                                                        default=(-20.,30.),
-                                                        boundaries=(-20.,30.))
-            ylim = ylim if set_ylim else None
-            
+    if st.session_state.da and 'chempots' in st.session_state:
+        da = st.session_state.da
+        cols = st.columns([0.05,0.95])
         with cols[0]:
-            fig1 = da.plot_formation_energies(
-                chemical_potentials=st.session_state.chempots,
-                figsize=figsize,
-                fontsize=fontsize,
-                xlim=xlim,
-                ylim=ylim)
-            fig1.grid()
-            fig1.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-            fig1.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-            st.pyplot(fig1, clear_figure=False, width="content")
+            show_formation_energies = st.checkbox("formation energies",value=True,label_visibility='collapsed')
+        with cols[1]:
+            st.markdown("<h3 style='font-size:24px;'>Formation energies</h3>", unsafe_allow_html=True)
+
+        if show_formation_energies:
+            cols = st.columns([0.7,0.3])
+            with cols[1]:
+                set_xlim, xlim = get_axis_limits_with_widgets(
+                                                            label='xlim',
+                                                            key='eform',
+                                                            default=(-0.5,da.band_gap+0.5),
+                                                            boundaries=(-3.,da.band_gap+3.)) 
+                xlim = xlim if set_xlim else None
+
+                set_ylim, ylim = get_axis_limits_with_widgets(
+                                                            label='ylim',
+                                                            key='eform',
+                                                            default=(-20.,30.),
+                                                            boundaries=(-20.,30.))
+                ylim = ylim if set_ylim else None
+                
+            with cols[0]:
+                fig1 = da.plot_formation_energies(
+                    chemical_potentials=st.session_state.chempots,
+                    figsize=figsize,
+                    fontsize=fontsize,
+                    xlim=xlim,
+                    ylim=ylim)
+                fig1.grid()
+                fig1.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                fig1.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                st.pyplot(fig1, clear_figure=False, width="content")
 
 
 

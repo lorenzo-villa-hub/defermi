@@ -239,7 +239,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 kwargs['index_col'] = False
             df = pd.read_csv(filename, **kwargs)
         else:
-            raise ValueError('Invalid file format, available are "json","pkl","csv" and "excel"')
+            raise ValueError('Invalid file format, available are "json","pkl","csv"')
         return DefectsAnalysis.from_dataframe(df=df,band_gap=band_gap,vbm=vbm)
 
 

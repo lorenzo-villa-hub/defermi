@@ -135,6 +135,12 @@ def save_session(file_path):
     """Save Streamlit session state to a JSON file."""
     try:
         data = {k:v for k,v in st.session_state.items()}
+        # import joblib 
+        # joblib.dump(data,'temp.joblib')
+        if 'da' in data:
+            data['da'] = data['da'].as_dict()
+        if 'original_da' in data:
+            data['original_da'] = data['original_da'].as_dict()
         d = MontyEncoder().encode(data)
         folder = os.path.dirname(file_path)
         if folder and not os.path.exists(folder):

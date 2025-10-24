@@ -70,7 +70,7 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
             "Defect: %s" %(self.defect.__str__()),
             "Energy: %.4f" %self.energy_diff,
             "Corrections: %.4f" %sum([v for v in self.corrections.values()]),
-            "Charge: %i" %self.charge,
+            "Charge: %.1f" %self.charge,
             "Multiplicity: %i" %self.multiplicity,
             "Data: %s" %list(self.data.keys()),
             "Name: %s" %self.name,

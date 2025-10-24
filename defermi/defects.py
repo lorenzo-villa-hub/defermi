@@ -69,7 +69,7 @@ class Defect(MSONable,metaclass=ABCMeta): #MSONable contains as_dict and from_di
 
     def __repr__(self):
         string = f'Defect: type={self.type}, species={self.specie}'
-        if self.charge:
+        if self.charge is not None:
             string += f', charge={self.charge}'
         if self.label:
             string += f', label={self.label}'
@@ -496,16 +496,19 @@ class Substitution(Defect):
         return len(equivalent_sites)
 
     def get_site_in_bulk(self):
-        try:
-            site = min(
-                self.bulk_structure.get_sites_in_sphere(self.site.coords, 0.5, include_index=True),
-                           key=lambda x: x[1])  
-            # there's a bug in pymatgen PeriodicNeighbour.from_dict and the specie attribute, get PeriodicSite instead
-            site = PeriodicSite(site.species, site.frac_coords, site.lattice)
-            return site
-        except:
-            return ValueError("""No equivalent site has been found in bulk, defect and bulk structures are too different.\
-Try using the unrelaxed defect structure or provide bulk site manually""")
+        if self.bulk_structure and self.site:
+            try:
+                site = min(
+                    self.bulk_structure.get_sites_in_sphere(self.site.coords, 0.5, include_index=True),
+                            key=lambda x: x[1])  
+                # there's a bug in pymatgen PeriodicNeighbour.from_dict and the specie attribute, get PeriodicSite instead
+                site = PeriodicSite(site.species, site.frac_coords, site.lattice)
+                return site
+            except:
+                return ValueError("""No equivalent site has been found in bulk, defect and bulk structures are too different.\
+    Try using the unrelaxed defect structure or provide bulk site manually""")
+        else:
+            return None
 
     @property 
     def name(self):
