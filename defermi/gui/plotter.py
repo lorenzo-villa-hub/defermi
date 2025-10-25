@@ -29,8 +29,8 @@ def plotter():
             formation_energies()            
         #    brouwer_diagram()
         #    po2_vs_fermi_level_diagram()
-        #    doping_diagram()
-        #    doping_vs_fermi_level_diagram()
+            doping_diagram()
+            doping_vs_fermi_level_diagram()
 
 
 

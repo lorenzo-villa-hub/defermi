@@ -1,4 +1,6 @@
 
+import numpy as np
+
 import streamlit as st
 import uuid
 
@@ -26,10 +28,10 @@ def thermodynamics():
             st.session_state['oxygen_ref'] = oxygen_ref
         
         precursors()
-      #  filter_entries_with_missing_elements()
-      #  quenching()
-      #  external_defects()
-      #  dopants()
+        filter_entries_with_missing_elements()
+        quenching()
+        external_defects()
+        dopants()
 
 
     
@@ -119,6 +121,9 @@ def quenching():
     init_state_variable('enable_quench',value=False)
     init_state_variable('quench_temperature',value=None)
     init_state_variable('quench_mode',value='species')
+    init_state_variable('quenched_species',value=None)
+    init_state_variable('quench_elements',value=None)
+
     if "brouwer_da" in st.session_state: 
         enable_quench = st.checkbox("Enable quenching", value=st.session_state['enable_quench'], key="widget_enable_quench")
         st.session_state['enable_quench'] = enable_quench
@@ -132,35 +137,30 @@ def quenching():
                 st.session_state['quench_temperature'] = 0.1 
 
             with cols[1]:
-                quench_mode = st.radio("Quenching mode",("species","elements"),horizontal=True,key="quench_mode",index=0)
+                index = 0 if st.session_state['quench_mode'] == 'species' else 1
+                quench_mode = st.radio("Quenching mode",("species","elements"),horizontal=True,key="widget_quench_mode",index=index)
             if quench_mode == "species":
                 species = [name for name in st.session_state.brouwer_da.names]
-                quenched_species = st.multiselect("Select quenched species",species,default=species)
+                value = st.session_state['quenched_species'] or species
+                quenched_species = st.multiselect("Select quenched species",species,default=value,key='widget_quenched_species')
                 quench_elements = False
             elif quench_mode == "elements":
                 species = set()
-                for entry in st.session_state.brouwer_da:
+                for entry in st.session_state['brouwer_da']:
                     if entry.defect.type == 'Vacancy':
                         species.add(entry.defect.name)
                     else:
                         species.add(entry.defect.specie)
-                quenched_species = st.multiselect("Select quenched elements",species,default=species)
+                value = st.session_state['quenched_species'] or species
+                quenched_species = st.multiselect("Select quenched elements",species,default=value,key='widget_quenched_elements')
                 quench_elements = True
         
-            st.session_state.quench_temperature = quench_temperature
-            st.session_state.quenched_species = quenched_species
-            st.session_state.quench_elements = quench_elements
+            st.session_state['quenched_species'] = quenched_species
+            st.session_state['quench_elements'] = quench_elements
         else:
-            st.session_state.quench_temperature = None
-            st.session_state.quenched_species = None
-            st.session_state.quench_elements = None
-            
-    if "quench_temperature" not in st.session_state:
-        st.session_state.quench_temperature = None
-    if "quenched_species" not in st.session_state:
-        st.session_state.quenched_species = None
-    if "quench_elements" not in st.session_state:
-        st.session_state.quench_elements = None
+            st.session_state['quenched_species'] = None
+            st.session_state['quench_elements'] = False
+            st.session_state['quench_temperature'] = None
 
 
 def external_defects():
@@ -170,37 +170,39 @@ def external_defects():
     if st.session_state.da:
         st.markdown("**External defects**")
 
-        if "external_defects_entries" not in st.session_state:
-            st.session_state.external_defects_entries = []
+        init_state_variable('external_defects_entries',value=[])
 
         cols = st.columns([0.11, 0.26, 0.26, 0.26, 0.11])
         with cols[0]:
-            if st.button("➕",key="add_external_defect"):
+            if st.button("➕",key="widget_add_external_defect"):
                 # Generate a unique ID for this entry
                 entry_id = str(uuid.uuid4())
-                st.session_state.external_defects_entries.append({
+                st.session_state['external_defects_entries'].append({
                     "id": entry_id,
                     "name": "",
                     "charge": 0.0,
                     "conc":0.0})
 
         def remove_external_defects_entries(entry_id):
-            for idx,entry in enumerate(st.session_state.external_defects_entries):
+            for idx,entry in enumerate(st.session_state['external_defects_entries']):
                 if entry['id'] == entry_id:
-                    del st.session_state.external_defects_entries[idx]
+                    del st.session_state['external_defects_entries'][idx]
 
-        for defect in st.session_state.external_defects_entries:
+        for defect in st.session_state['external_defects_entries']:
             with cols[1]:
-                defect["name"] = st.text_input("Name", key=f"name_{defect['id']}")
+                name = st.text_input("Name",value=defect['name'], key=f"widget_name_{defect['id']}")
+                defect["name"] = name
             with cols[2]:
-                defect["charge"] = st.number_input("Charge", step=1.0,key=f"charge_{defect['id']}")
+                charge = st.number_input("Charge", value=defect['charge'], step=1.0,key=f"widget_charge_{defect['id']}")
+                defect["charge"] = charge
             with cols[3]:
-                defect["conc"] = st.number_input(r"log₁₀(concentration (cm⁻³))", step=1.0, key=f"conc_{defect['id']}")
-                defect["conc"] = 10**defect["conc"]
+                value = int(np.log10(defect['conc'])) if defect['conc'] else 0
+                conc = st.number_input(r"log₁₀(concentration (cm⁻³))", value=value, step=1, key=f"widget_conc_{defect['id']}")
+                defect["conc"] = 10**conc 
             with cols[4]:
-                st.button("🗑️", on_click=remove_external_defects_entries, args=[defect['id']], key=f"del_{defect['id']}")
+                st.button("🗑️", on_click=remove_external_defects_entries, args=[defect['id']], key=f"widget_del_{defect['id']}")
 
-        st.session_state.external_defects = [{
+        st.session_state['external_defects'] = [{
                             'name':e['name'],
                             'charge':e['charge'],
                             'conc':e['conc']
@@ -211,6 +213,8 @@ def dopants():
     if st.session_state.da:
         st.divider()
         st.markdown("**Dopant settings**")
+        init_state_variable('dopant_type',value='None')
+        init_state_variable('conc_range',value=None)
 
         da = st.session_state.da
         possible_dopants = ["None","Donor","Acceptor"]
@@ -220,30 +224,69 @@ def dopants():
                 if el not in possible_dopants:
                     possible_dopants.append(el)
         possible_dopants.append('custom')
-        dopant = st.radio("Select dopant",options=possible_dopants,index=0, horizontal=True)
+
+        def update_dopant_type_index():
+            st.session_state['dopant_type'] = st.session_state['widget_select_dopant']
+            st.session_state['dopant_type_index'] = possible_dopants.index(st.session_state['dopant_type'])
         
-        if dopant == "None":
-            dopant = None
-            conc_range = None
-        elif dopant == "Donor":
+        st.session_state['dopant_type_index'] = possible_dopants.index(st.session_state['dopant_type'])
+        st.radio("Select dopant",options=possible_dopants,index=st.session_state['dopant_type_index'],
+                                        horizontal=True, key='widget_select_dopant',on_change=update_dopant_type_index)
+    #    st.session_state['dopant_type'] = dopant_type
+
+        dopant_type = st.session_state['dopant_type']    
+        if dopant_type == "None":
+            st.session_state['dopant'] = None
+            st.session_state['conc_range'] = None
+        elif dopant_type == "Donor":
             cols = st.columns(2)
             with cols[0]:
-                charge = st.number_input("Charge", min_value=0.0, value=1.0, step = 1.0, key="charge_dopant")
+                d = st.session_state['dopant']
+                if d and type(d) == dict and 'charge' in d and d['charge'] > 0: 
+                    value = d['charge']
+                else:
+                    value = 1.0 
+                charge = st.number_input("Charge", min_value=0.0, value=value, step = 1.0, key="widget_donor_charge")
             with cols[1]:
-                min_conc, max_conc = st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=(5, 18), key="widget_conc_range")
-            conc_range = ( float(10**min_conc), float(10**max_conc) )
-            dopant = {"name":"D","charge":charge}
 
-        elif dopant == "Acceptor":
+                def update_donor_conc_range():
+                    min_conc, max_conc = st.session_state['widget_donor_conc_range']
+                    st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
+                
+                if st.session_state['conc_range']:
+                    value = int(np.log10(st.session_state['conc_range'] [0])), int(np.log10(st.session_state['conc_range'] [1]))
+                else:
+                    value = (5,18)        
+                st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
+                                                    key="widget_donor_conc_range",on_change=update_donor_conc_range)
+            
+            st.session_state['dopant'] = {"name":"D","charge":charge}
+
+        elif dopant_type == "Acceptor":
             cols = st.columns(2)
             with cols[0]:
-                charge = st.number_input("Charge", max_value=0.0, value=-1.0, step = 1.0, key="charge_dopant")
+                d = st.session_state['dopant']
+                if d and type(d) == dict and 'charge' in d and d['charge'] < 0: 
+                    value = d['charge']
+                else:
+                    value = -1.0 
+                charge = st.number_input("Charge", max_value=0.0, value=value, step = 1.0, key="widget_acceptor_charge")
             with cols[1]:
-                min_conc, max_conc = st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=(5, 18), key="widget_conc_range")
-            conc_range = ( float(10**min_conc), float(10**max_conc) )
-            dopant = {"name":"A","charge":charge}
+                
+                def update_acceptor_conc_range():
+                    min_conc, max_conc = st.session_state['widget_acceptor_conc_range']
+                    st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
 
-        elif dopant == "custom":
+                if st.session_state['conc_range']:
+                    value = int(np.log10(st.session_state['conc_range'] [0])), int(np.log10(st.session_state['conc_range'] [1]))
+                else:
+                    value = (5,18)         
+                st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
+                                                    key="widget_acceptor_conc_range",on_change=update_acceptor_conc_range)
+            
+            st.session_state['dopant'] = {"name":"A","charge":charge}
+
+        elif dopant_type == "custom":
             cols = st.columns(3)
             with cols[0]:
                 name = st.text_input("Name", key="name_dopant")
@@ -258,6 +301,4 @@ def dopants():
             min_conc, max_conc = st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=(5, 18), key="widget_conc_range")
             conc_range = ( float(10**min_conc), float(10**max_conc) )   
 
-        st.session_state.dopant = dopant
-        st.session_state.conc_range = conc_range         
 
