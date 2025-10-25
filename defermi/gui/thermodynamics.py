@@ -227,12 +227,10 @@ def dopants():
 
         def update_dopant_type_index():
             st.session_state['dopant_type'] = st.session_state['widget_select_dopant']
-            st.session_state['dopant_type_index'] = possible_dopants.index(st.session_state['dopant_type'])
         
         st.session_state['dopant_type_index'] = possible_dopants.index(st.session_state['dopant_type'])
         st.radio("Select dopant",options=possible_dopants,index=st.session_state['dopant_type_index'],
                                         horizontal=True, key='widget_select_dopant',on_change=update_dopant_type_index)
-    #    st.session_state['dopant_type'] = dopant_type
 
         dopant_type = st.session_state['dopant_type']    
         if dopant_type == "None":
