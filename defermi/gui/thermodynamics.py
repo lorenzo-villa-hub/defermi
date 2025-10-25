@@ -39,17 +39,7 @@ def precursors():
         da = st.session_state.da
         st.markdown("**Precursors**")
 
-
-        # # Initialize entries
-        # if "precursor_entries" not in st.session_state:
-        #     st.session_state.precursor_entries = []
-
         init_state_variable('precursor_entries',value=[]) 
-
-        if 'precursor_entries_saved' in st.session_state:
-            st.session_state['precursor_entries'] = st.session_state['precursor_entries_saved']
-            st.write('saved')
-            del st.session_state['precursor_entries_saved']
         
         cols = st.columns([0.1, 0.4, 0.4, 0.1])
         with cols[0]:
@@ -64,30 +54,24 @@ def precursors():
                 })
 
         def remove_precursor_entry(entry_id):
-            for idx,entry in enumerate(st.session_state.precursor_entries):
+            for idx,entry in enumerate(st.session_state['precursor_entries']):
                 if entry['id'] == entry_id:
-                    st.write('here')
                     del st.session_state['precursor_entries'][idx]
-            st.write(st.session_state['precursor_entries'])
 
 
-        for entry in st.session_state.precursor_entries:
+        for entry in st.session_state['precursor_entries']:
             with cols[1]:
                 entry["composition"] = st.text_input("Composition", value=entry["composition"], key=f"widget_comp_{entry['id']}")
             with cols[2]:
                 entry["energy"] = st.number_input("Energy p.f.u (eV)", value=entry["energy"], step=1.0, key=f"widget_energy_{entry['id']}")
             with cols[3]:
-                delete = st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"widget_del_{entry['id']}")
-                st.write(delete)
+                st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"widget_del_{entry['id']}")
 
-        st.session_state.precursors = {
+        st.session_state['precursors'] = {
                             entry["composition"]: entry["energy"] 
                             for entry in st.session_state.precursor_entries
                             if entry["composition"]}
 
-
-
-        st.write(st.session_state['precursor_entries'])
 
 
 def filter_entries_with_missing_elements():
@@ -95,7 +79,7 @@ def filter_entries_with_missing_elements():
     Remove defect entries with elements missing from precursors from brouwer diagram dataset.
     """
     if "precursors" in st.session_state and st.session_state.da:
-        precursors = st.session_state.precursors
+        precursors = st.session_state['precursors']
         da = st.session_state.da
         # remove defect entries with missing precursors from brouwer diagram dataset
         elements_in_precursors = set()
@@ -124,7 +108,7 @@ def filter_entries_with_missing_elements():
             brouwer_da = da.filter_entries(elements=filter_elements)
         else:
             brouwer_da = da        
-        st.session_state.brouwer_da = brouwer_da
+        st.session_state['brouwer_da'] = brouwer_da
 
 
 
@@ -132,14 +116,20 @@ def quenching():
     """
     GUI elements to set defect quenching parameters.
     """
+    init_state_variable('enable_quench',value=False)
+    init_state_variable('quench_temperature',value=None)
+    init_state_variable('quench_mode',value='species')
     if "brouwer_da" in st.session_state: 
-        enable_quench = st.checkbox("Enable quenching", value=False, key="widget_enable_quench")
+        enable_quench = st.checkbox("Enable quenching", value=st.session_state['enable_quench'], key="widget_enable_quench")
+        st.session_state['enable_quench'] = enable_quench
         if enable_quench:
             cols = st.columns(2)
             with cols[0]:
-                quench_temperature = st.slider("Quench Temperature (K)", 0, 1500, 300, 50, key="widget_quench_temperature")
-            if quench_temperature == 0:
-                quench_temperature = 0.1 
+                st.session_state['quench_temperature'] = 300
+                quench_temperature = st.slider("Quench Temperature (K)", min_value=0, max_value=1500, 
+                                               value=st.session_state['quench_temperature'], step=50, key="widget_quench_temperature")
+            if st.session_state['quench_temperature'] == 0:
+                st.session_state['quench_temperature'] = 0.1 
 
             with cols[1]:
                 quench_mode = st.radio("Quenching mode",("species","elements"),horizontal=True,key="quench_mode",index=0)

@@ -29,6 +29,7 @@ def initialize():
     uploaded_file = st.file_uploader("upload", type=["defermi","csv","json","pkl"], on_change=reset_da, label_visibility="collapsed")
 
     init_state_variable('da',value=None)
+    init_state_variable('session_loaded', value=False)
     if uploaded_file is not None:
         _, ext = os.path.splitext(uploaded_file.name)
         if not ext:
@@ -38,9 +39,9 @@ def initialize():
             tmp.write(uploaded_file.getbuffer())
             tmp_path = tmp.name
 
-        if ".defermi" in tmp_path:
-            load_session(tmp_path)  
-        #st.write(st.session_state.da)
+        if ".defermi" in tmp_path and not st.session_state['session_loaded']:
+            load_session(tmp_path) 
+            st.session_state['session_loaded'] = True
 
         cols = st.columns(2)
         with cols[0]:
@@ -141,10 +142,7 @@ def save_session(file_path):
     """Save Streamlit session state to a JSON file."""
     try:
         data = {k:v for k,v in st.session_state.items() if 'widget' not in k}
-        if 'precursors' in data:
-            data['precursor_entries_saved'] = data['precursor_entries'].copy()
-            del data['precursor_entries']
-        _delete_dict_key(data,'precursor_entries')
+        _delete_dict_key(data,'precursors')
 
         d = MontyEncoder().encode(data)
         folder = os.path.dirname(file_path)
