@@ -131,11 +131,21 @@ def filter_entries():
         st.dataframe(df)
 
 
+def _delete_dict_key(d,key):
+    if key in d:
+        del d[key]
+    return
+
 
 def save_session(file_path):
     """Save Streamlit session state to a JSON file."""
     try:
         data = {k:v for k,v in st.session_state.items() if 'widget' not in k}
+        if 'precursors' in data:
+            data['precursor_entries_saved'] = data['precursor_entries'].copy()
+            del data['precursor_entries']
+        _delete_dict_key(data,'precursor_entries')
+
         d = MontyEncoder().encode(data)
         folder = os.path.dirname(file_path)
         if folder and not os.path.exists(folder):

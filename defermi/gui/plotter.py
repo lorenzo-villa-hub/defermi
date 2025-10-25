@@ -27,7 +27,7 @@ def plotter():
     if st.session_state.da:
         if run_button or True:
             formation_energies()            
-         #   brouwer_diagram()
+        #    brouwer_diagram()
         #    po2_vs_fermi_level_diagram()
         #    doping_diagram()
         #    doping_vs_fermi_level_diagram()

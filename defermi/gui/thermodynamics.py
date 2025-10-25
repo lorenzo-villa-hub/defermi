@@ -26,8 +26,8 @@ def thermodynamics():
             st.session_state['oxygen_ref'] = oxygen_ref
         
         precursors()
-       # filter_entries_with_missing_elements()
-       # quenching()
+      #  filter_entries_with_missing_elements()
+      #  quenching()
       #  external_defects()
       #  dopants()
 
@@ -39,11 +39,22 @@ def precursors():
         da = st.session_state.da
         st.markdown("**Precursors**")
 
-        init_state_variable('precursor_entries',value=[])
+
+        # # Initialize entries
+        # if "precursor_entries" not in st.session_state:
+        #     st.session_state.precursor_entries = []
+
+        init_state_variable('precursor_entries',value=[]) 
+
+        if 'precursor_entries_saved' in st.session_state:
+            st.session_state['precursor_entries'] = st.session_state['precursor_entries_saved']
+            st.write('saved')
+            del st.session_state['precursor_entries_saved']
         
         cols = st.columns([0.1, 0.4, 0.4, 0.1])
         with cols[0]:
-            if st.button("➕",key="widget_add_precursor"):
+            add_precursors = st.button("➕",key="widget_add_precursor")
+            if add_precursors:
                 # Generate a unique ID for this entry
                 entry_id = str(uuid.uuid4())
                 st.session_state.precursor_entries.append({
@@ -53,37 +64,30 @@ def precursors():
                 })
 
         def remove_precursor_entry(entry_id):
-            updated_entries = []
-            for idx,entry in enumerate(st.session_state['precursor_entries']):
-                if entry['id'] != entry_id:
-                    updated_entries.append(st.session_state['precursor_entries'][idx])
-            st.session_state['precursor_entries'] = updated_entries.copy()
-
-        def update_composition(entry_id):
-            for entry in st.session_state['precursor_entries']:
+            for idx,entry in enumerate(st.session_state.precursor_entries):
                 if entry['id'] == entry_id:
-                    entry['composition'] = st.session_state[f'widget_comp_{entry_id}']
+                    st.write('here')
+                    del st.session_state['precursor_entries'][idx]
+            st.write(st.session_state['precursor_entries'])
 
-        updated_entries = []
-        for entry in st.session_state['precursor_entries']:
-            st.write(entry)
+
+        for entry in st.session_state.precursor_entries:
             with cols[1]:
-                comp = st.text_input("Composition", value=entry["composition"], key=f"widget_comp_{entry['id']}", on_change=update_composition, args=[entry['id']])
+                entry["composition"] = st.text_input("Composition", value=entry["composition"], key=f"widget_comp_{entry['id']}")
             with cols[2]:
-                energy = st.number_input("Energy p.f.u (eV)", value=entry["energy"], step=1.0, key=f"widget_energy_{entry['id']}")
+                entry["energy"] = st.number_input("Energy p.f.u (eV)", value=entry["energy"], step=1.0, key=f"widget_energy_{entry['id']}")
             with cols[3]:
-                st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"widget_del_{entry['id']}")
-            updated_entries.append({"id": entry["id"], "composition": comp, "energy": energy})
+                delete = st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"widget_del_{entry['id']}")
+                st.write(delete)
 
-        st.session_state.precursor_entries = updated_entries
-        st.write(st.session_state['precursor_entries'])
-        st.write(updated_entries)
         st.session_state.precursors = {
                             entry["composition"]: entry["energy"] 
                             for entry in st.session_state.precursor_entries
                             if entry["composition"]}
 
-       # st.write(st.session_state['precursor_entries'])
+
+
+        st.write(st.session_state['precursor_entries'])
 
 
 def filter_entries_with_missing_elements():
@@ -129,11 +133,11 @@ def quenching():
     GUI elements to set defect quenching parameters.
     """
     if "brouwer_da" in st.session_state: 
-        enable_quench = st.checkbox("Enable quenching", value=False, key="enable_quench")
+        enable_quench = st.checkbox("Enable quenching", value=False, key="widget_enable_quench")
         if enable_quench:
             cols = st.columns(2)
             with cols[0]:
-                quench_temperature = st.slider("Quench Temperature (K)", 0, 1500, 300, 50, key="qt")
+                quench_temperature = st.slider("Quench Temperature (K)", 0, 1500, 300, 50, key="widget_quench_temperature")
             if quench_temperature == 0:
                 quench_temperature = 0.1 
 
