@@ -92,6 +92,7 @@ def filter_entries():
         init_state_variable('elements',value=None)
         init_state_variable('names',value=None)
 
+
         st.markdown('**Filter entries**')
         cols = st.columns([0.11,0.25,0.22,0.28,0.15])
         with cols[0]:
@@ -126,6 +127,7 @@ def filter_entries():
                                                                 types=types,
                                                                 elements=elements,
                                                                 names=names)
+            st.session_state['eform_names'] = st.session_state['da'].names
         except AttributeError:
             st.warning('Dataset is empty')
 

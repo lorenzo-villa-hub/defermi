@@ -107,7 +107,11 @@ def filter_entries_with_missing_elements():
                 st.warning(f'{el} missing from precursors')
 
         if filter_elements:
-            brouwer_da = da.filter_entries(elements=filter_elements)
+            try:
+                brouwer_da = da.filter_entries(elements=filter_elements)
+            except AttributeError:
+                st.warning('No entries for Brouwer diagram calculation')
+                brouwer_da = None
         else:
             brouwer_da = da        
         st.session_state['brouwer_da'] = brouwer_da
