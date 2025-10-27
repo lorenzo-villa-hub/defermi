@@ -64,6 +64,7 @@ def initialize():
             
             if not "color_dict" in st.session_state:
                 st.session_state.color_dict = {name:st.session_state.color_sequence[idx] for idx,name in enumerate(st.session_state.da.names)}
+        #    st.write(st.session_state['color_dict'])
             # clean up the temp file
             os.unlink(tmp_path)
             if 'init' not in st.session_state:

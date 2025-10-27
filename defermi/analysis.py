@@ -1332,6 +1332,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                 grid=True,
                                 figsize=(6,6),
                                 fontsize=12,
+                                colors=None,
                                 show_legend=True,
                                 format_legend=True,
                                 **eform_kwargs):
@@ -1413,6 +1414,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             'grid':grid,
             'figsize':figsize,
             'fontsize':fontsize,
+            'colors':colors,
             'show_legend':show_legend,
             'format_legend':format_legend,
             'get_subplot':False,

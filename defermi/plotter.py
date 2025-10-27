@@ -26,6 +26,7 @@ def plot_formation_energies(entries,
                             grid=True,
                             figsize=(6,6),
                             fontsize=12,
+                            colors=None,
                             show_legend=True,
                             format_legend=True,
                             get_subplot=False,
@@ -101,7 +102,7 @@ def plot_formation_energies(entries,
     else:
         plt.figure(figsize=figsize)
         
-    for name in formation_energies:
+    for idx,name in enumerate(formation_energies):
         energy = np.zeros(len(x))
         emin = np.zeros(len(x))
         x_star = []
@@ -129,8 +130,9 @@ def plot_formation_energies(entries,
         else:
             label_txt = name            
 
-        plt.plot(x,emin,label=label_txt,linewidth=3)
-        plt.scatter(x_star,y_star,s=120,marker='*')
+        color = colors[idx] if colors else None
+        plt.plot(x,emin,label=label_txt,linewidth=3,color=color)
+        plt.scatter(x_star,y_star,s=120,marker='*',color=color)
                     
     plt.axvline(x=0.0, linestyle='-', color='k', linewidth=2)  # black dashed lines for gap edges
     plt.axvline(x=band_gap, linestyle='-', color='k',

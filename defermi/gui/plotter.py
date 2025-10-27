@@ -5,12 +5,10 @@ import seaborn as sns
 
 import streamlit as st
 
-from defermi.plotter import plot_pO2_vs_fermi_level, plot_variable_species_vs_fermi_level
+from defermi.plotter import plot_pO2_vs_fermi_level, plot_variable_species_vs_fermi_level, plot_pO2_vs_concentrations, plot_variable_species_vs_concentrations
 
 
 def plotter():
-
-    run_button = st.button("Update Plots")
 
     sns.set_theme(context='talk',style='whitegrid')
 
@@ -25,14 +23,11 @@ def plotter():
         st.session_state.brouwer_thermodata = None
 
     if st.session_state.da:
-        if run_button or True:
-            formation_energies()            
-            brouwer_diagram()
-            po2_vs_fermi_level_diagram()
-            doping_diagram()
-            doping_vs_fermi_level_diagram()
-
-
+        formation_energies()            
+        brouwer_diagram()
+        po2_vs_fermi_level_diagram()
+        doping_diagram()
+        doping_vs_fermi_level_diagram()
 
 
 def formation_energies():
@@ -46,6 +41,10 @@ def formation_energies():
 
     if st.session_state.da and 'chempots' in st.session_state:
         da = st.session_state.da
+        colors = [st.session_state.color_dict[name] for name in da.names]
+        for color in st.session_state.color_sequence:
+            if color not in colors:
+                colors.append(color)
         cols = st.columns([0.05,0.95])
         with cols[0]:
             show_formation_energies = st.checkbox("formation energies",value=True,label_visibility='collapsed')
@@ -74,6 +73,7 @@ def formation_energies():
                     chemical_potentials=st.session_state.chempots,
                     figsize=figsize,
                     fontsize=fontsize,
+                    colors=colors,
                     xlim=xlim,
                     ylim=ylim)
                 fig1.grid()
@@ -89,16 +89,15 @@ def formation_energies():
 def brouwer_diagram():
 
     if "dos" in st.session_state and "precursors" in st.session_state:
-        if st.session_state.precursors:
-            fontsize = st.session_state.fontsize
-            label_size = st.session_state.label_size
-            npoints = st.session_state.npoints
-            pressure_range = st.session_state.pressure_range
-            figsize = st.session_state.figsize
-            fig_width_in_pixels = st.session_state.fig_width_in_pixels
+        if st.session_state['precursors']:
+            fontsize = st.session_state['fontsize']
+            label_size = st.session_state['label_size']
+            npoints = st.session_state['npoints']
+            pressure_range = st.session_state['pressure_range']
+            figsize = st.session_state['figsize']
+            fig_width_in_pixels = st.session_state['fig_width_in_pixels']
 
             da = st.session_state.da
-
             if "brouwer_da" not in st.session_state:
                 st.session_state.brouwer_da = st.session_state.da
             brouwer_da = st.session_state.brouwer_da
@@ -108,11 +107,31 @@ def brouwer_diagram():
                 if color not in colors:
                     colors.append(color)
 
-            cols = st.columns([0.05,0.95])
+            @st.cache_data
+            def compute_brouwer_diagram():
+                brouwer_da.plot_brouwer_diagram(
+                                        bulk_dos=st.session_state.dos,
+                                        temperature=st.session_state.temperature,
+                                        quench_temperature=st.session_state.quench_temperature,
+                                        quenched_species=st.session_state.quenched_species,
+                                        quench_elements = st.session_state.quench_elements,
+                                        precursors=st.session_state.precursors,
+                                        oxygen_ref=st.session_state.oxygen_ref,
+                                        pressure_range=pressure_range,
+                                        external_defects=st.session_state.external_defects,
+                                        npoints=npoints
+                                    )
+                return brouwer_da.thermodata
+
+            cols = st.columns([0.05,0.22,0.73])
             with cols[0]:
                 show_brouwer_diagram = st.checkbox("brouwer diagram",value=True,label_visibility='collapsed')
             with cols[1]:
                 st.markdown("<h3 style='font-size:24px;'>Brouwer diagram</h3>", unsafe_allow_html=True)
+            with cols[2]:
+                if st.button('Compute',key='widget_clear_cache_brouwer'):
+                    compute_brouwer_diagram.clear()
+
             if show_brouwer_diagram:
                 cols = st.columns([0.7,0.3])
                 with cols[1]:
@@ -133,28 +152,20 @@ def brouwer_diagram():
                     ylim = (float(10**ylim[0]) , float(10**ylim[1]))
                     ylim = ylim if set_ylim else None   
 
-                with cols[0]:
-                    fig2 = brouwer_da.plot_brouwer_diagram(
-                        bulk_dos=st.session_state.dos,
-                        temperature=st.session_state.temperature,
-                        quench_temperature=st.session_state.quench_temperature,
-                        quenched_species=st.session_state.quenched_species,
-                        quench_elements = st.session_state.quench_elements,
-                        precursors=st.session_state.precursors,
-                        oxygen_ref=st.session_state.oxygen_ref,
-                        pressure_range=pressure_range,
-                        external_defects=st.session_state.external_defects,
-                        figsize=figsize,
-                        fontsize=fontsize,
-                        npoints=npoints,
-                        xlim=xlim,
-                        ylim=ylim,
-                        colors=colors,
-                    )
+                with cols[0]:  
+                    brouwer_thermodata = compute_brouwer_diagram()
+                    fig2 = plot_pO2_vs_concentrations(
+                                                thermodata=brouwer_thermodata,
+                                                figsize=figsize,
+                                                fontsize=fontsize,
+                                                xlim=xlim,
+                                                ylim=ylim,
+                                                colors=colors)                                           
+
                     fig2.grid()
                     fig2.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
                     fig2.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                    st.session_state.brouwer_thermodata = brouwer_da.thermodata
+                    st.session_state['brouwer_thermodata'] = brouwer_thermodata
                     st.pyplot(fig2, clear_figure=False, width="content")
 
 
@@ -171,11 +182,35 @@ def doping_diagram():
 
             da = st.session_state.da
             conc_range = st.session_state.conc_range
-            cols = st.columns([0.05,0.95])
+
+            @st.cache_data
+            def compute_doping_diagram():
+                da.plot_doping_diagram(
+                        variable_defect_specie=st.session_state.dopant,
+                        concentration_range=st.session_state.conc_range,
+                        chemical_potentials=st.session_state.chempots,
+                        bulk_dos=st.session_state.dos,
+                        temperature=st.session_state.temperature,
+                        quench_temperature=st.session_state.quench_temperature,
+                        quenched_species=st.session_state.quenched_species,
+                        external_defects=st.session_state.external_defects,
+                        npoints=npoints,
+                        )
+                return da.thermodata
+            
+            colors = [st.session_state.color_dict[name] for name in da.names]
+            for color in st.session_state.color_sequence:
+                if color not in colors:
+                    colors.append(color)
+            cols = st.columns([0.05,0.22,0.73])
             with cols[0]:
                 show_doping_diagram = st.checkbox("doping diagram",value=True,label_visibility='collapsed')
             with cols[1]:
                 st.markdown("<h3 style='font-size:24px;'>Doping diagram</h3>", unsafe_allow_html=True)
+            with cols[2]:
+                if st.button('Compute',key='widget_clear_cache_doping'):
+                    compute_doping_diagram.clear()
+
             if show_doping_diagram:
                 cols = st.columns([0.7,0.3])
                 with cols[1]:
@@ -197,25 +232,20 @@ def doping_diagram():
                     ylim = ylim if set_ylim else None   
 
                 with cols[0]:
-                    fig3 = da.plot_doping_diagram(
-                        variable_defect_specie=st.session_state.dopant,
-                        concentration_range=st.session_state.conc_range,
-                        chemical_potentials=st.session_state.chempots,
-                        bulk_dos=st.session_state.dos,
-                        temperature=st.session_state.temperature,
-                        quench_temperature=st.session_state.quench_temperature,
-                        quenched_species=st.session_state.quenched_species,
-                        external_defects=st.session_state.external_defects,
-                        figsize=figsize,
-                        fontsize=fontsize,
-                        npoints=npoints,
-                        xlim=xlim,
-                        ylim=ylim
-                    )
+                    doping_thermodata = compute_doping_diagram()
+
+                    fig3 = plot_variable_species_vs_concentrations(
+                                                    doping_thermodata,
+                                                    figsize=figsize,
+                                                    fontsize=fontsize,
+                                                    colors=colors,
+                                                    xlim=xlim,
+                                                    ylim=ylim
+                                                    )
                     fig3.grid()
                     fig3.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
                     fig3.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                    st.session_state['doping_thermodata'] = da.thermodata
+                    st.session_state['doping_thermodata'] = doping_thermodata
                     st.pyplot(fig3, clear_figure=False, width="content")
 
 

@@ -181,7 +181,7 @@ def external_defects():
                     "id": entry_id,
                     "name": "",
                     "charge": 0.0,
-                    "conc":0.0})
+                    "conc":1.0})
 
         def remove_external_defects_entries(entry_id):
             for idx,entry in enumerate(st.session_state['external_defects_entries']):
@@ -196,7 +196,7 @@ def external_defects():
                 charge = st.number_input("Charge", value=defect['charge'], step=1.0,key=f"widget_charge_{defect['id']}")
                 defect["charge"] = charge
             with cols[3]:
-                value = int(np.log10(defect['conc'])) if defect['conc'] else 0
+                value = int(np.log10(float(defect['conc']))) if defect['conc'] else 0
                 conc = st.number_input(r"log₁₀(concentration (cm⁻³))", value=value, step=1, key=f"widget_conc_{defect['id']}")
                 defect["conc"] = 10**conc 
             with cols[4]:
@@ -253,7 +253,7 @@ def dopants():
                     st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
                 
                 if st.session_state['conc_range']:
-                    value = int(np.log10(st.session_state['conc_range'] [0])), int(np.log10(st.session_state['conc_range'] [1]))
+                    value = int(np.log10(float(st.session_state['conc_range'] [0]))), int(np.log10(float(st.session_state['conc_range'] [1])))
                 else:
                     value = (5,18)        
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
@@ -277,7 +277,7 @@ def dopants():
                     st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
 
                 if st.session_state['conc_range']:
-                    value = int(np.log10(st.session_state['conc_range'] [0])), int(np.log10(st.session_state['conc_range'] [1]))
+                    value = int(np.log10(float(st.session_state['conc_range'] [0]))), int(np.log10(float(st.session_state['conc_range'] [1])))
                 else:
                     value = (5,18)         
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
@@ -305,7 +305,7 @@ def dopants():
                     st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
 
                 if st.session_state['conc_range']:
-                    value = int(np.log10(st.session_state['conc_range'] [0])), int(np.log10(st.session_state['conc_range'] [1]))
+                    value = int(np.log10(float(st.session_state['conc_range'] [0]))), int(np.log10(float(st.session_state['conc_range'] [1])))
                 else:
                     value = (5,18)         
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
