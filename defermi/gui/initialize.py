@@ -143,7 +143,7 @@ def save_session(file_path):
     try:
         data = {k:v for k,v in st.session_state.items() if 'widget' not in k}
         _delete_dict_key(data,'precursors')
-
+        _delete_dict_key(data,'session_loaded')
         d = MontyEncoder().encode(data)
         folder = os.path.dirname(file_path)
         if folder and not os.path.exists(folder):

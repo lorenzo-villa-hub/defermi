@@ -2055,10 +2055,12 @@ class DefectConcentrations:
         concentrations : (list)
             List of SingleDefConc objects.
         """
+        converted_concentrations = []
         for c in concentrations:
             if type(c) == dict:
-                c = SingleDefConc(c)
-        self.concentrations = concentrations
+                c = SingleDefConc.from_dict(c)
+            converted_concentrations.append(c)
+        self.concentrations = converted_concentrations
         self._compute_totals()
 
     def _compute_totals(self):

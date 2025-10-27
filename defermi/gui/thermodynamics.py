@@ -215,6 +215,7 @@ def dopants():
         st.markdown("**Dopant settings**")
         init_state_variable('dopant_type',value='None')
         init_state_variable('conc_range',value=None)
+        init_state_variable('dopant',value={})
 
         da = st.session_state.da
         possible_dopants = ["None","Donor","Acceptor"]
@@ -247,8 +248,8 @@ def dopants():
                 charge = st.number_input("Charge", min_value=0.0, value=value, step = 1.0, key="widget_donor_charge")
             with cols[1]:
 
-                def update_donor_conc_range():
-                    min_conc, max_conc = st.session_state['widget_donor_conc_range']
+                def update_conc_range():
+                    min_conc, max_conc = st.session_state['widget_conc_range']
                     st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
                 
                 if st.session_state['conc_range']:
@@ -256,7 +257,7 @@ def dopants():
                 else:
                     value = (5,18)        
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
-                                                    key="widget_donor_conc_range",on_change=update_donor_conc_range)
+                                                    key="widget_conc_range",on_change=update_conc_range)
             
             st.session_state['dopant'] = {"name":"D","charge":charge}
 
@@ -271,8 +272,8 @@ def dopants():
                 charge = st.number_input("Charge", max_value=0.0, value=value, step = 1.0, key="widget_acceptor_charge")
             with cols[1]:
                 
-                def update_acceptor_conc_range():
-                    min_conc, max_conc = st.session_state['widget_acceptor_conc_range']
+                def update_conc_range():
+                    min_conc, max_conc = st.session_state['widget_conc_range']
                     st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
 
                 if st.session_state['conc_range']:
@@ -280,23 +281,57 @@ def dopants():
                 else:
                     value = (5,18)         
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
-                                                    key="widget_acceptor_conc_range",on_change=update_acceptor_conc_range)
+                                                    key="widget_conc_range",on_change=update_conc_range)
             
             st.session_state['dopant'] = {"name":"A","charge":charge}
 
         elif dopant_type == "custom":
+
             cols = st.columns(3)
+            d = st.session_state['dopant']
             with cols[0]:
-                name = st.text_input("Name", key="name_dopant")
+                value = d['name'] if 'name' in d else ''
+                name = st.text_input("Name",value=value, key="widget_name_dopant")          
             with cols[1]:
-                charge = st.number_input("Charge", step=1.0,key="charge_dopant")
-            with cols[2]:
-                min_conc, max_conc = st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=(5, 18), key="widget_conc_range")
-            conc_range = ( float(10**min_conc), float(10**max_conc) )
-            dopant = {"name":name,"charge":charge}
+                if d and type(d) == dict and 'charge' in d:
+                    value = d['charge']
+                else:
+                    value = 0.0
+                charge = st.number_input("Charge", max_value=0.0, value=value, step = 1.0, key="widget_dopant_charge")
+            with cols[2]:  
+                              
+                def update_conc_range():
+                    min_conc, max_conc = st.session_state['widget_conc_range']
+                    st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
+
+                if st.session_state['conc_range']:
+                    value = int(np.log10(st.session_state['conc_range'] [0])), int(np.log10(st.session_state['conc_range'] [1]))
+                else:
+                    value = (5,18)         
+                st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
+                                                    key="widget_conc_range",on_change=update_conc_range)
+
+                st.session_state['dopant'] = {"name":name,"charge":charge}
 
         else:
-            min_conc, max_conc = st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=(5, 18), key="widget_conc_range")
-            conc_range = ( float(10**min_conc), float(10**max_conc) )   
+            cols = st.columns(3)
+            with cols[2]:
+                st.session_state['dopant'] = dopant_type
+
+                def update_conc_range():
+                    min_conc, max_conc = st.session_state['widget_dopant_conc_range']
+                    st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
+
+                if st.session_state['conc_range']:
+                    value = int(np.log10(st.session_state['conc_range'] [0])), int(np.log10(st.session_state['conc_range'] [1]))
+                else:
+                    value = (5,18)      
+                st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
+                                        key="widget_conc_range",on_change=update_conc_range)
+            
+    
+    if st.session_state['dopant']:
+        if not st.session_state['conc_range']:
+            st.session_state['conc_range'] = (1e05,1e18)
 
 

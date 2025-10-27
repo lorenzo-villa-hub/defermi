@@ -492,6 +492,13 @@ class DefectThermodynamics:
                 ext_df_update = DefectConcentrations([single_df_conc])
             else:
                 ext_df_update = ext_df.copy()
+                if vds['name'] not in ext_df_update.names:
+                    single_df_conc = SingleDefConc(
+                                    name=vds['name'],
+                                    charge=vds['charge'],
+                                    conc=c)
+                    ext_df_update.append(single_df_conc)
+
                 single_df_conc = ext_df_update.select_concentrations(name=vds['name'],charge=vds['charge'])[0]
                 single_df_conc.conc = c 
 
@@ -563,7 +570,7 @@ class DefectThermodynamics:
         concentrations = np.logspace(start=np.log10(concentration_range[0]),stop=np.log10(concentration_range[1]),num=npoints)
         fixed_df = self.fixed_concentrations.copy() if self.fixed_concentrations else {}
         ext_df = external_defects or self.external_defects
-        if ext_df and type(ext_df) != DefectConcentrations:
+        if ext_df and type(ext_df) != DefectConcentrations:                
             ext_df = DefectConcentrations(ext_df)
 
         for c in concentrations:

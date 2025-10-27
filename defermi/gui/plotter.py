@@ -27,8 +27,8 @@ def plotter():
     if st.session_state.da:
         if run_button or True:
             formation_energies()            
-        #    brouwer_diagram()
-        #    po2_vs_fermi_level_diagram()
+            brouwer_diagram()
+            po2_vs_fermi_level_diagram()
             doping_diagram()
             doping_vs_fermi_level_diagram()
 
@@ -205,6 +205,7 @@ def doping_diagram():
                         temperature=st.session_state.temperature,
                         quench_temperature=st.session_state.quench_temperature,
                         quenched_species=st.session_state.quenched_species,
+                        external_defects=st.session_state.external_defects,
                         figsize=figsize,
                         fontsize=fontsize,
                         npoints=npoints,
