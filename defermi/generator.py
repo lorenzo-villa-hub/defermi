@@ -96,6 +96,9 @@ def create_substitutions(structure,elements_to_replace,supercell_size=None, **kw
         List of Substitution objects.
 
     """
+    import string
+    letters = string.ascii_lowercase
+
     defects = [] 
     bulk_structure = structure.copy()
     if supercell_size:
@@ -105,6 +108,7 @@ def create_substitutions(structure,elements_to_replace,supercell_size=None, **kw
 
     sym_struct = SpacegroupAnalyzer(structure=bulk_structure,**kwargs).get_symmetrized_structure()
     for el_to_sub,el_subbed in elements_to_replace.items():
+        idx = 0
         for site_group in sym_struct.equivalent_sites:
             site = site_group[0]
             if site.specie.symbol == el_to_sub:
@@ -115,6 +119,8 @@ def create_substitutions(structure,elements_to_replace,supercell_size=None, **kw
                                         site_in_bulk=site)
                 multiplicity = len(sym_struct.find_equivalent_sites(site))
                 substitution.set_multiplicity(multiplicity)
+                substitution.set_label(letters[idx])
+                idx += 1
                 defects.append(substitution)
     return defects   
 
@@ -151,14 +157,15 @@ def create_vacancies(structure,elements=None,supercell_size=None, **kwargs):
             Angle tolerance for symmetry finding. Defaults to 5 degrees.
 
 
-
-
     Returns
     -------
     defects : list
         List of Vacancy objects.
         
     """
+    import string
+    letters = string.ascii_lowercase
+
     defects = []
     bulk_structure = structure.copy()
     if supercell_size:
@@ -168,6 +175,7 @@ def create_vacancies(structure,elements=None,supercell_size=None, **kwargs):
         
     sym_struct = SpacegroupAnalyzer(structure=bulk_structure,**kwargs).get_symmetrized_structure()
     for el in bulk_structure.composition.elements:
+        idx = 0
         for site_group in sym_struct.equivalent_sites:
             site = site_group[0]
             if el.symbol in elements:
@@ -177,5 +185,7 @@ def create_vacancies(structure,elements=None,supercell_size=None, **kwargs):
                                     bulk_structure=bulk_structure)
                     multiplicity = len(sym_struct.find_equivalent_sites(site))
                     vacancy.set_multiplicity(multiplicity)
+                    vacancy.set_label(letters[idx])
+                    idx += 1
                     defects.append(vacancy)
     return defects     
