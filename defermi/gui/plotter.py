@@ -19,6 +19,7 @@ def plotter():
     st.session_state.pressure_range = (1e-35,1e30)
     st.session_state.figsize = (8, 8)
     st.session_state.fig_width_in_pixels = 700
+    border = False
 
     init_state_variable('show_brouwer_diagram',value=False)
     init_state_variable('show_doping_diagram',value=False)
@@ -27,15 +28,15 @@ def plotter():
         st.session_state.brouwer_thermodata = None
 
     if st.session_state.da:
-        with st.container(border=True):
+        with st.container(border=border):
             formation_energies()
         if st.session_state['enable_thermodynamics']:        
-            with st.container(border=True):    
+            with st.container(border=border):    
                 brouwer_diagram()
-            with st.container(border=True):
+            with st.container(border=border):
                 doping_diagram()
             
-            with st.container(border=True):
+            with st.container(border=border):
                 cols = st.columns([0.05,0.95])
                 with cols[0]:
                     show_mue_diagram = st.checkbox("show_fermi_doping",value=False,label_visibility='collapsed')

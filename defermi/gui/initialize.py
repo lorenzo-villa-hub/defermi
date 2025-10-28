@@ -144,11 +144,12 @@ def _delete_dict_key(d,key):
     return
 
 
-def save_session(file_path):
+def save_session(filename):
     """Save Streamlit session state to a JSON file."""
     try:
         data = {k:v for k,v in st.session_state.items() if 'widget' not in k}
         _delete_dict_key(data,'session_loaded')
+        _delete_dict_key(data,'session_name')
         _delete_dict_key(data,'precursors')
         _delete_dict_key(data,'external_defects')
         d = MontyEncoder().encode(data)
@@ -160,7 +161,7 @@ def save_session(file_path):
         st.download_button(
             label="💾 Save Session",
             data=json_str,
-            file_name="session_state.json",
+            file_name=filename,
             mime="application/json"
         )
 
