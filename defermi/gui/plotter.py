@@ -28,32 +28,56 @@ def plotter():
         st.session_state.brouwer_thermodata = None
 
     if st.session_state.da:
+        all_plots_to_display = [
+                        'Formation energies',
+                        'Charge transition levels',
+                        'Binding energies',
+                        'Brouwer diagram',
+                        'Doping diagram',
+                        'Fermi level']
+        default_plots_to_display = ['Formation energies','Brouwer diagram','Doping diagram','Fermi level']
+        init_state_variable('plots_to_display',value=default_plots_to_display)
+
+        plots_to_display = widget_with_updating_state(function=st.multiselect,key='plots_to_display',
+                                                      label='Display',options=all_plots_to_display,
+                                                      default=st.session_state['plots_to_display'])
+
         with st.container(border=border):
-            formation_energies()
+            if 'Formation energies' in plots_to_display:
+                formation_energies()
+            if 'Charge transition levels' in plots_to_display:
+                charge_transition_levels()
+            if 'DefectComplex' in st.session_state.da.types:
+                if 'Binding energies' in plots_to_display:
+                    binding_energies()
+
         if st.session_state['enable_thermodynamics']:        
-            with st.container(border=border):    
-                brouwer_diagram()
             with st.container(border=border):
-                doping_diagram()
+                if 'Brouwer diagram' in plots_to_display:    
+                    brouwer_diagram()
+            with st.container(border=border):
+                if 'Doping diagram' in plots_to_display:
+                    doping_diagram()
             
             with st.container(border=border):
-                cols = st.columns([0.05,0.95])
-                with cols[0]:
-                    show_mue_diagram = st.checkbox("show_fermi_doping",value=False,label_visibility='collapsed')
-                with cols[1]:
-                    st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
-                if show_mue_diagram:
+                if 'Fermi level' in plots_to_display:
+                    cols = st.columns([0.05,0.95])
+                    with cols[0]:
+                        show_mue_diagram = st.checkbox("show_fermi_doping",value=False,label_visibility='collapsed')
+                    with cols[1]:
+                        st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
+                    if show_mue_diagram:
                         fermi_level()
 
 
 def formation_energies():
 
-    fontsize = st.session_state.fontsize
-    label_size = st.session_state.label_size
-    npoints = st.session_state.npoints
-    pressure_range = st.session_state.pressure_range
-    figsize = st.session_state.figsize
-    fig_width_in_pixels = st.session_state.fig_width_in_pixels
+    fontsize = st.session_state['fontsize']
+    label_size = st.session_state['label_size']
+    npoints = st.session_state['npoints']
+    pressure_range = st.session_state['pressure_range']
+    figsize = st.session_state['figsize']
+    fig_width_in_pixels = st.session_state['fig_width_in_pixels']
 
     if st.session_state.da and 'chempots' in st.session_state:
         da = st.session_state.da
@@ -107,6 +131,126 @@ def formation_energies():
             with cols[1]:
                 st.write('')
                 download_plot(fig=fig1,filename='formation_energies.pdf')
+
+
+def charge_transition_levels():
+
+    fontsize = st.session_state['fontsize']
+    label_size = st.session_state['label_size']
+    npoints = st.session_state['npoints']
+    pressure_range = st.session_state['pressure_range']
+    figsize = st.session_state['figsize']
+    fig_width_in_pixels = st.session_state['fig_width_in_pixels']
+
+    if st.session_state.da and 'chempots' in st.session_state:
+        da = st.session_state.da
+        colors = [st.session_state.color_dict[name] for name in da.names]
+        for color in st.session_state.color_sequence:
+            if color not in colors:
+                colors.append(color)
+        cols = st.columns([0.05,0.95])
+        with cols[0]:
+            show_formation_energies = st.checkbox("charge transition levels",value=True,label_visibility='collapsed')
+        with cols[1]:
+            st.markdown("<h3 style='font-size:24px;'>Charge transition levels</h3>", unsafe_allow_html=True)
+
+        if show_formation_energies:
+            cols = st.columns([0.7,0.3])
+            with cols[1]:
+
+                set_ylim, ylim = get_axis_limits_with_widgets(
+                                                            label='ylim',
+                                                            key='ctl',
+                                                            default=(-0.5,da.band_gap+0.5),
+                                                            boundaries=(-3.,da.band_gap+3.))
+                ylim = ylim if set_ylim else None
+
+                defect_names = da.names
+                init_state_variable('ctl_names',value=defect_names)
+                names = widget_with_updating_state(function=st.multiselect, key='ctl_names',label='Names',
+                                                     options=defect_names, default=st.session_state['ctl_names'])
+                entries = da.select_entries(names=names)
+
+            with cols[0]:
+                fig1 = da.plot_ctl(
+                    entries=entries,
+                    figsize=figsize,
+                    fontsize=fontsize,
+                    ylim=ylim)
+                fig1.grid()
+                fig1.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                fig1.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                st.pyplot(fig1, clear_figure=False, width="content")
+
+            with cols[1]:
+                st.write('')
+                download_plot(fig=fig1,filename='ctl.pdf')
+
+
+
+def binding_energies():
+    
+    fontsize = st.session_state['fontsize']
+    label_size = st.session_state['label_size']
+    npoints = st.session_state['npoints']
+    pressure_range = st.session_state['pressure_range']
+    figsize = st.session_state['figsize']
+    fig_width_in_pixels = st.session_state['fig_width_in_pixels']
+
+    if st.session_state.da and 'chempots' in st.session_state:
+        da = st.session_state.da
+        colors = [st.session_state.color_dict[name] for name in da.names]
+        for color in st.session_state.color_sequence:
+            if color not in colors:
+                colors.append(color)
+        cols = st.columns([0.05,0.95])
+        with cols[0]:
+            show_formation_energies = st.checkbox("binding energies",value=True,label_visibility='collapsed')
+        with cols[1]:
+            st.markdown("<h3 style='font-size:24px;'>Binding energies</h3>", unsafe_allow_html=True)
+
+        if show_formation_energies:
+            cols = st.columns([0.7,0.3])
+            with cols[1]:
+                set_xlim, xlim = get_axis_limits_with_widgets(
+                                                            label='xlim',
+                                                            key='binding',
+                                                            default=(-0.5,da.band_gap+0.5),
+                                                            boundaries=(-3.,da.band_gap+3.)) 
+                xlim = xlim if set_xlim else None
+
+                set_ylim, ylim = get_axis_limits_with_widgets(
+                                                            label='ylim',
+                                                            key='binding',
+                                                            default=(-20.,30.),
+                                                            boundaries=(-20.,30.))
+                ylim = ylim if set_ylim else None
+                
+                complex_names = []
+                for entry in da.select_entries(types=['DefectComplex']):
+                    if entry.name not in complex_names:
+                        complex_names.append(entry.name)
+
+                init_state_variable('binding_names',value=complex_names)
+                names = widget_with_updating_state(function=st.multiselect, key='binding_names',label='Names',
+                                                     options=complex_names, default=st.session_state['binding_names'])
+               # entries = da.select_entries(names=names)
+
+            with cols[0]:
+                fig1 = da.plot_binding_energies(
+                    names=names,
+                    figsize=figsize,
+                    fontsize=fontsize,
+                    xlim=xlim,
+                    ylim=ylim)
+                fig1.grid()
+                fig1.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                fig1.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                st.pyplot(fig1, clear_figure=False, width="content")
+
+            with cols[1]:
+                st.write('')
+                download_plot(fig=fig1,filename='binding_energies.pdf')
 
 
 

@@ -113,7 +113,7 @@ def filter_entries_with_missing_elements():
                 st.warning('No entries for Brouwer diagram calculation')
                 brouwer_da = None
         else:
-            brouwer_da = da        
+            brouwer_da = None       
         st.session_state['brouwer_da'] = brouwer_da
 
 
@@ -128,43 +128,44 @@ def quenching():
     init_state_variable('quenched_species',value=None)
     init_state_variable('quench_elements',value=None)
 
-    if "brouwer_da" in st.session_state: 
-        enable_quench = st.checkbox("Enable quenching", value=st.session_state['enable_quench'], key="widget_enable_quench")
-        st.session_state['enable_quench'] = enable_quench
-        if enable_quench:
-            cols = st.columns(2)
-            with cols[0]:
-                st.session_state['quench_temperature'] = 300
-                quench_temperature = st.slider("Quench Temperature (K)", min_value=0, max_value=1500, 
-                                               value=st.session_state['quench_temperature'], step=50, key="widget_quench_temperature")
-            if st.session_state['quench_temperature'] == 0:
-                st.session_state['quench_temperature'] = 0.1 
+    if "brouwer_da" in st.session_state:
+        if st.session_state['brouwer_da']:
+            enable_quench = st.checkbox("Enable quenching", value=st.session_state['enable_quench'], key="widget_enable_quench")
+            st.session_state['enable_quench'] = enable_quench
+            if enable_quench:
+                cols = st.columns(2)
+                with cols[0]:
+                    st.session_state['quench_temperature'] = 300
+                    quench_temperature = st.slider("Quench Temperature (K)", min_value=0, max_value=1500, 
+                                                value=st.session_state['quench_temperature'], step=50, key="widget_quench_temperature")
+                if st.session_state['quench_temperature'] == 0:
+                    st.session_state['quench_temperature'] = 0.1 
 
-            with cols[1]:
-                index = 0 if st.session_state['quench_mode'] == 'species' else 1
-                quench_mode = st.radio("Quenching mode",("species","elements"),horizontal=True,key="widget_quench_mode",index=index)
-            if quench_mode == "species":
-                species = [name for name in st.session_state.brouwer_da.names]
-                value = st.session_state['quenched_species'] or species
-                quenched_species = st.multiselect("Select quenched species",species,default=value,key='widget_quenched_species')
-                quench_elements = False
-            elif quench_mode == "elements":
-                species = set()
-                for entry in st.session_state['brouwer_da']:
-                    if entry.defect.type == 'Vacancy':
-                        species.add(entry.defect.name)
-                    else:
-                        species.add(entry.defect.specie)
-                value = st.session_state['quenched_species'] or species
-                quenched_species = st.multiselect("Select quenched elements",species,default=value,key='widget_quenched_elements')
-                quench_elements = True
-        
-            st.session_state['quenched_species'] = quenched_species
-            st.session_state['quench_elements'] = quench_elements
-        else:
-            st.session_state['quenched_species'] = None
-            st.session_state['quench_elements'] = False
-            st.session_state['quench_temperature'] = None
+                with cols[1]:
+                    index = 0 if st.session_state['quench_mode'] == 'species' else 1
+                    quench_mode = st.radio("Quenching mode",("species","elements"),horizontal=True,key="widget_quench_mode",index=index)
+                if quench_mode == "species":
+                    species = [name for name in st.session_state.brouwer_da.names]
+                    value = st.session_state['quenched_species'] or species
+                    quenched_species = st.multiselect("Select quenched species",species,default=value,key='widget_quenched_species')
+                    quench_elements = False
+                elif quench_mode == "elements":
+                    species = set()
+                    for entry in st.session_state['brouwer_da']:
+                        if entry.defect.type == 'Vacancy':
+                            species.add(entry.defect.name)
+                        else:
+                            species.add(entry.defect.specie)
+                    value = st.session_state['quenched_species'] or species
+                    quenched_species = st.multiselect("Select quenched elements",species,default=value,key='widget_quenched_elements')
+                    quench_elements = True
+            
+                st.session_state['quenched_species'] = quenched_species
+                st.session_state['quench_elements'] = quench_elements
+            else:
+                st.session_state['quenched_species'] = None
+                st.session_state['quench_elements'] = False
+                st.session_state['quench_temperature'] = None
 
 
 def external_defects():

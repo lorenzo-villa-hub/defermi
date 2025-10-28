@@ -13,22 +13,25 @@ from defermi import DefectsAnalysis
 from defermi.gui.utils import init_state_variable, widget_with_updating_state
 
 
-def initialize():
+def initialize(defects_analysis=None):
     """
     Import dataframe file to initialize DefectsAnalysis object
     """
     if "color_sequence" not in st.session_state:
         st.session_state['color_sequence'] = matplotlib.color_sequences['tab10']
 
-    def reset_da():
-        if "da" in st.session_state:
-            st.session_state.da = None
+    def reset_session():
+        st.session_state.clear()
         return
 
     st.markdown('##### 📂 Load Session or Dataset')
-    uploaded_file = st.file_uploader("upload", type=["defermi","csv","json","pkl"], on_change=reset_da, label_visibility="collapsed")
+    if defects_analysis:
+        init_state_variable('da',value=defects_analysis)
+        uploaded_file = None
+    else:
+        init_state_variable('da',value=None)
+        uploaded_file = st.file_uploader("upload", type=["defermi","csv","json","pkl"], on_change=reset_session, label_visibility="collapsed")
 
-    init_state_variable('da',value=None)
     init_state_variable('session_loaded', value=False)
     init_state_variable('session_name',value='')
 

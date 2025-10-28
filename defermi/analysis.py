@@ -111,6 +111,18 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 if el not in elements:
                     elements.append(el)
         return elements
+    
+    @property
+    def types(self):
+        """
+        Defect types in entries
+        """
+        types = []
+        for entry in self.entries:
+            type = entry.defect.type
+            if type not in types:
+                types.append(type)
+        return types
 
 
     def as_dict(self):

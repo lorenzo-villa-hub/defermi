@@ -491,6 +491,8 @@ class DefectThermodynamics:
                                 conc=c) # variable concentration
                 ext_df_update = DefectConcentrations([single_df_conc])
             else:
+                if type(ext_df) == dict:
+                    ext_df = DefectConcentrations(ext_df)
                 ext_df_update = ext_df.copy()
                 if vds['name'] not in ext_df_update.names:
                     single_df_conc = SingleDefConc(

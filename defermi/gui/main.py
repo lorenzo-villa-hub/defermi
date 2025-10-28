@@ -27,14 +27,9 @@ def main():
             with subcols[1]:
                 init_state_variable('session_name',value='defermi_session')
                 filename = st.session_state['session_name'] + '.defermi'
-                # if st.button("💾 Save Session"):
-                #     default_save_path = os.path.join(os.getcwd(), "session_state.defermi")
-                #     file_path = default_save_path#file_path = st.text_input("Session file path:", value=default_save_path)
                 save_session(filename)
 
-
         initialize()
-        st.write(st.session_state['session_name'])
         filter_entries()
         chempots()
         
