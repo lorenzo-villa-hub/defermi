@@ -145,8 +145,9 @@ def save_session(file_path):
     """Save Streamlit session state to a JSON file."""
     try:
         data = {k:v for k,v in st.session_state.items() if 'widget' not in k}
-        _delete_dict_key(data,'precursors')
         _delete_dict_key(data,'session_loaded')
+        _delete_dict_key(data,'precursors')
+        _delete_dict_key(data,'external_defects')
         d = MontyEncoder().encode(data)
         folder = os.path.dirname(file_path)
         if folder and not os.path.exists(folder):

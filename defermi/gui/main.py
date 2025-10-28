@@ -8,6 +8,7 @@ from defermi.gui.chempots import chempots
 from defermi.gui.dos import dos
 from defermi.gui.thermodynamics import thermodynamics
 from defermi.gui.plotter import plotter
+from defermi.gui.utils import init_state_variable
 
 def main():
     st.set_page_config(layout="wide", page_title="defermi")
@@ -36,9 +37,19 @@ def main():
         st.divider()
         st.write('')
         
-        dos()
-
-        thermodynamics()
+        if st.session_state.da:
+            cols = st.columns([0.05,0.95])
+            with cols[0]:
+                init_state_variable('enable_thermodynamics',value=False)
+                enable_thermodynamics = st.checkbox('Enable Thermodynamics', value=st.session_state['enable_thermodynamics'], 
+                                                    key='widget_enable_thermodynamics',label_visibility='collapsed')
+                st.session_state['enable_thermodynamics'] = enable_thermodynamics
+            with cols[1]:
+                st.markdown('#### Thermodynamics')
+            
+            if enable_thermodynamics:
+                dos()
+                thermodynamics()
         
     with right_col:
         plotter()

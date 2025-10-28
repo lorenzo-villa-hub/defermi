@@ -19,15 +19,25 @@ def plotter():
     st.session_state.figsize = (8, 8)
     st.session_state.fig_width_in_pixels = 700
 
+    init_state_variable('show_brouwer_diagram',value=False)
+    init_state_variable('show_doping_diagram',value=False)
+
     if "brouwer_thermodata" not in st.session_state:
         st.session_state.brouwer_thermodata = None
 
     if st.session_state.da:
-        formation_energies()            
-        brouwer_diagram()
-        po2_vs_fermi_level_diagram()
-        doping_diagram()
-        doping_vs_fermi_level_diagram()
+        formation_energies()
+        if st.session_state['enable_thermodynamics']:            
+            brouwer_diagram()
+            doping_diagram()
+            
+            cols = st.columns([0.05,0.95])
+            with cols[0]:
+                show_mue_diagram = st.checkbox("show_fermi_doping",value=False,label_visibility='collapsed')
+            with cols[1]:
+                st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
+            if show_mue_diagram:
+                fermi_level()
 
 
 def formation_energies():
@@ -134,6 +144,7 @@ def brouwer_diagram():
                 cols = st.columns([0.05,0.22,0.73])
                 with cols[0]:
                     show_brouwer_diagram = st.checkbox("brouwer diagram",value=True,label_visibility='collapsed')
+                    st.session_state['show_brouwer_diagram'] = show_brouwer_diagram
                 with cols[1]:
                     st.markdown("<h3 style='font-size:24px;'>Brouwer diagram</h3>", unsafe_allow_html=True)
                 with cols[2]:
@@ -160,15 +171,22 @@ def brouwer_diagram():
                         ylim = (float(10**ylim[0]) , float(10**ylim[1]))
                         ylim = ylim if set_ylim else None   
 
-                    with cols[0]:  
                         brouwer_thermodata = compute_brouwer_diagram()
+                        dc = brouwer_thermodata.defect_concentrations[0]
+                        output, names, charges = _filter_concentrations(dc,key='brouwer')
+
+                    with cols[0]:  
+                        #brouwer_thermodata = compute_brouwer_diagram()
                         fig2 = plot_pO2_vs_concentrations(
                                                     thermodata=brouwer_thermodata,
+                                                    output=output,
                                                     figsize=figsize,
                                                     fontsize=fontsize,
                                                     xlim=xlim,
                                                     ylim=ylim,
-                                                    colors=colors)                                           
+                                                    colors=colors,
+                                                    names=names,
+                                                    charges=charges)                                           
 
                         fig2.grid()
                         fig2.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
@@ -213,6 +231,7 @@ def doping_diagram():
             cols = st.columns([0.05,0.22,0.73])
             with cols[0]:
                 show_doping_diagram = st.checkbox("doping diagram",value=True,label_visibility='collapsed')
+                st.session_state['show_doping_diagram'] = show_doping_diagram
             with cols[1]:
                 st.markdown("<h3 style='font-size:24px;'>Doping diagram</h3>", unsafe_allow_html=True)
             with cols[2]:
@@ -239,16 +258,21 @@ def doping_diagram():
                     ylim = (float(10**ylim[0]) , float(10**ylim[1]))
                     ylim = ylim if set_ylim else None   
 
-                with cols[0]:
                     doping_thermodata = compute_doping_diagram()
+                    dc = doping_thermodata.defect_concentrations[0]
+                    output, names, charges = _filter_concentrations(dc,key='doping')
 
+                with cols[0]:
                     fig3 = plot_variable_species_vs_concentrations(
                                                     doping_thermodata,
+                                                    output=output,
                                                     figsize=figsize,
                                                     fontsize=fontsize,
                                                     colors=colors,
                                                     xlim=xlim,
-                                                    ylim=ylim
+                                                    ylim=ylim,
+                                                    names=names,
+                                                    charges=charges
                                                     )
                     fig3.grid()
                     fig3.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
@@ -258,104 +282,116 @@ def doping_diagram():
 
 
 
-def po2_vs_fermi_level_diagram():
-    
-    if st.session_state.brouwer_thermodata:    
-        fontsize = st.session_state.fontsize
-        label_size = st.session_state.label_size
-        pressure_range = st.session_state.pressure_range
-        figsize = st.session_state.figsize
+def fermi_level():
+    pressure_range = st.session_state['pressure_range']
+    da = st.session_state.da
+
+    cols = st.columns(2)
+    if 'brouwer_thermodata' in st.session_state and st.session_state['show_brouwer_diagram']:
+        xlim = st.session_state['xlim (log)_brouwer']
+        xlim = (float(10**xlim[0]) , float(10**xlim[1]))
+        ylim = None
+
+        with cols[0]:
+            _po2_vs_fermi_level_diagram(xlim,ylim)
+
+    if 'doping_thermodata' in st.session_state and st.session_state['show_doping_diagram']:
+        if st.session_state['doping_thermodata'] and st.session_state['dopant']:
+            conc_range = st.session_state['conc_range']
+            xlim = st.session_state['xlim (log)_doping']
+            xlim = (float(10**xlim[0]) , float(10**xlim[1]))
+            ylim = None
+
+            with cols[1]:
+                _doping_vs_fermi_level_diagram(xlim,ylim)
+
+
+
+def _po2_vs_fermi_level_diagram(xlim,ylim):
+    if st.session_state['brouwer_thermodata']:    
+        fontsize = st.session_state['fontsize']
+        label_size = st.session_state['label_size']
+        pressure_range = st.session_state['pressure_range']
+        figsize = (6,6)
 
         da = st.session_state.da
         thermodata = st.session_state.brouwer_thermodata
-        cols = st.columns([0.05,0.95])
-        with cols[0]:
-            show_mue_diagram = st.checkbox("mue diagram",value=False,label_visibility='collapsed',key='show_fermi_brouwer')
-        with cols[1]:
-            st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
-        if show_mue_diagram:
-            cols = st.columns([0.7,0.3])
-            with cols[1]:
-                default_xlim = int(np.log10(pressure_range[0])) , int(np.log10(pressure_range[1]))
-                set_xlim, xlim = get_axis_limits_with_widgets(
-                                                            label='xlim (log)',
-                                                            key='fermi_brouwer',
-                                                            default=default_xlim,
-                                                            boundaries=default_xlim) 
-                xlim = (float(10**xlim[0]) , float(10**xlim[1]))
-                xlim = xlim if set_xlim else pressure_range
 
-                set_ylim, ylim = get_axis_limits_with_widgets(
-                                                            label='ylim (log)',
-                                                            key='fermi_brouwer',
-                                                            default=(-0.5,da.band_gap+0.5),
-                                                            boundaries=(-3.,da.band_gap+3.))
-                ylim = ylim if set_ylim else None  
-            with cols[0]:
-                fig4 = plot_pO2_vs_fermi_level(
-                        partial_pressures=thermodata.partial_pressures,
-                        fermi_levels=thermodata.fermi_levels,
-                        band_gap=da.band_gap,
-                        figsize=figsize,
-                        fontsize=fontsize,
-                        xlim=xlim,
-                        ylim=ylim
-                )
-                fig4.grid()
-                fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-                fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                st.pyplot(fig4, clear_figure=False, width="content")
+        fig4 = plot_pO2_vs_fermi_level(
+                partial_pressures=thermodata.partial_pressures,
+                fermi_levels=thermodata.fermi_levels,
+                band_gap=da.band_gap,
+                figsize=figsize,
+                fontsize=fontsize,
+                xlim=xlim,
+                ylim=ylim
+        )
+        fig4.grid()
+        fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+        fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+        st.pyplot(fig4, clear_figure=False, width="content")
 
 
-def doping_vs_fermi_level_diagram():
-    if 'doping_thermodata' in st.session_state:
-        if st.session_state['doping_thermodata']:    
-            fontsize = st.session_state['fontsize']
-            label_size = st.session_state['label_size']
-            conc_range = st.session_state['conc_range']
-            figsize = st.session_state['figsize']
 
-            da = st.session_state['da']
-            thermodata = st.session_state['doping_thermodata']
-            cols = st.columns([0.05,0.95])
-            with cols[0]:
-                show_mue_diagram = st.checkbox("show_fermi_doping",value=False,label_visibility='collapsed')
-            with cols[1]:
-                st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
-            if show_mue_diagram:
-                cols = st.columns([0.7,0.3])
-                with cols[1]:
-                    default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
-                    set_xlim, xlim = get_axis_limits_with_widgets(
-                                                                label='xlim (log)',
-                                                                key='fermi_doping',
-                                                                default=default_xlim,
-                                                                boundaries=default_xlim) 
-                    xlim = (float(10**xlim[0]) , float(10**xlim[1]))
-                    xlim = xlim if set_xlim else conc_range
+def _doping_vs_fermi_level_diagram(xlim,ylim):
+    if st.session_state['doping_thermodata']:    
+        fontsize = st.session_state['fontsize']
+        label_size = st.session_state['label_size']
+        conc_range = st.session_state['conc_range']
+        figsize = (6,6)
 
-                    set_ylim, ylim = get_axis_limits_with_widgets(
-                                                                label='ylim (log)',
-                                                                key='fermi_doping',
-                                                                default=(-0.5,da.band_gap+0.5),
-                                                                boundaries=(-3.,da.band_gap+3.))
-                    ylim = ylim if set_ylim else None
-                with cols[0]:
-                    fig4 = plot_variable_species_vs_fermi_level(
-                            xlabel = st.session_state['dopant']['name'], 
-                            variable_concentrations=thermodata.variable_concentrations,
-                            fermi_levels=thermodata.fermi_levels,
-                            band_gap=da.band_gap,
-                            figsize=figsize,
-                            fontsize=fontsize,
-                            xlim=xlim,
-                            ylim=ylim
-                    )
-                    fig4.grid()
-                    fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-                    fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                    st.pyplot(fig4, clear_figure=False, width="content")
+        da = st.session_state['da']
+        thermodata = st.session_state['doping_thermodata']
 
+        fig4 = plot_variable_species_vs_fermi_level(
+                xlabel = st.session_state['dopant']['name'], 
+                variable_concentrations=thermodata.variable_concentrations,
+                fermi_levels=thermodata.fermi_levels,
+                band_gap=da.band_gap,
+                figsize=figsize,
+                fontsize=fontsize,
+                xlim=xlim,
+                ylim=ylim
+        )
+        fig4.grid()
+        fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+        fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+        st.pyplot(fig4, clear_figure=False, width="content")
+
+
+
+def _filter_concentrations(defect_concentrations,key='brouwer'):
+
+    output_key = f'output_{key}'
+    init_state_variable(output_key,value='total')
+    options = ['total','stable','all']
+    index = options.index(st.session_state[output_key])
+    output = widget_with_updating_state(function=st.radio,
+                                        key=output_key,
+                                        label='Concentrations style',
+                                        options=options,
+                                        index=index,
+                                        horizontal=True)
+
+    conc_names = defect_concentrations.names
+    names_key = f'names_{key}'
+    init_state_variable(names_key,value=conc_names)
+    names = widget_with_updating_state(function=st.multiselect, key=names_key,label='Names',
+                                    options=conc_names, default=st.session_state[names_key])
+    
+    charges=None
+    if output=='all':
+        charges_key = f'charges_str_{key}'
+        init_state_variable(charges_key,value=None)
+        colors=None
+        charges_str = st.text_input(label='Charges (q1,q2,...)',value=st.session_state[charges_key],key=f'widget_{charges_key}')
+        st.session_state[charges_key] = charges_str
+        if charges_str:
+            charges = []
+            for s in charges_str.split(','):
+                charges.append(float(s))
+
+    return output, names, charges
 
 
 
@@ -367,10 +403,10 @@ def get_axis_limits_with_widgets(label, key, default, boundaries):
 
     Parameters
     ----------
-    plot_label : str
-        Label to assign to `session_state` variables.
-    axis_label : str
-        Axis type ('x' or 'y').
+    label : (str)
+        Label to pass to widget.
+    key : (str)
+        String to pass to widget key.
     default : (tuple)
         Default value for axis limit.
     boundaries_ : tuple
