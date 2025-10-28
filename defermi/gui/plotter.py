@@ -1,5 +1,6 @@
 
 import numpy as np
+import io
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -26,18 +27,22 @@ def plotter():
         st.session_state.brouwer_thermodata = None
 
     if st.session_state.da:
-        formation_energies()
-        if st.session_state['enable_thermodynamics']:            
-            brouwer_diagram()
-            doping_diagram()
+        with st.container(border=True):
+            formation_energies()
+        if st.session_state['enable_thermodynamics']:        
+            with st.container(border=True):    
+                brouwer_diagram()
+            with st.container(border=True):
+                doping_diagram()
             
-            cols = st.columns([0.05,0.95])
-            with cols[0]:
-                show_mue_diagram = st.checkbox("show_fermi_doping",value=False,label_visibility='collapsed')
-            with cols[1]:
-                st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
-            if show_mue_diagram:
-                fermi_level()
+            with st.container(border=True):
+                cols = st.columns([0.05,0.95])
+                with cols[0]:
+                    show_mue_diagram = st.checkbox("show_fermi_doping",value=False,label_visibility='collapsed')
+                with cols[1]:
+                    st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
+                if show_mue_diagram:
+                        fermi_level()
 
 
 def formation_energies():
@@ -98,8 +103,9 @@ def formation_energies():
                 fig1.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
                 st.pyplot(fig1, clear_figure=False, width="content")
 
-
-
+            with cols[1]:
+                st.write('')
+                download_plot(fig=fig1,filename='formation_energies.pdf')
 
 
 
@@ -194,6 +200,10 @@ def brouwer_diagram():
                         st.session_state['brouwer_thermodata'] = brouwer_thermodata
                         st.pyplot(fig2, clear_figure=False, width="content")
 
+                    with cols[1]:
+                        st.write('')
+                        download_plot(fig=fig2,filename='brouwer_diagram.pdf')
+
 
 
 def doping_diagram():
@@ -280,6 +290,9 @@ def doping_diagram():
                     st.session_state['doping_thermodata'] = doping_thermodata
                     st.pyplot(fig3, clear_figure=False, width="content")
 
+                with cols[1]:
+                    st.write('')
+                    download_plot(fig=fig3,filename='doping_diagram.pdf')
 
 
 def fermi_level():
@@ -289,21 +302,27 @@ def fermi_level():
     cols = st.columns(2)
     if 'brouwer_thermodata' in st.session_state and st.session_state['show_brouwer_diagram']:
         xlim = st.session_state['xlim (log)_brouwer']
-        xlim = (float(10**xlim[0]) , float(10**xlim[1]))
+        xlim = (float(10**xlim[0]) , float(10**xlim[1])) if st.session_state['set_xlim (log)_brouwer'] else pressure_range
         ylim = None
 
         with cols[0]:
-            _po2_vs_fermi_level_diagram(xlim,ylim)
+            fig = _po2_vs_fermi_level_diagram(xlim,ylim)
+            subcols = st.columns([0.4,0.6])
+            with subcols[1]:
+                download_plot(fig=fig,filename='fermi_level_brouwer.pdf')
 
     if 'doping_thermodata' in st.session_state and st.session_state['show_doping_diagram']:
         if st.session_state['doping_thermodata'] and st.session_state['dopant']:
             conc_range = st.session_state['conc_range']
             xlim = st.session_state['xlim (log)_doping']
-            xlim = (float(10**xlim[0]) , float(10**xlim[1]))
+            xlim = (float(10**xlim[0]) , float(10**xlim[1])) if st.session_state['set_xlim (log)_doping'] else conc_range
             ylim = None
 
             with cols[1]:
-                _doping_vs_fermi_level_diagram(xlim,ylim)
+                fig = _doping_vs_fermi_level_diagram(xlim,ylim)
+                subcols = st.columns([0.4,0.6])
+                with subcols[1]:
+                    download_plot(fig=fig,filename='fermi_level_doping.pdf')
 
 
 
@@ -317,7 +336,7 @@ def _po2_vs_fermi_level_diagram(xlim,ylim):
         da = st.session_state.da
         thermodata = st.session_state.brouwer_thermodata
 
-        fig4 = plot_pO2_vs_fermi_level(
+        fig = plot_pO2_vs_fermi_level(
                 partial_pressures=thermodata.partial_pressures,
                 fermi_levels=thermodata.fermi_levels,
                 band_gap=da.band_gap,
@@ -326,10 +345,11 @@ def _po2_vs_fermi_level_diagram(xlim,ylim):
                 xlim=xlim,
                 ylim=ylim
         )
-        fig4.grid()
-        fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-        fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-        st.pyplot(fig4, clear_figure=False, width="content")
+        fig.grid()
+        fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+        fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+        st.pyplot(fig, clear_figure=False, width="content")
+        return fig
 
 
 
@@ -343,7 +363,7 @@ def _doping_vs_fermi_level_diagram(xlim,ylim):
         da = st.session_state['da']
         thermodata = st.session_state['doping_thermodata']
 
-        fig4 = plot_variable_species_vs_fermi_level(
+        fig = plot_variable_species_vs_fermi_level(
                 xlabel = st.session_state['dopant']['name'], 
                 variable_concentrations=thermodata.variable_concentrations,
                 fermi_levels=thermodata.fermi_levels,
@@ -353,10 +373,11 @@ def _doping_vs_fermi_level_diagram(xlim,ylim):
                 xlim=xlim,
                 ylim=ylim
         )
-        fig4.grid()
-        fig4.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-        fig4.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-        st.pyplot(fig4, clear_figure=False, width="content")
+        fig.grid()
+        fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+        fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+        st.pyplot(fig, clear_figure=False, width="content")
+        return fig
 
 
 
@@ -376,8 +397,13 @@ def _filter_concentrations(defect_concentrations,key='brouwer'):
     conc_names = defect_concentrations.names
     names_key = f'names_{key}'
     init_state_variable(names_key,value=conc_names)
+    default = st.session_state[names_key]
+    for name in st.session_state[names_key]:
+        if name not in conc_names:
+            default = conc_names
+            break
     names = widget_with_updating_state(function=st.multiselect, key=names_key,label='Names',
-                                    options=conc_names, default=st.session_state[names_key])
+                                    options=conc_names, default=default)
     
     charges=None
     if output=='all':
@@ -448,3 +474,19 @@ def get_axis_limits_with_widgets(label, key, default, boundaries):
         st.session_state[lim_label] = lim
 
     return set_lim, lim
+
+
+def download_plot(fig,filename):
+    # Convert the plot to PNG in memory
+    buf = io.BytesIO()
+    fig.savefig(buf, format="pdf",bbox_inches='tight')
+    buf.seek(0)
+
+    filename = st.session_state['session_name'] + '_' + filename
+    # Add a download button
+    st.download_button(
+        label="💾 Save plot",
+        data=buf,
+        file_name=filename,
+        mime="pdf"
+    )

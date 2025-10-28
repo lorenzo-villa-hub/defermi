@@ -301,7 +301,7 @@ def dopants():
                     value = d['charge']
                 else:
                     value = 0.0
-                charge = st.number_input("Charge", max_value=0.0, value=value, step = 1.0, key="widget_dopant_charge")
+                charge = st.number_input("Charge", value=value, step = 1.0, key="widget_dopant_charge")
             with cols[2]:  
                               
                 def update_conc_range():

@@ -30,7 +30,10 @@ def initialize():
 
     init_state_variable('da',value=None)
     init_state_variable('session_loaded', value=False)
+    init_state_variable('session_name',value='')
+
     if uploaded_file is not None:
+        st.session_state['session_name'] = uploaded_file.name.split('.')[0] # use file name to name session
         _, ext = os.path.splitext(uploaded_file.name)
         if not ext:
             ext = ".tmp"  # fallback if no extension present
@@ -149,18 +152,32 @@ def save_session(file_path):
         _delete_dict_key(data,'precursors')
         _delete_dict_key(data,'external_defects')
         d = MontyEncoder().encode(data)
-        folder = os.path.dirname(file_path)
-        if folder and not os.path.exists(folder):
-            os.makedirs(folder, exist_ok=True)
-        with open(file_path, "w") as f:
-            json.dump(d, f, indent=2)
-        
-        msg = st.empty()
-        msg.success(f"Session saved to {file_path}")
-        time.sleep(2)
-        msg.empty()
+
+        # convert to pretty JSON string
+        json_str = json.dumps(d, indent=2)
+
+        # create a downloadable button
+        st.download_button(
+            label="💾 Save Session",
+            data=json_str,
+            file_name="session_state.json",
+            mime="application/json"
+        )
+
     except Exception as e:
-        st.error(f"Failed to save session: {e}")
+        st.error(f"Failed to prepare session download: {e}")
+    #     folder = os.path.dirname(file_path)
+    #     if folder and not os.path.exists(folder):
+    #         os.makedirs(folder, exist_ok=True)
+    #     with open(file_path, "w") as f:
+    #         json.dump(d, f, indent=2)
+        
+    #     msg = st.empty()
+    #     msg.success(f"Session saved to {file_path}")
+    #     time.sleep(2)
+    #     msg.empty()
+    # except Exception as e:
+    #     st.error(f"Failed to save session: {e}")
 
 
 def load_session(file_path):

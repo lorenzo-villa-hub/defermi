@@ -1,5 +1,6 @@
 
 import os
+import io
 
 import streamlit as st
 
@@ -29,7 +30,9 @@ def main():
                     file_path = default_save_path#file_path = st.text_input("Session file path:", value=default_save_path)
                     save_session(file_path)
 
+
         initialize()
+        st.write(st.session_state['session_name'])
         filter_entries()
         chempots()
         
