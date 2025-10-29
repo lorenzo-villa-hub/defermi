@@ -136,7 +136,7 @@ def filter_entries():
 
         with cols[2]:
             def reset_dataframes():
-                for k in ['dataframe', 'dataframe_allrows', 'widget_dataframe_allrows']:
+                for k in ['dataframe', 'df_complete']:
                     if k in st.session_state:
                         del st.session_state[k]
                 st.session_state['edit_dataframe'] = False
