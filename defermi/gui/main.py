@@ -25,7 +25,7 @@ def main():
             with subcols[0]:
                 pass
             with subcols[1]:
-                init_state_variable('session_name',value='defermi_session')
+                init_state_variable('session_name',value='session')
                 filename = st.session_state['session_name'] + '.defermi'
                 save_session(filename)
 

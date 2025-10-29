@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "defermi"
-version = "1.0.3"
+version = "1.0.4"
 description = "Compute and analyse point-defect equilibria."
 readme = "README.md"
 authors = [
@@ -30,6 +30,5 @@ exclude = [
     "defermi.*.*.*.tests"
 ]
 
-# Optional: if you want console scripts later
-# [project.scripts]
-# pynter = "pynter.cli.main:main"
+[project.scripts]
+defermi = "defermi.cli.main:main"
