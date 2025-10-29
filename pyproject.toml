@@ -16,7 +16,8 @@ dependencies = [
     "ase",
     "pymatgen>=2023.3.23",
     "pymatgen-analysis-defects>=2023.3.25",
-    "mp-api"
+    "mp-api",
+    "streamlit"
 ]
 
 [project.optional-dependencies]
