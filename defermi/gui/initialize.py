@@ -10,7 +10,7 @@ import streamlit as st
 from monty.json import jsanitize, MontyEncoder, MontyDecoder
 
 from defermi import DefectsAnalysis 
-from defermi.gui.utils import init_state_variable, widget_with_updating_state
+from defermi.gui.utils import init_state_variable, widget_with_updating_state, dynamic_input_data_editor
 
 
 def initialize(defects_analysis=None):
@@ -48,12 +48,16 @@ def initialize(defects_analysis=None):
         if ".defermi" in tmp_path and not st.session_state['session_loaded']:
             load_session(tmp_path) 
             st.session_state['session_loaded'] = True
+            st.session_state['df_complete'] = st.session_state['saved_dataframe']
+   #         del st.session_state['saved_dataframe']
 
         cols = st.columns(2)
         with cols[0]:
             if "band_gap" not in st.session_state:
                 st.session_state['band_gap'] = None
             band_gap = st.number_input("Band gap (eV)", value=st.session_state['band_gap'], step=0.1, placeholder="Enter band gap", key='widget_band_gap')
+            if band_gap is None:
+                st.warning('Enter band gap to begin session')
             st.session_state['band_gap'] = band_gap
         with cols[1]:
             if "vbm" not in st.session_state:
@@ -82,63 +86,72 @@ def initialize(defects_analysis=None):
                     st.session_state.init = True
 
 
+
 def filter_entries():
     """
     GUI elements to filter defect entries in DefectsAnalysis
     """
     if st.session_state.da:
 
+        st.session_state['da'].band_gap = st.session_state['band_gap']
+        st.session_state['da'].vbm = st.session_state['vbm']
         init_state_variable('original_da',value=st.session_state.da.copy())
-        st.session_state['original_da'].band_gap = st.session_state['band_gap']
-        st.session_state['original_da'].vbm = st.session_state['vbm']
         
-        init_state_variable('mode',value='and')
-        init_state_variable('exclude',value=False)
-        init_state_variable('types',value=None)
-        init_state_variable('elements',value=None)
-        init_state_variable('names',value=None)
+        df_complete = st.session_state.original_da.to_dataframe(include_data=False,include_structures=False) 
+        df_complete['Include'] = [True for i in range(len(df_complete))]
+        cols = ['Include'] + [col for col in df_complete.columns if col != 'Include']
+        df_complete = df_complete[cols]
 
+        init_state_variable('df_complete',value=df_complete)    
+        init_state_variable('dataframe',value=df_complete)
 
-        st.markdown('**Filter entries**')
-        cols = st.columns([0.11,0.25,0.22,0.28,0.15])
-        with cols[0]:
-            index = 0 if st.session_state['mode'] == 'and' else 1
-            mode = st.radio("Mode",options=["and","or"], index=index)
-            st.session_state['mode'] = mode
-        with cols[1]:
-            defect_types = []
-            for entry in st.session_state['original_da']:
-                dtype = entry.defect.type
-                if dtype not in defect_types:
-                    defect_types.append(dtype)
-            types = widget_with_updating_state(function=st.multiselect,key='types',widget_key='widget_types',label='Types',
-                                                  options=defect_types,default=st.session_state['types'])
+        init_state_variable('edit_dataframe',value=False)
+        edit_dataframe = st.checkbox('Edit',key='widget_edit_dataframe',value=st.session_state['edit_dataframe'])
+        st.session_state['edit_dataframe'] = edit_dataframe
+        if st.session_state['edit_dataframe']:
+            edited_df = st.data_editor(
+                            st.session_state['df_complete'], 
+                            column_config={
+                                'Include':st.column_config.CheckboxColumn()
+                            },
+                            hide_index=True,
+                            key='widget_data_editor')
+            
+            st.session_state['saved_dataframe'] = edited_df
+            df_to_import = edited_df[edited_df["Include"] == True] # keep only selected rows
+            st.session_state['dataframe'] = df_to_import
+
+        else:
+            st.dataframe(st.session_state['df_complete'],hide_index=True)
+
+        st.session_state.da = DefectsAnalysis.from_dataframe(
+                                                    st.session_state['dataframe'],
+                                                    band_gap=st.session_state['band_gap'],
+                                                    vbm=st.session_state['vbm'],
+                                                    include_data=False)
+                
+        st.session_state['eform_names'] = st.session_state.da.names
+
+        cols = st.columns([0.6,0.1,0.1,0.2])
 
         with cols[2]:
-            defect_elements = st.session_state['original_da'].elements
-            elements = widget_with_updating_state(function=st.multiselect, key='elements',label='Elements',
-                                                     options=defect_elements, default=st.session_state['elements'])
+            def reset_dataframes():
+                for k in ['dataframe', 'dataframe_allrows', 'widget_dataframe_allrows']:
+                    if k in st.session_state:
+                        del st.session_state[k]
+                st.session_state['edit_dataframe'] = False
+                st.session_state['widget_edit_dataframe'] = False
+            st.button('Reset',key='widget_reset_da',on_click=reset_dataframes)
+
         with cols[3]:
-            defect_names = st.session_state['original_da'].names
-            names = widget_with_updating_state(function=st.multiselect, key='names',label='Names',
-                                                     options=defect_names, default=st.session_state['names'])
-        with cols[4]:
-            exclude = widget_with_updating_state(function=st.checkbox, key='exclude',label='Exclude',value=st.session_state['exclude'])
-
-        try:
-            st.session_state.da = st.session_state.original_da.filter_entries(
-                                                                inplace=False,
-                                                                mode=mode,
-                                                                exclude=exclude,
-                                                                types=types,
-                                                                elements=elements,
-                                                                names=names)
-            st.session_state['eform_names'] = st.session_state['da'].names
-        except AttributeError:
-            st.warning('Dataset is empty')
-
-        df = st.session_state.da.table(display=['energy_diff']).drop('delta atoms',axis=1)
-        st.dataframe(df)
+            csv_str = st.session_state.da.to_dataframe(include_data=False,include_structures=False).to_csv(index=False)
+            filename = st.session_state['session_name'] + '_dataset.csv'
+            st.download_button(
+                label="💾 Save csv",
+                data=csv_str,
+                file_name=filename,
+                mime="test/csv")     
+            
 
 
 def _delete_dict_key(d,key):
@@ -155,6 +168,7 @@ def save_session(filename):
         _delete_dict_key(data,'session_name')
         _delete_dict_key(data,'precursors')
         _delete_dict_key(data,'external_defects')
+
         d = MontyEncoder().encode(data)
 
         # convert to pretty JSON string
@@ -170,18 +184,7 @@ def save_session(filename):
 
     except Exception as e:
         st.error(f"Failed to prepare session download: {e}")
-    #     folder = os.path.dirname(file_path)
-    #     if folder and not os.path.exists(folder):
-    #         os.makedirs(folder, exist_ok=True)
-    #     with open(file_path, "w") as f:
-    #         json.dump(d, f, indent=2)
-        
-    #     msg = st.empty()
-    #     msg.success(f"Session saved to {file_path}")
-    #     time.sleep(2)
-    #     msg.empty()
-    # except Exception as e:
-    #     st.error(f"Failed to save session: {e}")
+
 
 
 def load_session(file_path):
@@ -196,3 +199,60 @@ def load_session(file_path):
             st.warning(f"File not found: {file_path}")
     except Exception as e:
         st.error(f"Failed to load session: {e}")
+
+
+
+        # init_state_variable('mode',value='and')
+        # init_state_variable('exclude',value=False)
+        # init_state_variable('types',value=None)
+        # init_state_variable('elements',value=None)
+        # init_state_variable('names',value=None)
+
+
+        # st.markdown('**Filter entries**')
+        # cols = st.columns([0.11,0.25,0.22,0.28,0.15])
+        # with cols[0]:
+        #     index = 0 if st.session_state['mode'] == 'and' else 1
+        #     mode = st.radio("Mode",options=["and","or"], index=index)
+        #     st.session_state['mode'] = mode
+        # with cols[1]:
+        #     defect_types = []
+        #     for entry in st.session_state['original_da']:
+        #         dtype = entry.defect.type
+        #         if dtype not in defect_types:
+        #             defect_types.append(dtype)
+        #     types = widget_with_updating_state(function=st.multiselect,key='types',widget_key='widget_types',label='Types',
+        #                                           options=defect_types,default=st.session_state['types'])
+
+        # with cols[2]:
+        #     defect_elements = st.session_state['original_da'].elements
+        #     elements = widget_with_updating_state(function=st.multiselect, key='elements',label='Elements',
+        #                                              options=defect_elements, default=st.session_state['elements'])
+        # with cols[3]:
+        #     defect_names = st.session_state['original_da'].names
+        #     names = widget_with_updating_state(function=st.multiselect, key='names',label='Names',
+        #                                              options=defect_names, default=st.session_state['names'])
+        # with cols[4]:
+        #     exclude = widget_with_updating_state(function=st.checkbox, key='exclude',label='Exclude',value=st.session_state['exclude'])
+        #     edit_dataset = st.checkbox('Edit',key='widget_edit_dataset',value=False)
+
+        # try:
+        #     selected_entries = st.session_state.original_da.select_entries(
+        #                                                         inplace=False,
+        #                                                         mode=mode,
+        #                                                         exclude=exclude,
+        #                                                         types=types,
+        #                                                         elements=elements,
+        #                                                         names=names)
+        #  #   st.session_state['eform_names'] = st.session_state['da'].names
+        # except AttributeError:
+        #     st.warning('Dataset is empty')
+
+
+
+        # if 'original_dataframe' not in st.session_state:
+        #     df = st.session_state.da.to_dataframe(include_data=False,include_structures=False) 
+        #     df['Include'] = [True for i in range(len(df))]
+        #     cols = ['Include'] + [col for col in df.columns if col != 'Include']
+        #     df = df[cols]
+        #     st.session_state['original_dataframe'] = df

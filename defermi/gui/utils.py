@@ -40,3 +40,32 @@ def widget_with_updating_state(function, key, widget_key=None, **kwargs):
     var = function(**kwargs)
     st.session_state[key] = var
     return var
+
+
+def dynamic_input_data_editor(data, key, **_kwargs):
+    """
+    Like streamlit's data_editor but which allows you to initialize the data editor with input arguments that can
+    change between consecutive runs. Fixes the problem described here: https://discuss.streamlit.io/t/data-editor-not-changing-cell-the-1st-time-but-only-after-the-second-time/64894/13?u=ranyahalom
+    :param data: The `data` argument you normally pass to `st.data_editor()`.
+    :param key: The `key` argument you normally pass to `st.data_editor()`.
+    :param _kwargs: All other named arguments you normally pass to `st.data_editor()`.
+    :return: Same result returned by calling `st.data_editor()`
+    """
+    changed_key = f'{key}_khkhkkhkkhkhkihsdhsaskskhhfgiolwmxkahs'
+    initial_data_key = f'{key}_khkhkkhkkhkhkihsdhsaskskhhfgiolwmxkahs__initial_data'
+
+    def on_data_editor_changed():
+        if 'on_change' in _kwargs:
+            args = _kwargs['args'] if 'args' in _kwargs else ()
+            kwargs = _kwargs['kwargs'] if 'kwargs' in _kwargs else  {}
+            _kwargs['on_change'](*args, **kwargs)
+        st.session_state[changed_key] = True
+
+    if changed_key in st.session_state and st.session_state[changed_key]:
+        data = st.session_state[initial_data_key]
+        st.session_state[changed_key] = False
+    else:
+        st.session_state[initial_data_key] = data
+    __kwargs = _kwargs.copy()
+    __kwargs.update({'data': data, 'key': key, 'on_change': on_data_editor_changed})
+    return st.data_editor(**__kwargs)

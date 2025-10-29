@@ -16,7 +16,6 @@ def main():
 
     subparsers = parser.add_subparsers()
     
-
     setup_gui(subparsers)
     
     args = parser.parse_args()
@@ -27,6 +26,7 @@ def main():
         parser.print_help()
         raise SystemExit("Please specify a command.")
     return args.func(args)
+
 
 if __name__ == '__main__':
     main()

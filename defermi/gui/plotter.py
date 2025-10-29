@@ -110,8 +110,13 @@ def formation_energies():
 
                 defect_names = da.names
                 init_state_variable('eform_names',value=defect_names)
+                default = st.session_state['eform_names'] 
+                for name in st.session_state['eform_names']:
+                    if name not in defect_names:
+                        default = defect_names
+                        break
                 names = widget_with_updating_state(function=st.multiselect, key='eform_names',label='Names',
-                                                     options=defect_names, default=st.session_state['eform_names'])
+                                                     options=defect_names, default=default)
                 entries = da.select_entries(names=names)
 
             with cols[0]:
@@ -508,8 +513,13 @@ def _doping_vs_fermi_level_diagram(xlim,ylim):
         da = st.session_state['da']
         thermodata = st.session_state['doping_thermodata']
 
+        if type(st.session_state['dopant']) == dict:
+            xlabel = st.session_state['dopant']['name']
+        else:
+            xlabel = st.session_state['dopant']
+
         fig = plot_variable_species_vs_fermi_level(
-                xlabel = st.session_state['dopant']['name'], 
+                xlabel = xlabel, 
                 variable_concentrations=thermodata.variable_concentrations,
                 fermi_levels=thermodata.fermi_levels,
                 band_gap=da.band_gap,

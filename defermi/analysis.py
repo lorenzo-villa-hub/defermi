@@ -165,7 +165,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
 
     @staticmethod
-    def from_dataframe(df,band_gap, vbm=0):
+    def from_dataframe(df,band_gap, vbm=0, include_data=True):
         """
         Create DefectsAnalysis object from pandas DataFrame (df). If df has been 
         exported with include_structure=True, DefectEntry objects will be 
@@ -190,6 +190,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             Valence band maximum of bulk structure in eV.
         band_gap : float
             Band gap of bulk structure in eV.
+        include_data : bool
+            Include extra columns in data dictionary in DefectEntry.
         
         Returns
         -------
@@ -215,7 +217,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 if 'corr' in col:
                     key = col.split('_')[1]
                     corrections[key] = row[col]
-                elif col not in default_columns:
+                elif include_data and col not in default_columns:
                     if col not in DefectEntry.__dict__.keys(): # check data is not already a property
                         data[col] = row[col]
 

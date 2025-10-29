@@ -10,6 +10,7 @@ def setup_gui(subparsers):
 
 
 def run_gui(args):
+    
     path_defermi = defermi.__file__
     path_gui_main = path_defermi.replace('__init__.py','gui/main.py')
     os.system(f'streamlit run {path_gui_main}')

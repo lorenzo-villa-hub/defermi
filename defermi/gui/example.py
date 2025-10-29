@@ -97,7 +97,7 @@ def get_example_dataset():
     {'name': 'Sub_Fe_on_Sr',
     'charge': 0,
     'multiplicity': 1,
-    'energy_diff': 2.5 + energy_shift,
+    'energy_diff': 3.5 + energy_shift,
     'bulk_volume':bulk_volume},
 
     {'name': 'Sub_Fe_on_Sr',
