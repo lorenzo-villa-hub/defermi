@@ -1433,8 +1433,10 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             'format_legend':format_legend,
             'get_subplot':False,
             'subplot_settings':None,
-            'eform_kwargs':eform_kwargs
             }
+        if eform_kwargs:
+            for k,v in eform_kwargs.items():
+                kwargs[k] = v
 
         # if chemical potentials are not provided, pull from MP and store them
         if type(chemical_potentials) in (str, tuple, list):
