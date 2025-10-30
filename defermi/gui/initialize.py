@@ -102,6 +102,7 @@ def filter_entries():
 
         init_state_variable('df_complete',value=df_complete)    
         init_state_variable('dataframe',value=df_complete)
+        init_state_variable('saved_dataframe',value=df_complete)
 
 
         cols = st.columns([0.1,0.1,0.8])
@@ -112,11 +113,12 @@ def filter_entries():
 
         with cols[1]:
             def reset_dataframes():
-                for k in ['dataframe', 'df_complete']:
+                for k in ['dataframe', 'df_complete','saved_dataframe']:
                     if k in st.session_state:
                         del st.session_state[k]
                 st.session_state['edit_dataframe'] = False
                 st.session_state['widget_edit_dataframe'] = False
+                return 
             st.button('Reset',key='widget_reset_da',on_click=reset_dataframes)
 
         with cols[2]:
@@ -142,7 +144,8 @@ def filter_entries():
             st.session_state['dataframe'] = df_to_import
 
         else:
-            st.dataframe(st.session_state['df_complete'],hide_index=True)
+            st.session_state['df_complete'] = st.session_state['saved_dataframe']
+            st.dataframe(st.session_state['saved_dataframe'],hide_index=True)
 
         st.session_state.da = DefectsAnalysis.from_dataframe(
                                                     st.session_state['dataframe'],
