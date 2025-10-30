@@ -13,6 +13,7 @@ from defermi.gui.dos import dos
 from defermi.gui.thermodynamics import thermodynamics
 from defermi.gui.plotter import plotter
 from defermi.gui.utils import init_state_variable
+import defermi.gui
 
 def main():
     st.set_page_config(layout="wide", page_title="defermi")
@@ -26,7 +27,8 @@ def main():
   
         init_state_variable('session_loaded',value=False)
         if not st.session_state['session_loaded']:
-            load_session('./tests/test_files/app_example.defermi')
+            session_file = os.path.join(defermi.gui.__path__[0],'app_example.defermi')
+            load_session(session_file)
             st.session_state['session_loaded'] = True
 
         initialize(defects_analysis=st.session_state['da'])
