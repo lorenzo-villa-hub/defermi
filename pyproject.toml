@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "defermi"
-version = "1.0.6"
+version = "1.0.7"
 description = "Compute and analyse point-defect equilibria."
 readme = "README.md"
 authors = [
@@ -30,6 +30,10 @@ exclude = [
     "defermi.*.*.tests",
     "defermi.*.*.*.tests"
 ]
+
+[tool.setuptools.package-data]
+"defermi.gui" = ["app_example.defermi"]
+
 
 [project.scripts]
 defermi = "defermi.cli.main:main"
