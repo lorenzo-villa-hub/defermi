@@ -19,16 +19,18 @@ def initialize(defects_analysis=None):
     """
     if "color_sequence" not in st.session_state:
         st.session_state['color_sequence'] = matplotlib.color_sequences['tab10']
+        st.session_state['color_sequence'] += matplotlib.color_sequences['tab20']
+        st.session_state['color_sequence'] += matplotlib.color_sequences['Pastel1']
 
     def reset_session():
         st.session_state.clear()
         return
 
-    st.markdown('##### 📂 Load Session or Dataset')
     if defects_analysis:
         init_state_variable('da',value=defects_analysis)
         uploaded_file = None
     else:
+        st.markdown('##### 📂 Load Session or Dataset')
         init_state_variable('da',value=None)
         uploaded_file = st.file_uploader("upload", type=["defermi","csv","json","pkl"], on_change=reset_session, label_visibility="collapsed")
 

@@ -418,6 +418,7 @@ def doping_diagram():
                 cols = st.columns([0.7,0.3])
                 with cols[1]:
                     default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
+                    st.write(default_xlim)
                     set_xlim, xlim = get_axis_limits_with_widgets(
                                                                 label='xlim (log)',
                                                                 key='doping',
@@ -565,6 +566,7 @@ def _filter_concentrations(defect_concentrations,key='brouwer'):
                                         index=index,
                                         horizontal=True)
 
+    # select names
     conc_names = defect_concentrations.names
     names_key = f'names_{key}'
     init_state_variable(names_key,value=conc_names)
@@ -576,6 +578,21 @@ def _filter_concentrations(defect_concentrations,key='brouwer'):
     names = widget_with_updating_state(function=st.multiselect, key=names_key,label='Names',
                                     options=conc_names, default=default)
     
+    # set consistent colors
+    for idx,name in enumerate(names):
+        if name not in st.session_state['color_dict'].keys():
+            st.session_state['color_dict'][name] = st.session_state['color_sequence'][idx]
+            for c in st.session_state['color_sequence']:
+                if c not in st.session_state['color_dict'].values():
+                    st.session_state['color_dict'][name] = c
+                    break
+    ordered_names = []
+    for c in defect_concentrations.select_concentrations(names=names): # use plotting order
+        if c.name not in ordered_names:
+            ordered_names.append(c.name)
+    colors = [st.session_state.color_dict[name] for name in ordered_names]
+
+    # set charges and reset colors
     charges=None
     if output=='all':
         charges_key = f'charges_str_{key}'
@@ -587,19 +604,6 @@ def _filter_concentrations(defect_concentrations,key='brouwer'):
             charges = []
             for s in charges_str.split(','):
                 charges.append(float(s))
-
-
-    for name in names:
-        if name not in st.session_state['color_dict'].keys():
-            for c in st.session_state['color_sequence']:
-                if c not in st.session_state['color_dict'].values():
-                    st.session_state['color_dict'][name] = c
-                    break
-    colors = [st.session_state.color_dict[name] for name in names]
-    for color in st.session_state.color_sequence:
-        if color not in colors:
-            colors.append(color)
-    
 
     return output, names, charges, colors
 
