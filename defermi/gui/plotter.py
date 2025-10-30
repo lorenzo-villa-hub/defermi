@@ -120,10 +120,12 @@ def formation_energies():
                 names = widget_with_updating_state(function=st.multiselect, key='eform_names',label='Names',
                                                      options=defect_names, default=default)
                 entries = da.select_entries(names=names)
-                colors = [st.session_state.color_dict[name] for name in names]
-                for color in st.session_state.color_sequence:
-                    if color not in colors:
-                        colors.append(color)
+                colors = []
+                ordered_names = []
+                for entry in entries:
+                    if entry.name not in ordered_names:
+                        ordered_names.append(entry.name)      
+                colors = [st.session_state.color_dict[name] for name in ordered_names]
 
             with cols[0]:
                 fig1 = da.plot_formation_energies(
@@ -155,10 +157,6 @@ def charge_transition_levels():
 
     if st.session_state.da and 'chempots' in st.session_state:
         da = st.session_state.da
-        colors = [st.session_state.color_dict[name] for name in da.names]
-        for color in st.session_state.color_sequence:
-            if color not in colors:
-                colors.append(color)
         cols = st.columns([0.05,0.95])
         with cols[0]:
             show_formation_energies = st.checkbox("charge transition levels",value=True,label_visibility='collapsed')
@@ -186,10 +184,6 @@ def charge_transition_levels():
                 names = widget_with_updating_state(function=st.multiselect, key='ctl_names',label='Names',
                                                      options=defect_names, default=default)
                 entries = da.select_entries(names=names)
-                colors = [st.session_state.color_dict[name] for name in names]
-                for color in st.session_state.color_sequence:
-                    if color not in colors:
-                        colors.append(color)
 
             with cols[0]:
                 fig1 = da.plot_ctl(
@@ -220,9 +214,6 @@ def binding_energies():
     if st.session_state.da and 'chempots' in st.session_state:
         da = st.session_state.da
         colors = [st.session_state.color_dict[name] for name in da.names]
-        for color in st.session_state.color_sequence:
-            if color not in colors:
-                colors.append(color)
         cols = st.columns([0.05,0.95])
         with cols[0]:
             show_formation_energies = st.checkbox("binding energies",value=True,label_visibility='collapsed')
