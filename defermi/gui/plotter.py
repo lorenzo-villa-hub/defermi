@@ -269,6 +269,7 @@ def binding_energies():
                     names=names,
                     figsize=figsize,
                     fontsize=fontsize,
+                    colors=colors,
                     xlim=xlim,
                     ylim=ylim)
                 fig1.grid()

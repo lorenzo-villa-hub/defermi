@@ -237,7 +237,7 @@ def plot_binding_energies(entries,
                                         **eform_kwargs)
         
         color = colors[idx] if colors else None
-        plt.plot(ef,binding_energy, linewidth=2.5*(figsize[1]/figsize[0]),label=label)
+        plt.plot(ef,binding_energy, linewidth=2.5*(figsize[1]/figsize[0]),label=label, color=color)
         
     plt.axvline(x=0.0, linestyle='-', color='k', linewidth=2)  # black lines for gap edges
     plt.axvline(x=da.band_gap, linestyle='-', color='k',
@@ -347,7 +347,7 @@ def plot_charge_transition_levels(entries,
          for name in x_ticks_labels:            
             x_ticks_labels[x_ticks_labels.index(name)] = get_defect_from_string(name).symbol               
     if fermi_level:
-        plt.axhline(y=fermi_level, linestyle='dashed', color='k', linewidth=1.5, label='$\mu _{e}$')   
+        plt.axhline(y=fermi_level, linestyle='dashed', color='k', linewidth=1.5, label='$\\mu _{e}$')   
     
     plt.text(x[-1]+interval/8,-0.3,'VB',fontsize=25*(fontsize/16))
     plt.text(x[-1]+interval/8,da.band_gap+0.2,'CB',fontsize=25*(fontsize/16))
