@@ -1469,6 +1469,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                             ylim=None,
                             figsize=(6,6),
                             fontsize=18,
+                            colors=None,
                             format_legend=True,
                             **eform_kwargs):
         """
@@ -1488,6 +1489,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             Figure size.
         fontsize : float
             Font size.
+        colors : list
+            List of colors for line plot.
         format_legend : bool
             Bool for getting latex-like legend based on the name of defect entries.
 
@@ -1506,6 +1509,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                     ylim=ylim,
                                     figsize=figsize,
                                     fontsize=fontsize,
+                                    colors=colors,
                                     format_legend=format_legend,
                                     **eform_kwargs)
     

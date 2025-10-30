@@ -24,10 +24,16 @@ def plotter():
     init_state_variable('show_brouwer_diagram',value=False)
     init_state_variable('show_doping_diagram',value=False)
 
+    
     if "brouwer_thermodata" not in st.session_state:
         st.session_state.brouwer_thermodata = None
 
     if st.session_state.da:
+
+        st.session_state.da.sort_entries()
+        if not "color_dict" in st.session_state:
+            st.session_state['color_dict'] = {name:st.session_state.color_sequence[idx] for idx,name in enumerate(st.session_state.da.names)}
+
         all_plots_to_display = [
                         'Formation energies',
                         'Charge transition levels',
@@ -81,10 +87,6 @@ def formation_energies():
 
     if st.session_state.da and 'chempots' in st.session_state:
         da = st.session_state.da
-        colors = [st.session_state.color_dict[name] for name in da.names]
-        for color in st.session_state.color_sequence:
-            if color not in colors:
-                colors.append(color)
         cols = st.columns([0.05,0.95])
         with cols[0]:
             show_formation_energies = st.checkbox("formation energies",value=True,label_visibility='collapsed')
@@ -118,6 +120,10 @@ def formation_energies():
                 names = widget_with_updating_state(function=st.multiselect, key='eform_names',label='Names',
                                                      options=defect_names, default=default)
                 entries = da.select_entries(names=names)
+                colors = [st.session_state.color_dict[name] for name in names]
+                for color in st.session_state.color_sequence:
+                    if color not in colors:
+                        colors.append(color)
 
             with cols[0]:
                 fig1 = da.plot_formation_energies(
@@ -172,9 +178,18 @@ def charge_transition_levels():
 
                 defect_names = da.names
                 init_state_variable('ctl_names',value=defect_names)
+                default = st.session_state['ctl_names'] 
+                for name in st.session_state['ctl_names']:
+                    if name not in defect_names:
+                        default = defect_names
+                        break
                 names = widget_with_updating_state(function=st.multiselect, key='ctl_names',label='Names',
-                                                     options=defect_names, default=st.session_state['ctl_names'])
+                                                     options=defect_names, default=default)
                 entries = da.select_entries(names=names)
+                colors = [st.session_state.color_dict[name] for name in names]
+                for color in st.session_state.color_sequence:
+                    if color not in colors:
+                        colors.append(color)
 
             with cols[0]:
                 fig1 = da.plot_ctl(
@@ -237,9 +252,17 @@ def binding_energies():
                         complex_names.append(entry.name)
 
                 init_state_variable('binding_names',value=complex_names)
+                default = st.session_state['binding_names'] 
+                for name in st.session_state['binding_names']:
+                    if name not in complex_names:
+                        default = complex_names
+                        break
                 names = widget_with_updating_state(function=st.multiselect, key='binding_names',label='Names',
                                                      options=complex_names, default=st.session_state['binding_names'])
-               # entries = da.select_entries(names=names)
+                colors = [st.session_state.color_dict[name] for name in names]
+                for color in st.session_state.color_sequence:
+                    if color not in colors:
+                        colors.append(color)
 
             with cols[0]:
                 fig1 = da.plot_binding_energies(
@@ -276,10 +299,6 @@ def brouwer_diagram():
             brouwer_da = st.session_state.brouwer_da
 
             if brouwer_da:
-                colors = [st.session_state.color_dict[name] for name in brouwer_da.names]
-                for color in st.session_state.color_sequence:
-                    if color not in colors:
-                        colors.append(color)
 
                 @st.cache_data
                 def compute_brouwer_diagram():
@@ -329,7 +348,7 @@ def brouwer_diagram():
 
                         brouwer_thermodata = compute_brouwer_diagram()
                         dc = brouwer_thermodata.defect_concentrations[0]
-                        output, names, charges = _filter_concentrations(dc,key='brouwer')
+                        output, names, charges, colors = _filter_concentrations(dc,key='brouwer')
 
                     with cols[0]:  
                         #brouwer_thermodata = compute_brouwer_diagram()
@@ -384,10 +403,6 @@ def doping_diagram():
                         )
                 return da.thermodata
             
-            colors = [st.session_state.color_dict[name] for name in da.names]
-            for color in st.session_state.color_sequence:
-                if color not in colors:
-                    colors.append(color)
             cols = st.columns([0.05,0.22,0.73])
             with cols[0]:
                 show_doping_diagram = st.checkbox("doping diagram",value=True,label_visibility='collapsed')
@@ -420,7 +435,7 @@ def doping_diagram():
 
                     doping_thermodata = compute_doping_diagram()
                     dc = doping_thermodata.defect_concentrations[0]
-                    output, names, charges = _filter_concentrations(dc,key='doping')
+                    output, names, charges, colors = _filter_concentrations(dc,key='doping')
 
                 with cols[0]:
                     fig3 = plot_variable_species_vs_concentrations(
@@ -572,7 +587,20 @@ def _filter_concentrations(defect_concentrations,key='brouwer'):
             for s in charges_str.split(','):
                 charges.append(float(s))
 
-    return output, names, charges
+
+    for name in names:
+        if name not in st.session_state['color_dict'].keys():
+            for c in st.session_state['color_sequence']:
+                if c not in st.session_state['color_dict'].values():
+                    st.session_state['color_dict'][name] = c
+                    break
+    colors = [st.session_state.color_dict[name] for name in names]
+    for color in st.session_state.color_sequence:
+        if color not in colors:
+            colors.append(color)
+    
+
+    return output, names, charges, colors
 
 
 

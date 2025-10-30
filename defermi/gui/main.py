@@ -14,7 +14,7 @@ from defermi.gui.utils import init_state_variable
 def main():
     st.set_page_config(layout="wide", page_title="defermi")
 
-    left_col, right_col = st.columns([1.5, 1.8])
+    left_col, space1, middle_line, space2, right_col = st.columns([1.5, 0.05, 0.05,0.05, 1.7])
 
     with left_col:
         cols = st.columns(2)
@@ -50,7 +50,11 @@ def main():
             if enable_thermodynamics:
                 dos()
                 thermodynamics()
-        
+    
+    with middle_line:
+        pass
+        #st.markdown("<div style='border-left: 1px solid #999; height: 2000px; margin: auto;'></div>",unsafe_allow_html=True)
+
     with right_col:
         plotter()
 

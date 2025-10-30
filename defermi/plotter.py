@@ -61,6 +61,8 @@ def plot_formation_energies(entries,
         Figure size.
     fontsize : float
         Font size.
+    colors : list
+        List of colors for line plot.
     show_legend  : bool
         Show legend.
     format_legend : bool
@@ -138,7 +140,7 @@ def plot_formation_energies(entries,
     plt.axvline(x=band_gap, linestyle='-', color='k',
                 linewidth=2)        
     if fermi_level:
-        plt.axvline(x=fermi_level, linestyle='dashed', color='k', linewidth=1.5, label='$\mu _{e}$')                
+        plt.axvline(x=fermi_level, linestyle='dashed', color='k', linewidth=1.5, label='$\\mu _{e}$')                
     # shaded areas
     plt.axvspan(xlim[0], 0, facecolor='k', alpha=0.2)
     plt.axvspan(band_gap, xlim[1]+0.1, facecolor='k', alpha=0.2)
@@ -167,6 +169,7 @@ def plot_binding_energies(entries,
                           ylim=None,
                           figsize=(6,6),
                           fontsize=18,
+                          colors=None,
                           format_legend=True,
                           **eform_kwargs):
     """
@@ -192,6 +195,8 @@ def plot_binding_energies(entries,
         Figure size.
     fontsize : float
         Font size.
+    colors : list
+        List of colors for line plot.
     format_legend : bool
         Bool for getting latex-like legend based on the name of defect entries.
     eform_kwargs : dict
@@ -222,7 +227,7 @@ def plot_binding_energies(entries,
         raise ValueError('No DefectComplex entries found')  
 
     # getting binding energy at different fermi levels for every name in list
-    for name in names:
+    for idx,name in enumerate(names):
         label = da.select_entries(names=[name])[0].symbol if format_legend else name
         for i in range(0,len(ef)):
             binding_energy[i] = da.binding_energy(
@@ -230,7 +235,8 @@ def plot_binding_energies(entries,
                                         fermi_level=ef[i],
                                         temperature=temperature,
                                         **eform_kwargs)
-                        
+        
+        color = colors[idx] if colors else None
         plt.plot(ef,binding_energy, linewidth=2.5*(figsize[1]/figsize[0]),label=label)
         
     plt.axvline(x=0.0, linestyle='-', color='k', linewidth=2)  # black lines for gap edges

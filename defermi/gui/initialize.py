@@ -49,7 +49,6 @@ def initialize(defects_analysis=None):
             load_session(tmp_path) 
             st.session_state['session_loaded'] = True
             st.session_state['df_complete'] = st.session_state['saved_dataframe']
-   #         del st.session_state['saved_dataframe']
 
         cols = st.columns(2)
         with cols[0]:
@@ -72,8 +71,6 @@ def initialize(defects_analysis=None):
                 st.session_state['da'].band_gap = st.session_state['band_gap']
                 st.session_state['da'].vbm = st.session_state['vbm']
             
-            if not "color_dict" in st.session_state:
-                st.session_state.color_dict = {name:st.session_state.color_sequence[idx] for idx,name in enumerate(st.session_state.da.names)}
         #    st.write(st.session_state['color_dict'])
             # clean up the temp file
             os.unlink(tmp_path)
@@ -130,9 +127,9 @@ def filter_entries():
                                                     vbm=st.session_state['vbm'],
                                                     include_data=False)
                 
-        st.session_state['eform_names'] = st.session_state.da.names
+     #   st.session_state['eform_names'] = st.session_state.da.names
 
-        cols = st.columns([0.6,0.1,0.1,0.2])
+        cols = st.columns([0.55,0.1,0.1,0.25])
 
         with cols[2]:
             def reset_dataframes():
