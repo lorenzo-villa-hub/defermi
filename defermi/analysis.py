@@ -296,6 +296,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                             vbm=None,
                             initial_structure=False,
                             function=None,
+                            function_kwargs={},
                             computed_entry_kwargs={},
                             finder_kwargs={},
                             correction_kwargs={}):
@@ -326,6 +327,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             defect_finder struggles to find the right defects.
         function : function
             Function to apply to each DefectEntry. Useful to automate custom entry modification.
+        function_kwargs : dict
+            Kwargs to pass to custom function.
         computed_entry_kwargs : dict
             Kwargs to pass to `Vasprun.get_computed_entry`.
         finder_kwargs : dict
@@ -363,8 +366,9 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                                         multiplicity=1,
                                                         data=data,
                                                         label=None,
-                                                        function=function,
                                                         initial_structure=initial_structure,
+                                                        function=function,
+                                                        function_kwargs=function_kwargs,
                                                         computed_entry_kwargs=computed_entry_kwargs,
                                                         finder_kwargs=finder_kwargs)
                 if get_multiplicity:

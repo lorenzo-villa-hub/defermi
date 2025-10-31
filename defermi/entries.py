@@ -419,6 +419,7 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                             label=None,
                             initial_structure=False,
                             function=None,
+                            function_kwargs={},
                             computed_entry_kwargs={},
                             finder_kwargs={}):
         """
@@ -448,6 +449,8 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
         function : function
             Function to apply to DefectEntry. Useful to automate custom entry modification.
             The function can modify entry attributes and returns None.
+        function_kwargs : dict
+            Kwargs to pass to custom function.
         computed_entr_kwargs : dict
             Kwargs to pass to Vasprun.get_computed_entry. 
         finder_kwargs : dict
@@ -488,7 +491,7 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                                                 **finder_kwargs)
         
         if function:
-            function(entry)
+            function(entry,**function_kwargs)
         return entry
         
 
