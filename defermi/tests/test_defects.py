@@ -161,7 +161,7 @@ class TestDefect(DefermiTest):
                             charge=1,
                             label='test')
         assert comp.type == 'DefectComplex'
-        assert comp.name == 'Vac_Si(vac)-Sub_P_on_Si(sub)(test)'
+        assert comp.name == 'Vac_Si(vac);Sub_P_on_Si(sub)(test)'
         assert comp.defect_composition == Composition('Si52P1')
         assert comp.charge == 1
         assert comp.delta_atoms == {'Si': -2, 'P': 1}
