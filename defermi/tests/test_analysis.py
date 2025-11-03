@@ -154,7 +154,7 @@ class TestDefectsAnalysis(DefermiTest):
 
     def test_names(self):
         actual = self.da.names
-        desired = ['Int_O', 'Sub_P_on_Si', 'Vac_O', 'Vac_Si', 'Vac_Si-Vac_O']
+        desired = ['Int_O', 'Sub_P_on_Si', 'Vac_O', 'Vac_Si', 'Vac_Si;Vac_O']
         self.assert_object_almost_equal(actual, desired)
         
     def test_select_entries(self):
@@ -169,7 +169,7 @@ class TestDefectsAnalysis(DefermiTest):
         self.assert_all_close(actual,desired,rtol=1e-03)
 
     def test_binding_energy(self):
-        actual = self.da_comp.binding_energy(name='Vac_Si-Vac_O')
+        actual = self.da_comp.binding_energy(name='Vac_Si;Vac_O')
         desired = 1.3470440099999914
         self.assert_all_close(actual, desired)
            

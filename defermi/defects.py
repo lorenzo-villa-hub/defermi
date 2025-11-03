@@ -751,7 +751,7 @@ class DefectComplex(MSONable,metaclass=ABCMeta):
         """
         Get `DefectComplex` object from string.
         """
-        names = string.split('-')
+        names = string.split(';')
         defects = [Defect.from_string(n) for n in names]
         return DefectComplex(defects=defects, **kwargs)
     
@@ -874,7 +874,7 @@ class DefectComplex(MSONable,metaclass=ABCMeta):
         """
         Name of the defect. Behaves like a string with additional attributes.
         """
-        name = '-'.join([df.name for df in self.defects])
+        name = ';'.join([df.name for df in self.defects])
         if self.label:
             name += f'({self.label})'
         return name
@@ -945,7 +945,7 @@ def get_defect_from_string(string, **kwargs):
     """
     Get defect object from a string (`Defect` or `DefectComplex`).
     """
-    if '-' in string:
+    if ';' in string:
         return DefectComplex.from_string(string, **kwargs)
     else:
         return Defect.from_string(string, **kwargs)
