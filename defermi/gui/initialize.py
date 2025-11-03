@@ -169,6 +169,7 @@ def save_session(filename):
         _delete_dict_key(data,'session_name')
         _delete_dict_key(data,'precursors')
         _delete_dict_key(data,'external_defects')
+        _delete_dict_key(data,'edit_dataframe')
 
         d = MontyEncoder().encode(data)
 

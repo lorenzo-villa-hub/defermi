@@ -972,7 +972,7 @@ def format_legend_with_charge_number(label,charge):
     if charge > 0:
         q = '+'+str(charge)
     elif charge == 0:
-        q = '\;' + str(charge)
+        q = '\\;' + str(charge)
     else:
         q = str(charge)
     return s + '$^{' + q + '}$'
