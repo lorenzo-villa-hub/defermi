@@ -83,7 +83,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         return groups
             
     def copy(self):
-        return DefectsAnalysis(entries=self.entries,band_gap=self.band_gap,vbm=self.vbm)
+        return DefectsAnalysis(entries=self.entries,band_gap=self.band_gap,vbm=self.vbm,sort_entries=False)
     
     @property
     def chempots(self):
@@ -902,7 +902,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             self.entries = output_entries
             return
         else:
-            return DefectsAnalysis(entries=output_entries, band_gap=self.band_gap, vbm=self.vbm)
+            return DefectsAnalysis(entries=output_entries, band_gap=self.band_gap, vbm=self.vbm, sort_entries=False)
 
 
     def formation_energies(self,

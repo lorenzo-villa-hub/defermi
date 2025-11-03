@@ -221,7 +221,8 @@ def sort_objects(objects,features,reverse=False):
     objects : list
         List of objects to sort.
     features : list
-        List of features (see get_object_feature).
+        List of features to sort by. 
+        Can be a function that takes the object as argument or an attribute (see get_object_feature).
     reverse : bool
         Reverse order.
 

@@ -86,7 +86,8 @@ def plot_formation_energies(entries,
     formation_energies = DefectsAnalysis(
                         entries=entries,
                         band_gap=band_gap,
-                        vbm=vbm).formation_energies(chemical_potentials=chemical_potentials,
+                        vbm=vbm,
+                        sort_entries=False).formation_energies(chemical_potentials=chemical_potentials,
                                                                                     fermi_level=0,
                                                                                     temperature=temperature,
                                                                                     entries=entries,
@@ -209,7 +210,7 @@ def plot_binding_energies(entries,
     """         
     from .analysis import DefectsAnalysis
     
-    da = DefectsAnalysis(entries=entries,band_gap=band_gap,vbm=vbm)
+    da = DefectsAnalysis(entries=entries,band_gap=band_gap,vbm=vbm,sort_entries=False)
     plt.figure(figsize=figsize)
     matplotlib.rcParams.update({'font.size': fontsize}) 
     if xlim==None:
@@ -302,7 +303,7 @@ def plot_charge_transition_levels(entries,
     """        
     from .analysis import DefectsAnalysis
     
-    da = DefectsAnalysis(entries=entries,band_gap=band_gap,vbm=vbm)
+    da = DefectsAnalysis(entries=entries,band_gap=band_gap,vbm=vbm,sort_entries=False)
     plt.figure(figsize=figsize)         
     if ylim == None:
         ylim = (-0.5,da.band_gap +0.5)        
