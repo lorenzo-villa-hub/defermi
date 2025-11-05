@@ -555,6 +555,18 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                                                     **kwargs)
         
         
+        else:
+            return self._default_defect_concentration(vbm=vbm,
+                                                    chemical_potentials=chemical_potentials,
+                                                    temperature=temperature,
+                                                    fermi_level=fermi_level,
+                                                    per_unit_volume=per_unit_volume,
+                                                    eform_kwargs=eform_kwargs)
+
+
+    def _default_defect_concentration(self,vbm,chemical_potentials,temperature,
+                                      fermi_level,per_unit_volume,eform_kwargs):
+        """Default function for the defect concentration calculation"""
         n = self.defect.site_concentration_in_cm3 if per_unit_volume else self.multiplicity 
         eform = self.formation_energy(
                                 vbm=vbm,
@@ -624,17 +636,23 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                                                 temperature=temperature,
                                                 **kwargs)
             
+        else:
+            return self._default_formation_energy(
+                                            vbm=vbm,
+                                            chemical_potentials=chemical_potentials,
+                                            fermi_level=fermi_level)
+        
+    
+    def _default_formation_energy(self,vbm,chemical_potentials,fermi_level):
+        """Default function for the formation energy calculation"""
         formation_energy = (self.energy_diff + self.charge*(vbm+fermi_level) + 
                        sum([ self.corrections[correction_type]  for correction_type in self.corrections ]) 
                         ) 
-        
+        chempot_term = 0
         if chemical_potentials:
-            chempot_correction = -1 * sum([self.delta_atoms[el]*chemical_potentials[el] for el in self.delta_atoms])
-        else:
-            chempot_correction = 0
-            
-        formation_energy = formation_energy + chempot_correction
-        
+            chempot_term = -1 * sum([self.delta_atoms[el]*chemical_potentials[el] for el in self.delta_atoms])
+  
+        formation_energy = formation_energy + chempot_term    
         return formation_energy
     
     

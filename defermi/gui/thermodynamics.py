@@ -24,8 +24,13 @@ def thermodynamics():
                 temperature = 0.1 # prevent division by zero
             st.session_state['temperature'] = temperature
         with cols[1]:
-            oxygen_ref = st.number_input("μO (0K, p0) [eV]", value=st.session_state['oxygen_ref'], step=0.5, key='widget_oxygen_ref')
-            st.session_state['oxygen_ref'] = oxygen_ref
+            subcols = st.columns([0.8,0.2])
+            with subcols[0]:
+                oxygen_ref = st.number_input("μO (0K, p0) [eV]", value=st.session_state['oxygen_ref'], step=0.5, key='widget_oxygen_ref')
+                st.session_state['oxygen_ref'] = oxygen_ref
+            with subcols[1]:
+                with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                    st.write(oxygen_ref_info)
         
         precursors()
         filter_entries_with_missing_elements()
@@ -39,7 +44,12 @@ def precursors():
     
     if st.session_state.da:
         da = st.session_state.da
-        st.markdown("**Precursors**")
+        cols = st.columns([0.9,0.1])
+        with cols[0]:
+            st.markdown("**Precursors**")
+        with cols[1]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(precursors_info)
 
         init_state_variable('precursor_entries',value=[]) 
         
@@ -133,7 +143,10 @@ def quenching():
             enable_quench = st.checkbox("Enable quenching", value=st.session_state['enable_quench'], key="widget_enable_quench")
             st.session_state['enable_quench'] = enable_quench
             if enable_quench:
-                cols = st.columns(2)
+                cols = st.columns([0.45,0.45,0.1])
+                with cols[2]:
+                    with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                        st.write("Quenching info")
                 with cols[0]:
                     st.session_state['quench_temperature'] = 300
                     quench_temperature = st.slider("Quench Temperature (K)", min_value=0, max_value=1500, 
@@ -173,7 +186,12 @@ def external_defects():
     GUI elements to set external defects.
     """
     if st.session_state.da:
-        st.markdown("**External defects**")
+        cols = st.columns([0.9,0.1])
+        with cols[0]:
+            st.markdown("**External defects**")
+        with cols[1]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(external_defects_info)
 
         init_state_variable('external_defects_entries',value=[])
 
@@ -217,7 +235,13 @@ def external_defects():
 def dopants():
     if st.session_state.da:
         st.divider()
-        st.markdown("**Dopant settings**")
+        cols = st.columns([0.9,0.1])
+        with cols[0]:
+            st.markdown("**Dopant settings**")
+        with cols[1]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(dopant_info)
+
         init_state_variable('dopant_type',value='None')
         init_state_variable('conc_range',value=None)
         init_state_variable('dopant',value={})
@@ -342,4 +366,58 @@ def dopants():
         if not st.session_state['conc_range']:
             st.session_state['conc_range'] = (1e05,1e18)
 
+
+## HELP ####
+
+oxygen_ref_info = """
+$\mu_O(0K,p^0)$ is the chemical potential of oxygen at $T = 0 K$ and standard pressure $p^0$.\n
+
+The oxygen partial pressure for the Brouwer diagrams is connected to the chemical potential of oxygen as:\n
+$$\mu_O(T,p_{O_2}) = \mu_O(T,p^0) + (1/2) k_B T \mathrm{ln} (p_{O_2} / p^0) $$
+
+where:
+$$\mu_O(T,p^0) = \mu_O (0 K,p^0) + \Delta \mu_O (T,p^0) $$
+
+The value of $\mu_O$ in the **Chemical Potentials** section is ignored for the calculation of the Brouwer diagram.
+"""
+
+precursors_info = """
+Conditions for the definition of the chemical potentials as a function of the oxygen partial pressure.
+They represent the reservoirs that are in contact with the target material.\n
+
+Each entry requires the composition and the energy per formula unit (p.f.u) in eV. 
+Starting from the chemical potential of oxygen, the other chemical potentials are determined by the constraints 
+$ E_{\mathrm{pfu}} = \sum_s c_s \mu_s $, where $c_s$ are the stochiometric coefficients and $\mu_s$ the chemical potentials.
+
+For oxides with maximum 2 components, the target material itself is enough to determine the chemical potential of the other species.\n
+For target oxides with more that 2 components, at least 2 compositions are needed to determine all chemical potentials.
+Often these phases are chosen to be the precursors in the synthesis of the target material.\n
+
+All elements that are not present in the entries compositions are excluded from the Brouwer diagram calculations.\n
+The values in the **Chemical Potentials** section are ignored for the calculation of the Brouwer diagram.
+"""
+
+external_defects_info = """
+Extrinsic defects contributing to charge neutrality that are NOT present in defect entries. 
+They are considered in the Brouwer diagram and doping diagram calculations. \n
+There is no requirement for the defect name, if a name fits one of the naming conventions,
+the corrisponding symbol will be printed.
+"""
+
+dopant_info = """
+Settings for the calculation of the doping diagram.
+Charge neutrality is solved varying the concentartion of a target defect. 
+The chemical potentials defined in the **Chemical Potentials** section are kept fixed. \n
+
+Options:
+- **None** : Doping diagram is not computed
+- **Donor** : A generic donor is used as variable defect species. You can set the charge and concentration range.
+- **Acceptor** : A generic acceptor is used as variable defect species. You can set the charge and concentration range.
+- **<element>** : If extrinsic defects are present in the defect entries, 
+                you can set each extrinsic element as variable defect species. Its total concentration is assigned, but the concentrations  
+                of individual defects containing the element depend on the relative formation energies. 
+- **custom** : Customizable dopant, you can set name, charge and concentration range. 
+                There is no requirement for the defect name, if a name fits one of the naming conventions,
+                the corrisponding symbol will be printed.
+""" 
 

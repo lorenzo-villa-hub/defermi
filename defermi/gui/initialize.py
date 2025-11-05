@@ -30,7 +30,12 @@ def initialize(defects_analysis=None):
         init_state_variable('da',value=defects_analysis)
         uploaded_file = None
     else:
-        st.markdown('##### 📂 Load Session or Dataset')
+        cols = st.columns([0.4,0.6])
+        with cols[0]:
+            st.markdown('##### 📂 Load Session or Dataset')
+        with cols[1]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(file_loader_info)
         init_state_variable('da',value=None)
         uploaded_file = st.file_uploader("upload", type=["defermi","csv","json","pkl"], on_change=reset_session, label_visibility="collapsed")
 
@@ -52,7 +57,7 @@ def initialize(defects_analysis=None):
             st.session_state['session_loaded'] = True
             st.session_state['df_complete'] = st.session_state['saved_dataframe']
 
-        cols = st.columns(2)
+        cols = st.columns([0.45,0.45,0.1])
         with cols[0]:
             if "band_gap" not in st.session_state:
                 st.session_state['band_gap'] = None
@@ -65,6 +70,9 @@ def initialize(defects_analysis=None):
                 st.session_state['vbm'] = 0.0
             vbm = st.number_input("VBM (eV)", value=st.session_state['vbm'], step=0.1, key='widget_vbm')
             st.session_state['vbm'] = vbm
+        with cols[2]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(band_gap_info)
 
         if st.session_state['band_gap']:
             if not st.session_state['da']:
@@ -105,7 +113,7 @@ def filter_entries():
         init_state_variable('saved_dataframe',value=df_complete)
 
 
-        cols = st.columns([0.1,0.1,0.8])
+        cols = st.columns([0.1,0.1,0.7,0.1])
         with cols[0]:
             init_state_variable('edit_dataframe',value=False)
             edit_dataframe = st.checkbox('Edit',key='widget_edit_dataframe',value=st.session_state['edit_dataframe'])
@@ -129,6 +137,9 @@ def filter_entries():
                 data=csv_str,
                 file_name=filename,
                 mime="test/csv")   
+        with cols[3]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(dataset_info)
 
         if st.session_state['edit_dataframe']:
             edited_df = st.data_editor(
@@ -201,3 +212,45 @@ def load_session(file_path):
             st.warning(f"File not found: {file_path}")
     except Exception as e:
         st.error(f"Failed to load session: {e}")
+
+## HELP 
+
+dataframe_info = """
+- `name` : Name of the defect, naming conventions described below.
+- `charge` : Defect charge.
+- `multiplicity` : Multiplicity in the unit cell.
+- `energy_diff` : Energy of the defective cell minus the energy of the pristine cell in eV.
+- `bulk_volume` : Pristine cell volume in $\mathrm{\\AA^3}$
+
+Defect naming: (element = $A$)
+- `Vacancy`: `'Vac_A'` (symbol=$V_{A}$)
+- `Interstitial`: `'Int_A'` (symbol=$A_{i}$)
+- `Substitution`: `'Sub_B_on_A'` (symbol=$B_{A}$)
+- `Polaron`: `'Pol_A'` (symbol=${A}_{A}$)
+- `DefectComplex`: `f'{name1};{name2}'` (symbol=$V_A - A_i$)
+"""
+
+file_loader_info = f"""
+Load session file (`.defermi`) or dataset file (`.csv`,`.pkl` or `.json`)  
+
+`defermi`:Restore previous saved session\n
+`json`: Exported `DefectsAnalysis` object from the `python` library, not generated manually\n
+`csv` or `pkl`: Rows are defect entries, columns are:
+{dataframe_info}
+"""
+
+band_gap_info = """
+Band gap and valence band maximum of the pristine material in eV. 
+"""
+
+dataset_info = f"""
+Dataset containing defect entries (`pandas.DataFrame`).\n
+Toggle **Include** to add or remove the defect entry from the calculations.\n
+Rows are defect entries, columns are:\n
+{dataframe_info}\n
+
+Options:
+- **Edit**: enter editing mode.
+- **Reset**: restore the original dataset.
+- **Save csv**: Save customized dataset as `csv` file.
+"""

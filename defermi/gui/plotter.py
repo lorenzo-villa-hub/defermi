@@ -44,9 +44,14 @@ def plotter():
         default_plots_to_display = ['Formation energies','Brouwer diagram','Doping diagram','Fermi level']
         init_state_variable('plots_to_display',value=default_plots_to_display)
 
-        plots_to_display = widget_with_updating_state(function=st.multiselect,key='plots_to_display',
+        cols = st.columns([0.95,0.05])
+        with cols[0]:
+            plots_to_display = widget_with_updating_state(function=st.multiselect,key='plots_to_display',
                                                       label='Display',options=all_plots_to_display,
                                                       default=st.session_state['plots_to_display'])
+        with cols[1]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(display_info)
 
         with st.container(border=border):
             if 'Formation energies' in plots_to_display:
@@ -142,8 +147,11 @@ def formation_energies():
                 st.pyplot(fig1, clear_figure=False, width="content")
 
             with cols[1]:
-                st.write('')
+                with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                    st.write(names_info)
+                st.write('')                    
                 download_plot(fig=fig1,filename='formation_energies.pdf')
+
 
 
 def charge_transition_levels():
@@ -197,6 +205,8 @@ def charge_transition_levels():
                 st.pyplot(fig1, clear_figure=False, width="content")
 
             with cols[1]:
+                with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                    st.write(names_info)
                 st.write('')
                 download_plot(fig=fig1,filename='ctl.pdf')
 
@@ -269,6 +279,8 @@ def binding_energies():
                 st.pyplot(fig1, clear_figure=False, width="content")
 
             with cols[1]:
+                with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                    st.write(names_info)
                 st.write('')
                 download_plot(fig=fig1,filename='binding_energies.pdf')
 
@@ -308,7 +320,7 @@ def brouwer_diagram():
                                         )
                     return brouwer_da.thermodata
 
-                cols = st.columns([0.05,0.22,0.73])
+                cols = st.columns([0.05,0.25,0.15,0.55])
                 with cols[0]:
                     show_brouwer_diagram = st.checkbox("brouwer diagram",value=True,label_visibility='collapsed')
                     st.session_state['show_brouwer_diagram'] = show_brouwer_diagram
@@ -317,6 +329,9 @@ def brouwer_diagram():
                 with cols[2]:
                     if st.button('Compute',key='widget_clear_cache_brouwer'):
                         compute_brouwer_diagram.clear()
+                with cols[3]:
+                    with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                        st.write(cache_info)
 
                 if show_brouwer_diagram:
                     cols = st.columns([0.7,0.3])
@@ -362,6 +377,8 @@ def brouwer_diagram():
                         st.pyplot(fig2, clear_figure=False, width="content")
 
                     with cols[1]:
+                        with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                            st.write(concentrations_mode_info)
                         st.write('')
                         download_plot(fig=fig2,filename='brouwer_diagram.pdf')
 
@@ -395,7 +412,7 @@ def doping_diagram():
                         )
                 return da.thermodata
             
-            cols = st.columns([0.05,0.22,0.73])
+            cols = st.columns([0.05,0.25,0.15,0.55])
             with cols[0]:
                 show_doping_diagram = st.checkbox("doping diagram",value=True,label_visibility='collapsed')
                 st.session_state['show_doping_diagram'] = show_doping_diagram
@@ -404,12 +421,14 @@ def doping_diagram():
             with cols[2]:
                 if st.button('Compute',key='widget_clear_cache_doping'):
                     compute_doping_diagram.clear()
+            with cols[3]:
+                with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                    st.write(cache_info)
 
             if show_doping_diagram:
                 cols = st.columns([0.7,0.3])
                 with cols[1]:
                     default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
-                    st.write(default_xlim)
                     set_xlim, xlim = get_axis_limits_with_widgets(
                                                                 label='xlim (log)',
                                                                 key='doping',
@@ -449,6 +468,8 @@ def doping_diagram():
                     st.pyplot(fig3, clear_figure=False, width="content")
 
                 with cols[1]:
+                    with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                        st.write(concentrations_mode_info)
                     st.write('')
                     download_plot(fig=fig3,filename='doping_diagram.pdf')
 
@@ -669,3 +690,41 @@ def download_plot(fig,filename):
         file_name=filename,
         mime="pdf"
     )
+
+
+display_info = """
+Select which plots to display. 
+
+Options:
+- **Formation energies**: Fermi level vs formation energies of defects. 
+                        Only the charge state with lowest energy is shown. 
+                        Stars represent charge transition levels.
+- **Brouwer diagram**: Oxygen partial pressure vs concentrations of defects.
+                    Only active if Brouwer diagram calculation has run.
+- **Doping diagram**: Concentration of a target defect vs concentrations of all defects.
+                    Only active if doping diagram calculation has run.
+- **Fermi level**: Position of the equilibrium Fermi level (electron chemical potential) 
+                vs oxygen partial pressure and variable defect concentration.
+- **Charge transition level**: Position of the charge transition levels.
+- **Binding energies**: Energy of the defect complex, minus the sum of the energies of the individual defects.
+                        Only active if defect complexes are present in entries.
+"""
+
+cache_info = """
+To prevent excessive lag when changing paramenters, the calculation result is cached. 
+To rerun the calculation and regenerate the plot, click **Compute**.
+"""
+
+names_info = """
+Select which defect entries to display in the plot based on `name`.
+"""
+
+concentrations_mode_info = """
+Select style to plot concentrations and filter display of defect entries by `name`.
+
+Options:
+- **total**: Show the sum of concentrations in all charge states for each defect species.
+- **stable**: Show the concentration of the most stable charge state for each defect species.
+- **all**: Show the concentrations of all charge states for all defect species.
+            Filter which charge states to show by typing them in the textbox.
+"""

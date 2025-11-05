@@ -11,7 +11,12 @@ def dos():
     Import DOS file or set effective mass
     """
     if st.session_state.da:
-        st.markdown("**Density of states**")
+        cols = st.columns([0.9,0.1])
+        with cols[0]:
+            st.markdown("**Density of states**")
+        with cols[1]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(dos_info)
 
         init_state_variable('dos',value=None)
 
@@ -56,3 +61,15 @@ def dos():
                     st.session_state['dos']['m_eff_h'] = m_eff_h
 
         st.divider()
+
+
+dos_info = """
+Parameters for the calculation of electrons and holes concentration. Possible choices are:\n
+$\mathbf{m*/m_e}$: Effective masses of electrons (e) and holes relative to the electron mass.\n
+**DOS**: Computed density of states of the pristine material. Format is either a dictionary:
+- 'energies' : list or np.array with energy values
+- 'densities' : list or np.array with total density values
+- 'structure' : pymatgen `Structure` of the material, needed for DOS volume and charge normalization
+
+-- Alternatively, a pymatgen `Dos` object (`Dos`, `CompleteDos`, or `FermiDos`) exported as `json`.
+"""
