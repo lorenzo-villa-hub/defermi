@@ -146,7 +146,7 @@ def quenching():
                 cols = st.columns([0.45,0.45,0.1])
                 with cols[2]:
                     with st.popover(label='ℹ️',help='Info',type='tertiary'):
-                        st.write("Quenching info")
+                        st.write(quenching_info)
                 with cols[0]:
                     st.session_state['quench_temperature'] = 300
                     quench_temperature = st.slider("Quench Temperature (K)", min_value=0, max_value=1500, 
@@ -159,8 +159,11 @@ def quenching():
                     quench_mode = st.radio("Quenching mode",("species","elements"),horizontal=True,key="widget_quench_mode",index=index)
                 if quench_mode == "species":
                     species = [name for name in st.session_state.brouwer_da.names]
-                    value = st.session_state['quenched_species'] or species
-                    quenched_species = st.multiselect("Select quenched species",species,default=value,key='widget_quenched_species')
+                    default = st.session_state['quenched_species'] or species
+                    for name in st.session_state['quenched_species']:
+                        if name not in species:
+                            default = species
+                    quenched_species = st.multiselect("Select quenched species",species,default=default,key='widget_quenched_species')
                     quench_elements = False
                 elif quench_mode == "elements":
                     species = set()
@@ -168,9 +171,10 @@ def quenching():
                         if entry.defect.type == 'Vacancy':
                             species.add(entry.defect.name)
                         else:
-                            species.add(entry.defect.specie)
-                    value = st.session_state['quenched_species'] or species
-                    quenched_species = st.multiselect("Select quenched elements",species,default=value,key='widget_quenched_elements')
+                            for df in entry.defect:
+                                species.add(df.specie)
+                    default = st.session_state['quenched_species'] or species
+                    quenched_species = st.multiselect("Select quenched elements",species,default=default,key='widget_quenched_elements')
                     quench_elements = True
             
                 st.session_state['quenched_species'] = quenched_species
@@ -373,7 +377,7 @@ oxygen_ref_info = """
 $\mu_O(0K,p^0)$ is the chemical potential of oxygen at $T = 0 K$ and standard pressure $p^0$.\n
 
 The oxygen partial pressure for the Brouwer diagrams is connected to the chemical potential of oxygen as:\n
-$$\mu_O(T,p_{O_2}) = \mu_O(T,p^0) + (1/2) k_B T \mathrm{ln} (p_{O_2} / p^0) $$
+$$\mu_O(T,p_{O_2}) = \mu_O(T,p^0) + (1/2) k_B T \; \mathrm{ln} (p_{O_2} / p^0) $$
 
 where:
 $$\mu_O(T,p^0) = \mu_O (0 K,p^0) + \Delta \mu_O (T,p^0) $$
@@ -397,6 +401,23 @@ All elements that are not present in the entries compositions are excluded from 
 The values in the **Chemical Potentials** section are ignored for the calculation of the Brouwer diagram.
 """
 
+quenching_info = """
+Run simulations in quenching conditions.\n
+Defect concentrations are computed in charge neutral conditions at the input **Temperature(K)**,
+but charges are equilibrated at **Quench Temperature (K)**. This simulates conditions where defect mobility is 
+low and the high-temperature defect distribution is frozen in at low temperature.
+
+**Quenching mode** options:
+- **species**: Fix concentrations of defect species (identified by `name`).
+- **elements**: Fix concentrations of elements, concentrations of individual 
+                species containing the quenched elements are computed according 
+                to the relative formation energies. Vacancies are considered 
+                separate elements.
+
+Select which species or elements to quench with **Select quenched species**. Defects not in the quenching list
+are equilibrated at **Quench Temperature**.
+"""
+
 external_defects_info = """
 Extrinsic defects contributing to charge neutrality that are NOT present in defect entries. 
 They are considered in the Brouwer diagram and doping diagram calculations. \n
@@ -410,13 +431,13 @@ Charge neutrality is solved varying the concentartion of a target defect.
 The chemical potentials defined in the **Chemical Potentials** section are kept fixed. \n
 
 Options:
-- **None** : Doping diagram is not computed
+- **None** : Doping diagram is not computed.
 - **Donor** : A generic donor is used as variable defect species. You can set the charge and concentration range.
 - **Acceptor** : A generic acceptor is used as variable defect species. You can set the charge and concentration range.
 - **<element>** : If extrinsic defects are present in the defect entries, 
                 you can set each extrinsic element as variable defect species. Its total concentration is assigned, but the concentrations  
                 of individual defects containing the element depend on the relative formation energies. 
-- **custom** : Customizable dopant, you can set name, charge and concentration range. 
+- **custom** : Customizable dopant. You can set name, charge and concentration range. 
                 There is no requirement for the defect name, if a name fits one of the naming conventions,
                 the corrisponding symbol will be printed.
 """ 

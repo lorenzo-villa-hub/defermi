@@ -29,6 +29,16 @@ def chempots():
                 st.session_state.chempots[el] = st.number_input(f"{mu_string}({el})", value=value, max_value=0.0,step=0.5, key=f'widget_chempot{el}')
 
 
+
+def pull_elemental_chempot_from_MP(element):
+    import base64
+    from defermi.tools.materials_project import MPDatabase
+
+    API_KEY = base64.b64decode('Q0FVMk8yODZmRUI2cGJWOUszTU9qblFFUFJkZW9BQXg=').decode()
+    mpdb = MPDatabase(API_KEY=API_KEY)
+    return mpdb.get_stable_energy_pfu_from_composition('Na')
+
+
 chempots_info = """
 Chemical potential of the elements that are exchanged with a reservoirs when defects are formed.\n
 
