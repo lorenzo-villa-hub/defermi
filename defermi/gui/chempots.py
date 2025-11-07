@@ -1,6 +1,7 @@
 
 import streamlit as st
 
+from defermi.chempots.generator import generate_elemental_chempots
 from defermi.gui.utils import init_state_variable
 
 def chempots():
@@ -30,13 +31,35 @@ def chempots():
 
 
 
-def pull_elemental_chempot_from_MP(element):
+def pull_elemental_chempots_from_MP(elements,thermo_type='GGA_GGA+U',**kwargs):
+    """
+    Generate chemical potentials for reference elemental phases from the
+    Materials Project database.
+
+    Parameters
+    ----------
+    elements : list
+        List of strings with element symbols
+    thermo_type : str
+        The thermo type to pass to MP database. 
+    kwargs : dict
+        Kwargs to pass to `get_phase_diagram_from_chemsys`.
+
+    Returns
+    -------
+    Chempots object
+    """
     import base64
     from defermi.tools.materials_project import MPDatabase
 
     API_KEY = base64.b64decode('Q0FVMk8yODZmRUI2cGJWOUszTU9qblFFUFJkZW9BQXg=').decode()
-    mpdb = MPDatabase(API_KEY=API_KEY)
-    return mpdb.get_stable_energy_pfu_from_composition('Na')
+    chempots = generate_elemental_chempots(
+                                        elements,
+                                        API_KEY=API_KEY,
+                                        thermo_type=thermo_type,
+                                        **kwargs)
+    return chempots
+
 
 
 chempots_info = """

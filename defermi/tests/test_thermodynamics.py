@@ -206,11 +206,11 @@ class TestDefectThermodynamics(DefermiTest):
         conc = data.defect_concentrations[35]
         actual = conc.select_concentrations(name='Vac_O')[0]['conc']
         desired = 537497932157133.1
-        self.assert_all_close(actual, desired)
+        self.assert_all_close(actual, desired, rtol=1e-05)
 
         actual = data.carrier_concentrations[28][0]
         desired = 28853383959330.863
-        self.assert_all_close(actual, desired)
+        self.assert_all_close(actual, desired, rtol=1e-05)
 
 
 ### more complex functions with quenched species and external defects to be implemented

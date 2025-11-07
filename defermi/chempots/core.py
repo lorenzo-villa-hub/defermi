@@ -7,7 +7,7 @@ import copy
 
 class Chempots(MSONable):
     
-    def __init__(self,chempots_dict,ndecimals=6):
+    def __init__(self,chempots_dict,ndecimals=None):
         """
         Class to handle set of chemical potentials. Behaves like a python dictionary.
         The dictionary needs to be set with element symbols as keys and chemical potentials 
@@ -19,7 +19,7 @@ class Chempots(MSONable):
             Dictionary of chemical potentials in the format {el:value}.
         ndecimals : int
             Round the chemical potentials to this number of decimals. If None
-            the numbers are left untouched. the default is 6.
+            the numbers are left untouched.
             
         """
         if ndecimals:
@@ -191,7 +191,7 @@ class Chempots(MSONable):
         return Chempots({el:self.mu[el] - mu_refs[el] for el in self.mu})
 
 
-def chempot_ideal_gas(mu0, temperature,partial_pressure):
+def chempot_ideal_gas(mu0, temperature,partial_pressure,coeff=2):
     """
     Get chemical potential at a given temperature and partial pressure. 
     The chemical potential in standard conditions (mu0) has to be know.
@@ -204,6 +204,8 @@ def chempot_ideal_gas(mu0, temperature,partial_pressure):
         Temperature in Kelvin.
     partial_pressure : float
         Partial pressure over standard pressure (p/p0).
+    coeff : int
+        Stochiometric coefficient. Default is 2 for oxygen.
 
     Returns
     -------
@@ -212,7 +214,7 @@ def chempot_ideal_gas(mu0, temperature,partial_pressure):
 
     """
     kb = 8.6173324e-5  # eV / K
-    chempot = mu0 + 0.5*kb*temperature*np.log(partial_pressure)
+    chempot = mu0 + (1/coeff)*kb*temperature*np.log(partial_pressure)
     return chempot
 
 

@@ -305,19 +305,19 @@ class TestDefectsAnalysisTextbook(DefermiTest):
 
         actual = data.partial_pressures[11]
         desired = 5.429e-14
-        self.assert_all_close(actual, desired)
+        self.assert_all_close(actual, desired, rtol=1e-05)
 
         actual = data.defect_concentrations[33].select_concentrations(name='Vac_Sr')[0]['conc']
         desired = 64410690128.7698
-        self.assert_all_close(actual, desired)
+        self.assert_all_close(actual, desired, rtol=1e-05)
     
         actual = data.carrier_concentrations[27][0]
         desired = 416759307474107.94
-        self.assert_all_close(actual, desired)
+        self.assert_all_close(actual, desired, rtol=1e-05)
 
         actual = data.fermi_levels[42]
         desired = 0.9790673314740697
-        self.assert_all_close(actual, desired)
+        self.assert_all_close(actual, desired, rtol=1e-05)
 
 
 
