@@ -53,7 +53,7 @@ def precursors():
 
         init_state_variable('precursor_entries',value=[]) 
         
-        cols = st.columns([0.1, 0.3, 0.3, 0.2, 0.1])
+        cols = st.columns([0.1, 0.25, 0.25, 0.3, 0.1])
         with cols[0]:
             add_precursors = st.button("➕",key="widget_add_precursor")
             if add_precursors:
@@ -91,7 +91,7 @@ def precursors():
                 entry["energy"] = energy
             with cols[3]:
                 st.write('')
-                st.button('🗄️ Database',on_click=set_precursor_energy_from_DB,args=[entry],key=f'widget_pull_{entry['id']}')
+                st.button('🗄️ Pull from DB',on_click=set_precursor_energy_from_DB,args=[entry],key=f'widget_pull_{entry['id']}')
             if st.session_state['precursor_DB_warning']:
                 st.error(st.session_state['precursor_DB_warning'])
                 st.session_state['precursor_DB_warning'] = None
