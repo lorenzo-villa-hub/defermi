@@ -52,7 +52,7 @@ class  MPDatabase:
         entry = self.get_stable_entry_from_composition(composition=composition,thermo_types=thermo_types,**kwargs)
         material_id = entry.material_id
         with self.MPRester(self.API_KEY) as mpr:
-            dos = mpr.get_dos_by_material_id('mp-2472')
+            dos = mpr.get_dos_by_material_id(material_id)
         return dos
 
 
