@@ -10,7 +10,7 @@ import streamlit as st
 from monty.json import jsanitize, MontyEncoder, MontyDecoder
 
 from defermi import DefectsAnalysis 
-from defermi.gui.utils import init_state_variable, widget_with_updating_state, dynamic_input_data_editor
+from defermi.gui.utils import init_state_variable, widget_with_updating_state
 
 
 def initialize(defects_analysis=None):
@@ -223,11 +223,11 @@ dataframe_info = """
 - `bulk_volume` : Pristine cell volume in $\mathrm{\\AA^3}$
 
 Defect naming: (element = $A$)
-- `Vacancy`: `'Vac_A'` (symbol=$V_{A}$)
-- `Interstitial`: `'Int_A'` (symbol=$A_{i}$)
-- `Substitution`: `'Sub_B_on_A'` (symbol=$B_{A}$)
-- `Polaron`: `'Pol_A'` (symbol=${A}_{A}$)
-- `DefectComplex`: `f'{name1};{name2}'` (symbol=$V_A - A_i$)
+- Vacancy: `'Vac_A'` (symbol=$V_{A}$)
+- Interstitial: `'Int_A'` (symbol=$A_{i}$)
+- Substitution: `'Sub_B_on_A'` (symbol=$B_{A}$)
+- Polaron: `'Pol_A'` (symbol=${A}_{A}$)
+- DefectComplex: `'Vac_A;Int_A'` (symbol=$V_A - A_i$)
 """
 
 file_loader_info = f"""

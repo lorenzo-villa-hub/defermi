@@ -30,6 +30,32 @@ class  MPDatabase:
         return self.MPRester(self.API_KEY)
         
         
+    def get_dos_from_stable_composition(self,composition,thermo_types=['GGA_GGA+U'],**kwargs):
+        """
+        Get the CompleteDos object of the entry with E above Convex Hull = 0 eV for a target composition. 
+
+        Parameters
+        ----------
+        composition : str
+            Target composition (eg. "SrTiO3").
+        thermo_type : str
+            Thermo types to return data for (e.g. "GGA_GGA+U").
+            Check `mp_api` docs for information on thermo types.
+        kwargs : dict
+            Kwargs to pass to `MPRester().materials.thermo.get_phase_diagram_from_chemsys`.
+
+        Returns
+        -------
+        CompleteDos
+
+        """
+        entry = self.get_stable_entry_from_composition(composition=composition,thermo_types=thermo_types,**kwargs)
+        material_id = entry.material_id
+        with self.MPRester(self.API_KEY) as mpr:
+            dos = mpr.get_dos_by_material_id(material_id)
+        return dos
+
+
     def get_entries(self,
                     chemsys_formula_mpids,
                     compatible_only=True,
@@ -144,12 +170,40 @@ class  MPDatabase:
                                                                 thermo_type=thermo_type,
                                                                 **kwargs)
         return pd
+    
+
+    def get_stable_entry_from_composition(self,composition,thermo_types=['GGA_GGA+U'],**kwargs):
+        """
+        Pull from MP database the entry with E above Convex Hull = 0 eV for a target composition.
+
+        Parameters
+        ----------
+        composition : str
+            Target composition (eg. "SrTiO3").
+        thermo_type : str
+            Thermo types to return data for (e.g. "GGA_GGA+U").
+            Check `mp_api` docs for information on thermo types.
+        kwargs : dict
+            Kwargs to pass to `MPRester().materials.thermo.get_phase_diagram_from_chemsys`.
+
+        Returns
+        -------
+        ThermoDoc
+
+        """
+        with self.MPRester(self.API_KEY) as mpr:
+            docs = mpr.materials.thermo.search(formula=composition,energy_above_hull=(0,0),thermo_types=thermo_types,**kwargs)
         
+        if len(docs) > 1:
+            warnings.warn('Search returned more than one entry with E above hull = 0 eV, check manually. Returning the first entry...')
+        entry = docs[0]
+        return entry
+
 
     def get_stable_energy_pfu_from_composition(self,composition,thermo_types=['GGA_GGA+U'],**kwargs):
         """
-        Pull from MP database for a target composition the energy per formula 
-        unit (pfu) in eV of the entry with E above Convex Hull = 0 eV.
+        Pull from MP database the energy per formula unit (pfu) in eV of the
+        entry with E above Convex Hull = 0 eV for a target composition.
 
         Parameters
         ----------
@@ -167,13 +221,7 @@ class  MPDatabase:
             Energy per formula unit in eV.
 
         """
-        with self.MPRester(self.API_KEY) as mpr:
-            docs = mpr.materials.thermo.search(formula=composition,energy_above_hull=(0,0),thermo_types=thermo_types,**kwargs)
-        
-        if len(docs) > 1:
-            warnings.warn('Search returned more than one entry with E above hull = 0 eV, check manually. Returning the first entry...')
-        
-        entry = docs[0]
+        entry = self.get_stable_entry_from_composition(composition=composition,thermo_types=thermo_types,**kwargs)
         nfu = entry.composition.get_reduced_composition_and_factor()[1]
         energy_pfu = entry.energy_per_atom * (entry.composition.num_atoms/nfu)
         return energy_pfu

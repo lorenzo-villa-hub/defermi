@@ -1,8 +1,10 @@
 
 import numpy as np
+import warnings
 
 from pymatgen.core.periodic_table import Element
 from pymatgen.core.composition import Composition
+from pymatgen.analysis.phase_diagram import PhaseDiagram
 
 from .core import Chempots
 from .oxygen import get_pressure_reservoirs_from_precursors
@@ -13,6 +15,7 @@ from .reservoirs import Reservoirs
 def generate_chempots_from_condition(
                                 composition,
                                 condition,
+                                phase_diagram=None,
                                 API_KEY=None,
                                 thermo_type='GGA_GGA+U',
                                 **kwargs):
@@ -28,12 +31,15 @@ def generate_chempots_from_condition(
         Composition of the target material.
     condition : str
         Condition for the choice of chemical potential. "<el>-poor" or "<el>-rich>".
+    phase_diagram : PhaseDiagram
+        Pymatgen PhaseDiagram object. If not provided it is pulled from the Materials Project database.
     API_KEY : str
         API KEY for the Materials Project database. If not provided, `pymatgen` looks 
         in the configuration file.
+    thermo_type : str
+        The thermo type to pass to MP database. 
     kwargs : dict
         Kwargs to pass to `get_phase_diagram_from_chemsys`.
-        'thermo_type' is set by default as 'GGA_GGA+U'.
 
     Returns
     -------
@@ -43,9 +49,11 @@ def generate_chempots_from_condition(
     from ..tools.materials_project import MPDatabase
 
     comp = _get_composition_object(composition)
-    chemsys = '-'.join(el.symbol for el in comp.elements)
-    
-    pd = MPDatabase(API_KEY=API_KEY).get_phase_diagram_from_chemsys(
+    if type(phase_diagram) == PhaseDiagram:
+        pd = phase_diagram
+    else:
+        chemsys = '-'.join(el.symbol for el in comp.elements)
+        pd = MPDatabase(API_KEY=API_KEY).get_phase_diagram_from_chemsys(
                                                         chemsys=chemsys,
                                                         thermo_type=thermo_type,
                                                         **kwargs)
@@ -72,10 +80,17 @@ def generate_chempots_from_condition(
         else:
             chempots[element.symbol] = float(mus[index])
 
+
     return Chempots(chempots)
 
 
-def generate_chempots_from_mp(composition, element=None, API_KEY=None, **kwargs):
+def generate_chempots_from_mp(
+                            composition,
+                            element=None,
+                            phase_diagram=None,
+                            API_KEY=None,
+                            thermo_type='GGA_GGA+U',
+                            **kwargs):
     """
     Generate Chempots dictionary using the data from the Materials Project. 
     `element` can be a periodic table element, or a condition "<el>-poor/rich"
@@ -96,12 +111,15 @@ def generate_chempots_from_mp(composition, element=None, API_KEY=None, **kwargs)
         if a condition is provided, a `Chempots` object is
         returned, otherwise all conditions are pulled from the database and a `Reservoirs`
         object is returned (a `Chempots` object for every condition).
+    phase_diagram : PhaseDiagram
+        Pymatgen PhaseDiagram object. If not provided it is pulled from the Materials Project database.
     API_KEY : str
         API KEY for the Materials Project database. If not provided, `pymatgen` looks 
         in the configuration file.
+    thermo_type : str
+        The thermo type to pass to MP database. 
     kwargs : dict
         Kwargs to pass to `get_phase_diagram_from_chemsys`.
-        'thermo_type' is set by default as 'GGA_GGA+U'.
 
     Returns
     -------
@@ -112,9 +130,20 @@ def generate_chempots_from_mp(composition, element=None, API_KEY=None, **kwargs)
         object is returned (a `Chempots` object for every condition).
 
     """
+    from ..tools.materials_project import MPDatabase
 
     string_conditions = ['poor','middle','rich']
     print('Pulling chemical potentials from Materials Project database...')
+    
+    comp = _get_composition_object(composition)
+    if type(phase_diagram) == PhaseDiagram:
+        pd = phase_diagram
+    else:
+        chemsys = '-'.join(el.symbol for el in comp.elements)
+        pd = MPDatabase(API_KEY=API_KEY).get_phase_diagram_from_chemsys(
+                                                        chemsys=chemsys,
+                                                        thermo_type=thermo_type,
+                                                        **kwargs)
     if element:
         condition = element
     else:
@@ -123,12 +152,16 @@ def generate_chempots_from_mp(composition, element=None, API_KEY=None, **kwargs)
         if 'O' in composition:
             element = 'O'
         else:
-            composition.elements[-1].symbol
+            element = composition.elements[-1].symbol
 
     if any([cond in condition for cond in string_conditions]):          
         chempots = generate_chempots_from_condition(
                                         composition=composition,
-                                        condition=condition)
+                                        condition=condition,
+                                        phase_diagram=pd,
+                                        API_KEY=API_KEY,
+                                        thermo_type=thermo_type,
+                                        **kwargs)
         chemical_potentials = Chempots(chempots)
         print(f'Chemical potentials for composition = {composition} and condition = {condition}:')
         print(chempots)
@@ -138,15 +171,54 @@ def generate_chempots_from_mp(composition, element=None, API_KEY=None, **kwargs)
         if element in composition:
             for condition in [element +'-'+ cond for cond in string_conditions]:
                 chempots = generate_chempots_from_condition(
-                            composition=composition,
-                            condition=condition)
+                                        composition=composition,
+                                        condition=condition,
+                                        phase_diagram=pd,
+                                        API_KEY=API_KEY,
+                                        thermo_type=thermo_type,
+                                        **kwargs)
                 chemical_potentials[condition] = chempots
-            chemical_potentials = Reservoirs(chemical_potentials)
+            chemical_potentials = Reservoirs(chemical_potentials,phase_diagram=pd)
         else:
             raise ValueError('Target element is not in composition')
         print(f'Chemical potentials:\n {chemical_potentials}')       
 
     return chemical_potentials 
+
+
+def generate_elemental_chempots(elements, API_KEY=None, thermo_type='GGA_GGA+U', **kwargs):
+    """
+    Generate chemical potentials for reference elemental phases 
+    using the data from the Materials Project database.
+
+    Parameters
+    ----------
+    elements : list
+        List of strings with element symbols.
+    API_KEY : str
+        API KEY for the Materials Project database. If not provided, `pymatgen` looks 
+        in the configuration file.
+    thermo_type : str
+        The thermo type to pass to MP database. 
+    kwargs : dict
+        Kwargs to pass to `get_phase_diagram_from_chemsys`.
+
+    Returns
+    -------
+    Chempots object
+
+    """
+    chempots = {}
+    from mp_api.client import MPRester
+    with MPRester(API_KEY) as mpr:
+        for el in elements:
+            # code adapted from .tools.materials_project.get_stable_energy_pfu_from_composition to avoid creating a new MPRester instance every time
+            docs = mpr.materials.thermo.search(formula=el,energy_above_hull=(0,0),thermo_types=[thermo_type],**kwargs)
+            if len(docs) > 1:
+                warnings.warn('Search returned more than one entry with E above hull = 0 eV, check manually. Returning the first entry...')
+            entry = docs[0]
+            chempots[el] = entry.energy_per_atom
+    return Chempots(chempots)
 
 
 def generate_pressure_reservoirs_from_precursors(

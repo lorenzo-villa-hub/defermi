@@ -20,7 +20,7 @@ def dos():
 
         init_state_variable('dos',value=None)
 
-        cols = st.columns([0.5, 0.5])
+        cols = st.columns([0.25, 0.75])
         with cols[0]:
             if not st.session_state['dos']:
                 index = 0
@@ -32,16 +32,27 @@ def dos():
             st.session_state['dos_type'] = dos_type
         with cols[1]:
             if dos_type == "DOS":
-                uploaded_dos = st.file_uploader("Upload", type=["json"], label_visibility="collapsed")
-                if uploaded_dos is not None:
-                    # Save the uploaded file temporarily
-                    with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as tmp:
-                        tmp.write(uploaded_dos.getbuffer())
-                        tmp_path = tmp.name
-                        with open(tmp_path) as file:
-                            dos = MontyDecoder().decode(file.read())
-                    os.unlink(tmp_path)
-                    st.session_state['dos'] = dos
+                subcols = st.columns([0.3,0.7])
+                with subcols[0]:
+                    with st.expander('🗄️ Database'):
+                        subsubcols = st.columns([0.7,0.3])
+                        with subsubcols[0]:
+                            composition = st.text_input(label='Composition',key='widget_dos_composition_DB')
+                            if composition:
+                                if st.button("Pull",key='widget_pull_dos_DB'):
+                                    dos = pull_dos_from_stable_composition(composition=composition)
+                                    st.session_state['dos'] = dos
+                with subcols[1]:
+                    uploaded_dos = st.file_uploader("Upload", type=["json"], label_visibility="collapsed")
+                    if uploaded_dos is not None:
+                        # Save the uploaded file temporarily
+                        with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as tmp:
+                            tmp.write(uploaded_dos.getbuffer())
+                            tmp_path = tmp.name
+                            with open(tmp_path) as file:
+                                dos = MontyDecoder().decode(file.read())
+                        os.unlink(tmp_path)
+                        st.session_state['dos'] = dos
             elif dos_type == '$m^*/m_e$':
                 cols = st.columns(2)
                 with cols[0]:
@@ -63,6 +74,19 @@ def dos():
         st.divider()
 
 
+def pull_dos_from_stable_composition(composition,thermo_types=['GGA_GGA+U'],**kwargs):
+    import base64
+    from defermi.tools.materials_project import MPDatabase
+
+    API_KEY = base64.b64decode('Q0FVMk8yODZmRUI2cGJWOUszTU9qblFFUFJkZW9BQXg=').decode()
+    dos = MPDatabase(API_KEY=API_KEY).get_dos_from_stable_composition(
+                                                                        composition=composition,
+                                                                        thermo_types=thermo_types,
+                                                                        **kwargs)
+    return dos
+
+
+
 dos_info = """
 Parameters for the calculation of electrons and holes concentration. Possible choices are:\n
 $\mathbf{m*/m_e}$: Effective masses of electrons (e) and holes relative to the electron mass.\n
@@ -72,4 +96,6 @@ $\mathbf{m*/m_e}$: Effective masses of electrons (e) and holes relative to the e
 - 'structure' : pymatgen `Structure` of the material, needed for DOS volume and charge normalization
 
 -- Alternatively, a pymatgen `Dos` object (`Dos`, `CompleteDos`, or `FermiDos`) exported as `json`.
+Click on **Database** and enter the desired composition to pull the `CompleteDos` object from the 
+Materials Project Database.
 """

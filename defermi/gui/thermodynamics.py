@@ -53,7 +53,7 @@ def precursors():
 
         init_state_variable('precursor_entries',value=[]) 
         
-        cols = st.columns([0.1, 0.4, 0.4, 0.1])
+        cols = st.columns([0.1, 0.25, 0.25, 0.3, 0.1])
         with cols[0]:
             add_precursors = st.button("➕",key="widget_add_precursor")
             if add_precursors:
@@ -70,13 +70,33 @@ def precursors():
                 if entry['id'] == entry_id:
                     del st.session_state['precursor_entries'][idx]
 
+        init_state_variable('precursor_DB_warning',value=None)
+        def set_precursor_energy_from_DB(entry):
+            if entry['composition']:
+                energy_pfu = pull_stable_energy_pfu_from_composition(composition=entry['composition'])
+                st.session_state[f'widget_energy_{entry['id']}'] = energy_pfu
+            else:
+                st.session_state['precursor_DB_warning'] = 'Enter composition to pull energy from MP database'
+            return 
+
 
         for entry in st.session_state['precursor_entries']:
             with cols[1]:
                 entry["composition"] = st.text_input("Composition", value=entry["composition"], key=f"widget_comp_{entry['id']}")
             with cols[2]:
-                entry["energy"] = st.number_input("Energy p.f.u (eV)", value=entry["energy"], step=1.0, key=f"widget_energy_{entry['id']}")
+                widget_key = f"widget_energy_{entry['id']}"
+                if widget_key not in st.session_state:
+                    st.session_state[widget_key] = entry['energy']
+                energy = st.number_input("Energy p.f.u (eV)", step=1.0, key=f"widget_energy_{entry['id']}")
+                entry["energy"] = energy
             with cols[3]:
+                st.write('')
+                st.button('🗄️ Pull from DB',on_click=set_precursor_energy_from_DB,args=[entry],key=f'widget_pull_{entry['id']}')
+            if st.session_state['precursor_DB_warning']:
+                st.error(st.session_state['precursor_DB_warning'])
+                st.session_state['precursor_DB_warning'] = None
+            with cols[4]:
+                st.write('')
                 st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"widget_del_{entry['id']}")
 
         st.session_state['precursors'] = {
@@ -146,7 +166,7 @@ def quenching():
                 cols = st.columns([0.45,0.45,0.1])
                 with cols[2]:
                     with st.popover(label='ℹ️',help='Info',type='tertiary'):
-                        st.write("Quenching info")
+                        st.write(quenching_info)
                 with cols[0]:
                     st.session_state['quench_temperature'] = 300
                     quench_temperature = st.slider("Quench Temperature (K)", min_value=0, max_value=1500, 
@@ -159,8 +179,12 @@ def quenching():
                     quench_mode = st.radio("Quenching mode",("species","elements"),horizontal=True,key="widget_quench_mode",index=index)
                 if quench_mode == "species":
                     species = [name for name in st.session_state.brouwer_da.names]
-                    value = st.session_state['quenched_species'] or species
-                    quenched_species = st.multiselect("Select quenched species",species,default=value,key='widget_quenched_species')
+                    default = st.session_state['quenched_species'] or species
+                    if st.session_state['quenched_species']:
+                        for name in st.session_state['quenched_species']:
+                            if name not in species:
+                                default = species
+                    quenched_species = st.multiselect("Select quenched species",species,default=default,key='widget_quenched_species')
                     quench_elements = False
                 elif quench_mode == "elements":
                     species = set()
@@ -168,9 +192,10 @@ def quenching():
                         if entry.defect.type == 'Vacancy':
                             species.add(entry.defect.name)
                         else:
-                            species.add(entry.defect.specie)
-                    value = st.session_state['quenched_species'] or species
-                    quenched_species = st.multiselect("Select quenched elements",species,default=value,key='widget_quenched_elements')
+                            for df in entry.defect:
+                                species.add(df.specie)
+                    default = st.session_state['quenched_species'] or species
+                    quenched_species = st.multiselect("Select quenched elements",species,default=default,key='widget_quenched_elements')
                     quench_elements = True
             
                 st.session_state['quenched_species'] = quenched_species
@@ -367,34 +392,68 @@ def dopants():
             st.session_state['conc_range'] = (1e05,1e18)
 
 
+
+
+def pull_stable_energy_pfu_from_composition(composition,thermo_types=['GGA_GGA+U'],**kwargs):
+    import base64
+    from defermi.tools.materials_project import MPDatabase
+
+    API_KEY = base64.b64decode('Q0FVMk8yODZmRUI2cGJWOUszTU9qblFFUFJkZW9BQXg=').decode()
+    energy_pfu = MPDatabase(API_KEY=API_KEY).get_stable_energy_pfu_from_composition(
+                                                                                composition=composition,
+                                                                                thermo_types=thermo_types,
+                                                                                **kwargs)
+    return energy_pfu
+
+
+
+
 ## HELP ####
 
 oxygen_ref_info = """
-$\mu_O(0K,p^0)$ is the chemical potential of oxygen at $T = 0 K$ and standard pressure $p^0$.\n
+$\\mu_O(0K,p^0)$ is the chemical potential of oxygen at $T = 0 K$ and standard pressure $p^0$.\n
 
 The oxygen partial pressure for the Brouwer diagrams is connected to the chemical potential of oxygen as:\n
-$$\mu_O(T,p_{O_2}) = \mu_O(T,p^0) + (1/2) k_B T \mathrm{ln} (p_{O_2} / p^0) $$
+$$\\mu_O(T,p_{O_2}) = \\mu_O(T,p^0) + (1/2) k_B T \; \\mathrm{ln} (p_{O_2} / p^0) $$
 
 where:
-$$\mu_O(T,p^0) = \mu_O (0 K,p^0) + \Delta \mu_O (T,p^0) $$
+$$\\mu_O(T,p^0) = \\mu_O (0 K,p^0) + \Delta \\mu_O (T,p^0) $$
 
-The value of $\mu_O$ in the **Chemical Potentials** section is ignored for the calculation of the Brouwer diagram.
+The value of $\\mu_O$ in the **Chemical Potentials** section is ignored for the calculation of the Brouwer diagram.
 """
 
 precursors_info = """
 Conditions for the definition of the chemical potentials as a function of the oxygen partial pressure.
 They represent the reservoirs that are in contact with the target material.\n
 
-Each entry requires the composition and the energy per formula unit (p.f.u) in eV. 
+Each entry requires the composition and the energy per formula unit (p.f.u) in eV. Click on **Database** to pull
+the energy for that composition from the Materials Project Database.\n 
 Starting from the chemical potential of oxygen, the other chemical potentials are determined by the constraints 
-$ E_{\mathrm{pfu}} = \sum_s c_s \mu_s $, where $c_s$ are the stochiometric coefficients and $\mu_s$ the chemical potentials.
+$ E_{\\mathrm{pfu}} = \\sum_s c_s \\mu_s $, where $c_s$ are the stochiometric coefficients and $\mu_s$ the chemical potentials.
 
-For oxides with maximum 2 components, the target material itself is enough to determine the chemical potential of the other species.\n
+For oxides with maximum 2 components, the target material itself is enough to determine the chemical potential of the other species.
 For target oxides with more that 2 components, at least 2 compositions are needed to determine all chemical potentials.
 Often these phases are chosen to be the precursors in the synthesis of the target material.\n
 
 All elements that are not present in the entries compositions are excluded from the Brouwer diagram calculations.\n
 The values in the **Chemical Potentials** section are ignored for the calculation of the Brouwer diagram.
+"""
+
+quenching_info = """
+Run simulations in quenching conditions.\n
+Defect concentrations are computed in charge neutral conditions at the input **Temperature(K)**,
+but charges are equilibrated at **Quench Temperature (K)**. This simulates conditions where defect mobility is 
+low and the high-temperature defect distribution is frozen in at low temperature.
+
+**Quenching mode** options:
+- **species**: Fix concentrations of defect species (identified by `name`).
+- **elements**: Fix concentrations of elements, concentrations of individual 
+                species containing the quenched elements are computed according 
+                to the relative formation energies. Vacancies are considered 
+                separate elements.
+
+Select which species or elements to quench with **Select quenched species**. Defects not in the quenching list
+are equilibrated at **Quench Temperature**.
 """
 
 external_defects_info = """
@@ -410,13 +469,13 @@ Charge neutrality is solved varying the concentartion of a target defect.
 The chemical potentials defined in the **Chemical Potentials** section are kept fixed. \n
 
 Options:
-- **None** : Doping diagram is not computed
+- **None** : Doping diagram is not computed.
 - **Donor** : A generic donor is used as variable defect species. You can set the charge and concentration range.
 - **Acceptor** : A generic acceptor is used as variable defect species. You can set the charge and concentration range.
 - **<element>** : If extrinsic defects are present in the defect entries, 
                 you can set each extrinsic element as variable defect species. Its total concentration is assigned, but the concentrations  
                 of individual defects containing the element depend on the relative formation energies. 
-- **custom** : Customizable dopant, you can set name, charge and concentration range. 
+- **custom** : Customizable dopant. You can set name, charge and concentration range. 
                 There is no requirement for the defect name, if a name fits one of the naming conventions,
                 the corrisponding symbol will be printed.
 """ 

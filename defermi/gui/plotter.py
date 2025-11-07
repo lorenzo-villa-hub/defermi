@@ -58,9 +58,12 @@ def plotter():
                 formation_energies()
             if 'Charge transition levels' in plots_to_display:
                 charge_transition_levels()
-            if 'DefectComplex' in st.session_state.da.types:
-                if 'Binding energies' in plots_to_display:
-                    binding_energies()
+            if 'Binding energies' in plots_to_display:
+                    if 'DefectComplex' in st.session_state.da.types:
+                        binding_energies()
+                    else:
+                        st.warning('No defect complexes in entries')
+
 
         if st.session_state['enable_thermodynamics']:        
             with st.container(border=border):
@@ -101,14 +104,14 @@ def formation_energies():
         if show_formation_energies:
             cols = st.columns([0.7,0.3])
             with cols[1]:
-                set_xlim, xlim = get_axis_limits_with_widgets(
+                set_xlim, xlim = _get_axis_limits_with_widgets(
                                                             label='xlim',
                                                             key='eform',
                                                             default=(-0.5,da.band_gap+0.5),
                                                             boundaries=(-3.,da.band_gap+3.)) 
                 xlim = xlim if set_xlim else None
 
-                set_ylim, ylim = get_axis_limits_with_widgets(
+                set_ylim, ylim = _get_axis_limits_with_widgets(
                                                             label='ylim',
                                                             key='eform',
                                                             default=(-20.,30.),
@@ -116,14 +119,8 @@ def formation_energies():
                 ylim = ylim if set_ylim else None
 
                 defect_names = da.names
-                init_state_variable('eform_names',value=defect_names)
-                default = st.session_state['eform_names'] 
-                for name in st.session_state['eform_names']:
-                    if name not in defect_names:
-                        default = defect_names
-                        break
-                names = widget_with_updating_state(function=st.multiselect, key='eform_names',label='Names',
-                                                     options=defect_names, default=default)
+                names = _filter_names(defect_names=defect_names,key='eform')
+
                 entries = da.select_entries(names=names)
                 colors = []
                 ordered_names = []
@@ -175,7 +172,7 @@ def charge_transition_levels():
             cols = st.columns([0.7,0.3])
             with cols[1]:
 
-                set_ylim, ylim = get_axis_limits_with_widgets(
+                set_ylim, ylim = _get_axis_limits_with_widgets(
                                                             label='ylim',
                                                             key='ctl',
                                                             default=(-0.5,da.band_gap+0.5),
@@ -183,14 +180,8 @@ def charge_transition_levels():
                 ylim = ylim if set_ylim else None
 
                 defect_names = da.names
-                init_state_variable('ctl_names',value=defect_names)
-                default = st.session_state['ctl_names'] 
-                for name in st.session_state['ctl_names']:
-                    if name not in defect_names:
-                        default = defect_names
-                        break
-                names = widget_with_updating_state(function=st.multiselect, key='ctl_names',label='Names',
-                                                     options=defect_names, default=default)
+                names = _filter_names(defect_names=defect_names,key='ctl')
+
                 entries = da.select_entries(names=names)
 
             with cols[0]:
@@ -233,14 +224,14 @@ def binding_energies():
         if show_formation_energies:
             cols = st.columns([0.7,0.3])
             with cols[1]:
-                set_xlim, xlim = get_axis_limits_with_widgets(
+                set_xlim, xlim = _get_axis_limits_with_widgets(
                                                             label='xlim',
                                                             key='binding',
                                                             default=(-0.5,da.band_gap+0.5),
                                                             boundaries=(-3.,da.band_gap+3.)) 
                 xlim = xlim if set_xlim else None
 
-                set_ylim, ylim = get_axis_limits_with_widgets(
+                set_ylim, ylim = _get_axis_limits_with_widgets(
                                                             label='ylim',
                                                             key='binding',
                                                             default=(-20.,30.),
@@ -251,15 +242,8 @@ def binding_energies():
                 for entry in da.select_entries(types=['DefectComplex']):
                     if entry.name not in complex_names:
                         complex_names.append(entry.name)
+                names = _filter_names(defect_names=complex_names,key='binding')
 
-                init_state_variable('binding_names',value=complex_names)
-                default = st.session_state['binding_names'] 
-                for name in st.session_state['binding_names']:
-                    if name not in complex_names:
-                        default = complex_names
-                        break
-                names = widget_with_updating_state(function=st.multiselect, key='binding_names',label='Names',
-                                                     options=complex_names, default=st.session_state['binding_names'])
                 colors = [st.session_state.color_dict[name] for name in names]
                 for color in st.session_state.color_sequence:
                     if color not in colors:
@@ -337,7 +321,7 @@ def brouwer_diagram():
                     cols = st.columns([0.7,0.3])
                     with cols[1]:
                         default_xlim = int(np.log10(pressure_range[0])) , int(np.log10(pressure_range[1]))
-                        set_xlim, xlim = get_axis_limits_with_widgets(
+                        set_xlim, xlim = _get_axis_limits_with_widgets(
                                                                     label='xlim (log)',
                                                                     key='brouwer',
                                                                     default=default_xlim,
@@ -345,7 +329,7 @@ def brouwer_diagram():
                         xlim = (float(10**xlim[0]) , float(10**xlim[1]))
                         xlim = xlim if set_xlim else pressure_range
 
-                        set_ylim, ylim = get_axis_limits_with_widgets(
+                        set_ylim, ylim = _get_axis_limits_with_widgets(
                                                                     label='ylim (log)',
                                                                     key='brouwer',
                                                                     default=(-20,25),
@@ -429,7 +413,7 @@ def doping_diagram():
                 cols = st.columns([0.7,0.3])
                 with cols[1]:
                     default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
-                    set_xlim, xlim = get_axis_limits_with_widgets(
+                    set_xlim, xlim = _get_axis_limits_with_widgets(
                                                                 label='xlim (log)',
                                                                 key='doping',
                                                                 default=default_xlim,
@@ -437,7 +421,7 @@ def doping_diagram():
                     xlim = (float(10**xlim[0]) , float(10**xlim[1]))
                     xlim = xlim if set_xlim else conc_range
 
-                    set_ylim, ylim = get_axis_limits_with_widgets(
+                    set_ylim, ylim = _get_axis_limits_with_widgets(
                                                                 label='ylim (log)',
                                                                 key='doping',
                                                                 default=(-20,25),
@@ -525,6 +509,7 @@ def _po2_vs_fermi_level_diagram(xlim,ylim):
                 ylim=ylim
         )
         fig.grid()
+        fig.title('Brouwer diagram')
         fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
         fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
         st.pyplot(fig, clear_figure=False, width="content")
@@ -558,10 +543,32 @@ def _doping_vs_fermi_level_diagram(xlim,ylim):
                 ylim=ylim
         )
         fig.grid()
+        fig.title('Doping diagram')
         fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
         fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
         st.pyplot(fig, clear_figure=False, width="content")
         return fig
+
+
+def _filter_names(defect_names,key):
+
+    names_key = f'names_{key}'
+    init_state_variable(names_key,value=defect_names)
+    init_state_variable(f'previous_names_{key}',value=defect_names)
+    default = st.session_state[names_key]
+    for name in st.session_state[names_key]:
+        if name not in defect_names:
+            default = defect_names
+            break
+    for name in defect_names:
+        if name not in st.session_state[f'previous_names_{key}']:
+            default.append(name)
+    names = widget_with_updating_state(function=st.multiselect, key=names_key,label='Names',
+                                    options=defect_names, default=default)
+    st.session_state[f'previous_names_{key}'] = defect_names
+    
+    return names
+
 
 
 
@@ -580,16 +587,8 @@ def _filter_concentrations(defect_concentrations,key='brouwer'):
 
     # select names
     conc_names = defect_concentrations.names
-    names_key = f'names_{key}'
-    init_state_variable(names_key,value=conc_names)
-    default = st.session_state[names_key]
-    for name in st.session_state[names_key]:
-        if name not in conc_names:
-            default = conc_names
-            break
-    names = widget_with_updating_state(function=st.multiselect, key=names_key,label='Names',
-                                    options=conc_names, default=default)
-    
+    names = _filter_names(defect_names=conc_names,key=key)
+
     # set consistent colors
     for idx,name in enumerate(names):
         if name not in st.session_state['color_dict'].keys():
@@ -622,7 +621,7 @@ def _filter_concentrations(defect_concentrations,key='brouwer'):
 
 
 
-def get_axis_limits_with_widgets(label, key, default, boundaries):
+def _get_axis_limits_with_widgets(label, key, default, boundaries):
     """
     Create widgets with axis limits that persist through session changes.
     Values are stored in `st.session_state`.
