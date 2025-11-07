@@ -152,7 +152,7 @@ def generate_chempots_from_mp(
         if 'O' in composition:
             element = 'O'
         else:
-            composition.elements[-1].symbol
+            element = composition.elements[-1].symbol
 
     if any([cond in condition for cond in string_conditions]):          
         chempots = generate_chempots_from_condition(

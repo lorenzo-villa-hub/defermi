@@ -53,7 +53,7 @@ def precursors():
 
         init_state_variable('precursor_entries',value=[]) 
         
-        cols = st.columns([0.1, 0.4, 0.4, 0.1])
+        cols = st.columns([0.1, 0.3, 0.3, 0.2, 0.1])
         with cols[0]:
             add_precursors = st.button("➕",key="widget_add_precursor")
             if add_precursors:
@@ -70,13 +70,33 @@ def precursors():
                 if entry['id'] == entry_id:
                     del st.session_state['precursor_entries'][idx]
 
+        init_state_variable('precursor_DB_warning',value=None)
+        def set_precursor_energy_from_DB(entry):
+            if entry['composition']:
+                energy_pfu = pull_stable_energy_pfu_from_composition(composition=entry['composition'])
+                st.session_state[f'widget_energy_{entry['id']}'] = energy_pfu
+            else:
+                st.session_state['precursor_DB_warning'] = 'Enter composition to pull energy from MP database'
+            return 
+
 
         for entry in st.session_state['precursor_entries']:
             with cols[1]:
                 entry["composition"] = st.text_input("Composition", value=entry["composition"], key=f"widget_comp_{entry['id']}")
             with cols[2]:
-                entry["energy"] = st.number_input("Energy p.f.u (eV)", value=entry["energy"], step=1.0, key=f"widget_energy_{entry['id']}")
+                widget_key = f"widget_energy_{entry['id']}"
+                if widget_key not in st.session_state:
+                    st.session_state[widget_key] = entry['energy']
+                energy = st.number_input("Energy p.f.u (eV)", step=1.0, key=f"widget_energy_{entry['id']}")
+                entry["energy"] = energy
             with cols[3]:
+                st.write('')
+                st.button('🗄️ Database',on_click=set_precursor_energy_from_DB,args=[entry],key=f'widget_pull_{entry['id']}')
+            if st.session_state['precursor_DB_warning']:
+                st.error(st.session_state['precursor_DB_warning'])
+                st.session_state['precursor_DB_warning'] = None
+            with cols[4]:
+                st.write('')
                 st.button("🗑️", on_click=remove_precursor_entry, args=[entry['id']], key=f"widget_del_{entry['id']}")
 
         st.session_state['precursors'] = {
@@ -160,9 +180,10 @@ def quenching():
                 if quench_mode == "species":
                     species = [name for name in st.session_state.brouwer_da.names]
                     default = st.session_state['quenched_species'] or species
-                    for name in st.session_state['quenched_species']:
-                        if name not in species:
-                            default = species
+                    if st.session_state['quenched_species']:
+                        for name in st.session_state['quenched_species']:
+                            if name not in species:
+                                default = species
                     quenched_species = st.multiselect("Select quenched species",species,default=default,key='widget_quenched_species')
                     quench_elements = False
                 elif quench_mode == "elements":
@@ -371,29 +392,46 @@ def dopants():
             st.session_state['conc_range'] = (1e05,1e18)
 
 
+
+
+def pull_stable_energy_pfu_from_composition(composition,thermo_types=['GGA_GGA+U'],**kwargs):
+    import base64
+    from defermi.tools.materials_project import MPDatabase
+
+    API_KEY = base64.b64decode('Q0FVMk8yODZmRUI2cGJWOUszTU9qblFFUFJkZW9BQXg=').decode()
+    energy_pfu = MPDatabase(API_KEY=API_KEY).get_stable_energy_pfu_from_composition(
+                                                                                composition=composition,
+                                                                                thermo_types=thermo_types,
+                                                                                **kwargs)
+    return energy_pfu
+
+
+
+
 ## HELP ####
 
 oxygen_ref_info = """
-$\mu_O(0K,p^0)$ is the chemical potential of oxygen at $T = 0 K$ and standard pressure $p^0$.\n
+$\\mu_O(0K,p^0)$ is the chemical potential of oxygen at $T = 0 K$ and standard pressure $p^0$.\n
 
 The oxygen partial pressure for the Brouwer diagrams is connected to the chemical potential of oxygen as:\n
-$$\mu_O(T,p_{O_2}) = \mu_O(T,p^0) + (1/2) k_B T \; \mathrm{ln} (p_{O_2} / p^0) $$
+$$\\mu_O(T,p_{O_2}) = \\mu_O(T,p^0) + (1/2) k_B T \; \\mathrm{ln} (p_{O_2} / p^0) $$
 
 where:
-$$\mu_O(T,p^0) = \mu_O (0 K,p^0) + \Delta \mu_O (T,p^0) $$
+$$\\mu_O(T,p^0) = \\mu_O (0 K,p^0) + \Delta \\mu_O (T,p^0) $$
 
-The value of $\mu_O$ in the **Chemical Potentials** section is ignored for the calculation of the Brouwer diagram.
+The value of $\\mu_O$ in the **Chemical Potentials** section is ignored for the calculation of the Brouwer diagram.
 """
 
 precursors_info = """
 Conditions for the definition of the chemical potentials as a function of the oxygen partial pressure.
 They represent the reservoirs that are in contact with the target material.\n
 
-Each entry requires the composition and the energy per formula unit (p.f.u) in eV. 
+Each entry requires the composition and the energy per formula unit (p.f.u) in eV. Click on **Database** to pull
+the energy for that composition from the Materials Project Database.\n 
 Starting from the chemical potential of oxygen, the other chemical potentials are determined by the constraints 
-$ E_{\mathrm{pfu}} = \sum_s c_s \mu_s $, where $c_s$ are the stochiometric coefficients and $\mu_s$ the chemical potentials.
+$ E_{\\mathrm{pfu}} = \\sum_s c_s \\mu_s $, where $c_s$ are the stochiometric coefficients and $\mu_s$ the chemical potentials.
 
-For oxides with maximum 2 components, the target material itself is enough to determine the chemical potential of the other species.\n
+For oxides with maximum 2 components, the target material itself is enough to determine the chemical potential of the other species.
 For target oxides with more that 2 components, at least 2 compositions are needed to determine all chemical potentials.
 Often these phases are chosen to be the precursors in the synthesis of the target material.\n
 

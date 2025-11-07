@@ -81,9 +81,11 @@ class Chempots(MSONable):
         if isinstance(other, dict):
             for key, value in other.items():
                 self.mu[key] = value
-        else:
-            for key, value in other:
+        elif other.__class__.__name__ == 'Chempots':
+            for key, value in other.items():
                 self.mu[key] = value
+        else:
+            raise ValueError('Chempots object can be only updated with dict or Chempots objects')
     
     
     def as_dict(self):

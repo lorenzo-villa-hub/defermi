@@ -509,6 +509,7 @@ def _po2_vs_fermi_level_diagram(xlim,ylim):
                 ylim=ylim
         )
         fig.grid()
+        fig.title('Brouwer diagram')
         fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
         fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
         st.pyplot(fig, clear_figure=False, width="content")
@@ -542,6 +543,7 @@ def _doping_vs_fermi_level_diagram(xlim,ylim):
                 ylim=ylim
         )
         fig.grid()
+        fig.title('Doping diagram')
         fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
         fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
         st.pyplot(fig, clear_figure=False, width="content")
