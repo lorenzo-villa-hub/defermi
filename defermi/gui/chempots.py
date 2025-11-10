@@ -74,7 +74,7 @@ def chempots():
                 if el in st.session_state['chempots']:
                     widget_key = f'widget_chempot{el}'
                     if widget_key not in st.session_state:
-                        st.session_state[widget_key] = 0.0
+                        st.session_state[widget_key] = st.session_state['chempots'][el] or 0.0
 
                 mu = st.number_input(f"{mu_string}({el})", max_value=0.0,step=0.5, key=f'widget_chempot{el}')
                 st.session_state.chempots[el] = mu
@@ -130,9 +130,9 @@ chempots_info = """
 Chemical potential of the elements that are exchanged with a reservoirs when defects are formed.\n
 
 Formation energies depend on the chemical potentials as:\n
-$$ \Delta E_f = E_D - E_B + q(\epsilon_{VBM} + \epsilon_F) - \color{blue} \sum_i \Delta n_i \mu_i $$ \n
+$$ \\Delta E_f = E_D - E_B + q(\\epsilon_{VBM} + \\epsilon_F) - \\color{blue} \\sum_i \\Delta n_i \\mu_i $$ \n
 
-where $\Delta n_i$ is the number of particles in the defective cell minus the number in the pristine cell for species $i$.\n
+where $\\Delta n_i$ is the number of particles in the defective cell minus the number in the pristine cell for species $i$.\n
 
 Chemical potentials can also be pulled from the Materials Project database, click **Materials Project Database**
 to open the window. If **Reference composition** is left empty, chemical potentials relative to the elemental phases 

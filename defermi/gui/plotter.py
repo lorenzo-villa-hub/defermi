@@ -1,6 +1,7 @@
 
 import numpy as np
 import io
+from contextlib import nullcontext
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -24,13 +25,12 @@ def plotter():
 
     init_state_variable('show_brouwer_diagram',value=False)
     init_state_variable('show_doping_diagram',value=False)
-
     
     if "brouwer_thermodata" not in st.session_state:
         st.session_state.brouwer_thermodata = None
 
     if st.session_state.da:
-
+        is_oxygen = 'O' in st.session_state['da'].elements
         # set consistent colors for each name
         st.session_state.da.sort_entries()
         full_da = DefectsAnalysis.from_dataframe(
@@ -42,11 +42,19 @@ def plotter():
         all_plots_to_display = [
                         'Formation energies',
                         'Charge transition levels',
-                        'Binding energies',
-                        'Brouwer diagram',
+                        'Binding energies']
+        
+        if is_oxygen:
+            all_plots_to_display.append('Brouwer diagram')
+
+        all_plots_to_display += [
                         'Doping diagram',
                         'Fermi level']
-        default_plots_to_display = ['Formation energies','Brouwer diagram','Doping diagram','Fermi level']
+        
+        if is_oxygen:
+            default_plots_to_display = ['Formation energies','Brouwer diagram','Doping diagram','Fermi level']
+        else:
+            default_plots_to_display = ['Formation energies','Doping diagram','Fermi level']
         init_state_variable('plots_to_display',value=default_plots_to_display)
 
         cols = st.columns([0.95,0.05])
@@ -72,7 +80,7 @@ def plotter():
 
         if st.session_state['enable_thermodynamics']:        
             with st.container(border=border):
-                if 'Brouwer diagram' in plots_to_display:    
+                if 'Brouwer diagram' in plots_to_display and is_oxygen:
                     brouwer_diagram()
             with st.container(border=border):
                 if 'Doping diagram' in plots_to_display:
@@ -288,23 +296,23 @@ def brouwer_diagram():
 
             da = st.session_state.da
             if "brouwer_da" not in st.session_state:
-                st.session_state.brouwer_da = st.session_state.da
-            brouwer_da = st.session_state.brouwer_da
+                st.session_state['brouwer_da'] = st.session_state.da
+            brouwer_da = st.session_state['brouwer_da'] 
 
             if brouwer_da:
 
                 @st.cache_data
                 def compute_brouwer_diagram():
                     brouwer_da.plot_brouwer_diagram(
-                                            bulk_dos=st.session_state.dos,
-                                            temperature=st.session_state.temperature,
-                                            quench_temperature=st.session_state.quench_temperature,
-                                            quenched_species=st.session_state.quenched_species,
-                                            quench_elements = st.session_state.quench_elements,
-                                            precursors=st.session_state.precursors,
-                                            oxygen_ref=st.session_state.oxygen_ref,
+                                            bulk_dos=st.session_state['dos'],
+                                            temperature=st.session_state['temperature'],
+                                            quench_temperature=st.session_state['quench_temperature'],
+                                            quenched_species=st.session_state['quenched_species'],
+                                            quench_elements = st.session_state['quench_elements'],
+                                            precursors=st.session_state['precursors'],
+                                            oxygen_ref=st.session_state['oxygen_ref'],
                                             pressure_range=pressure_range,
-                                            external_defects=st.session_state.external_defects,
+                                            external_defects=st.session_state['external_defects'],
                                             npoints=npoints
                                         )
                     return brouwer_da.thermodata
@@ -377,26 +385,28 @@ def doping_diagram():
 
     if "dos" in st.session_state and "dopant" in st.session_state:
         if st.session_state.conc_range:
-            fontsize = st.session_state.fontsize
-            label_size = st.session_state.label_size
-            npoints = st.session_state.npoints
-            pressure_range = st.session_state.pressure_range
-            figsize = st.session_state.figsize
+            fontsize = st.session_state['fontsize']
+            label_size = st.session_state['label_size']
+            npoints = st.session_state['npoints']
+            pressure_range = st.session_state['pressure_range']
+            figsize = st.session_state['figsize']
 
             da = st.session_state.da
             conc_range = st.session_state.conc_range
 
+            init_state_variable('quench_temperature',value=None)
+            init_state_variable('quenched_species',value=None)
             @st.cache_data
             def compute_doping_diagram():
                 da.plot_doping_diagram(
-                        variable_defect_specie=st.session_state.dopant,
-                        concentration_range=st.session_state.conc_range,
-                        chemical_potentials=st.session_state.chempots,
-                        bulk_dos=st.session_state.dos,
-                        temperature=st.session_state.temperature,
-                        quench_temperature=st.session_state.quench_temperature,
-                        quenched_species=st.session_state.quenched_species,
-                        external_defects=st.session_state.external_defects,
+                        variable_defect_specie=st.session_state['dopant'],
+                        concentration_range=st.session_state['conc_range'],
+                        chemical_potentials=st.session_state['chempots'],
+                        bulk_dos=st.session_state['dos'],
+                        temperature=st.session_state['temperature'],
+                        quench_temperature=st.session_state['quench_temperature'],
+                        quenched_species=st.session_state['quenched_species'],
+                        external_defects=st.session_state['external_defects'],
                         npoints=npoints,
                         )
                 return da.thermodata
@@ -466,18 +476,20 @@ def doping_diagram():
 def fermi_level():
     pressure_range = st.session_state['pressure_range']
     da = st.session_state.da
+    is_oxygen = 'O' in da.elements
 
-    cols = st.columns(2)
-    if 'brouwer_thermodata' in st.session_state and st.session_state['show_brouwer_diagram']:
-        xlim = st.session_state['xlim (log)_brouwer']
-        xlim = (float(10**xlim[0]) , float(10**xlim[1])) if st.session_state['set_xlim (log)_brouwer'] else pressure_range
-        ylim = None
+    if is_oxygen:
+        cols = st.columns(2)
+        if 'brouwer_thermodata' in st.session_state and st.session_state['show_brouwer_diagram']:
+            xlim = st.session_state['xlim (log)_brouwer']
+            xlim = (float(10**xlim[0]) , float(10**xlim[1])) if st.session_state['set_xlim (log)_brouwer'] else pressure_range
+            ylim = None
 
-        with cols[0]:
-            fig = _po2_vs_fermi_level_diagram(xlim,ylim)
-            subcols = st.columns([0.4,0.6])
-            with subcols[1]:
-                download_plot(fig=fig,filename='fermi_level_brouwer.pdf')
+            with cols[0]:
+                fig = _po2_vs_fermi_level_diagram(xlim,ylim)
+                subcols = st.columns([0.4,0.6])
+                with subcols[1]:
+                    download_plot(fig=fig,filename='fermi_level_brouwer.pdf')
 
     if 'doping_thermodata' in st.session_state and st.session_state['show_doping_diagram']:
         if st.session_state['doping_thermodata'] and st.session_state['dopant']:
@@ -486,15 +498,17 @@ def fermi_level():
             xlim = (float(10**xlim[0]) , float(10**xlim[1])) if st.session_state['set_xlim (log)_doping'] else conc_range
             ylim = None
 
-            with cols[1]:
-                fig = _doping_vs_fermi_level_diagram(xlim,ylim)
+            # no subcolumn if there is no brouwer diagram section 
+            context = context = cols[1] if is_oxygen else nullcontext()
+            with context:
+                fig = _doping_vs_fermi_level_diagram(xlim,ylim,width=600)
                 subcols = st.columns([0.4,0.6])
                 with subcols[1]:
                     download_plot(fig=fig,filename='fermi_level_doping.pdf')
 
 
 
-def _po2_vs_fermi_level_diagram(xlim,ylim):
+def _po2_vs_fermi_level_diagram(xlim,ylim,width='content'):
     if st.session_state['brouwer_thermodata']:    
         fontsize = st.session_state['fontsize']
         label_size = st.session_state['label_size']
@@ -517,12 +531,12 @@ def _po2_vs_fermi_level_diagram(xlim,ylim):
         fig.title('Brouwer diagram')
         fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
         fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-        st.pyplot(fig, clear_figure=False, width="content")
+        st.pyplot(fig, clear_figure=False, width=width)
         return fig
 
 
 
-def _doping_vs_fermi_level_diagram(xlim,ylim):
+def _doping_vs_fermi_level_diagram(xlim,ylim,width='content'):
     if st.session_state['doping_thermodata']:    
         fontsize = st.session_state['fontsize']
         label_size = st.session_state['label_size']
@@ -551,7 +565,7 @@ def _doping_vs_fermi_level_diagram(xlim,ylim):
         fig.title('Doping diagram')
         fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
         fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-        st.pyplot(fig, clear_figure=False, width="content")
+        st.pyplot(fig, clear_figure=False, width=width)
         return fig
 
 

@@ -1,0 +1,6 @@
+name,charge,multiplicity,energy_diff,bulk_volume
+Sub_P_on_Si,1,1,1.9,161
+Sub_P_on_Si,0,1,3.1,161
+Sub_B_on_Si,-1,1,3.0,161
+Sub_B_on_Si,0,1,2.9,161
+

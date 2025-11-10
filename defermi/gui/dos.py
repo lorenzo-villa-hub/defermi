@@ -89,7 +89,7 @@ def pull_dos_from_stable_composition(composition,thermo_types=['GGA_GGA+U'],**kw
 
 dos_info = """
 Parameters for the calculation of electrons and holes concentration. Possible choices are:\n
-$\mathbf{m*/m_e}$: Effective masses of electrons (e) and holes relative to the electron mass.\n
+$\\mathbf{m*/m_e}$: Effective masses of electrons (e) and holes relative to the electron mass.\n
 **DOS**: Computed density of states of the pristine material. Format is either a dictionary:
 - 'energies' : list or np.array with energy values
 - 'densities' : list or np.array with total density values

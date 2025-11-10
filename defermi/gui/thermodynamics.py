@@ -13,9 +13,12 @@ def thermodynamics():
     GUI elements to set DefectThermodynamics parameters
     """
     if st.session_state.da:
+        is_oxygen = 'O' in st.session_state.da.elements
+
         st.markdown("**Thermodynamic Parameters**")
         init_state_variable('temperature',value=1000)
-        init_state_variable('oxygen_ref',value=-4.95)
+        if is_oxygen:
+            init_state_variable('oxygen_ref',value=-4.95)
 
         cols = st.columns(2)
         with cols[0]:
@@ -25,16 +28,18 @@ def thermodynamics():
             st.session_state['temperature'] = temperature
         with cols[1]:
             subcols = st.columns([0.8,0.2])
-            with subcols[0]:
-                oxygen_ref = st.number_input("μO (0K, p0) [eV]", value=st.session_state['oxygen_ref'], step=0.5, key='widget_oxygen_ref')
-                st.session_state['oxygen_ref'] = oxygen_ref
-            with subcols[1]:
-                with st.popover(label='ℹ️',help='Info',type='tertiary'):
-                    st.write(oxygen_ref_info)
+            if is_oxygen:
+                with subcols[0]:
+                    oxygen_ref = st.number_input("μO (0K, p0) [eV]", value=st.session_state['oxygen_ref'], step=0.5, key='widget_oxygen_ref')
+                    st.session_state['oxygen_ref'] = oxygen_ref
+                with subcols[1]:
+                    with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                        st.write(oxygen_ref_info)
         
-        precursors()
-        filter_entries_with_missing_elements()
-        quenching()
+        if is_oxygen:
+            precursors()
+            filter_entries_with_missing_elements()
+            quenching()
         external_defects()
         dopants()
 
@@ -414,10 +419,10 @@ oxygen_ref_info = """
 $\\mu_O(0K,p^0)$ is the chemical potential of oxygen at $T = 0 K$ and standard pressure $p^0$.\n
 
 The oxygen partial pressure for the Brouwer diagrams is connected to the chemical potential of oxygen as:\n
-$$\\mu_O(T,p_{O_2}) = \\mu_O(T,p^0) + (1/2) k_B T \; \\mathrm{ln} (p_{O_2} / p^0) $$
+$$\\mu_O(T,p_{O_2}) = \\mu_O(T,p^0) + (1/2) k_B T \\; \\mathrm{ln} (p_{O_2} / p^0) $$
 
 where:
-$$\\mu_O(T,p^0) = \\mu_O (0 K,p^0) + \Delta \\mu_O (T,p^0) $$
+$$\\mu_O(T,p^0) = \\mu_O (0 K,p^0) + \\Delta \\mu_O (T,p^0) $$
 
 The value of $\\mu_O$ in the **Chemical Potentials** section is ignored for the calculation of the Brouwer diagram.
 """
@@ -429,7 +434,7 @@ They represent the reservoirs that are in contact with the target material.\n
 Each entry requires the composition and the energy per formula unit (p.f.u) in eV. Click on **Database** to pull
 the energy for that composition from the Materials Project Database.\n 
 Starting from the chemical potential of oxygen, the other chemical potentials are determined by the constraints 
-$ E_{\\mathrm{pfu}} = \\sum_s c_s \\mu_s $, where $c_s$ are the stochiometric coefficients and $\mu_s$ the chemical potentials.
+$ E_{\\mathrm{pfu}} = \\sum_s c_s \\mu_s $, where $c_s$ are the stochiometric coefficients and $\\mu_s$ the chemical potentials.
 
 For oxides with maximum 2 components, the target material itself is enough to determine the chemical potential of the other species.
 For target oxides with more that 2 components, at least 2 compositions are needed to determine all chemical potentials.

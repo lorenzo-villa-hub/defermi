@@ -6,6 +6,7 @@ import json
 
 import matplotlib
 import streamlit as st
+import pandas as pd
 
 from monty.json import jsanitize, MontyEncoder, MontyDecoder
 
@@ -17,10 +18,10 @@ def initialize(defects_analysis=None):
     """
     Import dataframe file to initialize DefectsAnalysis object
     """
-    # if "color_sequence" not in st.session_state:
-    #     st.session_state['color_sequence'] = matplotlib.color_sequences['tab10']
-    #     st.session_state['color_sequence'] += matplotlib.color_sequences['tab20']
-    #     st.session_state['color_sequence'] += matplotlib.color_sequences['Pastel1']
+    if "color_sequence" not in st.session_state:
+        st.session_state['color_sequence'] = matplotlib.color_sequences['tab10']
+        st.session_state['color_sequence'] += matplotlib.color_sequences['tab20']
+        st.session_state['color_sequence'] += matplotlib.color_sequences['Pastel1']
 
     def reset_session():
         st.session_state.clear()
@@ -148,8 +149,11 @@ def filter_entries():
                                 'Include':st.column_config.CheckboxColumn()
                             },
                             hide_index=True,
+                            num_rows='dynamic',
                             key='widget_data_editor')
             
+            #st.write(edited_df)
+            edited_df = edited_df.dropna() # exclude rows with NaN
             st.session_state['saved_dataframe'] = edited_df
             df_to_import = edited_df[edited_df["Include"] == True] # keep only selected rows
             st.session_state['dataframe'] = df_to_import
@@ -157,11 +161,6 @@ def filter_entries():
         else:
             st.session_state['df_complete'] = st.session_state['saved_dataframe']
             st.dataframe(st.session_state['saved_dataframe'],hide_index=True)
-
-        if "color_sequence" not in st.session_state:
-            st.session_state['color_sequence'] = matplotlib.color_sequences['tab10']
-            st.session_state['color_sequence'] += matplotlib.color_sequences['tab20']
-            st.session_state['color_sequence'] += matplotlib.color_sequences['Pastel1']
         
         st.session_state.da = DefectsAnalysis.from_dataframe(
                                                     st.session_state['dataframe'],
@@ -181,11 +180,13 @@ def save_session(filename):
     """Save Streamlit session state to a JSON file."""
     try:
         data = {k:v for k,v in st.session_state.items() if 'widget' not in k}
+
         _delete_dict_key(data,'session_loaded')
         _delete_dict_key(data,'session_name')
         _delete_dict_key(data,'precursors')
         _delete_dict_key(data,'external_defects')
         _delete_dict_key(data,'edit_dataframe')
+        _delete_dict_key(data,'df_complete')
 
         d = MontyEncoder().encode(data)
 
@@ -204,15 +205,20 @@ def save_session(filename):
         st.error(f"Failed to prepare session download: {e}")
 
 
-
 def load_session(file_path):
     """Load Streamlit session state from JSON file."""
     try:
         if os.path.exists(file_path):
             with open(file_path, "r") as f:
-                d = json.load(f)
-            d = MontyDecoder().decode(d)
+                json_string = json.load(f)
+
+            d = MontyDecoder().decode(json_string)
             st.session_state.update(d)
+
+            # Convert DataFrame back to original index after monty encode/decode
+            data_df = st.session_state['saved_dataframe'].to_dict(orient='records')
+            st.session_state['saved_dataframe'] = pd.DataFrame(data=data_df)
+
         else:
             st.warning(f"File not found: {file_path}")
     except Exception as e:
@@ -225,7 +231,7 @@ dataframe_info = """
 - `charge` : Defect charge.
 - `multiplicity` : Multiplicity in the unit cell.
 - `energy_diff` : Energy of the defective cell minus the energy of the pristine cell in eV.
-- `bulk_volume` : Pristine cell volume in $\mathrm{\\AA^3}$
+- `bulk_volume` : Pristine cell volume in $\\mathrm{\\AA^3}$
 
 Defect naming: (element = $A$)
 - Vacancy: `'Vac_A'` (symbol=$V_{A}$)
