@@ -1,7 +1,10 @@
-# defermi
 
-Python library for the analysis and visualization of point defects. Simple and intuitive for new users and non-experts, flexible and customizable for power users. Based on main objects from the [`pymatgen`](https://pymatgen.org/) library.\
-Explore quickly the functionalities with the dedicated [web app](https://defermi-example.streamlit.app). 
+<p align="center">
+    <img src="./docs/images/defermi_logo.png" alt="logo" width="400"/>
+</p>
+
+Python library for the analysis and visualization of point defects. Simple and intuitive for new users and non-experts, flexible and customizable for power users. An intuitive user interface can be run online with no installation at this link: https://defermi.streamlit.app/ (using [streamlit](https:/streamlit.io)).  \
+Explore quickly the functionalities with this pre-loaded [example](https://defermi-example.streamlit.app). 
 
 
 ## Installation
@@ -16,6 +19,20 @@ The package can be installed with PyPI:
 ```python
 pip install defermi
 ```
+
+## UI
+
+<p align="center">
+    <img src="./docs/images/defermi_main_screenshot.png" alt="logo" width="800"/>
+</p>
+
+`defermi` comes with a simple and intutitive graphical user interface. It can be run online without installation on this link:\
+https://defermi.streamlit.app/\
+or locally after installation by running this command:
+```python
+defermi gui
+```
+
 
 ## Features 
 
