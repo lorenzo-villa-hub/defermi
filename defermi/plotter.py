@@ -719,7 +719,7 @@ def plot_variable_species_vs_fermi_level(
         Matplotlib object.
 
     """
-    xlabel = '%s (cm$^{-3})$' %xlabel
+    xlabel = '[%s] (cm$^{-3})$' %xlabel
     plt = plot_x_vs_fermi_level(
                                 x=variable_concentrations,
                                 xlabel=xlabel,

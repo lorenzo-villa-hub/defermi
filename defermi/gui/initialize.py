@@ -17,10 +17,10 @@ def initialize(defects_analysis=None):
     """
     Import dataframe file to initialize DefectsAnalysis object
     """
-    if "color_sequence" not in st.session_state:
-        st.session_state['color_sequence'] = matplotlib.color_sequences['tab10']
-        st.session_state['color_sequence'] += matplotlib.color_sequences['tab20']
-        st.session_state['color_sequence'] += matplotlib.color_sequences['Pastel1']
+    # if "color_sequence" not in st.session_state:
+    #     st.session_state['color_sequence'] = matplotlib.color_sequences['tab10']
+    #     st.session_state['color_sequence'] += matplotlib.color_sequences['tab20']
+    #     st.session_state['color_sequence'] += matplotlib.color_sequences['Pastel1']
 
     def reset_session():
         st.session_state.clear()
@@ -158,6 +158,11 @@ def filter_entries():
             st.session_state['df_complete'] = st.session_state['saved_dataframe']
             st.dataframe(st.session_state['saved_dataframe'],hide_index=True)
 
+        if "color_sequence" not in st.session_state:
+            st.session_state['color_sequence'] = matplotlib.color_sequences['tab10']
+            st.session_state['color_sequence'] += matplotlib.color_sequences['tab20']
+            st.session_state['color_sequence'] += matplotlib.color_sequences['Pastel1']
+        
         st.session_state.da = DefectsAnalysis.from_dataframe(
                                                     st.session_state['dataframe'],
                                                     band_gap=st.session_state['band_gap'],

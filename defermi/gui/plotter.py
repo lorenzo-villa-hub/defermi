@@ -6,6 +6,7 @@ import seaborn as sns
 
 import streamlit as st
 
+from defermi import DefectsAnalysis
 from defermi.plotter import plot_pO2_vs_fermi_level, plot_variable_species_vs_fermi_level, plot_pO2_vs_concentrations, plot_variable_species_vs_concentrations
 from defermi.gui.utils import init_state_variable, widget_with_updating_state
 
@@ -30,9 +31,13 @@ def plotter():
 
     if st.session_state.da:
 
+        # set consistent colors for each name
         st.session_state.da.sort_entries()
-        if not "color_dict" in st.session_state:
-            st.session_state['color_dict'] = {name:st.session_state.color_sequence[idx] for idx,name in enumerate(st.session_state.da.names)}
+        full_da = DefectsAnalysis.from_dataframe(
+                                        st.session_state['saved_dataframe'],
+                                        band_gap=st.session_state.da.band_gap,
+                                        vbm=st.session_state.da.vbm)
+        st.session_state['color_dict'] = {name:st.session_state['color_sequence'][idx] for idx,name in enumerate(full_da.names)}
 
         all_plots_to_display = [
                         'Formation energies',
