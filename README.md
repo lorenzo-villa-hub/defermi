@@ -3,6 +3,8 @@
     <img src="./docs/images/defermi_logo.png" alt="logo" width="400"/>
 </p>
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://defermi.streamlit.app/)
+
 Python library for the analysis and visualization of point defects. Simple and intuitive for new users and non-experts, flexible and customizable for power users. An intuitive user interface can be run online with no installation at this link: https://defermi.streamlit.app/ (using [streamlit](https:/streamlit.io)).  \
 Explore quickly the functionalities with this pre-loaded [example](https://defermi-example.streamlit.app). 
 
@@ -27,7 +29,7 @@ pip install defermi
 </p>
 
 `defermi` comes with a simple and intutitive graphical user interface. It can be run online without installation on this link:\
-https://defermi.streamlit.app/\
+https://defermi.streamlit.app/ \
 or locally after installation by running this command:
 ```python
 defermi gui

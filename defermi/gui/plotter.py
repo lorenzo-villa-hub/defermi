@@ -11,9 +11,12 @@ from defermi import DefectsAnalysis
 from defermi.plotter import plot_pO2_vs_fermi_level, plot_variable_species_vs_fermi_level, plot_pO2_vs_concentrations, plot_variable_species_vs_concentrations
 from defermi.gui.utils import init_state_variable, widget_with_updating_state
 
+ALPHA = 0.0
+
 def plotter():
 
     sns.set_theme(context='talk',style='whitegrid')
+    #plt.style.use('dark_background')
 
     st.session_state.fontsize = 16
     st.session_state.label_size = 16
@@ -92,7 +95,7 @@ def plotter():
                     with cols[0]:
                         show_mue_diagram = st.checkbox("show_fermi_doping",value=False,label_visibility='collapsed')
                     with cols[1]:
-                        st.markdown("<h3 style='font-size:24px;'>Electron chemical potential</h3>", unsafe_allow_html=True)
+                        st.markdown("<h3 style='font-size:24px;'>Fermi level</h3>", unsafe_allow_html=True)
                     if show_mue_diagram:
                         fermi_level()
 
@@ -143,7 +146,7 @@ def formation_energies():
                 colors = [st.session_state.color_dict[name] for name in ordered_names]
 
             with cols[0]:
-                fig1 = da.plot_formation_energies(
+                fig = da.plot_formation_energies(
                     entries=entries,
                     chemical_potentials=st.session_state.chempots,
                     figsize=figsize,
@@ -151,16 +154,20 @@ def formation_energies():
                     colors=colors,
                     xlim=xlim,
                     ylim=ylim)
-                fig1.grid()
-                fig1.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-                fig1.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                st.pyplot(fig1, clear_figure=False, width="content")
+                fig.grid()
+                fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                ax = fig.gca()
+                fig = ax.get_figure()
+                fig.patch.set_alpha(ALPHA)
+                ax.patch.set_alpha(ALPHA)
+                st.pyplot(fig, clear_figure=False, width="content")
 
             with cols[1]:
                 with st.popover(label='ℹ️',help='Info',type='tertiary'):
                     st.write(names_info)
                 st.write('')                    
-                download_plot(fig=fig1,filename='formation_energies.pdf')
+                download_plot(fig=fig,filename='formation_energies.pdf')
 
 
 
@@ -198,21 +205,25 @@ def charge_transition_levels():
                 entries = da.select_entries(names=names)
 
             with cols[0]:
-                fig1 = da.plot_ctl(
+                fig = da.plot_ctl(
                     entries=entries,
                     figsize=figsize,
                     fontsize=fontsize,
                     ylim=ylim)
-                fig1.grid()
-                fig1.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-                fig1.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                st.pyplot(fig1, clear_figure=False, width="content")
+                fig.grid()
+                fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                ax = fig.gca()
+                fig = ax.get_figure()
+                fig.patch.set_alpha(ALPHA)
+                ax.patch.set_alpha(ALPHA)
+                st.pyplot(fig, clear_figure=False, width="content")
 
             with cols[1]:
                 with st.popover(label='ℹ️',help='Info',type='tertiary'):
                     st.write(names_info)
                 st.write('')
-                download_plot(fig=fig1,filename='ctl.pdf')
+                download_plot(fig=fig,filename='ctl.pdf')
 
 
 
@@ -263,23 +274,27 @@ def binding_energies():
                         colors.append(color)
 
             with cols[0]:
-                fig1 = da.plot_binding_energies(
+                fig = da.plot_binding_energies(
                     names=names,
                     figsize=figsize,
                     fontsize=fontsize,
                     colors=colors,
                     xlim=xlim,
                     ylim=ylim)
-                fig1.grid()
-                fig1.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-                fig1.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
-                st.pyplot(fig1, clear_figure=False, width="content")
+                fig.grid()
+                fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                ax = fig.gca()
+                fig = ax.get_figure()
+                fig.patch.set_alpha(ALPHA)
+                ax.patch.set_alpha(ALPHA)
+                st.pyplot(fig, clear_figure=False, width="content")
 
             with cols[1]:
                 with st.popover(label='ℹ️',help='Info',type='tertiary'):
                     st.write(names_info)
                 st.write('')
-                download_plot(fig=fig1,filename='binding_energies.pdf')
+                download_plot(fig=fig,filename='binding_energies.pdf')
 
 
 
@@ -356,7 +371,7 @@ def brouwer_diagram():
 
                     with cols[0]:  
                         #brouwer_thermodata = compute_brouwer_diagram()
-                        fig2 = plot_pO2_vs_concentrations(
+                        fig = plot_pO2_vs_concentrations(
                                                     thermodata=brouwer_thermodata,
                                                     output=output,
                                                     figsize=figsize,
@@ -367,17 +382,21 @@ def brouwer_diagram():
                                                     names=names,
                                                     charges=charges)                                           
 
-                        fig2.grid()
-                        fig2.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-                        fig2.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                        fig.grid()
+                        fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                        fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                        ax = fig.gca()
+                        fig = ax.get_figure()
+                        fig.patch.set_alpha(ALPHA)
+                        ax.patch.set_alpha(ALPHA)
                         st.session_state['brouwer_thermodata'] = brouwer_thermodata
-                        st.pyplot(fig2, clear_figure=False, width="content")
+                        st.pyplot(fig, clear_figure=False, width="content")
 
                     with cols[1]:
                         with st.popover(label='ℹ️',help='Info',type='tertiary'):
                             st.write(concentrations_mode_info)
                         st.write('')
-                        download_plot(fig=fig2,filename='brouwer_diagram.pdf')
+                        download_plot(fig=fig,filename='brouwer_diagram.pdf')
 
 
 
@@ -449,7 +468,7 @@ def doping_diagram():
                     output, names, charges, colors = _filter_concentrations(dc,key='doping')
 
                 with cols[0]:
-                    fig3 = plot_variable_species_vs_concentrations(
+                    fig = plot_variable_species_vs_concentrations(
                                                     doping_thermodata,
                                                     output=output,
                                                     figsize=figsize,
@@ -460,17 +479,21 @@ def doping_diagram():
                                                     names=names,
                                                     charges=charges
                                                     )
-                    fig3.grid()
-                    fig3.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-                    fig3.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                    fig.grid()
+                    fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
+                    fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+                    ax = fig.gca()
+                    fig = ax.get_figure()
+                    fig.patch.set_alpha(ALPHA)
+                    ax.patch.set_alpha(ALPHA)
                     st.session_state['doping_thermodata'] = doping_thermodata
-                    st.pyplot(fig3, clear_figure=False, width="content")
+                    st.pyplot(fig, clear_figure=False, width="content")
 
                 with cols[1]:
                     with st.popover(label='ℹ️',help='Info',type='tertiary'):
                         st.write(concentrations_mode_info)
                     st.write('')
-                    download_plot(fig=fig3,filename='doping_diagram.pdf')
+                    download_plot(fig=fig,filename='doping_diagram.pdf')
 
 
 def fermi_level():
@@ -531,6 +554,10 @@ def _po2_vs_fermi_level_diagram(xlim,ylim,width='content'):
         fig.title('Brouwer diagram')
         fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
         fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+        ax = fig.gca()
+        fig = ax.get_figure()
+        fig.patch.set_alpha(ALPHA)
+        ax.patch.set_alpha(ALPHA)
         st.pyplot(fig, clear_figure=False, width=width)
         return fig
 
@@ -565,6 +592,10 @@ def _doping_vs_fermi_level_diagram(xlim,ylim,width='content'):
         fig.title('Doping diagram')
         fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
         fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+        ax = fig.gca()
+        fig = ax.get_figure()
+        fig.patch.set_alpha(ALPHA)
+        ax.patch.set_alpha(ALPHA)
         st.pyplot(fig, clear_figure=False, width=width)
         return fig
 

@@ -33,7 +33,7 @@ def initialize(defects_analysis=None):
     else:
         cols = st.columns([0.4,0.6])
         with cols[0]:
-            st.markdown('##### 📂 Load Session or Dataset')
+            st.markdown('## 📂 Load Session or Dataset')
         with cols[1]:
             with st.popover(label='ℹ️',help='Info',type='tertiary'):
                 st.write(file_loader_info)

@@ -14,12 +14,24 @@ from defermi.gui.utils import init_state_variable
 def main():
     st.set_page_config(layout="wide", page_title="defermi")
 
-    left_col, space1, middle_line, space2, right_col = st.columns([1.5, 0.05, 0.05,0.05, 1.7])
 
-    with left_col:
+    st.markdown("""
+    <style>
+    /* Set sidebar max-width */
+    [data-testid="stSidebar"] {
+        width: 800px;
+        min-width: 850px;
+        max-width: 900px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    #left_col, space1, middle_line, space2, right_col = st.columns([1.5, 0.05, 0.05,0.05, 1.7])
+    middle_line, space2, right_col = st.columns([0.05,0.05, 1.7+1.55])
+
+    with st.sidebar:
         cols = st.columns(2)
         with cols[0]:
-            st.image(svg_logo)
+            st.image(svg_logo,width=300)
             st.write('')
         with cols[1]:
             subcols = st.columns(2)
@@ -36,18 +48,18 @@ def main():
         
         st.write('')
         st.divider()
-        st.write('')
         
         if st.session_state.da:
             cols = st.columns([0.05,0.95])
             with cols[0]:
+                st.write('')
                 init_state_variable('enable_thermodynamics',value=False)
                 enable_thermodynamics = st.checkbox('Enable Thermodynamics', value=st.session_state['enable_thermodynamics'], 
                                                     key='widget_enable_thermodynamics',label_visibility='collapsed')
                 st.session_state['enable_thermodynamics'] = enable_thermodynamics
             with cols[1]:
-                st.markdown('#### Thermodynamics')
-            
+                st.markdown('# Thermodynamics')
+            st.write('')
             if enable_thermodynamics:
                 dos()
                 thermodynamics()
