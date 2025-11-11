@@ -7,4 +7,3 @@ backgroundColor = "#fafaf5ff"
 [theme.sidebar]
 backgroundColor = "#f0eee3ff"
 secondaryBackgroundColor = "white"
-dataframeBackgroundColor = "white"

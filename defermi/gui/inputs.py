@@ -1,4 +1,3 @@
-
 import tempfile
 import os
 import time
@@ -31,14 +30,22 @@ def initialize(defects_analysis=None):
         init_state_variable('da',value=defects_analysis)
         uploaded_file = None
     else:
-        cols = st.columns([0.4,0.6])
+        cols = st.columns([0.7,0.3])
         with cols[0]:
-            st.markdown('## 📂 Load Session or Dataset')
+            st.markdown('## 📂 File')
+            init_state_variable('da',value=None)
+            uploaded_file = st.file_uploader("upload", type=["defermi","csv","json","pkl"], on_change=reset_session, label_visibility="collapsed")
         with cols[1]:
-            with st.popover(label='ℹ️',help='Info',type='tertiary'):
-                st.write(file_loader_info)
-        init_state_variable('da',value=None)
-        uploaded_file = st.file_uploader("upload", type=["defermi","csv","json","pkl"], on_change=reset_session, label_visibility="collapsed")
+            subcols = st.columns([0.8,0.2])
+            init_state_variable('session_name',value='session')
+            filename = st.session_state['session_name'] + '.defermi'
+            with subcols[0]:
+                st.markdown("<br><br>", unsafe_allow_html=True)
+                save_session(filename)
+            with subcols[1]:
+                with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                    st.write(file_loader_info)
+
 
     init_state_variable('session_loaded', value=False)
     init_state_variable('session_name',value='')
@@ -93,7 +100,6 @@ def initialize(defects_analysis=None):
                     st.session_state.init = True
 
 
-
 def filter_entries():
     """
     GUI elements to filter defect entries in DefectsAnalysis
@@ -112,62 +118,13 @@ def filter_entries():
         init_state_variable('df_complete',value=df_complete)    
         init_state_variable('dataframe',value=df_complete)
         init_state_variable('saved_dataframe',value=df_complete)
-
-
-        cols = st.columns([0.1,0.1,0.7,0.1])
-        with cols[0]:
-            init_state_variable('edit_dataframe',value=False)
-            edit_dataframe = st.checkbox('Edit',key='widget_edit_dataframe',value=st.session_state['edit_dataframe'])
-            st.session_state['edit_dataframe'] = edit_dataframe
-
-        with cols[1]:
-            def reset_dataframes():
-                for k in ['dataframe', 'df_complete','saved_dataframe']:
-                    if k in st.session_state:
-                        del st.session_state[k]
-                st.session_state['edit_dataframe'] = False
-                st.session_state['widget_edit_dataframe'] = False
-                return 
-            st.button('Reset',key='widget_reset_da',on_click=reset_dataframes)
-
-        with cols[2]:
-            csv_str = st.session_state.da.to_dataframe(include_data=False,include_structures=False).to_csv(index=False)
-            filename = st.session_state['session_name'] + '_dataset.csv'
-            st.download_button(
-                label="💾 Save csv",
-                data=csv_str,
-                file_name=filename,
-                mime="test/csv")   
-        with cols[3]:
-            with st.popover(label='ℹ️',help='Info',type='tertiary'):
-                st.write(dataset_info)
-
-        if st.session_state['edit_dataframe']:
-            edited_df = st.data_editor(
-                            st.session_state['df_complete'], 
-                            column_config={
-                                'Include':st.column_config.CheckboxColumn()
-                            },
-                            hide_index=True,
-                            num_rows='dynamic',
-                            key='widget_data_editor')
-            
-            #st.write(edited_df)
-            edited_df = edited_df.dropna() # exclude rows with NaN
-            st.session_state['saved_dataframe'] = edited_df
-            df_to_import = edited_df[edited_df["Include"] == True] # keep only selected rows
-            st.session_state['dataframe'] = df_to_import
-
-        else:
-            st.session_state['df_complete'] = st.session_state['saved_dataframe']
-            st.dataframe(st.session_state['saved_dataframe'],hide_index=True)
         
         st.session_state.da = DefectsAnalysis.from_dataframe(
                                                     st.session_state['dataframe'],
                                                     band_gap=st.session_state['band_gap'],
                                                     vbm=st.session_state['vbm'],
                                                     include_data=False)  
-            
+
 
 
 def _delete_dict_key(d,key):
@@ -187,6 +144,7 @@ def save_session(filename):
         _delete_dict_key(data,'external_defects')
         _delete_dict_key(data,'edit_dataframe')
         _delete_dict_key(data,'df_complete')
+        _delete_dict_key(data,'formation_energies_figure')
 
         d = MontyEncoder().encode(data)
 

@@ -3,74 +3,75 @@ import os
 import io
 
 import streamlit as st
+import seaborn as sns
+import matplotlib
 
-from defermi.gui.initialize import initialize, filter_entries, save_session
+from defermi import DefectsAnalysis
+from defermi.gui.inputs import initialize, filter_entries, save_session
 from defermi.gui.chempots import chempots
-from defermi.gui.dos import dos
-from defermi.gui.thermodynamics import thermodynamics
-from defermi.gui.plotter import plotter
+# from defermi.gui.dos import dos
+# from defermi.gui.thermodynamics import thermodynamics
+# from defermi.gui.plotter import plotter
 from defermi.gui.utils import init_state_variable
 
-def main():
-    st.set_page_config(layout="wide", page_title="defermi")
+
+#st.set_page_config(layout="wide")
+
+pages = [
+    st.Page('home.py',title='Home',icon=':material/home:'),
+    st.Page('data.py',title='Data',icon=':material/table:'), 
+    st.Page('formation_energies.py',title='Formation Energies',icon=':material/insert_chart:'),       
+]
 
 
-    st.markdown("""
-    <style>
-    /* Set sidebar max-width */
-    [data-testid="stSidebar"] {
-        width: 800px;
-        min-width: 850px;
-        max-width: 900px;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-    #left_col, space1, middle_line, space2, right_col = st.columns([1.5, 0.05, 0.05,0.05, 1.7])
-    middle_line, space2, right_col = st.columns([0.05,0.05, 1.7+1.55])
+st.markdown("""
+<style>
+/* Set sidebar max-width */
+[data-testid="stSidebar"] {
+    width: 800px;
+    min-width: 500;
+    max-width: 900px;
+}
+</style>
+""", unsafe_allow_html=True)
 
-    with st.sidebar:
-        cols = st.columns(2)
-        with cols[0]:
-            st.image(svg_logo,width=300)
-            st.write('')
-        with cols[1]:
-            subcols = st.columns(2)
-            with subcols[0]:
-                pass
-            with subcols[1]:
-                init_state_variable('session_name',value='session')
-                filename = st.session_state['session_name'] + '.defermi'
-                save_session(filename)
 
-        initialize()
-        filter_entries()
-        chempots()
-        
-        st.write('')
-        st.divider()
-        
-        if st.session_state.da:
-            cols = st.columns([0.05,0.95])
-            with cols[0]:
-                st.write('')
-                init_state_variable('enable_thermodynamics',value=False)
-                enable_thermodynamics = st.checkbox('Enable Thermodynamics', value=st.session_state['enable_thermodynamics'], 
-                                                    key='widget_enable_thermodynamics',label_visibility='collapsed')
-                st.session_state['enable_thermodynamics'] = enable_thermodynamics
-            with cols[1]:
-                st.markdown('# Thermodynamics')
-            st.write('')
-            if enable_thermodynamics:
-                dos()
-                thermodynamics()
+with st.sidebar:
+    initialize()
+    filter_entries()
+    st.divider()
+
+    chempots()
+
+
+
+sns.set_theme(context='talk',style='whitegrid')
+
+st.session_state.fontsize = 16
+st.session_state.label_size = 16
+st.session_state.npoints = 80
+st.session_state.pressure_range = (1e-35,1e30)
+st.session_state.figsize = (8, 8)
+st.session_state.fig_width_in_pixels = 700
+border = False
+if "color_sequence" not in st.session_state:
+    st.session_state['color_sequence'] = matplotlib.color_sequences['tab10']
+    st.session_state['color_sequence'] += matplotlib.color_sequences['tab20']
+    st.session_state['color_sequence'] += matplotlib.color_sequences['Pastel1']
+
+if st.session_state.da:
+    st.session_state.da.sort_entries()
+    full_da = DefectsAnalysis.from_dataframe(
+                                    st.session_state['saved_dataframe'],
+                                    band_gap=st.session_state.da.band_gap,
+                                    vbm=st.session_state.da.vbm)
+    st.session_state['color_dict'] = {name:st.session_state['color_sequence'][idx] for idx,name in enumerate(full_da.names)}
+
+init_state_variable('check',value='')
+
+page = st.navigation(pages,expanded=True)
+page.run()
     
-    with middle_line:
-        pass
-        #st.markdown("<div style='border-left: 1px solid #999; height: 2000px; margin: auto;'></div>",unsafe_allow_html=True)
-
-    with right_col:
-        plotter()
-
 
 
 svg_logo = """
@@ -134,8 +135,8 @@ svg_logo = """
 """
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
 
 
 
