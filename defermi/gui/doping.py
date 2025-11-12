@@ -12,8 +12,6 @@ from defermi.gui.utils import init_state_variable, download_plot, _get_axis_limi
 def dopants():
     if st.session_state.da:
         cols = st.columns([0.9,0.1])
-        with cols[0]:
-            st.markdown("**Dopant settings**")
         with cols[1]:
             with st.popover(label='ℹ️',help='Info',type='tertiary'):
                 st.write(dopant_info)
@@ -55,18 +53,16 @@ def dopants():
                     value = 1.0 
                 charge = st.number_input("Charge", min_value=0.0, value=value, step = 1.0, key="widget_donor_charge")
             with cols[1]:
-
                 def update_conc_range():
                     min_conc, max_conc = st.session_state['widget_conc_range']
                     st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
-                
+                    return
                 if st.session_state['conc_range']:
                     value = int(np.log10(float(st.session_state['conc_range'] [0]))), int(np.log10(float(st.session_state['conc_range'] [1])))
                 else:
                     value = (5,18)        
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
-                                                    key="widget_conc_range",on_change=update_conc_range)
-            
+                                                    key="widget_conc_range",on_change=update_conc_range)  
             st.session_state['dopant'] = {"name":"D","charge":charge}
 
         elif dopant_type == "Acceptor":
@@ -83,18 +79,16 @@ def dopants():
                 def update_conc_range():
                     min_conc, max_conc = st.session_state['widget_conc_range']
                     st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
-
+                    return
                 if st.session_state['conc_range']:
                     value = int(np.log10(float(st.session_state['conc_range'] [0]))), int(np.log10(float(st.session_state['conc_range'] [1])))
                 else:
                     value = (5,18)         
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
-                                                    key="widget_conc_range",on_change=update_conc_range)
-            
+                                                    key="widget_conc_range",on_change=update_conc_range) 
             st.session_state['dopant'] = {"name":"A","charge":charge}
 
         elif dopant_type == "custom":
-
             cols = st.columns(3)
             d = st.session_state['dopant']
             with cols[0]:
@@ -106,30 +100,27 @@ def dopants():
                 else:
                     value = 0.0
                 charge = st.number_input("Charge", value=value, step = 1.0, key="widget_dopant_charge")
-            with cols[2]:  
-                              
+            with cols[2]:             
                 def update_conc_range():
                     min_conc, max_conc = st.session_state['widget_conc_range']
                     st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
-
+                    return
                 if st.session_state['conc_range']:
                     value = int(np.log10(float(st.session_state['conc_range'] [0]))), int(np.log10(float(st.session_state['conc_range'] [1])))
                 else:
                     value = (5,18)         
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
                                                     key="widget_conc_range",on_change=update_conc_range)
-
                 st.session_state['dopant'] = {"name":name,"charge":charge}
 
         else:
             cols = st.columns(3)
             with cols[2]:
                 st.session_state['dopant'] = dopant_type
-
                 def update_conc_range():
                     min_conc, max_conc = st.session_state['widget_conc_range']
                     st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
-
+                    return
                 if st.session_state['conc_range']:
                     value = int(np.log10(st.session_state['conc_range'] [0])), int(np.log10(st.session_state['conc_range'] [1]))
                 else:
@@ -138,99 +129,95 @@ def dopants():
                                         key="widget_conc_range",on_change=update_conc_range)
             
     
-    if st.session_state['dopant']:
-        if not st.session_state['conc_range']:
-            st.session_state['conc_range'] = (1e05,1e18)
+        if st.session_state['dopant']:
+            if not st.session_state['conc_range']:
+                st.session_state['conc_range'] = (1e05,1e18)
+
+            cols = st.columns([0.3,0.2,0.2,0.3])
+            with cols[1]:
+                if st.button('Compute',key='widget_clear_cache_doping'):
+                        compute_doping_diagram.clear()
+            with cols[2]:
+                with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                    st.write(cache_info)
 
 
+
+@st.cache_data
+def compute_doping_diagram():
+    st.session_state['da'].plot_doping_diagram(
+            variable_defect_specie=st.session_state['dopant'],
+            concentration_range=st.session_state['conc_range'],
+            chemical_potentials=st.session_state['chempots'],
+            bulk_dos=st.session_state['dos'],
+            temperature=st.session_state['temperature'],
+            quench_temperature=st.session_state['quench_temperature'],
+            quenched_species=st.session_state['quenched_species'],
+            external_defects=st.session_state['external_defects'],
+            npoints=st.session_state['npoints'],
+            )
+    return st.session_state['da'].thermodata
+
+
+st.set_page_config(layout="wide")
+st.title("Doping Diagram")
 
 dopants()
 st.divider()
 
 if "dos" in st.session_state and "dopant" in st.session_state:
     if st.session_state['conc_range']:
-
         da = st.session_state.da
         conc_range = st.session_state['conc_range']
 
-        # init_state_variable('quench_temperature',value=None)
-        # init_state_variable('quenched_species',value=None)
-        @st.cache_data
-        def compute_doping_diagram():
-            da.plot_doping_diagram(
-                    variable_defect_specie=st.session_state['dopant'],
-                    concentration_range=st.session_state['conc_range'],
-                    chemical_potentials=st.session_state['chempots'],
-                    bulk_dos=st.session_state['dos'],
-                    temperature=st.session_state['temperature'],
-                    quench_temperature=st.session_state['quench_temperature'],
-                    quenched_species=st.session_state['quenched_species'],
-                    external_defects=st.session_state['external_defects'],
-                    npoints=st.session_state['npoints'],
-                    )
-            return da.thermodata
-        
-        cols = st.columns([0.05,0.25,0.15,0.55])
-        with cols[0]:
-            show_doping_diagram = st.checkbox("doping diagram",value=True,label_visibility='collapsed')
-            st.session_state['show_doping_diagram'] = show_doping_diagram
+        cols = st.columns([0.7,0.3])
         with cols[1]:
-            st.markdown("<h3 style='font-size:24px;'>Doping diagram</h3>", unsafe_allow_html=True)
-        with cols[2]:
-            if st.button('Compute',key='widget_clear_cache_doping'):
-                compute_doping_diagram.clear()
-        with cols[3]:
+            default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
+            set_xlim, xlim = _get_axis_limits_with_widgets(
+                                                        label='xlim (log)',
+                                                        key='doping',
+                                                        default=default_xlim,
+                                                        boundaries=default_xlim) 
+            xlim = (float(10**xlim[0]) , float(10**xlim[1]))
+            xlim = xlim if set_xlim else conc_range
+
+            set_ylim, ylim = _get_axis_limits_with_widgets(
+                                                        label='ylim (log)',
+                                                        key='doping',
+                                                        default=(-20,25),
+                                                        boundaries=(-50,30))
+            ylim = (float(10**ylim[0]) , float(10**ylim[1]))
+            ylim = ylim if set_ylim else None   
+
+            doping_thermodata = compute_doping_diagram()
+            dc = doping_thermodata.defect_concentrations[0]
+            output, names, charges, colors = _filter_concentrations(dc,key='doping')
+
+        with cols[0]:
+            fig = plot_variable_species_vs_concentrations(
+                                            doping_thermodata,
+                                            output=output,
+                                            figsize=st.session_state['figsize'],
+                                            fontsize=st.session_state['fontsize'],
+                                            colors=colors,
+                                            xlim=xlim,
+                                            ylim=ylim,
+                                            names=names,
+                                            charges=charges
+                                            )
+            fig.grid()
+            fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
+            fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
+            ax = fig.gca()
+            fig = ax.get_figure()
+            fig.patch.set_alpha(st.session_state['alpha'])
+            ax.patch.set_alpha(st.session_state['alpha'])
+            st.session_state['doping_thermodata'] = doping_thermodata
+            st.session_state['doping_diagram_figure'] = fig
+            st.pyplot(fig, clear_figure=False, width="content")
+
+        with cols[1]:
             with st.popover(label='ℹ️',help='Info',type='tertiary'):
-                st.write(cache_info)
-
-        if show_doping_diagram:
-            cols = st.columns([0.7,0.3])
-            with cols[1]:
-                default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
-                set_xlim, xlim = _get_axis_limits_with_widgets(
-                                                            label='xlim (log)',
-                                                            key='doping',
-                                                            default=default_xlim,
-                                                            boundaries=default_xlim) 
-                xlim = (float(10**xlim[0]) , float(10**xlim[1]))
-                xlim = xlim if set_xlim else conc_range
-
-                set_ylim, ylim = _get_axis_limits_with_widgets(
-                                                            label='ylim (log)',
-                                                            key='doping',
-                                                            default=(-20,25),
-                                                            boundaries=(-50,30))
-                ylim = (float(10**ylim[0]) , float(10**ylim[1]))
-                ylim = ylim if set_ylim else None   
-
-                doping_thermodata = compute_doping_diagram()
-                dc = doping_thermodata.defect_concentrations[0]
-                output, names, charges, colors = _filter_concentrations(dc,key='doping')
-
-            with cols[0]:
-                fig = plot_variable_species_vs_concentrations(
-                                                doping_thermodata,
-                                                output=output,
-                                                figsize=st.session_state['figsize'],
-                                                fontsize=st.session_state['fontsize'],
-                                                colors=colors,
-                                                xlim=xlim,
-                                                ylim=ylim,
-                                                names=names,
-                                                charges=charges
-                                                )
-                fig.grid()
-                fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
-                fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
-                ax = fig.gca()
-                fig = ax.get_figure()
-                fig.patch.set_alpha(st.session_state['alpha'])
-                ax.patch.set_alpha(st.session_state['alpha'])
-                st.session_state['doping_thermodata'] = doping_thermodata
-                st.pyplot(fig, clear_figure=False, width="content")
-
-            with cols[1]:
-                with st.popover(label='ℹ️',help='Info',type='tertiary'):
-                    st.write(concentrations_mode_info)
-                st.write('')
-                download_plot(fig=fig,filename='doping_diagram.pdf')
+                st.write(concentrations_mode_info)
+            st.write('')
+            download_plot(fig=fig,filename='doping_diagram.pdf')

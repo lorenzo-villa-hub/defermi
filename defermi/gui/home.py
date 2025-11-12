@@ -24,4 +24,10 @@ with cols[0]:
         fig.gca().set_title('Formation energies')
         st.pyplot(fig, clear_figure=False, width="content")
 
+with cols[1]:
+    if 'doping_diagram_figure' in st.session_state:
+        fig = st.session_state['doping_diagram_figure']
+        fig.gca().set_title('Doping diagram')
+        st.pyplot(fig, clear_figure=False, width="content")
+
 
