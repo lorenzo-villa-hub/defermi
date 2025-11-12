@@ -9,7 +9,7 @@ import matplotlib
 from defermi import DefectsAnalysis
 from defermi.gui.inputs import main_inputs, filter_entries
 from defermi.gui.chempots import chempots
-# from defermi.gui.dos import dos
+from defermi.gui.dos import dos
 from defermi.gui.thermodynamics import thermodynamics
 # from defermi.gui.plotter import plotter
 from defermi.gui.utils import init_state_variable, save_session
@@ -41,12 +41,14 @@ def set_defaults():
     return
 
 
-pages = [
-    st.Page('home.py',title='Home',icon=':material/home:'),
-    st.Page('data.py',title='Data',icon=':material/table:'), 
-    st.Page('formation_energies.py',title='Formation Energies',icon=':material/insert_chart:'),  
-    st.Page('ctls.py',title='Charge Transition Levels',icon=':material/insert_chart:')     
-]
+pages_dict = {
+    'home': st.Page('home.py',title='Home',icon=':material/home:'),
+    'data': st.Page('data.py',title='Data',icon=':material/table:'), 
+    'formation_energies': st.Page('formation_energies.py',title='Formation Energies',icon=':material/insert_chart:'),  
+    'doping': st.Page('doping.py',title='Doping',icon=':material/insert_chart:'),
+    'ctls': st.Page('ctls.py',title='Charge Transition Levels',icon=':material/insert_chart:'),
+    'binding_energies': st.Page('binding_energies.py',title='Binding Energies',icon=':material/insert_chart:')     
+}
 
 
 st.markdown("""
@@ -64,13 +66,21 @@ st.markdown("""
 with st.sidebar:
     main_inputs()
     filter_entries()
-    st.divider()
     chempots()
-    st.divider()
+    dos()
     thermodynamics()
     
 set_defaults()
 
+# exclude binding energies if there are no complexes
+pages = []
+for k,v in pages_dict.items():
+    if k == 'binding_energies':
+        if st.session_state.da:
+            if 'DefectComplex' in st.session_state.da.types:
+                pages.append(v)
+    else:
+        pages.append(v)
 
 page = st.navigation(pages,expanded=True)
 init_state_variable('session_name',value='session')

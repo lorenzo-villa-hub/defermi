@@ -95,6 +95,8 @@ def main_inputs():
                 time.sleep(1)
                 msg.empty()
                 st.session_state.init = True
+    
+        st.divider()
 
 
 

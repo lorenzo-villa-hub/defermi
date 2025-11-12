@@ -53,6 +53,19 @@ are pulled. If a compostition is specified, the phase diagram relative to the co
 and a dialog will appear to select which element and which condition should be used as reference.
 """
 
+dos_info = """
+Parameters for the calculation of electrons and holes concentration. Possible choices are:\n
+$\\mathbf{m*/m_e}$: Effective masses of electrons (e) and holes relative to the electron mass.\n
+**DOS**: Computed density of states of the pristine material. Format is either a dictionary:
+- 'energies' : list or np.array with energy values
+- 'densities' : list or np.array with total density values
+- 'structure' : pymatgen `Structure` of the material, needed for DOS volume and charge normalization
+
+-- Alternatively, a pymatgen `Dos` object (`Dos`, `CompleteDos`, or `FermiDos`) exported as `json`.
+Click on **Database** and enter the desired composition to pull the `CompleteDos` object from the 
+Materials Project Database.
+"""
+
 quenching_info = """
 Run simulations in quenching conditions.\n
 Defect concentrations are computed in charge neutral conditions at the input **Temperature(K)**,
@@ -76,6 +89,23 @@ They are considered in the Brouwer diagram and doping diagram calculations. \n
 There is no requirement for the defect name, if a name fits one of the naming conventions,
 the corrisponding symbol will be printed.
 """
+
+dopant_info = """
+Settings for the calculation of the doping diagram.
+Charge neutrality is solved varying the concentartion of a target defect. 
+The chemical potentials defined in the **Chemical Potentials** section are kept fixed. \n
+
+Options:
+- **None** : Doping diagram is not computed.
+- **Donor** : A generic donor is used as variable defect species. You can set the charge and concentration range.
+- **Acceptor** : A generic acceptor is used as variable defect species. You can set the charge and concentration range.
+- **<element>** : If extrinsic defects are present in the defect entries, 
+                you can set each extrinsic element as variable defect species. Its total concentration is assigned, but the concentrations  
+                of individual defects containing the element depend on the relative formation energies. 
+- **custom** : Customizable dopant. You can set name, charge and concentration range. 
+                There is no requirement for the defect name, if a name fits one of the naming conventions,
+                the corrisponding symbol will be printed.
+""" 
 
 cache_info = """
 To prevent excessive lag when changing paramenters, the calculation result is cached. 

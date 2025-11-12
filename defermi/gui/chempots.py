@@ -80,6 +80,8 @@ def chempots():
                 mu = st.number_input(f"{mu_string}({el})", max_value=0.0,step=0.5, key=f'widget_chempot{el}',on_change=reset_home_figures)
                 st.session_state.chempots[el] = mu
 
+        st.divider()
+
 
 
 def pull_elemental_chempots_from_MP(elements,thermo_type='GGA_GGA+U',**kwargs):

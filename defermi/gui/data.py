@@ -45,6 +45,7 @@ if st.session_state.da:
                         },
                         hide_index=True,
                         num_rows='dynamic',
+                        height='stretch',
                         key='widget_data_editor')
         
         #st.write(edited_df)
@@ -57,7 +58,7 @@ if st.session_state.da:
 
     else:
         st.session_state['df_complete'] = st.session_state['saved_dataframe']
-        st.dataframe(st.session_state['saved_dataframe'],hide_index=True)
+        st.dataframe(st.session_state['saved_dataframe'],hide_index=True,height='stretch')
 
 else:
     st.warning('Dataset is empty')
