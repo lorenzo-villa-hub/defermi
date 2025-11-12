@@ -1,9 +1,11 @@
 
 import streamlit as st
 
+from defermi.gui.info import dataset_info
 from defermi.gui.utils import init_state_variable
 
 st.title("Data")
+st.set_page_config(layout="wide")
 
 if st.session_state.da:
     cols = st.columns([0.1,0.1,0.7,0.1])
@@ -33,7 +35,7 @@ if st.session_state.da:
     with cols[3]:
         with st.popover(label='ℹ️',help='Info',type='tertiary'):
             pass
-            #st.write(dataset_info)
+            st.write(dataset_info)
 
     if st.session_state['edit_dataframe']:
         edited_df = st.data_editor(
@@ -50,6 +52,8 @@ if st.session_state.da:
         st.session_state['saved_dataframe'] = edited_df
         df_to_import = edited_df[edited_df["Include"] == True] # keep only selected rows
         st.session_state['dataframe'] = df_to_import
+
+        st.session_state.pop('formation_energies_figure',None)
 
     else:
         st.session_state['df_complete'] = st.session_state['saved_dataframe']

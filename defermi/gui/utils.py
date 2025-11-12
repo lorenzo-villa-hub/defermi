@@ -1,6 +1,10 @@
 
 import io
 import streamlit as st
+import json
+import pandas as pd
+
+from monty.json import jsanitize, MontyEncoder, MontyDecoder
 
 
 def init_state_variable(key,value=None):
@@ -40,6 +44,70 @@ def widget_with_updating_state(function, key, widget_key=None, **kwargs):
     var = function(**kwargs)
     st.session_state[key] = var
     return var
+
+
+def get_session_data():
+    data = {k:v for k,v in st.session_state.items() if 'widget' not in k and 'figure' not in k}
+    keys_to_delete = [
+        'session_loaded',
+        'session_name',
+        'precursors',
+        'external_defects',
+        'edit_dataframe',
+        'input_dataframe',
+        'df_complete',
+    ]
+    for k in keys_to_delete:
+        data.pop(k,None)
+    return data
+
+
+def save_session(filename):
+    """Save Streamlit session state to a JSON file."""
+    try:
+        data = get_session_data()
+        d = MontyEncoder().encode(data)
+
+        # convert to pretty JSON string
+        json_str = json.dumps(d, indent=2)
+
+        # create a downloadable button
+        st.download_button(
+            label="💾 Save Session",
+            data=json_str,
+            file_name=filename,
+            mime="application/json"
+        )
+        
+
+    except Exception as e:
+        st.error(f"Failed to prepare session download: {e}")
+
+
+def load_session(uploaded_file):
+    """Load Streamlit session state from JSON file."""
+    data_bytes = uploaded_file.getvalue() # file content as bytes
+    data_str = data_bytes.decode('utf-8') # decode bytes to string (JSON text)
+    json_str = json.loads(data_str)
+    
+    d = MontyDecoder().decode(json_str)
+    st.session_state.update(d)
+
+    # Convert DataFrame back to original index after monty encode/decode
+    data_df = st.session_state['saved_dataframe'].to_dict(orient='records')
+    st.session_state['saved_dataframe'] = pd.DataFrame(data=data_df)
+
+
+
+def reset_home_figures():
+    keys = [
+        'formation_energies_figure',
+        'brouwer_diagram_figure',
+        'doping_diagram_figure',
+        'fermi_level_figure'
+    ]
+    for k in keys:
+        st.session_state.pop(k,None)
 
 
 
@@ -182,3 +250,64 @@ def download_plot(fig,filename):
         file_name=filename,
         mime="pdf"
     )
+
+
+svg_logo = """
+<svg
+   width="137.35327mm"
+   height="26.927582mm"
+   viewBox="0 0 137.35327 26.927582"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   sodipodi:docname="defermi_logo.svg"
+   inkscape:export-filename="defermi_logo.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="1.4793368"
+     inkscape:cx="281.88306"
+     inkscape:cy="61.176061"
+     inkscape:window-width="3774"
+     inkscape:window-height="1531"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-35.33694,-51.548845)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.7137px;line-height:125%;font-family:'Latin Modern Sans Quotation';-inkscape-font-specification:'Latin Modern Sans Quotation, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.942845px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="33.3004"
+       y="78.099289"
+       id="text113"><tspan
+         sodipodi:role="line"
+         id="tspan111"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:37.7137px;font-family:'Latin Modern Sans Quotation';-inkscape-font-specification:'Latin Modern Sans Quotation, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000080;stroke-width:0.942845px"
+         x="33.3004"
+         y="78.099289">d<tspan
+   style="fill:#800000"
+   id="tspan285">ef</tspan>ermi</tspan></text>
+  </g>
+</svg>
+"""
