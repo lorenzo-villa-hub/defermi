@@ -37,38 +37,38 @@ def _po2_vs_fermi_level_diagram(xlim,ylim,width='content'):
 
 
 
-def _doping_vs_fermi_level_diagram(xlim,ylim,width='content'):
-    if st.session_state['doping_thermodata']:    
-        figsize = (6,6)
-        da = st.session_state['da']
-        thermodata = st.session_state['doping_thermodata']
+# def _doping_vs_fermi_level_diagram(xlim,ylim,width='content'):
+#     if st.session_state['doping_thermodata']:    
+#         figsize = (6,6)
+#         da = st.session_state['da']
+#         thermodata = st.session_state['doping_thermodata']
 
-        if type(st.session_state['dopant']) == dict:
-            xlabel = st.session_state['dopant']['name']
-        else:
-            xlabel = st.session_state['dopant']
+#         if type(st.session_state['dopant']) == dict:
+#             xlabel = st.session_state['dopant']['name']
+#         else:
+#             xlabel = st.session_state['dopant']
 
-        fig = plot_variable_species_vs_fermi_level(
-                xlabel = xlabel, 
-                variable_concentrations=thermodata.variable_concentrations,
-                fermi_levels=thermodata.fermi_levels,
-                band_gap=da.band_gap,
-                figsize=figsize,
-                fontsize=st.session_state['fontsize'],
-                xlim=xlim,
-                ylim=ylim
-        )
-        fig.grid()
-        fig.title('Doping diagram')
-        fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
-        fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
-        ax = fig.gca()
-        fig = ax.get_figure()
-        fig.patch.set_alpha(st.session_state['alpha'])
-        ax.patch.set_alpha(st.session_state['alpha'])
-        st.session_state['fermi_level_doping_figure'] = fig
-        st.pyplot(fig, clear_figure=False, width=width)
-        return fig
+#         fig = plot_variable_species_vs_fermi_level(
+#                 xlabel = xlabel, 
+#                 variable_concentrations=thermodata.variable_concentrations,
+#                 fermi_levels=thermodata.fermi_levels,
+#                 band_gap=da.band_gap,
+#                 figsize=figsize,
+#                 fontsize=st.session_state['fontsize'],
+#                 xlim=xlim,
+#                 ylim=ylim
+#         )
+#         fig.grid()
+#         fig.title('Doping diagram')
+#         fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
+#         fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
+#         ax = fig.gca()
+#         fig = ax.get_figure()
+#         fig.patch.set_alpha(st.session_state['alpha'])
+#         ax.patch.set_alpha(st.session_state['alpha'])
+#         st.session_state['fermi_level_doping_figure'] = fig
+#         st.pyplot(fig, clear_figure=False, width=width)
+#         return fig
     
 
 st.set_page_config(layout="wide")
@@ -80,27 +80,25 @@ if st.session_state.da:
     if is_oxygen:
         cols = st.columns(2)
         if 'brouwer_thermodata' in st.session_state:
-            xlim = st.session_state['xlim (log)_brouwer']
-            xlim = (float(10**xlim[0]) , float(10**xlim[1])) if st.session_state['set_xlim (log)_brouwer'] else st.session_state['pressure_range']
-            ylim = None
+            # xlim = st.session_state['xlim (log)_brouwer']
+            # xlim = (float(10**xlim[0]) , float(10**xlim[1])) if st.session_state['set_xlim (log)_brouwer'] else st.session_state['pressure_range']
+            # ylim = None
+
 
             with cols[0]:
-                fig = _po2_vs_fermi_level_diagram(xlim,ylim)
+                fig = st.session_state['fermi_level_brouwer_figure'] #_po2_vs_fermi_level_diagram(xlim,ylim)
+                st.pyplot(fig, clear_figure=False, width='content')
                 subcols = st.columns([0.4,0.6])
                 with subcols[1]:
                     download_plot(fig=fig,filename='fermi_level_brouwer.pdf')
 
     if 'doping_thermodata' in st.session_state:
         if st.session_state['doping_thermodata'] and st.session_state['dopant']:
-            conc_range = st.session_state['conc_range']
-            xlim = st.session_state['xlim (log)_doping']
-            xlim = (float(10**xlim[0]) , float(10**xlim[1])) if st.session_state['set_xlim (log)_doping'] else conc_range
-            ylim = None
-
             # no subcolumn if there is no brouwer diagram section 
             context = context = cols[1] if is_oxygen else nullcontext()
             with context:
-                fig = _doping_vs_fermi_level_diagram(xlim,ylim,width=600)
+                fig = st.session_state['fermi_level_doping_figure']
+                st.pyplot(fig, clear_figure=False, width='content')
                 subcols = st.columns([0.4,0.6])
                 with subcols[1]:
                     download_plot(fig=fig,filename='fermi_level_doping.pdf')

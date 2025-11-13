@@ -12,7 +12,7 @@ def dos():
     Import DOS file or set effective mass
     """
     if st.session_state.da:
-        st.markdown("## Thermodynamic Parameters")
+        st.markdown("# Thermodynamic Parameters")
         cols = st.columns([0.9,0.1])
         with cols[0]:
             st.markdown("**Density of states**")

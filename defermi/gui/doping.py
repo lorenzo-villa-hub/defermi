@@ -3,7 +3,7 @@ import numpy as np
 import streamlit as st
 import matplotlib.pyplot as plt
 
-from defermi.plotter import plot_variable_species_vs_concentrations
+from defermi.plotter import plot_variable_species_vs_concentrations, plot_variable_species_vs_fermi_level
 from defermi.gui.info import cache_info, concentrations_mode_info, dopant_info
 from defermi.gui.utils import init_state_variable, download_plot, _get_axis_limits_with_widgets, _filter_concentrations
 
@@ -42,6 +42,7 @@ def settings():
         if dopant_type == "None":
             st.session_state['dopant'] = None
             st.session_state['conc_range'] = None
+            st.session_state.pop('doping_diagram_figure',None)
         elif dopant_type == "Donor":
             cols = st.columns(2)
             with cols[0]:
@@ -161,6 +162,38 @@ def compute_doping_diagram():
     return st.session_state['da'].thermodata
 
 
+def get_doping_vs_fermi_level_figure(xlim,ylim):
+    if st.session_state['doping_thermodata']:    
+        figsize = (6,6)
+        da = st.session_state['da']
+        thermodata = st.session_state['doping_thermodata']
+
+        if type(st.session_state['dopant']) == dict:
+            xlabel = st.session_state['dopant']['name']
+        else:
+            xlabel = st.session_state['dopant']
+
+        fig = plot_variable_species_vs_fermi_level(
+                xlabel = xlabel, 
+                variable_concentrations=thermodata.variable_concentrations,
+                fermi_levels=thermodata.fermi_levels,
+                band_gap=da.band_gap,
+                figsize=figsize,
+                fontsize=st.session_state['fontsize'],
+                xlim=xlim,
+                ylim=ylim
+        )
+        fig.grid()
+        fig.title('Doping diagram')
+        fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
+        fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
+        ax = fig.gca()
+        fig = ax.get_figure()
+        fig.patch.set_alpha(st.session_state['alpha'])
+        ax.patch.set_alpha(st.session_state['alpha'])
+        return fig
+
+
 st.set_page_config(layout="wide")
 st.title("Doping Diagram")
 
@@ -217,6 +250,9 @@ if "dos" in st.session_state and "dopant" in st.session_state:
             st.session_state['doping_thermodata'] = doping_thermodata
             st.session_state['doping_diagram_figure'] = fig
             st.pyplot(fig, clear_figure=False, width="content")
+
+            fig = get_doping_vs_fermi_level_figure(xlim,ylim)
+            st.session_state['fermi_level_doping_figure'] = fig 
 
         with cols[1]:
             with st.popover(label='ℹ️',help='Info',type='tertiary'):

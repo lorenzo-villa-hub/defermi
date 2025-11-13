@@ -11,6 +11,10 @@ def init_state_variable(key,value=None):
     if key not in st.session_state:
         st.session_state[key] = value
 
+def insert_space(px=20):
+    """Insert vertical space in pixels."""
+    st.markdown(f"<div style='margin-top:{px}px;'></div>", unsafe_allow_html=True)
+
 
 def widget_with_updating_state(function, key, widget_key=None, **kwargs):
     """

@@ -10,7 +10,9 @@ from defermi.gui.utils import init_state_variable
 def thermodynamics():
     if st.session_state.da:
         init_state_variable('temperature',value=1000)
-        temperature = st.slider("**Temperature (K)**", min_value=0, max_value=1500, value=st.session_state['temperature'], step=50, key="widget_temperature")
+        st.markdown("### Temperature (K)")
+        temperature = st.slider("Temperature (K)", min_value=0, max_value=1500, value=st.session_state['temperature'], 
+                                step=50, key="widget_temperature",label_visibility='collapsed')
         if temperature == 0:
             temperature = 0.1 # prevent division by zero
         st.session_state['temperature'] = temperature
