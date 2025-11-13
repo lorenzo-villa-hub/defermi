@@ -8,68 +8,6 @@ from defermi.gui.utils import download_plot
 
 
 
-def _po2_vs_fermi_level_diagram(xlim,ylim,width='content'):
-    if st.session_state['brouwer_thermodata']:    
-        figsize = (6,6)
-        da = st.session_state.da
-        thermodata = st.session_state.brouwer_thermodata
-
-        fig = plot_pO2_vs_fermi_level(
-                partial_pressures=thermodata.partial_pressures,
-                fermi_levels=thermodata.fermi_levels,
-                band_gap=da.band_gap,
-                figsize=figsize,
-                fontsize=st.session_state['fontsize'],
-                xlim=xlim,
-                ylim=ylim
-        )
-        fig.grid()
-        fig.title('Brouwer diagram')
-        fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
-        fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
-        ax = fig.gca()
-        fig = ax.get_figure()
-        fig.patch.set_alpha(st.session_state['alpha'])
-        ax.patch.set_alpha(st.session_state['alpha'])
-        st.session_state['fermi_level_brouwer_figure'] = fig
-        st.pyplot(fig, clear_figure=False, width=width)
-        return fig
-
-
-
-# def _doping_vs_fermi_level_diagram(xlim,ylim,width='content'):
-#     if st.session_state['doping_thermodata']:    
-#         figsize = (6,6)
-#         da = st.session_state['da']
-#         thermodata = st.session_state['doping_thermodata']
-
-#         if type(st.session_state['dopant']) == dict:
-#             xlabel = st.session_state['dopant']['name']
-#         else:
-#             xlabel = st.session_state['dopant']
-
-#         fig = plot_variable_species_vs_fermi_level(
-#                 xlabel = xlabel, 
-#                 variable_concentrations=thermodata.variable_concentrations,
-#                 fermi_levels=thermodata.fermi_levels,
-#                 band_gap=da.band_gap,
-#                 figsize=figsize,
-#                 fontsize=st.session_state['fontsize'],
-#                 xlim=xlim,
-#                 ylim=ylim
-#         )
-#         fig.grid()
-#         fig.title('Doping diagram')
-#         fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
-#         fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
-#         ax = fig.gca()
-#         fig = ax.get_figure()
-#         fig.patch.set_alpha(st.session_state['alpha'])
-#         ax.patch.set_alpha(st.session_state['alpha'])
-#         st.session_state['fermi_level_doping_figure'] = fig
-#         st.pyplot(fig, clear_figure=False, width=width)
-#         return fig
-    
 
 st.set_page_config(layout="wide")
 st.title('Fermi Level')

@@ -87,7 +87,7 @@ if st.session_state.da and 'chempots' in st.session_state:
 
     with cols[1]:
         with st.popover(label='ℹ️',help='Info',type='tertiary'):
-            pass#st.write(names_info)
+            st.write(names_info)
         st.write('')                    
         download_plot(fig=fig,filename='formation_energies.pdf')
 else:

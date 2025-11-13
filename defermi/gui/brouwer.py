@@ -180,7 +180,7 @@ def compute_brouwer_diagram(_brouwer_da):
     return _brouwer_da.thermodata
 
 
-def get_po2_vs_fermi_level_figure(xlim,ylim):
+def get_pO2_vs_fermi_level_figure(xlim,ylim):
     if st.session_state['brouwer_thermodata']:    
         figsize = (6,6)
         da = st.session_state.da
@@ -285,7 +285,8 @@ if st.session_state.da and 'O' in st.session_state.da.elements:
                     st.session_state['brouwer_diagram_figure'] = fig
                     st.pyplot(fig, clear_figure=False, width="content")
 
-                    fig = get_po2_vs_fermi_level_figure(xlim,ylim)
+                    fig = get_pO2_vs_fermi_level_figure(xlim,ylim)
+                    st.write('here')
                     st.session_state['fermi_level_brouwer_figure'] = fig
 
                 with cols[1]:
