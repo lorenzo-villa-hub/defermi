@@ -6,11 +6,11 @@ import streamlit as st
 from defermi.gui.info import quenching_info, external_defects_info
 from defermi.gui.utils import init_state_variable
 
+
 def thermodynamics():
     if st.session_state.da:
-        st.markdown("**Thermodynamic Parameters**")
         init_state_variable('temperature',value=1000)
-        temperature = st.slider("Temperature (K)", min_value=0, max_value=1500, value=st.session_state['temperature'], step=50, key="widget_temperature")
+        temperature = st.slider("**Temperature (K)**", min_value=0, max_value=1500, value=st.session_state['temperature'], step=50, key="widget_temperature")
         if temperature == 0:
             temperature = 0.1 # prevent division by zero
         st.session_state['temperature'] = temperature
@@ -19,8 +19,6 @@ def thermodynamics():
         external_defects()
 
         st.divider()
-
-
 
 
 def quenching():
@@ -44,21 +42,27 @@ def quenching():
             st.session_state['quench_temperature'] = 300
             quench_temperature = st.slider("Quench Temperature (K)", min_value=0, max_value=1500, 
                                         value=st.session_state['quench_temperature'], step=50, key="widget_quench_temperature")
+            st.session_state['quench_temperature'] = quench_temperature
         if st.session_state['quench_temperature'] == 0:
             st.session_state['quench_temperature'] = 0.1 
 
         with cols[1]:
             index = 0 if st.session_state['quench_mode'] == 'species' else 1
             quench_mode = st.radio("Quenching mode",("species","elements"),horizontal=True,key="widget_quench_mode",index=index)
+
         if quench_mode == "species":
-            species = [name for name in st.session_state.da.names]
+            species = set()
+            for entry in st.session_state.da:
+                for df in entry.defect:
+                    species.add(df.name)
             default = st.session_state['quenched_species'] or species
             if st.session_state['quenched_species']:
                 for name in st.session_state['quenched_species']:
                     if name not in species:
                         default = species
-            quenched_species = st.multiselect("Select quenched species",species,default=default,key='widget_quenched_species')
+            quenched_species = st.multiselect("Select quenched species",options=species,default=default,key='widget_quenched_species')
             quench_elements = False
+
         elif quench_mode == "elements":
             species = set()
             for entry in st.session_state['da']:
@@ -67,8 +71,11 @@ def quenching():
                 else:
                     for df in entry.defect:
                         species.add(df.specie)
-            default = st.session_state['quenched_species'] or species
-            quenched_species = st.multiselect("Select quenched elements",species,default=default,key='widget_quenched_elements')
+            if st.session_state['quench_elements']:
+                default = st.session_state['quenched_species'] or species
+            else:
+                default = species
+            quenched_species = st.multiselect("Select quenched elements",options=species,default=default,key='widget_quenched_elements')
             quench_elements = True
     
         st.session_state['quenched_species'] = quenched_species

@@ -23,7 +23,7 @@ def set_defaults():
     st.session_state['npoints'] = 80
     st.session_state['pressure_range'] = (1e-35,1e30)
     st.session_state['figsize'] = (8, 8)
-    st.session_state['fig_width_in_pixels'] = 700
+   # st.session_state['fig_width_in_pixels'] = 700
     st.session_state['alpha'] = 0.0
 
     if "color_sequence" not in st.session_state:
@@ -44,10 +44,12 @@ def set_defaults():
 pages_dict = {
     'home': st.Page('home.py',title='Home',icon=':material/home:'),
     'data': st.Page('data.py',title='Data',icon=':material/table:'), 
-    'formation_energies': st.Page('formation_energies.py',title='Formation Energies',icon=':material/insert_chart:'),  
-    'doping': st.Page('doping.py',title='Doping',icon=':material/insert_chart:'),
+    'formation_energies': st.Page('formation_energies.py',title='Formation Energies',icon=':material/line_axis:'),  
+    'doping': st.Page('doping.py',title='Doping',icon=':material/stacked_line_chart:'),
+    'brouwer': st.Page('brouwer.py',title='Brouwer',icon=':material/ssid_chart:'),
+    'fermi_level': st.Page('fermi_level.py',title='Fermi Level',icon=':material/show_chart:'),
     'ctls': st.Page('ctls.py',title='Charge Transition Levels',icon=':material/insert_chart:'),
-    'binding_energies': st.Page('binding_energies.py',title='Binding Energies',icon=':material/insert_chart:')     
+    'binding_energies': st.Page('binding_energies.py',title='Binding Energies',icon=':material/stacked_line_chart:')     
 }
 
 
@@ -67,6 +69,7 @@ with st.sidebar:
     main_inputs()
     filter_entries()
     chempots()
+
     dos()
     thermodynamics()
     

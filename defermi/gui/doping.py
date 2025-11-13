@@ -8,8 +8,7 @@ from defermi.gui.info import cache_info, concentrations_mode_info, dopant_info
 from defermi.gui.utils import init_state_variable, download_plot, _get_axis_limits_with_widgets, _filter_concentrations
 
 
-
-def dopants():
+def settings():
     if st.session_state.da:
         cols = st.columns([0.9,0.1])
         with cols[1]:
@@ -136,10 +135,13 @@ def dopants():
             cols = st.columns([0.3,0.2,0.2,0.3])
             with cols[1]:
                 if st.button('Compute',key='widget_clear_cache_doping'):
-                        compute_doping_diagram.clear()
+                    compute_doping_diagram.clear()
             with cols[2]:
                 with st.popover(label='ℹ️',help='Info',type='tertiary'):
                     st.write(cache_info)
+
+    else:
+        st.warning('Dataset is empty')
 
 
 
@@ -162,7 +164,7 @@ def compute_doping_diagram():
 st.set_page_config(layout="wide")
 st.title("Doping Diagram")
 
-dopants()
+settings()
 st.divider()
 
 if "dos" in st.session_state and "dopant" in st.session_state:

@@ -2,9 +2,9 @@ import streamlit as st
 import matplotlib.pyplot as plt
 
 from defermi.gui.formation_energies import FormationEnergiesPlotter
-from defermi.gui.utils import svg_logo
+from defermi.gui.utils import svg_logo, init_state_variable
 
-#st.title("Home")
+
 st.set_page_config(layout="wide")
 cols = st.columns(3)
 with cols[1]:
@@ -29,5 +29,59 @@ with cols[1]:
         fig = st.session_state['doping_diagram_figure']
         fig.gca().set_title('Doping diagram')
         st.pyplot(fig, clear_figure=False, width="content")
+
+with cols[0]:
+    if 'brouwer_diagram_figure' in st.session_state:
+        fig = st.session_state['brouwer_diagram_figure']
+        fig.gca().set_title('Brouwer diagram')
+        st.pyplot(fig, clear_figure=False, width="content")
+
+with cols[1]:
+    doping_key, brouwer_key = 'fermi_level_doping_figure', 'fermi_level_brouwer_figure'
+    if any([key in st.session_state for key in [doping_key,brouwer_key]]):
+        init_state_variable('fermi_level_home_type',value='Doping')
+        init_state_variable('fermi_level_home_figure',value=None)
+
+        def get_fermi_level_figure(type):
+            st.write(type)
+            if type=='Brouwer' and brouwer_key in st.session_state:
+                fig = st.session_state[brouwer_key]
+                fig.gca().set_title('Brouwer')
+            elif type=='Doping' and doping_key in st.session_state:
+                fig = st.session_state[doping_key]
+                fig.gca().set_title('Doping')
+            return fig
+        
+        def update_fermi_level_figure():
+            fig = get_fermi_level_figure(type=st.session_state['widget_fermi_level_home_type'])
+            st.session_state['fermi_level_home_figure'] = fig
+            return
+        
+        if not st.session_state['fermi_level_home_figure']:
+            if doping_key in st.session_state:
+                fig = get_fermi_level_figure(type='Doping')
+            elif brouwer_key in st.session_state:
+                fig = get_fermi_level_figure(type='Brouwer')
+            st.session_state['fermi_level_home_figure'] = fig
+
+        st.pyplot(st.session_state['fermi_level_home_figure'], clear_figure=False, width="content")
+
+        subcols = st.columns([0.3,0.7])
+        with subcols[1]:
+            options = ['Doping','Brouwer']
+            index = options.index(st.session_state['fermi_level_home_type'])
+            fermi_level_home_type = st.radio(
+                                            "Select type",
+                                            options=options,
+                                            index=index,
+                                            key='widget_fermi_level_home_type',
+                                            on_change=update_fermi_level_figure,
+                                            horizontal=True)
+            
+            st.session_state['fermi_level_home_type'] = fermi_level_home_type
+
+
+
+
 
 

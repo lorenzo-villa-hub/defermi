@@ -90,6 +90,35 @@ There is no requirement for the defect name, if a name fits one of the naming co
 the corrisponding symbol will be printed.
 """
 
+oxygen_ref_info = """
+$\\mu_O(0K,p^0)$ is the chemical potential of oxygen at $T = 0 K$ and standard pressure $p^0$.\n
+
+The oxygen partial pressure for the Brouwer diagrams is connected to the chemical potential of oxygen as:\n
+$$\\mu_O(T,p_{O_2}) = \\mu_O(T,p^0) + (1/2) k_B T \\; \\mathrm{ln} (p_{O_2} / p^0) $$
+
+where:
+$$\\mu_O(T,p^0) = \\mu_O (0 K,p^0) + \\Delta \\mu_O (T,p^0) $$
+
+The value of $\\mu_O$ in the **Chemical Potentials** section is ignored for the calculation of the Brouwer diagram.
+"""
+
+precursors_info = """
+Conditions for the definition of the chemical potentials as a function of the oxygen partial pressure.
+They represent the reservoirs that are in contact with the target material.\n
+
+Each entry requires the composition and the energy per formula unit (p.f.u) in eV. Click on **Database** to pull
+the energy for that composition from the Materials Project Database.\n 
+Starting from the chemical potential of oxygen, the other chemical potentials are determined by the constraints 
+$ E_{\\mathrm{pfu}} = \\sum_s c_s \\mu_s $, where $c_s$ are the stochiometric coefficients and $\\mu_s$ the chemical potentials.
+
+For oxides with maximum 2 components, the target material itself is enough to determine the chemical potential of the other species.
+For target oxides with more that 2 components, at least 2 compositions are needed to determine all chemical potentials.
+Often these phases are chosen to be the precursors in the synthesis of the target material.\n
+
+All elements that are not present in the entries compositions are excluded from the Brouwer diagram calculations.\n
+The values in the **Chemical Potentials** section are ignored for the calculation of the Brouwer diagram.
+"""
+
 dopant_info = """
 Settings for the calculation of the doping diagram.
 Charge neutrality is solved varying the concentartion of a target defect. 
@@ -106,6 +135,11 @@ Options:
                 There is no requirement for the defect name, if a name fits one of the naming conventions,
                 the corrisponding symbol will be printed.
 """ 
+
+brouwer_diagram_info = """
+Diagram of the defect concentrations as a function of the oxygen partial pressure.
+Useful to compare with experiments where the oxygen partial pressure can be controlled.
+"""
 
 cache_info = """
 To prevent excessive lag when changing paramenters, the calculation result is cached. 

@@ -45,3 +45,5 @@ if st.session_state.da:
             st.write(names_info)
         st.write('')
         download_plot(fig=fig,filename='ctl.pdf')
+else:
+    st.warning('Dataset is empty')

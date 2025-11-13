@@ -23,8 +23,8 @@ class FormationEnergiesPlotter:
             xlim=xlim,
             ylim=ylim)
         fig.grid()
-        fig.xlabel(plt.gca().get_xlabel(), fontsize=label_size)
-        fig.ylabel(plt.gca().get_ylabel(), fontsize=label_size)
+        fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
+        fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
         ax = fig.gca()
         fig = ax.get_figure()
         fig.patch.set_alpha(st.session_state['alpha'])
@@ -71,11 +71,9 @@ class FormationEnergiesPlotter:
 
 
 st.set_page_config(layout="wide")
-fontsize = st.session_state['fontsize']
-label_size = st.session_state['label_size']
 
 if st.session_state.da and 'chempots' in st.session_state:
-    st.title("Formation Energies")
+    st.title('Formation Energies')
     da = st.session_state.da
     cols = st.columns([0.7,0.3])
     plotter = FormationEnergiesPlotter(defects_analysis=da)

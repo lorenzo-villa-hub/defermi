@@ -12,6 +12,7 @@ def dos():
     Import DOS file or set effective mass
     """
     if st.session_state.da:
+        st.markdown("## Thermodynamic Parameters")
         cols = st.columns([0.9,0.1])
         with cols[0]:
             st.markdown("**Density of states**")
@@ -21,7 +22,7 @@ def dos():
 
         init_state_variable('dos',value=None)
 
-        cols = st.columns([0.25, 0.75])
+        cols = st.columns([0.2, 0.8])
         with cols[0]:
             if not st.session_state['dos']:
                 index = 0
@@ -33,7 +34,7 @@ def dos():
             st.session_state['dos_type'] = dos_type
         with cols[1]:
             if dos_type == "DOS":
-                subcols = st.columns([0.3,0.7])
+                subcols = st.columns([0.5,0.5])
                 with subcols[0]:
                     with st.expander('🗄️ Database'):
                         subsubcols = st.columns([0.7,0.3])
