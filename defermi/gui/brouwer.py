@@ -285,7 +285,6 @@ def main():
                         st.pyplot(fig, clear_figure=False, width="content")
 
                         fig = get_pO2_vs_fermi_level_figure(xlim,ylim)
-                        st.write('here')
                         st.session_state['fermi_level_brouwer_figure'] = fig
 
                     with cols[1]:
