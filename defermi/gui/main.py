@@ -53,16 +53,35 @@ pages_dict = {
 }
 
 
+# st.markdown("""
+# <style>
+# /* Set sidebar max-width */
+# [data-testid="stSidebar"] {
+#     width: 800px;
+#     min-width: 500;
+#     max-width: 900px;
+# }
+# </style>
+# """, unsafe_allow_html=True)
+
 st.markdown("""
 <style>
-/* Set sidebar max-width */
-[data-testid="stSidebar"] {
-    width: 800px;
-    min-width: 500;
-    max-width: 900px;
+
+/* Sidebar container (new-style Streamlit) */
+[data-testid="stSidebar"] > div:first-child {
+    width: 800px !important;
+    min-width: 500px !important;
+    max-width: 900px !important;
 }
+
+/* Optional: widen overall layout */
+.main .block-container {
+    max-width: 1800px !important;
+}
+
 </style>
 """, unsafe_allow_html=True)
+
 
 
 with st.sidebar:
