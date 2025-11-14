@@ -162,7 +162,7 @@ def compute_doping_diagram():
     return st.session_state['da'].thermodata
 
 
-def get_doping_vs_fermi_level_figure(xlim,ylim):
+def get_doping_vs_fermi_level_figure(xlim,ylim=None):
     if st.session_state['doping_thermodata']:    
         figsize = (6,6)
         da = st.session_state['da']
@@ -252,7 +252,7 @@ def main():
                 st.session_state['doping_diagram_figure'] = fig
                 st.pyplot(fig, clear_figure=False, width="content")
 
-                fig = get_doping_vs_fermi_level_figure(xlim,ylim)
+                fig = get_doping_vs_fermi_level_figure(xlim,ylim=None)
                 st.session_state['fermi_level_doping_figure'] = fig 
 
             with cols[1]:

@@ -55,13 +55,11 @@ with cols[0]:
         with subcols[1]:
             st.markdown('#### Doping Diagram')
         st.pyplot(fig, clear_figure=False, width="content")
-    else:
-        insert_space(530)
 
     
 
 with cols[1]:
-    insert_space(85)
+    insert_space(42)
     if 'brouwer_diagram_figure' in st.session_state:
         fig = st.session_state['brouwer_diagram_figure']
         fig.gca().set_title('')
