@@ -2,6 +2,7 @@ import streamlit as st
 import matplotlib.pyplot as plt
 import matplotlib
 
+from defermi.gui.info import names_info
 from defermi.gui.utils import init_state_variable, download_plot, _get_axis_limits_with_widgets, _filter_names
 
 
@@ -70,28 +71,32 @@ class FormationEnergiesPlotter:
         return entries,colors
 
 
-st.set_page_config(layout="wide")
-
-if st.session_state.da and 'chempots' in st.session_state:
+def main():
+    st.set_page_config(layout="wide")
     st.title('Formation Energies')
-    da = st.session_state.da
-    cols = st.columns([0.7,0.3])
-    plotter = FormationEnergiesPlotter(defects_analysis=da)
-    with cols[1]:
-        xlim,ylim = plotter.get_axis_limits()
-        entries,colors = plotter.get_entries_and_colors(da)
 
-    with cols[0]:
-        fig = plotter.get_figure(entries,colors,xlim,ylim)
-        st.pyplot(fig, clear_figure=False, width="content")
+    if st.session_state.da and 'chempots' in st.session_state:
+        da = st.session_state.da
+        cols = st.columns([0.7,0.3])
+        plotter = FormationEnergiesPlotter(defects_analysis=da)
+        with cols[1]:
+            xlim,ylim = plotter.get_axis_limits()
+            entries,colors = plotter.get_entries_and_colors(da)
 
-    with cols[1]:
-        with st.popover(label='ℹ️',help='Info',type='tertiary'):
-            st.write(names_info)
-        st.write('')                    
-        download_plot(fig=fig,filename='formation_energies.pdf')
-else:
-    st.warning('Dataset is empty')
+        with cols[0]:
+            fig = plotter.get_figure(entries,colors,xlim,ylim)
+            st.pyplot(fig, clear_figure=False, width="content")
+
+        with cols[1]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(names_info)
+            st.write('')                    
+            download_plot(fig=fig,filename='formation_energies.pdf')
+    else:
+        st.warning('Dataset is empty')
+
+if __name__ == '__main__':
+    main()
 
 
 

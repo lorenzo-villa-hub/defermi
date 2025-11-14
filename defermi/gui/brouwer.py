@@ -207,95 +207,98 @@ def get_pO2_vs_fermi_level_figure(xlim,ylim):
 
 
 
+def main():
 
-st.set_page_config(layout="wide")
-cols = st.columns([0.4,0.6])
-with cols[0]:
-    st.title('Brouwer Diagram')
-with cols[1]:
-    with st.popover(label='ℹ️',help='Info',type='tertiary'):
-        st.write(brouwer_diagram_info)
-
-
-if st.session_state.da and 'O' in st.session_state.da.elements:
-    st.write('')
-    oxygen_ref()
-    precursors()
-    filter_entries_with_missing_elements()
-
-    cols = st.columns([0.3,0.2,0.2,0.3])
+    st.set_page_config(layout="wide")
+    cols = st.columns([0.4,0.6])
+    with cols[0]:
+        st.title('Brouwer Diagram')
     with cols[1]:
-        if st.button('Compute',key='widget_clear_cache_brouwer'):
-            compute_brouwer_diagram.clear()
-    with cols[2]:
         with st.popover(label='ℹ️',help='Info',type='tertiary'):
-            st.write(cache_info)
+            st.write(brouwer_diagram_info)
+    if st.session_state.da and 'O' in st.session_state.da.elements:
+        st.write('')
+        oxygen_ref()
+        precursors()
+        filter_entries_with_missing_elements()
 
-    st.divider()
+        cols = st.columns([0.3,0.2,0.2,0.3])
+        with cols[1]:
+            if st.button('Compute',key='widget_clear_cache_brouwer'):
+                compute_brouwer_diagram.clear()
+        with cols[2]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(cache_info)
+
+        st.divider()
 
 
-    if "dos" in st.session_state and "precursors" in st.session_state:
-        if st.session_state['precursors']:
-            pressure_range = st.session_state['pressure_range']
-            brouwer_da = st.session_state['brouwer_da'] 
-            if brouwer_da:
-                cols = st.columns([0.7,0.3])
-                with cols[1]:
-                    default_xlim = int(np.log10(pressure_range[0])) , int(np.log10(pressure_range[1]))
-                    set_xlim, xlim = _get_axis_limits_with_widgets(
-                                                                label='xlim (log)',
-                                                                key='brouwer',
-                                                                default=default_xlim,
-                                                                boundaries=default_xlim) 
-                    xlim = (float(10**xlim[0]) , float(10**xlim[1]))
-                    xlim = xlim if set_xlim else pressure_range
+        if "dos" in st.session_state and "precursors" in st.session_state:
+            if st.session_state['precursors']:
+                pressure_range = st.session_state['pressure_range']
+                brouwer_da = st.session_state['brouwer_da'] 
+                if brouwer_da:
+                    cols = st.columns([0.7,0.3])
+                    with cols[1]:
+                        default_xlim = int(np.log10(pressure_range[0])) , int(np.log10(pressure_range[1]))
+                        set_xlim, xlim = _get_axis_limits_with_widgets(
+                                                                    label='xlim (log)',
+                                                                    key='brouwer',
+                                                                    default=default_xlim,
+                                                                    boundaries=default_xlim) 
+                        xlim = (float(10**xlim[0]) , float(10**xlim[1]))
+                        xlim = xlim if set_xlim else pressure_range
 
-                    set_ylim, ylim = _get_axis_limits_with_widgets(
-                                                                label='ylim (log)',
-                                                                key='brouwer',
-                                                                default=(-20,25),
-                                                                boundaries=(-50,30))
-                    ylim = (float(10**ylim[0]) , float(10**ylim[1]))
-                    ylim = ylim if set_ylim else None   
+                        set_ylim, ylim = _get_axis_limits_with_widgets(
+                                                                    label='ylim (log)',
+                                                                    key='brouwer',
+                                                                    default=(-20,25),
+                                                                    boundaries=(-50,30))
+                        ylim = (float(10**ylim[0]) , float(10**ylim[1]))
+                        ylim = ylim if set_ylim else None   
 
-                    brouwer_thermodata = compute_brouwer_diagram(_brouwer_da=brouwer_da) # leading underscore tells streamlit not to hash the argument
-                    dc = brouwer_thermodata.defect_concentrations[0]
-                    output, names, charges, colors = _filter_concentrations(dc,key='brouwer')
+                        brouwer_thermodata = compute_brouwer_diagram(_brouwer_da=brouwer_da) # leading underscore tells streamlit not to hash the argument
+                        dc = brouwer_thermodata.defect_concentrations[0]
+                        output, names, charges, colors = _filter_concentrations(dc,key='brouwer')
 
-                with cols[0]:  
-                    fig = plot_pO2_vs_concentrations(
-                                                thermodata=brouwer_thermodata,
-                                                output=output,
-                                                figsize=st.session_state['figsize'],
-                                                fontsize=st.session_state['fontsize'],
-                                                xlim=xlim,
-                                                ylim=ylim,
-                                                colors=colors,
-                                                names=names,
-                                                charges=charges)                                           
+                    with cols[0]:  
+                        fig = plot_pO2_vs_concentrations(
+                                                    thermodata=brouwer_thermodata,
+                                                    output=output,
+                                                    figsize=st.session_state['figsize'],
+                                                    fontsize=st.session_state['fontsize'],
+                                                    xlim=xlim,
+                                                    ylim=ylim,
+                                                    colors=colors,
+                                                    names=names,
+                                                    charges=charges)                                           
 
-                    fig.grid()
-                    fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
-                    fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
-                    ax = fig.gca()
-                    fig = ax.get_figure()
-                    fig.patch.set_alpha(st.session_state['alpha'])
-                    ax.patch.set_alpha(st.session_state['alpha'])
-                    st.session_state['brouwer_thermodata'] = brouwer_thermodata
-                    st.session_state['brouwer_diagram_figure'] = fig
-                    st.pyplot(fig, clear_figure=False, width="content")
+                        fig.grid()
+                        fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
+                        fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
+                        ax = fig.gca()
+                        fig = ax.get_figure()
+                        fig.patch.set_alpha(st.session_state['alpha'])
+                        ax.patch.set_alpha(st.session_state['alpha'])
+                        st.session_state['brouwer_thermodata'] = brouwer_thermodata
+                        st.session_state['brouwer_diagram_figure'] = fig
+                        st.pyplot(fig, clear_figure=False, width="content")
 
-                    fig = get_pO2_vs_fermi_level_figure(xlim,ylim)
-                    st.write('here')
-                    st.session_state['fermi_level_brouwer_figure'] = fig
+                        fig = get_pO2_vs_fermi_level_figure(xlim,ylim)
+                        st.write('here')
+                        st.session_state['fermi_level_brouwer_figure'] = fig
 
-                with cols[1]:
-                    with st.popover(label='ℹ️',help='Info',type='tertiary'):
-                        st.write(concentrations_mode_info)
-                    st.write('')
-                    download_plot(fig=fig,filename='brouwer_diagram.pdf')
+                    with cols[1]:
+                        with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                            st.write(concentrations_mode_info)
+                        st.write('')
+                        download_plot(fig=fig,filename='brouwer_diagram.pdf')
 
-elif st.session_state.da and 'O' not in st.session_state.da.elements:
-    st.warning('Brouwer analysis concerns only systems containing Oxygen')
-else:
-    st.warning('Dataset is empty')
+    elif st.session_state.da and 'O' not in st.session_state.da.elements:
+        st.warning('Brouwer analysis concerns only systems containing Oxygen')
+    else:
+        st.warning('Dataset is empty')
+
+
+if __name__ == '__main__':
+    main()

@@ -194,68 +194,73 @@ def get_doping_vs_fermi_level_figure(xlim,ylim):
         return fig
 
 
-st.set_page_config(layout="wide")
-st.title("Doping Diagram")
+def main():
 
-settings()
-st.divider()
+    st.set_page_config(layout="wide")
+    st.title("Doping Diagram")
+    settings()
+    st.divider()
 
-if "dos" in st.session_state and "dopant" in st.session_state:
-    if st.session_state['conc_range']:
-        da = st.session_state.da
-        conc_range = st.session_state['conc_range']
+    if "dos" in st.session_state and "dopant" in st.session_state:
+        if st.session_state['conc_range']:
+            da = st.session_state.da
+            conc_range = st.session_state['conc_range']
 
-        cols = st.columns([0.7,0.3])
-        with cols[1]:
-            default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
-            set_xlim, xlim = _get_axis_limits_with_widgets(
-                                                        label='xlim (log)',
-                                                        key='doping',
-                                                        default=default_xlim,
-                                                        boundaries=default_xlim) 
-            xlim = (float(10**xlim[0]) , float(10**xlim[1]))
-            xlim = xlim if set_xlim else conc_range
+            cols = st.columns([0.7,0.3])
+            with cols[1]:
+                default_xlim = int(np.log10(conc_range[0])) , int(np.log10(conc_range[1]))
+                set_xlim, xlim = _get_axis_limits_with_widgets(
+                                                            label='xlim (log)',
+                                                            key='doping',
+                                                            default=default_xlim,
+                                                            boundaries=default_xlim) 
+                xlim = (float(10**xlim[0]) , float(10**xlim[1]))
+                xlim = xlim if set_xlim else conc_range
 
-            set_ylim, ylim = _get_axis_limits_with_widgets(
-                                                        label='ylim (log)',
-                                                        key='doping',
-                                                        default=(-20,25),
-                                                        boundaries=(-50,30))
-            ylim = (float(10**ylim[0]) , float(10**ylim[1]))
-            ylim = ylim if set_ylim else None   
+                set_ylim, ylim = _get_axis_limits_with_widgets(
+                                                            label='ylim (log)',
+                                                            key='doping',
+                                                            default=(-20,25),
+                                                            boundaries=(-50,30))
+                ylim = (float(10**ylim[0]) , float(10**ylim[1]))
+                ylim = ylim if set_ylim else None   
 
-            doping_thermodata = compute_doping_diagram()
-            dc = doping_thermodata.defect_concentrations[0]
-            output, names, charges, colors = _filter_concentrations(dc,key='doping')
+                doping_thermodata = compute_doping_diagram()
+                dc = doping_thermodata.defect_concentrations[0]
+                output, names, charges, colors = _filter_concentrations(dc,key='doping')
 
-        with cols[0]:
-            fig = plot_variable_species_vs_concentrations(
-                                            doping_thermodata,
-                                            output=output,
-                                            figsize=st.session_state['figsize'],
-                                            fontsize=st.session_state['fontsize'],
-                                            colors=colors,
-                                            xlim=xlim,
-                                            ylim=ylim,
-                                            names=names,
-                                            charges=charges
-                                            )
-            fig.grid()
-            fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
-            fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
-            ax = fig.gca()
-            fig = ax.get_figure()
-            fig.patch.set_alpha(st.session_state['alpha'])
-            ax.patch.set_alpha(st.session_state['alpha'])
-            st.session_state['doping_thermodata'] = doping_thermodata
-            st.session_state['doping_diagram_figure'] = fig
-            st.pyplot(fig, clear_figure=False, width="content")
+            with cols[0]:
+                fig = plot_variable_species_vs_concentrations(
+                                                doping_thermodata,
+                                                output=output,
+                                                figsize=st.session_state['figsize'],
+                                                fontsize=st.session_state['fontsize'],
+                                                colors=colors,
+                                                xlim=xlim,
+                                                ylim=ylim,
+                                                names=names,
+                                                charges=charges
+                                                )
+                fig.grid()
+                fig.xlabel(plt.gca().get_xlabel(), fontsize=st.session_state['label_size'])
+                fig.ylabel(plt.gca().get_ylabel(), fontsize=st.session_state['label_size'])
+                ax = fig.gca()
+                fig = ax.get_figure()
+                fig.patch.set_alpha(st.session_state['alpha'])
+                ax.patch.set_alpha(st.session_state['alpha'])
+                st.session_state['doping_thermodata'] = doping_thermodata
+                st.session_state['doping_diagram_figure'] = fig
+                st.pyplot(fig, clear_figure=False, width="content")
 
-            fig = get_doping_vs_fermi_level_figure(xlim,ylim)
-            st.session_state['fermi_level_doping_figure'] = fig 
+                fig = get_doping_vs_fermi_level_figure(xlim,ylim)
+                st.session_state['fermi_level_doping_figure'] = fig 
 
-        with cols[1]:
-            with st.popover(label='ℹ️',help='Info',type='tertiary'):
-                st.write(concentrations_mode_info)
-            st.write('')
-            download_plot(fig=fig,filename='doping_diagram.pdf')
+            with cols[1]:
+                with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                    st.write(concentrations_mode_info)
+                st.write('')
+                download_plot(fig=fig,filename='doping_diagram.pdf')
+
+
+if __name__ == '__main__':
+    main()

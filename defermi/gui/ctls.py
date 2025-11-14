@@ -57,27 +57,35 @@ class CTLsPlotter:
         return entries
 
 
-st.set_page_config(layout="wide")
-st.title("Charge Transition Levels")
 
-if st.session_state.da:
-    da = st.session_state.da
-    cols = st.columns([0.7,0.3])
-    plotter = CTLsPlotter(defects_analysis=da)
-    with cols[1]:
-        xlim,ylim = plotter.get_axis_limits()
-        entries = plotter.get_entries(da)
 
-    with cols[0]:
-        fig = plotter.get_figure(entries,xlim,ylim)
-        st.pyplot(fig, clear_figure=False, width="content")
+def main():
 
-    with cols[1]:
-        with st.popover(label='ℹ️',help='Info',type='tertiary'):
-            st.write(names_info)
-        st.write('')                    
-        download_plot(fig=fig,filename='ctl.pdf')
-else:
-    st.warning('Dataset is empty')
+    st.set_page_config(layout="wide")
+    st.title("Charge Transition Levels")
+
+    if st.session_state.da:
+        da = st.session_state.da
+        cols = st.columns([0.7,0.3])
+        plotter = CTLsPlotter(defects_analysis=da)
+        with cols[1]:
+            xlim,ylim = plotter.get_axis_limits()
+            entries = plotter.get_entries(da)
+
+        with cols[0]:
+            fig = plotter.get_figure(entries,xlim,ylim)
+            st.pyplot(fig, clear_figure=False, width="content")
+
+        with cols[1]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(names_info)
+            st.write('')                    
+            download_plot(fig=fig,filename='ctl.pdf')
+    else:
+        st.warning('Dataset is empty')
+
+
+if __name__ == '__main__':
+    main()
 
 
