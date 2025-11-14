@@ -1,9 +1,10 @@
 
 import os
-import tempfile
+import json
 import streamlit as st
 from monty.json import MontyDecoder
 
+from defermi.gui.info import dos_info
 from defermi.gui.utils import init_state_variable
 
 def dos():
@@ -11,6 +12,7 @@ def dos():
     Import DOS file or set effective mass
     """
     if st.session_state.da:
+        st.markdown("# Thermodynamic Parameters")
         cols = st.columns([0.9,0.1])
         with cols[0]:
             st.markdown("**Density of states**")
@@ -20,7 +22,7 @@ def dos():
 
         init_state_variable('dos',value=None)
 
-        cols = st.columns([0.25, 0.75])
+        cols = st.columns([0.2, 0.8])
         with cols[0]:
             if not st.session_state['dos']:
                 index = 0
@@ -32,7 +34,7 @@ def dos():
             st.session_state['dos_type'] = dos_type
         with cols[1]:
             if dos_type == "DOS":
-                subcols = st.columns([0.3,0.7])
+                subcols = st.columns([0.5,0.5])
                 with subcols[0]:
                     with st.expander('🗄️ Database'):
                         subsubcols = st.columns([0.7,0.3])
@@ -45,13 +47,10 @@ def dos():
                 with subcols[1]:
                     uploaded_dos = st.file_uploader("Upload", type=["json"], label_visibility="collapsed")
                     if uploaded_dos is not None:
-                        # Save the uploaded file temporarily
-                        with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as tmp:
-                            tmp.write(uploaded_dos.getbuffer())
-                            tmp_path = tmp.name
-                            with open(tmp_path) as file:
-                                dos = MontyDecoder().decode(file.read())
-                        os.unlink(tmp_path)
+                        data_bytes = uploaded_dos.getvalue() # file content as bytes
+                        data_str = data_bytes.decode('utf-8') # decode bytes to string (JSON text)
+                        json_str = json.loads(data_str)                        
+                        dos = MontyDecoder().decode(json_str)
                         st.session_state['dos'] = dos
             elif dos_type == '$m^*/m_e$':
                 cols = st.columns(2)
@@ -84,18 +83,3 @@ def pull_dos_from_stable_composition(composition,thermo_types=['GGA_GGA+U'],**kw
                                                                         thermo_types=thermo_types,
                                                                         **kwargs)
     return dos
-
-
-
-dos_info = """
-Parameters for the calculation of electrons and holes concentration. Possible choices are:\n
-$\\mathbf{m*/m_e}$: Effective masses of electrons (e) and holes relative to the electron mass.\n
-**DOS**: Computed density of states of the pristine material. Format is either a dictionary:
-- 'energies' : list or np.array with energy values
-- 'densities' : list or np.array with total density values
-- 'structure' : pymatgen `Structure` of the material, needed for DOS volume and charge normalization
-
--- Alternatively, a pymatgen `Dos` object (`Dos`, `CompleteDos`, or `FermiDos`) exported as `json`.
-Click on **Database** and enter the desired composition to pull the `CompleteDos` object from the 
-Materials Project Database.
-"""

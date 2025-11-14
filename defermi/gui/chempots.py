@@ -4,7 +4,8 @@ import streamlit as st
 from pymatgen.core.composition import Composition
 
 from defermi.chempots.generator import generate_elemental_chempots, generate_chempots_from_condition
-from defermi.gui.utils import init_state_variable, widget_with_updating_state
+from defermi.gui.info import chempots_info
+from defermi.gui.utils import init_state_variable, widget_with_updating_state, reset_home_figures
 
 def chempots():
     """
@@ -14,7 +15,6 @@ def chempots():
         da = st.session_state.da
         init_state_variable('chempots',value={})
         chempots_DB = {}
-
 
         def set_chempots_from_DB(composition,condition):
             if composition:
@@ -31,10 +31,11 @@ def chempots():
             
             for el,mu in chempots_DB.items():
                 st.session_state[f'widget_chempot{el}'] = mu
+            reset_home_figures()
             return
         
 
-        cols = st.columns([0.3,0.6,0.1])
+        cols = st.columns([0.36,0.55,0.09])
         with cols[0]:
             st.markdown("**Chemical Potentials (eV)**")
         with cols[1]:
@@ -66,9 +67,9 @@ def chempots():
 
         mu_string = "μ"
         
-        cols = st.columns(5)
+        ncolumns = 4
+        cols = st.columns(ncolumns)
         for idx,el in enumerate(da.elements):
-            ncolumns = 5
             col_idx = idx%ncolumns
             with cols[col_idx]:
                 if el in st.session_state['chempots']:
@@ -76,8 +77,10 @@ def chempots():
                     if widget_key not in st.session_state:
                         st.session_state[widget_key] = st.session_state['chempots'][el] or 0.0
 
-                mu = st.number_input(f"{mu_string}({el})", max_value=0.0,step=0.5, key=f'widget_chempot{el}')
+                mu = st.number_input(f"{mu_string}({el})", max_value=0.0,step=0.5, key=f'widget_chempot{el}',on_change=reset_home_figures)
                 st.session_state.chempots[el] = mu
+
+        st.divider()
 
 
 
@@ -126,16 +129,3 @@ def pull_chempots_from_condition(composition,condition,thermo_type='GGA_GGA+U',*
     return chempots
 
 
-chempots_info = """
-Chemical potential of the elements that are exchanged with a reservoirs when defects are formed.\n
-
-Formation energies depend on the chemical potentials as:\n
-$$ \\Delta E_f = E_D - E_B + q(\\epsilon_{VBM} + \\epsilon_F) - \\color{blue} \\sum_i \\Delta n_i \\mu_i $$ \n
-
-where $\\Delta n_i$ is the number of particles in the defective cell minus the number in the pristine cell for species $i$.\n
-
-Chemical potentials can also be pulled from the Materials Project database, click **Materials Project Database**
-to open the window. If **Reference composition** is left empty, chemical potentials relative to the elemental phases 
-are pulled. If a compostition is specified, the phase diagram relative to the components in the target phase is retrieved,
-and a dialog will appear to select which element and which condition should be used as reference.
-"""

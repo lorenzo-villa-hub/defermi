@@ -157,6 +157,9 @@ def plot_formation_energies(entries,
         plt.legend()
     if grid:
         plt.grid()
+        xlim = plt.gca().get_xlim()
+    plt.text(xlim[0]+0.25,0.5,'VB',fontsize=fontsize*1.35,horizontalalignment='center')
+    plt.text(xlim[1]-0.25,0.5,'CB',fontsize=fontsize*1.35,horizontalalignment='center')
 
     return plt
 
@@ -329,8 +332,8 @@ def plot_charge_transition_levels(entries,
         plt.axvline(x=i, linestyle='-', color='k', linewidth=1.2, alpha=1, zorder=1)
     xlim = (x[0],x[-1])        
     #VBM and CBM shaded
-    plt.axhspan(ylim[0], 0, facecolor='grey', alpha=0.9, zorder=2)
-    plt.axhspan(da.band_gap,ylim[1], facecolor = 'grey', alpha=0.9, zorder=2)                
+    plt.axhspan(ylim[0], 0, facecolor='grey', alpha=0.5, zorder=2)
+    plt.axhspan(da.band_gap,ylim[1], facecolor = 'grey', alpha=0.5, zorder=2)                
     # plot CTL
     for i in range(0,len(x_ticks_labels)):
         name = x_ticks_labels[i]
@@ -350,8 +353,8 @@ def plot_charge_transition_levels(entries,
     if fermi_level:
         plt.axhline(y=fermi_level, linestyle='dashed', color='k', linewidth=1.5, label='$\\mu _{e}$')   
     
-    plt.text(x[-1]+interval/8,-0.3,'VB',fontsize=25*(fontsize/16))
-    plt.text(x[-1]+interval/8,da.band_gap+0.2,'CB',fontsize=25*(fontsize/16))
+    plt.text(x[-1]-0.75,-0.3,'VB',fontsize=25*(fontsize/16))
+    plt.text(x[-1]-0.75,da.band_gap+0.2,'CB',fontsize=25*(fontsize/16))
     plt.xticks(ticks=x_ticks_positions,labels=x_ticks_labels,fontsize = (25-number_defects)*(fontsize/16))
     plt.tick_params(axis='x',length=0,width=0)
     plt.yticks(fontsize=16*(fontsize/16))
