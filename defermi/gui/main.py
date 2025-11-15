@@ -57,9 +57,9 @@ st.markdown("""
 <style>
 /* Set sidebar max-width */
 [data-testid="stSidebar"] {
-    width: 800px;
-    min-width: 500;
-    max-width: 900px;
+    width: 2000px;
+    min-width: 500px;
+    max-width: 3000px;
 }
 </style>
 """, unsafe_allow_html=True)

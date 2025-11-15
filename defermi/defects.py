@@ -132,8 +132,7 @@ class Defect(MSONable,metaclass=ABCMeta): #MSONable contains as_dict and from_di
         """
         if self._bulk_structure:
             return self._bulk_structure
-        else:
-            warnings.warn('Bulk structure is not stored in Defect object')
+            #warnings.warn('Bulk structure is not stored in Defect object')
 
     @property
     def bulk_volume(self):
@@ -153,7 +152,7 @@ class Defect(MSONable,metaclass=ABCMeta): #MSONable contains as_dict and from_di
         Charge of the defect.
         """
         if self._charge is None:
-            warnings.warn('Charge was not assigned to defect object. Use set_charge to assign it.')
+            None #warnings.warn('Charge was not assigned to defect object. Use set_charge to assign it.')
         else:
             return self._charge
      

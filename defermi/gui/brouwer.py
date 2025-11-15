@@ -55,7 +55,7 @@ def precursors():
         def set_precursor_energy_from_DB(entry):
             if entry['composition']:
                 energy_pfu = pull_stable_energy_pfu_from_composition(composition=entry['composition'])
-                st.session_state[f'widget_energy_{entry['id']}'] = energy_pfu
+                st.session_state[f"widget_energy_{entry['id']}"] = energy_pfu
             else:
                 st.session_state['precursor_DB_warning'] = 'Enter composition to pull energy from MP database'
             return 
@@ -72,7 +72,7 @@ def precursors():
                 entry["energy"] = energy
             with cols[3]:
                 st.write('')
-                st.button('🗄️ Materials Project DB',on_click=set_precursor_energy_from_DB,args=[entry],key=f'widget_pull_{entry['id']}')
+                st.button('🗄️ Materials Project DB',on_click=set_precursor_energy_from_DB,args=[entry],key=f"widget_pull_{entry['id']}")
             if st.session_state['precursor_DB_warning']:
                 st.error(st.session_state['precursor_DB_warning'])
                 st.session_state['precursor_DB_warning'] = None

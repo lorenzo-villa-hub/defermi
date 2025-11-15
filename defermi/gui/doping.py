@@ -90,9 +90,9 @@ def settings():
 
         elif dopant_type == "custom":
             cols = st.columns(3)
-            d = st.session_state['dopant']
+            d = st.session_state['dopant'] or {}
             with cols[0]:
-                value = d['name'] if 'name' in d else ''
+                value = d['name'] if 'name' in d else 'custom'
                 name = st.text_input("Name",value=value, key="widget_name_dopant")          
             with cols[1]:
                 if d and type(d) == dict and 'charge' in d:

@@ -11,7 +11,7 @@ from defermi.gui.utils import svg_logo, init_state_variable, insert_space
 st.set_page_config(layout="wide")
 cols = st.columns(3)
 with cols[1]:
-    st.image(svg_logo,width=300)
+    st.image('logo.png',width=300)
 
 st.divider()
 cols = st.columns(2)
