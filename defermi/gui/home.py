@@ -8,6 +8,8 @@ from defermi.gui.formation_energies import FormationEnergiesPlotter
 from defermi.gui.info import title
 from defermi.gui.utils import svg_logo, init_state_variable, insert_space
 
+FIGSIZE = (7,7)
+WIDTH = "content"
 
 st.set_page_config(layout="wide")
 cols = st.columns(3)
@@ -35,10 +37,12 @@ with cols[0]:
         fig = plotter.get_figure(entries,colors)
     if fig:
         fig.gca().set_title('')
+        fig.set_size_inches(*FIGSIZE)
+        fig.tight_layout()
         subcols = st.columns([0.32,0.68])
         with subcols[1]:
             st.markdown('#### Formation Energies')
-        st.pyplot(fig, clear_figure=False, width="content")
+        st.pyplot(fig, clear_figure=False, width=WIDTH)
 
 with cols[1]:
     fig = None
@@ -50,33 +54,39 @@ with cols[1]:
         fig = plotter.get_figure(entries)
     if fig:
         fig.gca().set_title('')
+        fig.set_size_inches(*FIGSIZE)
+        fig.tight_layout()
         subcols = st.columns([0.25,0.75])
         with subcols[1]:
             st.markdown('#### Charge Transition Levels')
-        st.pyplot(fig, clear_figure=False, width="content")
+        st.pyplot(fig, clear_figure=False, width=WIDTH)
 
 
 with cols[0]:
     st.write('')
     if 'doping_diagram_figure' in st.session_state:
         fig = st.session_state['doping_diagram_figure']
+        fig.set_size_inches(*FIGSIZE)
+        fig.tight_layout()
         fig.gca().set_title('')
         subcols = st.columns([0.37,0.63])
         with subcols[1]:
             st.markdown('#### Doping Diagram')
-        st.pyplot(fig, clear_figure=False, width="content")
+        st.pyplot(fig, clear_figure=False, width=WIDTH)
 
     
 
 with cols[1]:
-    insert_space(42)
+    st.write('')
     if 'brouwer_diagram_figure' in st.session_state:
         fig = st.session_state['brouwer_diagram_figure']
+        fig.set_size_inches(*FIGSIZE)
+        fig.tight_layout()
         fig.gca().set_title('')
         subcols = st.columns([0.35,0.65])
         with subcols[1]:
             st.markdown('#### Brouwer Diagram')
-        st.pyplot(fig, clear_figure=False, width="content")
+        st.pyplot(fig, clear_figure=False, width=WIDTH)
 
 
 

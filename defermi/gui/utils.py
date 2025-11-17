@@ -19,7 +19,6 @@ def insert_space(px=20):
     """Insert vertical space in pixels."""
     st.markdown(f"<div style='margin-top:{px}px;'></div>", unsafe_allow_html=True)
 
-
 def widget_with_updating_state(function, key, widget_key=None, **kwargs):
     """
     Create widget with updating default values by using st.session_state
@@ -54,6 +53,30 @@ def widget_with_updating_state(function, key, widget_key=None, **kwargs):
     return var
 
 
+def store_edited_df(key):
+    """
+    Update changes in a dataframe stored in session_state when using the data editor.
+    Prevents double-clicking problem.
+    """
+    pkey = 'widget_' + key
+    changes = st.session_state[pkey]
+    df = st.session_state[key]
+
+    for row, edit in changes['edited_rows'].items(): # Apply edits
+        for column, new_value in edit.items():
+            df.loc[row, column] = new_value
+
+    for row in changes['added_rows']:     # Apply added rows
+        df.loc[df.shape[0]] = None        # Create empty row
+        df = df.reset_index(drop=True)
+
+    df = df.drop(changes['deleted_rows']) # Remove deleted rows
+    st.session_state[key] = df            # Store the dataframe in the session key
+    return
+
+
+
+
 def get_session_data():
     data = {k:v for k,v in st.session_state.items() if 'widget' not in k and 'figure' not in k}
     keys_to_delete = [
@@ -61,9 +84,7 @@ def get_session_data():
         'session_name',
         'precursors',
         'external_defects',
-        'edit_dataframe',
         'input_dataframe',
-        'df_complete',
     ]
     for k in keys_to_delete:
         data.pop(k,None)
@@ -102,8 +123,8 @@ def load_session(uploaded_file):
     st.session_state.update(d)
 
     # Convert DataFrame back to original index after monty encode/decode
-    data_df = st.session_state['saved_dataframe'].to_dict(orient='records')
-    st.session_state['saved_dataframe'] = pd.DataFrame(data=data_df)
+    data_df = st.session_state['complete_dataframe'].to_dict(orient='records')
+    st.session_state['complete_dataframe'] = pd.DataFrame(data=data_df)
 
 
 
@@ -123,15 +144,19 @@ def _filter_names(defect_names,key):
 
     names_key = f'names_{key}'
     init_state_variable(names_key,value=defect_names)
-    init_state_variable(f'previous_names_{key}',value=defect_names)
-    default = st.session_state[names_key]
-    for name in st.session_state[names_key]:
-        if name not in defect_names:
-            default = defect_names
-            break
-    for name in defect_names:
-        if name not in st.session_state[f'previous_names_{key}']:
-            default.append(name)
+    if f'previous_names_{key}' not in st.session_state:
+        st.session_state[f'previous_names_{key}'] = defect_names
+        default = defect_names
+    else:
+        default = st.session_state[names_key]
+        for name in st.session_state[names_key]:
+            if name not in defect_names:
+                default = defect_names
+                break
+        for name in defect_names:
+            if name not in st.session_state[f'previous_names_{key}']:
+                default.append(name)
+
     names = widget_with_updating_state(function=st.multiselect, key=names_key,label='Names',
                                     options=defect_names, default=default)
     st.session_state[f'previous_names_{key}'] = defect_names

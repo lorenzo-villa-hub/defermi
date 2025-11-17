@@ -1323,8 +1323,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                                         quench_elements=quench_elements,
                                                         npoints=npoints,
                                                         name='QuenchedDopingDiagram')  
-                
-        thermodata = defects_thermo.get_variable_species_thermodata(
+        else:
+            thermodata = defects_thermo.get_variable_species_thermodata(
                                                         variable_defect_specie=variable_defect_specie,
                                                         concentration_range=concentration_range,
                                                         chemical_potentials=chemical_potentials,

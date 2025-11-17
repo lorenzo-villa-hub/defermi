@@ -38,9 +38,9 @@ def load_file(uploaded_file):
         if ".defermi" in uploaded_file.name and not st.session_state['session_loaded']:
             load_session(uploaded_file) 
             st.session_state['session_loaded'] = True
-            st.session_state['df_complete'] = st.session_state['saved_dataframe']
         elif '.defermi' not in uploaded_file.name and not st.session_state['session_loaded']:
             st.session_state['input_dataframe'] = load_dataframe(uploaded_file)
+    return
 
 
 def band_gap_vbm_inputs():
@@ -97,30 +97,30 @@ def main_inputs():
                 st.session_state.init = True
     
         st.divider()
+    return
 
 
 
 def filter_entries():
-    """
-    GUI elements to filter defect entries in DefectsAnalysis
-    """
     if st.session_state.da:
         st.session_state['da'].band_gap = st.session_state['band_gap']
         st.session_state['da'].vbm = st.session_state['vbm']
         init_state_variable('original_da',value=st.session_state.da.copy())
         
-        df_complete = st.session_state.original_da.to_dataframe(include_data=False,include_structures=False) 
-        df_complete['Include'] = [True for i in range(len(df_complete))]
-        cols = ['Include'] + [col for col in df_complete.columns if col != 'Include']
-        df_complete = df_complete[cols]
-
-        init_state_variable('df_complete',value=df_complete)    
-        init_state_variable('dataframe',value=df_complete)
-        init_state_variable('saved_dataframe',value=df_complete)
+        def get_df_complete():
+            df_complete = st.session_state.original_da.to_dataframe(include_data=False,include_structures=False) 
+            df_complete['Include'] = [True for i in range(len(df_complete))]
+            cols = ['Include'] + [col for col in df_complete.columns if col != 'Include']
+            df_complete = df_complete[cols]
+            return df_complete
+    
+        init_state_variable('dataframe',value=get_df_complete())
+        init_state_variable('complete_dataframe',value=get_df_complete())
         
         st.session_state.da = DefectsAnalysis.from_dataframe(
                                                     st.session_state['dataframe'],
                                                     band_gap=st.session_state['band_gap'],
                                                     vbm=st.session_state['vbm'],
                                                     include_data=False)  
+    return
 

@@ -18,22 +18,28 @@ def main():
             cols = st.columns(2)
             if 'brouwer_thermodata' in st.session_state:
                 with cols[0]:
-                    fig = st.session_state['fermi_level_brouwer_figure'] #_po2_vs_fermi_level_diagram(xlim,ylim)
-                    st.pyplot(fig, clear_figure=False, width='content')
-                    subcols = st.columns([0.4,0.6])
-                    with subcols[1]:
-                        download_plot(fig=fig,filename='fermi_level_brouwer.pdf')
+                    if 'fermi_level_brouwer_figure' in st.session_state:
+                        fig = st.session_state['fermi_level_brouwer_figure'] #_po2_vs_fermi_level_diagram(xlim,ylim)
+                        st.pyplot(fig, clear_figure=False, width='stretch')
+                        subcols = st.columns([0.4,0.6])
+                        with subcols[1]:
+                            download_plot(fig=fig,filename='fermi_level_brouwer.pdf')
+                    else:
+                        st.warning('Brouwer diagram is not stored, compute it in the Brouwer section')
 
         if 'doping_thermodata' in st.session_state:
             if st.session_state['doping_thermodata'] and st.session_state['dopant']:
                 # no subcolumn if there is no brouwer diagram section 
                 context = context = cols[1] if is_oxygen else nullcontext()
                 with context:
-                    fig = st.session_state['fermi_level_doping_figure']
-                    st.pyplot(fig, clear_figure=False, width='content')
-                    subcols = st.columns([0.4,0.6])
-                    with subcols[1]:
-                        download_plot(fig=fig,filename='fermi_level_doping.pdf')
+                    if 'fermi_level_doping_figure' in st.session_state:
+                        fig = st.session_state['fermi_level_doping_figure']
+                        st.pyplot(fig, clear_figure=False, width='stretch')
+                        subcols = st.columns([0.4,0.6])
+                        with subcols[1]:
+                            download_plot(fig=fig,filename='fermi_level_doping.pdf')
+                    else:
+                        st.warning('Doping diagram is not stored, compute it in the Doping section')
 
     else:
         st.warning('Dataset is empty')

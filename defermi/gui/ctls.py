@@ -74,7 +74,7 @@ def main():
 
         with cols[0]:
             fig = plotter.get_figure(entries,xlim,ylim)
-            st.pyplot(fig, clear_figure=False, width="content")
+            st.pyplot(fig, clear_figure=False, width="stretch")
 
         with cols[1]:
             with st.popover(label='ℹ️',help='Info',type='tertiary'):

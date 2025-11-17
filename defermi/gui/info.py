@@ -57,9 +57,9 @@ dos_info = """
 Parameters for the calculation of electrons and holes concentration. Possible choices are:\n
 $\\mathbf{m*/m_e}$: Effective masses of electrons (e) and holes relative to the electron mass.\n
 **DOS**: Computed density of states of the pristine material. Format is either a dictionary:
-- 'energies' : list or np.array with energy values
-- 'densities' : list or np.array with total density values
-- 'structure' : pymatgen `Structure` of the material, needed for DOS volume and charge normalization
+- `'energies'` : list or np.array with energy values
+- `'densities'` : list or np.array with total density values
+- `'structure'` : pymatgen `Structure` of the material, needed for DOS volume and charge normalization
 
 -- Alternatively, a pymatgen `Dos` object (`Dos`, `CompleteDos`, or `FermiDos`) exported as `json`.
 Click on **Database** and enter the desired composition to pull the `CompleteDos` object from the 
