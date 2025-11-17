@@ -139,8 +139,6 @@ def _filter_names(defect_names,key):
     return names
 
 
-
-
 def _filter_concentrations(defect_concentrations,key='brouwer'):
 
     output_key = f'output_{key}'

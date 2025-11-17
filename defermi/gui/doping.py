@@ -66,6 +66,7 @@ def settings():
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
                                                     key="widget_conc_range",on_change=update_conc_range)  
             st.session_state['dopant'] = {"name":"D","charge":charge}
+            st.session_state.pop('previous_names_doping',None)
 
         elif dopant_type == "Acceptor":
             cols = st.columns(2)
@@ -89,6 +90,7 @@ def settings():
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
                                                     key="widget_conc_range",on_change=update_conc_range) 
             st.session_state['dopant'] = {"name":"A","charge":charge}
+            st.session_state.pop('previous_names_doping',None)
 
         elif dopant_type == "custom":
             cols = st.columns(3)
@@ -113,7 +115,8 @@ def settings():
                     value = (5,18)         
                 st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
                                                     key="widget_conc_range",on_change=update_conc_range)
-                st.session_state['dopant'] = {"name":name,"charge":charge}
+            st.session_state['dopant'] = {"name":name,"charge":charge}
+            st.session_state.pop('previous_names_doping',None)
 
     
         if st.session_state['dopant']:
@@ -217,7 +220,6 @@ def main():
                 output, names, charges, colors = _filter_concentrations(dc,key='doping')
 
             with cols[0]:
-                st.write(names)
                 fig = plot_variable_species_vs_concentrations(
                                                 doping_thermodata,
                                                 output=output,
