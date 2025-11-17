@@ -7,6 +7,7 @@ import streamlit as st
 import seaborn as sns
 import matplotlib
 from monty.json import jsanitize, MontyDecoder
+import pandas as pd
 
 import defermi
 from defermi import DefectsAnalysis
@@ -23,9 +24,13 @@ def load_session_from_example(file_path):
     try:
         if os.path.exists(file_path):
             with open(file_path, "r") as f:
-                d = json.load(f)
-            d = MontyDecoder().decode(d)
+                json_str = json.load(f)
+            d = MontyDecoder().decode(json_str)
             st.session_state.update(d)
+
+            # Convert DataFrame back to original index after monty encode/decode
+            data_df = st.session_state['complete_dataframe'].to_dict(orient='records')
+            st.session_state['complete_dataframe'] = pd.DataFrame(data=data_df)
         else:
             st.warning(f"File not found: {file_path}")
     except Exception as e:
@@ -49,9 +54,10 @@ def set_defaults():
         st.session_state['color_sequence'] += matplotlib.color_sequences['Pastel1']
 
     if st.session_state.da:
-        st.session_state.da.sort_entries()
+        df = st.session_state['complete_dataframe'].dropna() # exclude rows with NaN
+        st.session_state['dataframe'] = df[df["Include"] == True] # keep only selected rows
         full_da = DefectsAnalysis.from_dataframe(
-                                        st.session_state['complete_dataframe'],
+                                        st.session_state['dataframe'],
                                         band_gap=st.session_state.da.band_gap,
                                         vbm=st.session_state.da.vbm)
         st.session_state['color_dict'] = {name:st.session_state['color_sequence'][idx] for idx,name in enumerate(full_da.names)}

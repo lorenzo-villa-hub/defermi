@@ -36,9 +36,7 @@ def main():
         data = st.session_state['complete_dataframe']
         edited_df = st.data_editor(
                         data, 
-                        column_config={
-                            'Include':st.column_config.CheckboxColumn()
-                        },
+                        column_config={'Include':st.column_config.CheckboxColumn()},
                         hide_index=True,
                         num_rows='dynamic',
                         height='stretch',
