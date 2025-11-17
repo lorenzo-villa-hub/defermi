@@ -118,6 +118,21 @@ def settings():
             st.session_state['dopant'] = {"name":name,"charge":charge}
             st.session_state.pop('previous_names_doping',None)
 
+        else:
+            cols = st.columns(3)
+            with cols[2]:
+                st.session_state['dopant'] = dopant_type
+                def update_conc_range():
+                    min_conc, max_conc = st.session_state['widget_conc_range']
+                    st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
+                    return
+                if st.session_state['conc_range']:
+                    value = int(np.log10(st.session_state['conc_range'] [0])), int(np.log10(st.session_state['conc_range'] [1]))
+                else:
+                    value = (5,18)      
+                st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
+                                        key="widget_conc_range",on_change=update_conc_range)
+
     
         if st.session_state['dopant']:
             if not st.session_state['conc_range']:
@@ -240,7 +255,7 @@ def main():
                 ax.patch.set_alpha(st.session_state['alpha'])
                 st.session_state['doping_thermodata'] = doping_thermodata
                 st.session_state['doping_diagram_figure'] = fig
-                st.pyplot(fig, clear_figure=False, width="content")
+                st.pyplot(fig, clear_figure=False, width="stretch")
 
                 fig = get_doping_vs_fermi_level_figure(xlim,ylim=None)
                 st.session_state['fermi_level_doping_figure'] = fig 

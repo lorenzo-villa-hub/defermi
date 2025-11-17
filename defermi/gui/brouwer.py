@@ -282,7 +282,7 @@ def main():
                         ax.patch.set_alpha(st.session_state['alpha'])
                         st.session_state['brouwer_thermodata'] = brouwer_thermodata
                         st.session_state['brouwer_diagram_figure'] = fig
-                        st.pyplot(fig, clear_figure=False, width="content")
+                        st.pyplot(fig, clear_figure=False, width="stretch")
 
                         fig = get_pO2_vs_fermi_level_figure(xlim,ylim)
                         st.session_state['fermi_level_brouwer_figure'] = fig

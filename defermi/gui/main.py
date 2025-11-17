@@ -34,7 +34,7 @@ def set_defaults():
     if st.session_state.da:
         st.session_state.da.sort_entries()
         full_da = DefectsAnalysis.from_dataframe(
-                                        st.session_state['saved_dataframe'],
+                                        st.session_state['complete_dataframe'],
                                         band_gap=st.session_state.da.band_gap,
                                         vbm=st.session_state.da.vbm)
         st.session_state['color_dict'] = {name:st.session_state['color_sequence'][idx] for idx,name in enumerate(full_da.names)}
