@@ -5,13 +5,23 @@ from defermi.gui.brouwer import get_pO2_vs_fermi_level_figure
 from defermi.gui.ctls import CTLsPlotter
 from defermi.gui.doping import get_doping_vs_fermi_level_figure
 from defermi.gui.formation_energies import FormationEnergiesPlotter
+from defermi.gui.info import title
 from defermi.gui.utils import svg_logo, init_state_variable, insert_space
 
 
 st.set_page_config(layout="wide")
 cols = st.columns(3)
 with cols[1]:
-    st.image('logo.png',width=300)
+# Inject CSS that removes the border radius from the *next* st.image()
+    st.markdown("""
+    <style>
+    /* Select the most recently created stImage (the last one) */
+    [data-testid="stImage"] img {
+        border-radius: 0 !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    st.image(title, width=300)
 
 st.divider()
 cols = st.columns(2)

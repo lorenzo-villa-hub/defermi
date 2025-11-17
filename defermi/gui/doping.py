@@ -28,15 +28,17 @@ def settings():
                     possible_dopants.append(el)
         possible_dopants.append('custom')
 
-        def update_dopant_type_index():
-            st.session_state['dopant_type'] = st.session_state['widget_select_dopant']
+        # def update_dopant_type_index():
+        #     st.session_state['dopant_type'] = st.session_state['widget_select_dopant']
         
         if st.session_state['dopant_type'] in possible_dopants:
             st.session_state['dopant_type_index'] = possible_dopants.index(st.session_state['dopant_type'])
         else:
             st.session_state['dopant_type_index'] = 0
-        st.radio("Select dopant",options=possible_dopants,index=st.session_state['dopant_type_index'],
-                                        horizontal=True, key='widget_select_dopant',on_change=update_dopant_type_index)
+        dopant_type = st.radio("Select dopant",options=possible_dopants,index=st.session_state['dopant_type_index'],
+                                        horizontal=True, key='widget_select_dopant')#,on_change=update_dopant_type_index)
+        st.session_state['dopant_type'] = dopant_type
+        
 
         dopant_type = st.session_state['dopant_type']    
         if dopant_type == "None":
@@ -113,21 +115,6 @@ def settings():
                                                     key="widget_conc_range",on_change=update_conc_range)
                 st.session_state['dopant'] = {"name":name,"charge":charge}
 
-        else:
-            cols = st.columns(3)
-            with cols[2]:
-                st.session_state['dopant'] = dopant_type
-                def update_conc_range():
-                    min_conc, max_conc = st.session_state['widget_conc_range']
-                    st.session_state['conc_range'] = ( float(10**min_conc), float(10**max_conc) )
-                    return
-                if st.session_state['conc_range']:
-                    value = int(np.log10(st.session_state['conc_range'] [0])), int(np.log10(st.session_state['conc_range'] [1]))
-                else:
-                    value = (5,18)      
-                st.slider(r"Range: log₁₀(concentration (cm⁻³))",min_value=-20,max_value=24,value=value,step=1, 
-                                        key="widget_conc_range",on_change=update_conc_range)
-            
     
         if st.session_state['dopant']:
             if not st.session_state['conc_range']:
@@ -230,6 +217,7 @@ def main():
                 output, names, charges, colors = _filter_concentrations(dc,key='doping')
 
             with cols[0]:
+                st.write(names)
                 fig = plot_variable_species_vs_concentrations(
                                                 doping_thermodata,
                                                 output=output,
