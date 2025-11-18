@@ -92,8 +92,6 @@ def main():
                 st.write(names_info)
             st.write('')                    
             download_plot(fig=fig,filename='formation_energies.pdf')
-    else:
-        st.warning('Dataset is empty')
 
 if __name__ == '__main__':
     main()

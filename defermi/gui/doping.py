@@ -146,9 +146,6 @@ def settings():
                 with st.popover(label='ℹ️',help='Info',type='tertiary'):
                     st.write(cache_info)
 
-    else:
-        st.warning('Dataset is empty')
-
 
 
 @st.cache_data

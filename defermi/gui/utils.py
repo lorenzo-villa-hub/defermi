@@ -62,13 +62,13 @@ def store_edited_df(key):
     changes = st.session_state[pkey]
     df = st.session_state[key]
 
+    for row in changes['added_rows']:
+        df.loc[df.shape[0]] = row # df.dtypes.apply(lambda dtype: pd.NA)
+        df = df.reset_index(drop=True)
+
     for row, edit in changes['edited_rows'].items(): # Apply edits
         for column, new_value in edit.items():
             df.loc[row, column] = new_value
-
-    for _ in changes["added_rows"]:                    # Add rows
-        df1 = pd.DataFrame()                           # Add empty row with correct data type
-        df = pd.concat([df,df1])
 
     df = df.drop(changes['deleted_rows']) # Remove deleted rows
     st.session_state[key] = df            # Store the dataframe in the session key
