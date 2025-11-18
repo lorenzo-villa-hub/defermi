@@ -66,15 +66,13 @@ def store_edited_df(key):
         for column, new_value in edit.items():
             df.loc[row, column] = new_value
 
-    for row in changes['added_rows']:     # Apply added rows
-        df.loc[df.shape[0]] = None        # Create empty row
-        df = df.reset_index(drop=True)
+    for _ in changes["added_rows"]:                    # Add rows
+        df1 = pd.DataFrame()                           # Add empty row with correct data type
+        df = pd.concat([df,df1])
 
     df = df.drop(changes['deleted_rows']) # Remove deleted rows
     st.session_state[key] = df            # Store the dataframe in the session key
     return
-
-
 
 
 def get_session_data():

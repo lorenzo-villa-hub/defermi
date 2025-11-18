@@ -44,10 +44,14 @@ def main():
                         on_change=store_edited_df,  # prevent double-clicking problem
                         args=['complete_dataframe'])
         
-        edited_df = edited_df.dropna() # exclude rows with NaN
-        df_to_import = edited_df[edited_df["Include"] == True] # keep only selected rows
+      #  edited_df = edited_df.dropna() # exclude rows with NaN
         st.session_state['complete_dataframe'] = edited_df
-        st.session_state['dataframe'] = df_to_import
+        if edited_df.empty:
+            st.session_state['dataframe'] = None
+        else:
+            edited_df = edited_df.dropna()
+            df_to_import = edited_df[edited_df["Include"] == True] # keep only selected rows
+            st.session_state['dataframe'] = df_to_import
 
         st.session_state.pop('formation_energies_figure',None)
         
