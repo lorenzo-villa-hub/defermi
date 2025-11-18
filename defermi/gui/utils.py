@@ -1,10 +1,13 @@
 
 import io
+import os
 import streamlit as st
 import json
 import pandas as pd
 
 from monty.json import jsanitize, MontyEncoder, MontyDecoder
+
+import defermi
 
 
 def init_state_variable(key,value=None):
@@ -123,6 +126,30 @@ def load_session(uploaded_file):
     # Convert DataFrame back to original index after monty encode/decode
     data_df = st.session_state['complete_dataframe'].to_dict(orient='records')
     st.session_state['complete_dataframe'] = pd.DataFrame(data=data_df)
+
+
+def load_session_from_path(file_path):
+    """Load Streamlit session state from JSON file."""
+    try:
+        if os.path.exists(file_path):
+            with open(file_path, "r") as f:
+                json_str = json.load(f)
+            d = MontyDecoder().decode(json_str)
+            st.session_state.update(d)
+
+            # Convert DataFrame back to original index after monty encode/decode
+            data_df = st.session_state['complete_dataframe'].to_dict(orient='records')
+            st.session_state['complete_dataframe'] = pd.DataFrame(data=data_df)
+        else:
+            st.warning(f"File not found: {file_path}")
+    except Exception as e:
+        st.error(f"Failed to load session: {e}")
+
+def load_session_from_preset(filename):
+    session_file = os.path.join(defermi.gui.__path__[0],'presets',filename)
+    load_session_from_path(session_file)
+    st.session_state['session_loaded'] = True
+    return
 
 
 
