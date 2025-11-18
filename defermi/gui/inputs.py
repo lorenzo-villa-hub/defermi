@@ -15,6 +15,18 @@ from defermi.gui.info import file_loader_info, band_gap_info
 from defermi.gui.utils import load_session, init_state_variable, widget_with_updating_state
 
 
+def upload_file():
+    st.markdown('## 📂 File')
+    cols = st.columns([0.9,0.1])
+    with cols[0]:
+        uploaded_file = st.file_uploader("upload", type=["defermi","csv","pkl"], on_change=reset_session, label_visibility="collapsed")
+        load_file(uploaded_file)
+    with cols[1]:
+        with st.popover(label='ℹ️',help='Info',type='tertiary'):
+            st.write(file_loader_info)
+    return
+
+
 def reset_session():
     st.session_state.clear()
     return
@@ -44,6 +56,7 @@ def load_file(uploaded_file):
             cols = ['Include'] + [col for col in df.columns if col != 'Include']
             df = df[cols]
             st.session_state['input_dataframe'] = df
+            st.session_state['session_name'] = uploaded_file.name.split('.')[0]
     return
 
 
@@ -53,9 +66,10 @@ def band_gap_vbm_inputs():
     cols = st.columns([0.45,0.45,0.1])
     with cols[0]:
         band_gap = st.number_input("Band gap (eV)", value=st.session_state['band_gap'], step=0.1, placeholder="Enter band gap", key='widget_band_gap')
-        if band_gap is None:
-            st.warning('Enter band gap to begin session')
         st.session_state['band_gap'] = band_gap
+        if st.session_state['band_gap'] is None:
+            st.warning('Enter band gap to begin session')
+        
     with cols[1]:
         vbm = st.number_input("VBM (eV)", value=st.session_state['vbm'], step=0.1, key='widget_vbm')
         st.session_state['vbm'] = vbm
@@ -65,14 +79,4 @@ def band_gap_vbm_inputs():
     return 
 
 
-def upload_file():
-    st.markdown('## 📂 File')
-    cols = st.columns([0.9,0.1])
-    with cols[0]:
-        uploaded_file = st.file_uploader("upload", type=["defermi","csv","pkl"], on_change=reset_session, label_visibility="collapsed")
-        load_file(uploaded_file)
-    with cols[1]:
-        with st.popover(label='ℹ️',help='Info',type='tertiary'):
-            st.write(file_loader_info)
-    return
 

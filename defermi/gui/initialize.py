@@ -17,8 +17,6 @@ def initialize_defects_analysis(df_complete):
                                                     band_gap=st.session_state['band_gap'],
                                                     vbm=st.session_state['vbm'],
                                                     include_data=False) 
-    else:
-        st.warning('Enter band gap to begin session')
     return
 
 

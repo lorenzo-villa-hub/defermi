@@ -43,10 +43,12 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+init_state_variable('session_name',value='session')
 initialize_complete_dataframe()
 initialize_defects_analysis(st.session_state['complete_dataframe'])
 with st.sidebar:
-    upload_file()
+    #upload_file()
+    st.markdown('### General Parameters')
     band_gap_vbm_inputs()
     st.divider()
 
@@ -68,7 +70,7 @@ for k,v in pages_dict.items():
         pages.append(v)
 
 page = st.navigation(pages,expanded=True)
-init_state_variable('session_name',value='session')
+
 filename = st.session_state['session_name'] + '.defermi'
 save_session(filename)
 page.run()
