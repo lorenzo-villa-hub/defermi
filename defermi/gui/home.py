@@ -3,7 +3,12 @@ import streamlit as st
 
 from defermi.gui.inputs import upload_file
 from defermi.gui.info import title
-from defermi.gui.utils import insert_space, load_session_from_preset, reset_session
+from defermi.gui.utils import init_state_variable, insert_space, load_session_from_preset, reset_session, widget_with_updating_state
+
+
+def change_preset():
+    st.session_state['presets'] = st.session_state['widget_presets']
+    return
 
 
 def main():
@@ -49,14 +54,27 @@ def main():
         upload_file()
 
     with cols[2]:
-        options = ['Vacancies','Vacancy + Interstitial']
         st.markdown('## 📄 Presets')
-        presets = st.multiselect('presets',options=options,default=None, label_visibility='collapsed',max_selections=1,on_change=reset_session)
-        if presets:
-            preset = presets[0]
+        options = ['Vacancies','Vacancy + Interstitial']
+        init_state_variable('presets',value=None)
+        init_state_variable('session_loaded',value=False)
+       # presets = widget_with_updating_state(st.multiselect,key='presets',options=options,default=None, label_visibility='collapsed',max_selections=1,on_change=reset_session)
+        presets = st.multiselect(
+                                label='presets',
+                                options=options,
+                                default=st.session_state['presets'],
+                                key='widget_presets',
+                                label_visibility='collapsed',
+                                max_selections=1,
+                                on_change=change_preset)
+
+        preset = presets[0] if presets else None
+        if preset and not st.session_state['session_loaded']:
             if preset == 'Vacancies':
-                load_session_from_preset(filename='vacancies.defermi')
-            st.rerun()
+                load_session_from_preset(filename='vacancies.defermi')  
+        
+            
+        
 
 if __name__ == '__main__':
     main()

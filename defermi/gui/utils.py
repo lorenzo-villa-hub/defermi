@@ -22,6 +22,7 @@ def insert_space(px=20):
     """Insert vertical space in pixels."""
     st.markdown(f"<div style='margin-top:{px}px;'></div>", unsafe_allow_html=True)
 
+
 def widget_with_updating_state(function, key, widget_key=None, **kwargs):
     """
     Create widget with updating default values by using st.session_state
@@ -109,7 +110,6 @@ def save_session(filename):
             mime="application/json"
         )
         
-
     except Exception as e:
         st.error(f"Failed to prepare session download: {e}")
 
@@ -134,6 +134,7 @@ def load_session_from_path(file_path):
         if os.path.exists(file_path):
             with open(file_path, "r") as f:
                 json_str = json.load(f)
+            
             d = MontyDecoder().decode(json_str)
             st.session_state.update(d)
 
@@ -147,6 +148,7 @@ def load_session_from_path(file_path):
 
 def load_session_from_preset(filename):
     session_file = os.path.join(defermi.gui.__path__[0],'presets',filename)
+    st.write(session_file)
     load_session_from_path(session_file)
     st.session_state['session_loaded'] = True
     return
