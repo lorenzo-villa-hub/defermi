@@ -12,24 +12,24 @@ import pandas as pd
 
 from defermi import DefectsAnalysis 
 from defermi.gui.info import file_loader_info, band_gap_info
-from defermi.gui.utils import load_session, init_state_variable, widget_with_updating_state
+from defermi.gui.utils import load_session, init_state_variable, widget_with_updating_state, reset_session
 
+
+def reset_and_update_data():
+    st.session_state.clear()
+    st.session_state['uploader_changed'] = True
+    return
 
 def upload_file():
     st.markdown('## 📂 File')
+    init_state_variable('uploader_changed',value=False)
     cols = st.columns([0.9,0.1])
     with cols[0]:
-        uploaded_file = st.file_uploader("upload", type=["defermi","csv","pkl"], on_change=reset_session, label_visibility="collapsed")
-        load_file(uploaded_file)
+        uploaded_file = st.file_uploader("upload", type=["defermi","csv","pkl"], on_change=reset_and_update_data, label_visibility="collapsed")
     with cols[1]:
         with st.popover(label='ℹ️',help='Info',type='tertiary'):
             st.write(file_loader_info)
-    return
-
-
-def reset_session():
-    st.session_state.clear()
-    return
+    return uploaded_file
 
 
 def load_dataframe(uploaded_file):
@@ -65,6 +65,7 @@ def band_gap_vbm_inputs():
     init_state_variable('vbm',value=0.0)
     cols = st.columns([0.45,0.45,0.1])
     with cols[0]:
+        st.write(st.session_state['band_gap'])
         band_gap = st.number_input("Band gap (eV)", value=st.session_state['band_gap'], step=0.1, placeholder="Enter band gap", key='widget_band_gap')
         st.session_state['band_gap'] = band_gap
         if st.session_state['band_gap'] is None:

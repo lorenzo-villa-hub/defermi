@@ -50,8 +50,11 @@ def main():
     insert_space(100)
     #cols = st.columns([0.7,0.3])
     cols = st.columns([0.45,0.1,0.45])
-    with cols[0]:
-        upload_file()
+    # with cols[0]:
+    #     upload_file()
+    #     if st.session_state['file_loaded']:
+    #         st.session_state['file_loaded'] = False
+    #         st.switch_page('data.py')
 
     with cols[2]:
         st.markdown('## 📄 Presets')

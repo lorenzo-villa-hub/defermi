@@ -87,6 +87,7 @@ def get_session_data():
         'precursors',
         'external_defects',
         'input_dataframe',
+        'uploaded_file'
     ]
     for k in keys_to_delete:
         data.pop(k,None)

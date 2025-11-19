@@ -16,9 +16,10 @@ def main():
     cols = st.columns([0.1,0.7,0.1])
     with cols[0]:
         def reset_dataframes():
-            for k in ['dataframe','complete_dataframe']:
-                if k in st.session_state:
-                    del st.session_state[k]
+            st.session_state.pop('complete_dataframe',None)
+            # for k in ['dataframe','complete_dataframe']:
+            #     if k in st.session_state:
+            #         del st.session_state[k]
             return 
         st.button('Reset',key='widget_reset_da',on_click=reset_dataframes)
 
