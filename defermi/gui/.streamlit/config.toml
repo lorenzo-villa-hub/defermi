@@ -1,9 +1,0 @@
-
-[theme]
-base="light"
-primaryColor="B84B4B"
-backgroundColor = "#fafaf5ff"  
-
-[theme.sidebar]
-backgroundColor = "#f0eee3ff"
-secondaryBackgroundColor = "white"
