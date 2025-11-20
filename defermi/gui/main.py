@@ -5,10 +5,11 @@ import io
 import streamlit as st
 import seaborn as sns
 import matplotlib
+import time
 
 from defermi import DefectsAnalysis
 from defermi.gui.defaults import set_defaults
-from defermi.gui.initialize import initialize_defects_analysis, initialize_complete_dataframe
+from defermi.gui.initialize import initialize_state_variables, initialize_defects_analysis, initialize_complete_dataframe
 from defermi.gui.inputs import upload_file, band_gap_vbm_inputs, load_file#, filter_entries
 from defermi.gui.chempots import chempots
 from defermi.gui.dos import dos
@@ -43,19 +44,18 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-init_state_variable('session_name',value='session')
-init_state_variable('uploaded_file',value=None)
-initialize_complete_dataframe()
-initialize_defects_analysis(st.session_state['complete_dataframe'])
+# initialize_state_variables()
+# initialize_complete_dataframe()
+# initialize_defects_analysis(st.session_state['complete_dataframe'])
+
 with st.sidebar:
-    # uploaded_file = upload_file()
-    # load_file(uploaded_file)
-    # if st.session_state['uploader_changed']:
-    #     st.session_state['uploader_changed'] = False
-    #     st.switch_page(pages_dict['data'])
-    #st.markdown('### General Parameters')
-    #if st.session_state['uploaded_file']:
-    #    load_file(st.session_state['uploaded_file'])
+    file = upload_file()
+    load_file(file)
+
+    initialize_state_variables()
+    initialize_complete_dataframe()
+    initialize_defects_analysis(st.session_state['complete_dataframe'])
+
     band_gap_vbm_inputs()
     st.divider()
 

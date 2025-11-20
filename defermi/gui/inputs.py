@@ -25,7 +25,7 @@ def upload_file():
     init_state_variable('uploader_changed',value=False)
     cols = st.columns([0.9,0.1])
     with cols[0]:
-        uploaded_file = st.file_uploader("upload", type=["defermi","csv","pkl"], on_change=reset_and_update_data, label_visibility="collapsed")
+        uploaded_file = st.file_uploader("upload", type=["csv","pkl","defermi"], on_change=reset_and_update_data, label_visibility="collapsed")
     with cols[1]:
         with st.popover(label='ℹ️',help='Info',type='tertiary'):
             st.write(file_loader_info)
@@ -63,20 +63,22 @@ def load_file(uploaded_file):
 def band_gap_vbm_inputs():
     init_state_variable('band_gap',value=None)
     init_state_variable('vbm',value=0.0)
-    cols = st.columns([0.45,0.45,0.1])
-    with cols[0]:
-        st.write(st.session_state['band_gap'])
-        band_gap = st.number_input("Band gap (eV)", value=st.session_state['band_gap'], step=0.1, placeholder="Enter band gap", key='widget_band_gap')
-        st.session_state['band_gap'] = band_gap
-        if st.session_state['band_gap'] is None:
-            st.warning('Enter band gap to begin session')
-        
-    with cols[1]:
-        vbm = st.number_input("VBM (eV)", value=st.session_state['vbm'], step=0.1, key='widget_vbm')
-        st.session_state['vbm'] = vbm
-    with cols[2]:
-        with st.popover(label='ℹ️',help='Info',type='tertiary'):
-            st.write(band_gap_info)
+    if not st.session_state['complete_dataframe'].empty:
+        cols = st.columns([0.45,0.45,0.1])
+        with cols[0]:
+            value = st.session_state['band_gap']            
+            band_gap = st.number_input("Band gap (eV)", value=value, step=0.1, placeholder="Enter band gap", key='widget_band_gap')
+            st.session_state['band_gap'] = band_gap
+            if st.session_state['band_gap'] is None:
+                st.warning('Enter band gap to begin session')
+            
+        with cols[1]:
+            value = st.session_state['vbm']
+            vbm = st.number_input("VBM (eV)", value=value, step=0.1, key='widget_vbm')
+            st.session_state['vbm'] = vbm
+        with cols[2]:
+            with st.popover(label='ℹ️',help='Info',type='tertiary'):
+                st.write(band_gap_info)
     return 
 
 

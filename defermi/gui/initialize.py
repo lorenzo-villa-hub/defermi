@@ -3,6 +3,13 @@ import streamlit as st
 
 from defermi import DefectsAnalysis
 from defermi.gui.defaults import get_default_df
+from defermi.gui.utils import init_state_variable
+
+
+def initialize_state_variables():
+    init_state_variable('session_loaded',value=False)
+    init_state_variable('session_name',value='session')
+    init_state_variable('band_gap',value=None)
 
 
 def initialize_defects_analysis(df_complete):

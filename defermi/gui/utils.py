@@ -45,6 +45,7 @@ def widget_with_updating_state(function, key, widget_key=None, **kwargs):
         Output of widget function.
     """
     widget_key = widget_key or 'widget_' + key
+    
     def update_var():
         st.session_state[key] = st.session_state[widget_key]
     
@@ -84,10 +85,10 @@ def get_session_data():
     keys_to_delete = [
         'session_loaded',
         'session_name',
+        'presets',
         'precursors',
         'external_defects',
-        'input_dataframe',
-        'uploaded_file'
+        'input_dataframe'
     ]
     for k in keys_to_delete:
         data.pop(k,None)
@@ -149,9 +150,7 @@ def load_session_from_path(file_path):
 
 def load_session_from_preset(filename):
     session_file = os.path.join(defermi.gui.__path__[0],'presets',filename)
-    st.write(session_file)
     load_session_from_path(session_file)
-    st.session_state['session_loaded'] = True
     return
 
 

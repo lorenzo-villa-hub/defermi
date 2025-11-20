@@ -1,6 +1,7 @@
 
 import streamlit as st
 import pandas as pd
+import time
 
 from defermi import DefectsAnalysis
 from defermi.gui.info import dataset_info, names_info
@@ -17,9 +18,6 @@ def main():
     with cols[0]:
         def reset_dataframes():
             st.session_state.pop('complete_dataframe',None)
-            # for k in ['dataframe','complete_dataframe']:
-            #     if k in st.session_state:
-            #         del st.session_state[k]
             return 
         st.button('Reset',key='widget_reset_da',on_click=reset_dataframes)
 
