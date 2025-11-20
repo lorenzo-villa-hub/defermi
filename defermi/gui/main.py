@@ -33,18 +33,6 @@ pages_dict = {
 }
 
 
-# st.markdown("""
-# <style>
-# /* Set sidebar max-width */
-# [data-testid="stSidebar"] {
-#     width: 2000px;
-#     min-width: 500px;
-#     max-width: 3000px;
-# }
-# </style>
-# """, unsafe_allow_html=True)
-
-
 with st.sidebar:
     file = upload_file()
     load_file(file)
