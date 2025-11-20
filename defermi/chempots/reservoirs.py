@@ -366,9 +366,9 @@ class Reservoirs(MSONable):
             for el in chempots:
                 if format_symbols:
                     if self.are_chempots_delta:
-                        label = '$\Delta \mu_{\text{%s}}$' %el
+                        label = '$\\Delta \\mu_{\\text{%s}}$' %el
                     else:
-                        label = '$\mu_{\text{%s}}$' %el
+                        label = '$\\mu_{\\text{%s}}$' %el
                 else:
                     label = el
                 new_dict[res][label] = chempots[el]

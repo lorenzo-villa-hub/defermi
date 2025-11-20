@@ -556,7 +556,7 @@ class StabilityDiagram:
         return plt
     
 
-    def add_heatmap(self,comp,elements,cbar_label='$\Delta\mu_{O}$',cbar_values=True,**kwargs):
+    def add_heatmap(self,comp,elements,cbar_label='$\\Delta \\mu_{O}$',cbar_values=True,**kwargs):
         """
         Add heatmap that shows the value of the last chemical potential based on the values of the other two "free" 
         chemical potentials and the composition of interest. Currently works only for 3 component PDs.
