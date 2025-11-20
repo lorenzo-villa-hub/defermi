@@ -7,7 +7,7 @@ import pandas as pd
 
 from monty.json import jsanitize, MontyEncoder, MontyDecoder
 
-import defermi
+import defermi.gui
 
 
 def init_state_variable(key,value=None):

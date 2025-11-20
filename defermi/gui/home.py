@@ -99,7 +99,7 @@ def main():
                 load_session_from_preset(filename=filename)
 
             st.session_state['session_loaded'] = True
-            st.switch_page(pages_dict['overview'])  
+          #  st.switch_page(pages_dict['overview'])  
         
             
         
