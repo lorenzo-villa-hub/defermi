@@ -68,7 +68,7 @@ def store_edited_df(key):
     df = st.session_state[key]
 
     for row in changes['added_rows']:
-        df.loc[df.shape[0]] = row # df.dtypes.apply(lambda dtype: pd.NA)
+        df.loc[df.shape[0]] = row
         df = df.reset_index(drop=True)
 
     for row, edit in changes['edited_rows'].items(): # Apply edits
@@ -148,11 +148,11 @@ def load_session_from_path(file_path):
     except Exception as e:
         st.error(f"Failed to load session: {e}")
 
+
 def load_session_from_preset(filename):
     session_file = os.path.join(defermi.gui.__path__[0],'presets',filename)
     load_session_from_path(session_file)
     return
-
 
 
 def reset_home_figures():

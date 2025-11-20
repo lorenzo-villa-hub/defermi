@@ -28,23 +28,6 @@ def main():
     st.divider()
     insert_space(100)
 
-    # st.markdown(
-    #     """
-    #     <div style='text-align: center; font-size: 32px; font-weight: bold;'>
-    #         Welcome to defermi!
-    #     </div>
-    #     """,
-    #     unsafe_allow_html=True
-    # )
-
-    # st.markdown(
-    #     """
-    #     <div style='text-align: center; font-size: 24px;'>
-    #         Load a file or a preset to get started
-    #     </div>
-    #     """,
-    #     unsafe_allow_html=True
-    # )
 
     st.markdown(
         """
@@ -67,9 +50,6 @@ def main():
         """,
         unsafe_allow_html=True
     )
-
-
-
 
     insert_space(100)
     cols = st.columns([0.7,0.3])

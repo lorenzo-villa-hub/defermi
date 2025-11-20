@@ -44,9 +44,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# initialize_state_variables()
-# initialize_complete_dataframe()
-# initialize_defects_analysis(st.session_state['complete_dataframe'])
 
 with st.sidebar:
     file = upload_file()
