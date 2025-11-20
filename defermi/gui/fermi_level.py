@@ -41,9 +41,6 @@ def main():
                     else:
                         st.warning('Doping diagram is not stored, compute it in the Doping section')
 
-    else:
-        st.warning('Dataset is empty')
-
 
 if __name__ == '__main__':
     main()

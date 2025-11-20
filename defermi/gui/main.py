@@ -5,9 +5,12 @@ import io
 import streamlit as st
 import seaborn as sns
 import matplotlib
+import time
 
 from defermi import DefectsAnalysis
-from defermi.gui.inputs import main_inputs, filter_entries
+from defermi.gui.defaults import set_defaults
+from defermi.gui.initialize import initialize_state_variables, initialize_defects_analysis, initialize_complete_dataframe
+from defermi.gui.inputs import upload_file, band_gap_vbm_inputs, load_file#, filter_entries
 from defermi.gui.chempots import chempots
 from defermi.gui.dos import dos
 from defermi.gui.thermodynamics import thermodynamics
@@ -15,35 +18,11 @@ from defermi.gui.thermodynamics import thermodynamics
 from defermi.gui.utils import init_state_variable, save_session
 
 
-def set_defaults():
-    sns.set_theme(context='talk',style='whitegrid')
-
-    st.session_state['fontsize'] = 16
-    st.session_state['label_size'] = 16
-    st.session_state['npoints'] = 80
-    st.session_state['pressure_range'] = (1e-35,1e30)
-    st.session_state['figsize'] = (8, 8)
-   # st.session_state['fig_width_in_pixels'] = 700
-    st.session_state['alpha'] = 0.0
-
-    if "color_sequence" not in st.session_state:
-        st.session_state['color_sequence'] = matplotlib.color_sequences['tab10']
-        st.session_state['color_sequence'] += matplotlib.color_sequences['tab20']
-        st.session_state['color_sequence'] += matplotlib.color_sequences['Pastel1']
-
-    if st.session_state.da:
-        st.session_state.da.sort_entries()
-        df = st.session_state['complete_dataframe'].dropna()
-        full_da = DefectsAnalysis.from_dataframe(
-                                        df,
-                                        band_gap=st.session_state.da.band_gap,
-                                        vbm=st.session_state.da.vbm)
-        st.session_state['color_dict'] = {name:st.session_state['color_sequence'][idx] for idx,name in enumerate(full_da.names)}
-    return
 
 
 pages_dict = {
     'home': st.Page('home.py',title='Home',icon=':material/home:'),
+    'overview': st.Page('overview.py',title='Overview',icon=':material/view_module:'),
     'data': st.Page('data.py',title='Data',icon=':material/table:'), 
     'formation_energies': st.Page('formation_energies.py',title='Formation Energies',icon=':material/line_axis:'),  
     'doping': st.Page('doping.py',title='Doping',icon=':material/stacked_line_chart:'),
@@ -67,8 +46,16 @@ st.markdown("""
 
 
 with st.sidebar:
-    main_inputs()
-    filter_entries()
+    file = upload_file()
+    load_file(file)
+
+    initialize_state_variables()
+    initialize_complete_dataframe()
+    initialize_defects_analysis(st.session_state['complete_dataframe'])
+
+    band_gap_vbm_inputs()
+    st.divider()
+
     chempots()
 
     dos()
@@ -87,7 +74,7 @@ for k,v in pages_dict.items():
         pages.append(v)
 
 page = st.navigation(pages,expanded=True)
-init_state_variable('session_name',value='session')
+
 filename = st.session_state['session_name'] + '.defermi'
 save_session(filename)
 page.run()

@@ -1,0 +1,5 @@
+name,charge,multiplicity,energy_diff,bulk_volume
+Vac_O,0,1,10.8,800
+Vac_O,2,1,7.0,800
+Vac_Sr,-2,1,8.0,800
+Vac_Sr,0,1,7.8,800

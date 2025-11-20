@@ -1,10 +1,13 @@
 
 import io
+import os
 import streamlit as st
 import json
 import pandas as pd
 
 from monty.json import jsanitize, MontyEncoder, MontyDecoder
+
+import defermi.gui
 
 
 def init_state_variable(key,value=None):
@@ -18,6 +21,7 @@ def reset_session():
 def insert_space(px=20):
     """Insert vertical space in pixels."""
     st.markdown(f"<div style='margin-top:{px}px;'></div>", unsafe_allow_html=True)
+
 
 def widget_with_updating_state(function, key, widget_key=None, **kwargs):
     """
@@ -41,6 +45,7 @@ def widget_with_updating_state(function, key, widget_key=None, **kwargs):
         Output of widget function.
     """
     widget_key = widget_key or 'widget_' + key
+    
     def update_var():
         st.session_state[key] = st.session_state[widget_key]
     
@@ -62,13 +67,13 @@ def store_edited_df(key):
     changes = st.session_state[pkey]
     df = st.session_state[key]
 
+    for row in changes['added_rows']:
+        df.loc[df.shape[0]] = row
+        df = df.reset_index(drop=True)
+
     for row, edit in changes['edited_rows'].items(): # Apply edits
         for column, new_value in edit.items():
             df.loc[row, column] = new_value
-
-    for _ in changes["added_rows"]:                    # Add rows
-        df1 = pd.DataFrame()                           # Add empty row with correct data type
-        df = pd.concat([df,df1])
 
     df = df.drop(changes['deleted_rows']) # Remove deleted rows
     st.session_state[key] = df            # Store the dataframe in the session key
@@ -80,9 +85,10 @@ def get_session_data():
     keys_to_delete = [
         'session_loaded',
         'session_name',
+        'presets',
         'precursors',
         'external_defects',
-        'input_dataframe',
+        'input_dataframe'
     ]
     for k in keys_to_delete:
         data.pop(k,None)
@@ -106,7 +112,6 @@ def save_session(filename):
             mime="application/json"
         )
         
-
     except Exception as e:
         st.error(f"Failed to prepare session download: {e}")
 
@@ -124,6 +129,30 @@ def load_session(uploaded_file):
     data_df = st.session_state['complete_dataframe'].to_dict(orient='records')
     st.session_state['complete_dataframe'] = pd.DataFrame(data=data_df)
 
+
+def load_session_from_path(file_path):
+    """Load Streamlit session state from JSON file."""
+    try:
+        if os.path.exists(file_path):
+            with open(file_path, "r") as f:
+                json_str = json.load(f)
+            
+            d = MontyDecoder().decode(json_str)
+            st.session_state.update(d)
+
+            # Convert DataFrame back to original index after monty encode/decode
+            data_df = st.session_state['complete_dataframe'].to_dict(orient='records')
+            st.session_state['complete_dataframe'] = pd.DataFrame(data=data_df)
+        else:
+            st.warning(f"File not found: {file_path}")
+    except Exception as e:
+        st.error(f"Failed to load session: {e}")
+
+
+def load_session_from_preset(filename):
+    session_file = os.path.join(defermi.gui.__path__[0],'presets',filename)
+    load_session_from_path(session_file)
+    return
 
 
 def reset_home_figures():

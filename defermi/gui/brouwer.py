@@ -295,8 +295,6 @@ def main():
 
     elif st.session_state.da and 'O' not in st.session_state.da.elements:
         st.warning('Brouwer analysis concerns only systems containing Oxygen')
-    else:
-        st.warning('Dataset is empty')
 
 
 if __name__ == '__main__':
