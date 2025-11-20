@@ -32,7 +32,7 @@ exclude = [
 ]
 
 [tool.setuptools.package-data]
-"defermi.gui" = ["app_example.defermi","logo.png"]
+"defermi.gui" = ["presets/*"]
 
 
 [project.scripts]
