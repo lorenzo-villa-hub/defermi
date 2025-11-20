@@ -7,7 +7,10 @@ import seaborn as sns
 import matplotlib
 import time
 
-from defermi import DefectsAnalysis
+#from defermi import DefectsAnalysis
+
+from .. import DefectsAnalysis
+
 from defermi.gui.defaults import set_defaults
 from defermi.gui.initialize import initialize_state_variables, initialize_defects_analysis, initialize_complete_dataframe
 from defermi.gui.inputs import upload_file, band_gap_vbm_inputs, load_file#, filter_entries
