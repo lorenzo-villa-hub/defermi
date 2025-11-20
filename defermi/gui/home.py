@@ -73,15 +73,18 @@ def main():
                 }
             </style>
             """, unsafe_allow_html=True)
+        try:
+            presets = st.multiselect(
+                                    label='presets',
+                                    options=options,
+                                    default=st.session_state['presets'],
+                                    key='widget_presets',
+                                    label_visibility='collapsed',
+                                    max_selections=1,
+                                    on_change=change_preset)
+        except st.errors.StreamlitDuplicateElementKey: # catch duplicate key error on start-up, re-running the app make it disappear
+            st.rerun()
         
-        presets = st.multiselect(
-                                label='presets',
-                                options=options,
-                                default=st.session_state['presets'],
-                                key='widget_presets',
-                                label_visibility='collapsed',
-                                max_selections=1,
-                                on_change=change_preset)
         st.session_state['presets'] = presets
 
         preset = presets[0] if presets else None
@@ -100,6 +103,5 @@ def main():
         
             
         
-
 if __name__ == '__main__':
     main()
