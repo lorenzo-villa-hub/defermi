@@ -67,8 +67,7 @@ defermi-gui
 
 ## Quick-start
 
-The central class of the library is `DefectsAnalysis`. The most flexible way to initialize it is by using a `pandas.DataFrame`
-The minimal approach is to initialize the class with a `pandas.DataFrame`. Columns are:
+The central class of the library is `DefectsAnalysis`. The most flexible way to initialize it is using a `pandas.DataFrame`. Columns are:
 - `name` : Name of the defect, naming conventions described below.
 - `charge` : Defect charge.
 - `multiplicity` : Multiplicity in the unit cell.
