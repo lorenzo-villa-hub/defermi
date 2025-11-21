@@ -101,19 +101,6 @@ da
 ```
 
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -165,7 +152,6 @@ da
 ```python
 import matplotlib.pyplot as plt
 
-
 chempots = {'O':-5,'Sr':-2} # Define chemical potentials for each element in a dictionary
 
 # Plot formation energies
@@ -203,6 +189,7 @@ plt.title('Brouwer diagram')
 plt.show()
 
 # Doping diagram
+
 da.plot_doping_diagram(
                 variable_defect_specie={'name':'Donor','charge':1},
                 concentration_range=(1e11,1e20),  # cm^-3
