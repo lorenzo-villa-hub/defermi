@@ -168,7 +168,7 @@ plt.title('Charge transition levels');
     
 #### Fermi level dictated by charge neutrality
 
-`defermi` also offers an easy way to study the defect equilibrium dictated by charge neutrality in different conditions. Defect concentrations can be plotted as a function of the oxygen partial pressure (Brouwer diagram) and dopant concentration with one line of code.
+`defermi` also offers an easy way to study the defect equilibrium dictated by charge neutrality in different conditions. Defect concentrations can be plotted as a function of the oxygen partial pressure (Brouwer diagram) and dopant concentration (doping diagram) with one line of code.
 
 
 ```python
