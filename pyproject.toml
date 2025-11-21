@@ -31,9 +31,5 @@ exclude = [
     "defermi.*.*.*.tests"
 ]
 
-[tool.setuptools.package-data]
-"defermi.gui" = ["presets/*"]
-
-
 [project.scripts]
 defermi = "defermi.cli.main:main"

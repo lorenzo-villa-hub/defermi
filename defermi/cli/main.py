@@ -1,8 +1,6 @@
 
 import argparse
 
-from .gui import setup_gui
-
 
 def main():
     """
@@ -15,9 +13,9 @@ def main():
         )
 
     subparsers = parser.add_subparsers()
-    
-    setup_gui(subparsers)
-    
+
+    # add setup functions here
+
     args = parser.parse_args()
     
     try:
