@@ -29,10 +29,14 @@ pip install defermi
 </p>
 
 `defermi` comes with a simple and intutitive graphical user interface. It can be run online without installation on this link:\
-https://defermi.streamlit.app/ \
-or locally after installation by running this command:
-```python
-defermi gui
+https://defermi.streamlit.app/ . \
+It can also be run locally. Install it first:
+```bash
+pip install defermi-gui
+```
+and run it with:
+```bash
+defermi-gui
 ```
 
 
