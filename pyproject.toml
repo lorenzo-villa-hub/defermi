@@ -26,6 +26,7 @@ test = ["pytest"]
 [tool.setuptools.packages.find]
 include = ["defermi*"]
 exclude = [
+    "defermi.tests",
     "defermi.*.tests",
     "defermi.*.*.tests",
     "defermi.*.*.*.tests"
