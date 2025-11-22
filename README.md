@@ -75,10 +75,11 @@ The central class of the library is `DefectsAnalysis`. The most flexible way to 
 - `bulk_volume` : Pristine cell volume in $\mathrm{\AA^3}$
 
 Defect naming: (element = $A$)
-- `Vacancy`: `'Vac_A'` (symbol=$V_{A}$)
-- `Interstitial`: `'Int_A'` (symbol=$A_{i}$)
-- `Substitution`: `'Sub_B_on_A'` (symbol=$B_{A}$)
-- `Polaron`: `'Pol_A'` (symbol=${A}_{A}$)
+- `Vacancy`: `"Vac_A"` (symbol=$V_{A}$)
+- `Interstitial`: `"Int_A"` (symbol=$A_{i}$)
+- `Substitution`: `"Sub_B_on_A"` (symbol=$B_{A}$)
+- `Polaron`: `"Pol_A"` (symbol=${A}_{A}$)
+- `DefectComplex`: `"Vac_A;Int_A"` (symbol=$V_{A}-A_{i}$)
 
 Let's create an example `DataFrame` with <span style="color:red"> made-up energies </span> as an example. We are studying $SrO$ and have energies for the neutral and charged $Sr$ and $O$ vacancies.
 
