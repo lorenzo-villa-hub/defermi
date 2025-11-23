@@ -130,9 +130,7 @@ class Defect(MSONable,metaclass=ABCMeta): #MSONable contains as_dict and from_di
         """
         Structure without defects.
         """
-        if self._bulk_structure:
-            return self._bulk_structure
-            #warnings.warn('Bulk structure is not stored in Defect object')
+        return self._bulk_structure
 
     @property
     def bulk_volume(self):
@@ -143,18 +141,13 @@ class Defect(MSONable,metaclass=ABCMeta): #MSONable contains as_dict and from_di
             return self._bulk_volume
         elif self.bulk_structure:
             return self.bulk_structure.volume
-        else:
-            warnings.warn('Neither bulk structure nor the bulk cell volume were assigned')
     
     @property
     def charge(self):
         """
         Charge of the defect.
         """
-        if self._charge is None:
-            None #warnings.warn('Charge was not assigned to defect object. Use set_charge to assign it.')
-        else:
-            return self._charge
+        return self._charge
      
     @abstractproperty
     def defect_composition(self):
@@ -760,10 +753,7 @@ class DefectComplex(MSONable,metaclass=ABCMeta):
         """
         Structure without defects.
         """
-        if self._bulk_structure:
-            return self._bulk_structure
-        else:
-            warnings.warn('Bulk structure is not stored in Defect object')
+        return self._bulk_structure
 
     @property
     def bulk_volume(self):
@@ -774,18 +764,14 @@ class DefectComplex(MSONable,metaclass=ABCMeta):
             return self._bulk_volume
         elif self.bulk_structure:
             return self.bulk_structure.volume
-        else:
-            warnings.warn('Neither bulk structure nor the bulk cell volume were assigned')
-    
+
+
     @property
     def charge(self):
         """
         Charge of the defect.
         """
-        if self._charge is None:
-            warnings.warn('Charge was not assigned to defect object. Use set_charge to assign it.')
-        else:
-            return self._charge
+        return self._charge
 
     @property
     def defects(self):
