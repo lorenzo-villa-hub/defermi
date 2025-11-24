@@ -96,8 +96,7 @@ data = [
 {'name': 'Vac_Sr','charge': 0,'multiplicity': 1,'energy_diff': 7.8,'bulk_volume': bulk_volume},
 ]
 df = pd.DataFrame(data)
-da = DefectsAnalysis.from_dataframe(df,band_gap=2,vbm=0) # band gap and valence band maximum in eV
-da
+df
 ```
 
 <div>
@@ -106,51 +105,58 @@ da
     <tr style="text-align: right;">
       <th></th>
       <th>name</th>
-      <th>delta atoms</th>
       <th>charge</th>
       <th>multiplicity</th>
-      <th>corrections</th>
+      <th>energy_diff</th>
+      <th>bulk_volume</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
       <td>Vac_O</td>
-      <td>{'O': -1}</td>
-      <td>0</td>
+      <td>2</td>
       <td>1</td>
-      <td>{}</td>
+      <td>7.0</td>
+      <td>800</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Vac_O</td>
-      <td>{'O': -1}</td>
-      <td>2</td>
+      <td>0</td>
       <td>1</td>
-      <td>{}</td>
+      <td>10.8</td>
+      <td>800</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Vac_Sr</td>
-      <td>{'Sr': -1}</td>
       <td>-2</td>
       <td>1</td>
-      <td>{}</td>
+      <td>8.0</td>
+      <td>800</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Vac_Sr</td>
-      <td>{'Sr': -1}</td>
       <td>0</td>
       <td>1</td>
-      <td>{}</td>
+      <td>7.8</td>
+      <td>800</td>
     </tr>
   </tbody>
 </table>
 </div>
 
 ```python
+# Initialize DefectsAnalysis object
+da = DefectsAnalysis.from_dataframe(df,band_gap=2,vbm=0) # band gap and valence band maximum in eV
+```
+
+
+```python
 import matplotlib.pyplot as plt
+
 
 chempots = {'O':-5,'Sr':-2} # Define chemical potentials for each element in a dictionary
 

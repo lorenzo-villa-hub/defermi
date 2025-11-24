@@ -19,10 +19,11 @@ The minimal approach is to initialize the class with a `pandas.DataFrame`. Colum
 - `bulk_volume` : Pristine cell volume in $\mathrm{\AA^3}$
 
 Defect naming: (element = $A$)
-- `Vacancy`: `'Vac_A'` (symbol=$V_{A}$)
-- `Interstitial`: `'Int_A'` (symbol=$A_{i}$)
-- `Substitution`: `'Sub_B_on_A'` (symbol=$B_{A}$)
-- `Polaron`: `'Pol_A'` (symbol=${A}_{A}$)
+- `Vacancy`: `"Vac_A"` (symbol=$V_{A}$)
+- `Interstitial`: `"Int_A"` (symbol=$A_{i}$)
+- `Substitution`: `"Sub_B_on_A"` (symbol=$B_{A}$)
+- `Polaron`: `"Pol_A"` (symbol=${A}_{A}$)
+- `DefectComplex`: `"Vac_O;Int_A"` (symbol=$V_A - A_i$)
 
 Let's create an example `DataFrame` with <span style="color:red"> made-up energies </span> as an example. We are studying $SrO$ and have energies for the neutral and charged $Sr$ and $O$ vacancies.
 
@@ -39,8 +40,7 @@ data = [
 {'name': 'Vac_Sr','charge': 0,'multiplicity': 1,'energy_diff': 7.8,'bulk_volume': bulk_volume},
 ]
 df = pd.DataFrame(data)
-da = DefectsAnalysis.from_dataframe(df,band_gap=2,vbm=0) # band gap and valence band maximum in eV
-da
+df
 ```
 
 
@@ -65,50 +65,54 @@ da
     <tr style="text-align: right;">
       <th></th>
       <th>name</th>
-      <th>delta atoms</th>
       <th>charge</th>
       <th>multiplicity</th>
-      <th>corrections</th>
+      <th>energy_diff</th>
+      <th>bulk_volume</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
       <td>Vac_O</td>
-      <td>{'O': -1}</td>
-      <td>0</td>
+      <td>2</td>
       <td>1</td>
-      <td>{}</td>
+      <td>7.0</td>
+      <td>800</td>
     </tr>
     <tr>
       <th>1</th>
       <td>Vac_O</td>
-      <td>{'O': -1}</td>
-      <td>2</td>
+      <td>0</td>
       <td>1</td>
-      <td>{}</td>
+      <td>10.8</td>
+      <td>800</td>
     </tr>
     <tr>
       <th>2</th>
       <td>Vac_Sr</td>
-      <td>{'Sr': -1}</td>
       <td>-2</td>
       <td>1</td>
-      <td>{}</td>
+      <td>8.0</td>
+      <td>800</td>
     </tr>
     <tr>
       <th>3</th>
       <td>Vac_Sr</td>
-      <td>{'Sr': -1}</td>
       <td>0</td>
       <td>1</td>
-      <td>{}</td>
+      <td>7.8</td>
+      <td>800</td>
     </tr>
   </tbody>
 </table>
 </div>
 
 
+```python
+# Initialize DefectsAnalysis object
+da = DefectsAnalysis.from_dataframe(df,band_gap=2,vbm=0) # band gap and valence band maximum in eV
+```
 
 
 ```python
@@ -127,13 +131,13 @@ plt.title('Charge transition levels');
 
 
     
-![png](quick-start_files/quick-start_3_0.png)
+![png](quick-start_files/quick-start_4_0.png)
     
 
 
 
     
-![png](quick-start_files/quick-start_3_1.png)
+![png](quick-start_files/quick-start_4_1.png)
     
 
 
@@ -172,12 +176,12 @@ plt.title('Doping diagram');
 
 
     
-![png](quick-start_files/quick-start_5_0.png)
+![png](quick-start_files/quick-start_6_0.png)
     
 
 
 
     
-![png](quick-start_files/quick-start_5_1.png)
+![png](quick-start_files/quick-start_6_1.png)
     
 
