@@ -31,7 +31,7 @@ from .tools.utils import get_object_feature, select_objects, sort_objects
 
 
 class DefectsAnalysis(MSONable,metaclass=ABCMeta):
-    
+
     def __init__(self, entries, band_gap, vbm=0, sort_entries=True):
         """ 
         Class to compute collective properties starting from single calculations of point defects.
@@ -2070,7 +2070,7 @@ class SingleDefConc(MSONable):
         
         
 class DefectConcentrations:
-    
+
     def __init__(self,concentrations):
         """
         Class to store sets of defect concentrations (output of concentration calculations with DefectsAnalysis).

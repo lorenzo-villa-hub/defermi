@@ -1,0 +1,697 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>defermi.tools.structure module &#8212; defermi 1.3.3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=30aa16ed"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'defermi.tools.structure';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="defermi.tools.utils module" href="defermi.tools.utils.html" />
+    <link rel="prev" title="defermi.tools.materials_project module" href="defermi.tools.materials_project.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">defermi 1.3.3 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="defermi.html">Python API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="defermi.chempots.html">defermi.chempots package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="defermi.chempots.core.html">defermi.chempots.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.chempots.generator.html">defermi.chempots.generator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.chempots.oxygen.html">defermi.chempots.oxygen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.chempots.phase_diagram.html">defermi.chempots.phase_diagram module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.chempots.reservoirs.html">defermi.chempots.reservoirs module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="defermi.corrections.html">defermi.corrections package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="defermi.corrections.freysoldt.html">defermi.corrections.freysoldt module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.corrections.kumagai.html">defermi.corrections.kumagai module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="defermi.tools.html">defermi.tools package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="defermi.tools.materials_project.html">defermi.tools.materials_project module</a></li>
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">defermi.tools.structure module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.tools.utils.html">defermi.tools.utils module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.analysis.html">defermi.analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.defects.html">defermi.defects module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.elasticity.html">defermi.elasticity module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.electronic_structure.html">defermi.electronic_structure module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.entries.html">defermi.entries module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.generator.html">defermi.generator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.plotter.html">defermi.plotter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.structure.html">defermi.structure module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.thermodynamics.html">defermi.thermodynamics module</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/defermi.tools.structure.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>defermi.tools.structure module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.deform_lattice"><code class="docutils literal notranslate"><span class="pre">deform_lattice()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.get_displacement_vectors"><code class="docutils literal notranslate"><span class="pre">get_displacement_vectors()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.get_distance_vector"><code class="docutils literal notranslate"><span class="pre">get_distance_vector()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.get_furthest_neighbors"><code class="docutils literal notranslate"><span class="pre">get_furthest_neighbors()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.is_site_in_structure"><code class="docutils literal notranslate"><span class="pre">is_site_in_structure()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.is_site_in_structure_coords"><code class="docutils literal notranslate"><span class="pre">is_site_in_structure_coords()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.rattle_atoms"><code class="docutils literal notranslate"><span class="pre">rattle_atoms()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.remove_oxidation_state_from_site"><code class="docutils literal notranslate"><span class="pre">remove_oxidation_state_from_site()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.sort_sites_to_ref_coords"><code class="docutils literal notranslate"><span class="pre">sort_sites_to_ref_coords()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.view_structures_with_ase"><code class="docutils literal notranslate"><span class="pre">view_structures_with_ase()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.write_extxyz_file"><code class="docutils literal notranslate"><span class="pre">write_extxyz_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.write_xdatcar_from_structures"><code class="docutils literal notranslate"><span class="pre">write_xdatcar_from_structures()</span></code></a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-defermi.tools.structure">
+<span id="defermi-tools-structure-module"></span><h1>defermi.tools.structure module<a class="headerlink" href="#module-defermi.tools.structure" title="Link to this heading">#</a></h1>
+<p>Created on Fri Nov 27 10:52:08 2020</p>
+<p>&#64;author: villa</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.deform_lattice">
+<span class="sig-name descname"><span class="pre">deform_lattice</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.03</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#deform_lattice"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.deform_lattice" title="Link to this definition">#</a></dt>
+<dd><p>Deform lattice vectors in structure. Also changes the angles of lattice vectors (off diagonal components).
+The function “apply_strain” from the Structure class only changes the base vectors’ size but not the angles.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> (<em>Structure</em>) – Structure object.</p></li>
+<li><p><strong>stdev</strong> (<em>float</em>) – Standard deviation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>structure</strong> – Structure with deformed lattice.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Structure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.get_displacement_vectors">
+<span class="sig-name descname"><span class="pre">get_displacement_vectors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structures</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#get_displacement_vectors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.get_displacement_vectors" title="Link to this definition">#</a></dt>
+<dd><p>Get vectors in cartesian coords of site displacements w.r.t. the first structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>structures</strong> (<em>list</em>) – list of Pymatgen Structure objects.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>displacements</strong> – Displacement vectors in cartesian coordinates.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.get_distance_vector">
+<span class="sig-name descname"><span class="pre">get_distance_vector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">site2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">jimage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#get_distance_vector"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.get_distance_vector" title="Link to this definition">#</a></dt>
+<dd><p>Get distance vector between two sites assuming periodic boundary conditions.
+Same as pymatgen.core.sites.Site.distance but returns a vector instead of norm.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>1</strong> (<em>site</em>) – PeriodicSite object</p></li>
+<li><p><strong>2</strong> (<em>site</em>) – PeriodicSite object</p></li>
+<li><p><strong>jimage</strong> (<em>np.array</em>) – Specific periodic image in terms of lattice
+translations, e.g., [1,0,0] implies to take periodic image
+that is one a-lattice vector away. If jimage is None,
+the image that is nearest to the site is found.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>distance</strong> – Distance between the two sites in A°.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.get_furthest_neighbors">
+<span class="sig-name descname"><span class="pre">get_furthest_neighbors</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">species</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#get_furthest_neighbors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.get_furthest_neighbors" title="Link to this definition">#</a></dt>
+<dd><p>Get the indexes of atomic sites that are furthest away from the target site
+and maximally spaced apart from each other, considering periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> (<em>Structure</em>)</p></li>
+<li><p><strong>target_site</strong> (<em>(</em><em>int</em><em> or </em><em>PeriodicSite</em><em>)</em>) – PeriodicSite object or index of the target site in the structure</p></li>
+<li><p><strong>species</strong> (<em>list</em>) – List of species to find.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>selected_indices</strong> – List of indices corresponding to the furthest sites of the given species</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.is_site_in_structure">
+<span class="sig-name descname"><span class="pre">is_site_in_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#is_site_in_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.is_site_in_structure" title="Link to this definition">#</a></dt>
+<dd><p>Check if Site is part of the Structure list. This function is needed because
+sometimes doing a simple check (“site in structure”) doesn’t work. This function performes
+a check on the coordinates and the element on the site. Therefore it is more reliable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>site</strong> (<em>Site</em>) – PeriodicSite or Site object.</p></li>
+<li><p><strong>structure</strong> (<em>Structure</em>) – Structure object.</p></li>
+<li><p><strong>tol</strong> (<em>float</em>) – Tolerance for fractional coordinates. The default is 1e-03.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>is_site_in_structure</strong> (<em>bool</em>)</p></li>
+<li><p><strong>index</strong> (<em>(int)</em>) – Index of site in structure in case site is_site_in_structure returns True
+If False index will be None.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.is_site_in_structure_coords">
+<span class="sig-name descname"><span class="pre">is_site_in_structure_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#is_site_in_structure_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.is_site_in_structure_coords" title="Link to this definition">#</a></dt>
+<dd><p>Check if a site’s coordinates are present in a structure, using periodic boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>site</strong> (<em>Site</em>) – PeriodicSite or Site object.</p></li>
+<li><p><strong>structure</strong> (<em>Structure</em>) – Structure object.</p></li>
+<li><p><strong>tol</strong> (<em>float</em><em>,</em>) – Tolerance for site comparison, normalized with respect to lattice size.</p></li>
+<li><p><strong>return_distance</strong> (<em>bool</em>) – Return distance btw site coords and closest site in reference structure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>is_site_in_structure_coords</strong> (<em>bool</em>) – Whether the site exists in the structure within tolerance.</p></li>
+<li><p><strong>index</strong> (<em>int or None</em>) – Index of matching site in structure if found, otherwise None.</p></li>
+<li><p><strong>distance</strong> (<em>float</em>) – Distance btw site coords and closest site in reference structure.
+Returned if return_distance is set to True.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.rattle_atoms">
+<span class="sig-name descname"><span class="pre">rattle_atoms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stdev</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#rattle_atoms"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.rattle_atoms" title="Link to this definition">#</a></dt>
+<dd><p>Change randomly atomic positions. Uses the ASE.
+Similar to the method “perturb” from the Structure class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> (<em>Structure</em>) – Structure object.</p></li>
+<li><p><strong>stdev</strong> (<em>float</em>) – Standard deviation.</p></li>
+<li><p><strong>seed</strong> (<em>int</em>) – Seed for random number generation passed to the Atoms.rattle method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>structure</strong> – Structure with rattled atoms.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Structure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.remove_oxidation_state_from_site">
+<span class="sig-name descname"><span class="pre">remove_oxidation_state_from_site</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">site</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#remove_oxidation_state_from_site"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.remove_oxidation_state_from_site" title="Link to this definition">#</a></dt>
+<dd><p>Remove <cite>pymatgen</cite> oxidation state decoration from Site.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.sort_sites_to_ref_coords">
+<span class="sig-name descname"><span class="pre">sort_sites_to_ref_coords</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_ref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra_sites</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.001</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">get_indexes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#sort_sites_to_ref_coords"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.sort_sites_to_ref_coords" title="Link to this definition">#</a></dt>
+<dd><p>Sort Sites of one structure to match the order of coordinates in a reference structure.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structure</strong> (<em>Structure</em>) – Structure to sort.</p></li>
+<li><p><strong>structure_ref</strong> (<em>Structure</em>) – Reference Structure.</p></li>
+<li><p><strong>extra_sites</strong> (<em>list</em>) – Sites to append at the end of the structure.</p></li>
+<li><p><strong>tol</strong> (<em>float</em>) – Tolerance for site comparison. The distance between sites in target and reference stucture is used,
+periodicity is accounted for. The tolerance is normalized with respect to lattice vector size.</p></li>
+<li><p><strong>get_indexes</strong> (<em>bool</em>) – Get list of mapping indexes for target structure sites in reference structure.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>new_structure</strong> (<em>Structure</em>) – Sorted Structure.</p></li>
+<li><p><strong>indexes</strong> (<em>list</em>) – If get_indexes is True a tuple is returned. List of mapping indexes for target structure sites
+in reference structure.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.view_structures_with_ase">
+<span class="sig-name descname"><span class="pre">view_structures_with_ase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structures</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#view_structures_with_ase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.view_structures_with_ase" title="Link to this definition">#</a></dt>
+<dd><p>Visualize a Structure object or a list of Structure objects with the ASE.
+First the Structure objects are converted into an ase Atom object, then “view” is used to visualize them.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.write_extxyz_file">
+<span class="sig-name descname"><span class="pre">write_extxyz_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_ref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">displacements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#write_extxyz_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.write_extxyz_file" title="Link to this definition">#</a></dt>
+<dd><p>Write extxyz format. Displacements can be included for visualization.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>str</em>) – Path to save extxyz file to.</p></li>
+<li><p><strong>structure</strong> (<em>Structure</em>) – Structure to visualize.</p></li>
+<li><p><strong>structure_ref</strong> (<em>Structure</em>) – Reference Structure if needed.</p></li>
+<li><p><strong>displacements</strong> (<em>bool</em>) – Include displacement vectors.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="defermi.tools.structure.write_xdatcar_from_structures">
+<span class="sig-name descname"><span class="pre">write_xdatcar_from_structures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structures</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'XDATCAR'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/structure.html#write_xdatcar_from_structures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.structure.write_xdatcar_from_structures" title="Link to this definition">#</a></dt>
+<dd><p>Write XDATCAR file from a list of structures. The first structure determines the reference for the Trajectory object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>structures</strong> (<em>list</em>) – List of Structure objects.</p></li>
+<li><p><strong>file</strong> (<em>str</em>) – Path to write XDATCAR to.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="defermi.tools.materials_project.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">defermi.tools.materials_project module</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="defermi.tools.utils.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">defermi.tools.utils module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.deform_lattice"><code class="docutils literal notranslate"><span class="pre">deform_lattice()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.get_displacement_vectors"><code class="docutils literal notranslate"><span class="pre">get_displacement_vectors()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.get_distance_vector"><code class="docutils literal notranslate"><span class="pre">get_distance_vector()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.get_furthest_neighbors"><code class="docutils literal notranslate"><span class="pre">get_furthest_neighbors()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.is_site_in_structure"><code class="docutils literal notranslate"><span class="pre">is_site_in_structure()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.is_site_in_structure_coords"><code class="docutils literal notranslate"><span class="pre">is_site_in_structure_coords()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.rattle_atoms"><code class="docutils literal notranslate"><span class="pre">rattle_atoms()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.remove_oxidation_state_from_site"><code class="docutils literal notranslate"><span class="pre">remove_oxidation_state_from_site()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.sort_sites_to_ref_coords"><code class="docutils literal notranslate"><span class="pre">sort_sites_to_ref_coords()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.view_structures_with_ase"><code class="docutils literal notranslate"><span class="pre">view_structures_with_ase()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.write_extxyz_file"><code class="docutils literal notranslate"><span class="pre">write_extxyz_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.structure.write_xdatcar_from_structures"><code class="docutils literal notranslate"><span class="pre">write_xdatcar_from_structures()</span></code></a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lorenzo Villa
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Lorenzo Villa.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1607 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>defermi.tools.materials_project module &#8212; defermi 1.3.3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=30aa16ed"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'defermi.tools.materials_project';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="defermi.tools.structure module" href="defermi.tools.structure.html" />
+    <link rel="prev" title="defermi.tools package" href="defermi.tools.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">defermi 1.3.3 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="defermi.html">Python API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="defermi.chempots.html">defermi.chempots package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="defermi.chempots.core.html">defermi.chempots.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.chempots.generator.html">defermi.chempots.generator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.chempots.oxygen.html">defermi.chempots.oxygen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.chempots.phase_diagram.html">defermi.chempots.phase_diagram module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.chempots.reservoirs.html">defermi.chempots.reservoirs module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="defermi.corrections.html">defermi.corrections package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="defermi.corrections.freysoldt.html">defermi.corrections.freysoldt module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.corrections.kumagai.html">defermi.corrections.kumagai module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="defermi.tools.html">defermi.tools package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">defermi.tools.materials_project module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.tools.structure.html">defermi.tools.structure module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="defermi.tools.utils.html">defermi.tools.utils module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.analysis.html">defermi.analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.defects.html">defermi.defects module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.elasticity.html">defermi.elasticity module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.electronic_structure.html">defermi.electronic_structure module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.entries.html">defermi.entries module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.generator.html">defermi.generator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.plotter.html">defermi.plotter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.structure.html">defermi.structure module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defermi.thermodynamics.html">defermi.thermodynamics module</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/defermi.tools.materials_project.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>defermi.tools.materials_project module</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase"><code class="docutils literal notranslate"><span class="pre">MPDatabase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.absorption"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.absorption</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.alloys"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.alloys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.bonds"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.bonds</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.chemenv"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.chemenv</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.contribs"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.contribs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.dielectric"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.dielectric</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.doi"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.doi</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.elasticity"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.elasticity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.electronic_structure</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure_bandstructure"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.electronic_structure_bandstructure</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure_dos"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.electronic_structure_dos</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.eos"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.eos</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.find_structure"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.find_structure()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_atom_reference_data"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_atom_reference_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_bandstructure_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_bandstructure_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_charge_density_from_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_charge_density_from_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_charge_density_from_task_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_charge_density_from_task_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_cohesive_energy"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_cohesive_energy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_database_version"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_database_version()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_dos_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_dos_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_download_info"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_download_info()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_emmet_version"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_emmet_version()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_entries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_entries()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_entries_in_chemsys"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_entries_in_chemsys()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_entry_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_entry_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_ion_entries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_ion_entries()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_ion_reference_data"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_ion_reference_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_ion_reference_data_for_chemsys"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_ion_reference_data_for_chemsys()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_material_id_from_task_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_material_id_from_task_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_material_id_references"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_material_id_references()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_material_ids"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_material_ids()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_phonon_bandstructure_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_phonon_bandstructure_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_phonon_dos_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_phonon_dos_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_pourbaix_entries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_pourbaix_entries()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_stability"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_stability()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_structure_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_structure_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_structures"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_structures()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_task_ids_associated_with_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_task_ids_associated_with_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_wulff_shape"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_wulff_shape()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.grain_boundaries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.grain_boundaries</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.insertion_electrodes"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.insertion_electrodes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.magnetism"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.magnetism</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.materials"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.materials</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.molecules"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.molecules</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.oxidation_states"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.oxidation_states</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.phonon"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.phonon</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.piezoelectric"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.piezoelectric</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.provenance"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.provenance</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.query"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.query()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.robocrys"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.robocrys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.similarity"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.similarity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.substrates"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.substrates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.summary"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.summary</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.surface_properties"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.surface_properties</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.synthesis"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.synthesis</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.tasks"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.tasks</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.thermo"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.thermo</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.xas"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.xas</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_dos_from_stable_composition"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_dos_from_stable_composition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_entries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_entries()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_entries_from_compositions"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_entries_from_compositions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_phase_diagram_from_chemsys"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_phase_diagram_from_chemsys()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_stable_energy_pfu_from_composition"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_stable_energy_pfu_from_composition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_stable_entry_from_composition"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_stable_entry_from_composition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_structure"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_structure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.mp_rester"><code class="docutils literal notranslate"><span class="pre">MPDatabase.mp_rester</span></code></a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-defermi.tools.materials_project">
+<span id="defermi-tools-materials-project-module"></span><h1>defermi.tools.materials_project module<a class="headerlink" href="#module-defermi.tools.materials_project" title="Link to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MPDatabase</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mp_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">API_KEY</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/materials_project.html#MPDatabase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to retrieve data from Materials Project database</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mp_id</strong> (<em>str</em>) – Materials-ID.</p></li>
+<li><p><strong>API_KEY</strong> (<em>str</em>) – API_KEY for MAterials Project database. If None the default key from
+the configuration file for <cite>pymatgen</cite> is used.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MPRester</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">api_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify_db_version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_user_agent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">monty_decode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_document_model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">session</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Session</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mute_progress_bars</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Access the new Materials Project API.</p>
+<p>Initialize the MPRester.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>api_key</strong> (<em>str</em>) – A String API key for accessing the MaterialsProject
+REST interface. Please obtain your API key at
+<a class="reference external" href="https://next-gen.materialsproject.org/api">https://next-gen.materialsproject.org/api</a>. If this is None,
+the code will check if there is a “MP_API_KEY” setting.
+If so, it will use that environment variable. This makes
+easier for heavy users to simply add this environment variable to
+their setups and MPRester can then be called without any arguments.</p></li>
+<li><p><strong>endpoint</strong> (<em>str</em>) – URL of endpoint to access the MaterialsProject REST
+interface. Defaults to the standard Materials Project REST
+address at “<a class="reference external" href="https://api.materialsproject.org">https://api.materialsproject.org</a>”, but
+can be changed to other URLs implementing a similar interface.</p></li>
+<li><p><strong>notify_db_version</strong> (<em>bool</em>) – If True, the current MP database version will
+be retrieved and logged locally in the ~/.mprester.log.yaml. If the database
+version changes, you will be notified. The current database version is
+also printed on instantiation. These local logs are not sent to
+materialsproject.org and are not associated with your API key, so be
+aware that a notification may not be presented if you run MPRester
+from multiple computing environments.</p></li>
+<li><p><strong>include_user_agent</strong> (<em>bool</em>) – If True, will include a user agent with the
+HTTP request including information on pymatgen and system version
+making the API request. This helps MP support pymatgen users, and
+is similar to what most web browsers send with each page request.
+Set to False to disable the user agent.</p></li>
+<li><p><strong>monty_decode</strong> – Decode the data using monty into python objects</p></li>
+<li><p><strong>use_document_model</strong> – If False, skip the creating the document model and return data
+as a dictionary. This can be simpler to work with but bypasses data validation
+and will not give auto-complete for available fields.</p></li>
+<li><p><strong>session</strong> – Session object to use. By default (None), the client will create one.</p></li>
+<li><p><strong>headers</strong> – Custom headers for localhost connections.</p></li>
+<li><p><strong>mute_progress_bars</strong> – Whether to mute progress bars.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.absorption">
+<span class="sig-name descname"><span class="pre">absorption</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">AbsorptionRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.absorption" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.alloys">
+<span class="sig-name descname"><span class="pre">alloys</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.alloys" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.bonds">
+<span class="sig-name descname"><span class="pre">bonds</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BondsRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.bonds" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.chemenv">
+<span class="sig-name descname"><span class="pre">chemenv</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ChemenvRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.chemenv" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.contribs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">contribs</span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.contribs" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.dielectric">
+<span class="sig-name descname"><span class="pre">dielectric</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DielectricRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.dielectric" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.doi">
+<span class="sig-name descname"><span class="pre">doi</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DOIRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.doi" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.elasticity">
+<span class="sig-name descname"><span class="pre">elasticity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ElasticityRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.elasticity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure">
+<span class="sig-name descname"><span class="pre">electronic_structure</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ElectronicStructureRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure_bandstructure">
+<span class="sig-name descname"><span class="pre">electronic_structure_bandstructure</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">BandStructureRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure_bandstructure" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure_dos">
+<span class="sig-name descname"><span class="pre">electronic_structure_dos</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">DosRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure_dos" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.eos">
+<span class="sig-name descname"><span class="pre">eos</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">EOSRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.eos" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.find_structure">
+<span class="sig-name descname"><span class="pre">find_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename_or_structure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Structure</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ltol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_tol</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">5.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_multiple_results</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.find_structure" title="Link to this definition">#</a></dt>
+<dd><p>Finds matching structures from the Materials Project database.</p>
+<p>Multiple results may be returned of “similar” structures based on
+distance using the pymatgen StructureMatcher algorithm, however only
+a single result should match with the same spacegroup, calculated to the
+default tolerances.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filename_or_structure</strong> – filename or Structure object</p></li>
+<li><p><strong>ltol</strong> – fractional length tolerance</p></li>
+<li><p><strong>stol</strong> – site tolerance</p></li>
+<li><p><strong>angle_tol</strong> – angle tolerance in degrees</p></li>
+<li><p><strong>allow_multiple_results</strong> – changes return type for either</p></li>
+<li><p><strong>material_ids</strong> (<em>a single material_id</em><em> or </em><em>list of</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A matching material_id if one is found or list of results if allow_multiple_results
+is True</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>MPRestError</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_atom_reference_data">
+<span class="sig-name descname"><span class="pre">get_atom_reference_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">funcs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">('PBE',</span> <span class="pre">'SCAN',</span> <span class="pre">'r2SCAN')</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_atom_reference_data" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve energies of isolated neutral atoms from MPContribs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>funcs</strong> (<em>[</em><em>str</em><em>] or </em><em>None</em>) – list of functionals to retrieve data for.</p></li>
+<li><p><strong>functionals</strong> (<em>Defaults to all available</em>)</p></li>
+<li><p><strong>None.</strong> (<em>when set to</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict containing isolated atom energies,
+indexed first by the functionals in funcs, and second by the atom.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(dict[str, dict[str, float]])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_bandstructure_by_material_id">
+<span class="sig-name descname"><span class="pre">get_bandstructure_by_material_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BSPathType</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">BSPathType.setyawan_curtarolo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_bandstructure_by_material_id" title="Link to this definition">#</a></dt>
+<dd><p>Get the band structure pymatgen object associated with a Materials Project ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>material_id</strong> (<em>str</em>) – Materials Project ID for a material</p></li>
+<li><p><strong>path_type</strong> (<em>BSPathType</em>) – k-point path selection convention</p></li>
+<li><p><strong>line_mode</strong> (<em>bool</em>) – Whether to return data for a line-mode calculation</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>BandStructure or BandStructureSymmLine object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bandstructure (Union[BandStructure, BandStructureSymmLine])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_charge_density_from_material_id">
+<span class="sig-name descname"><span class="pre">get_charge_density_from_material_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_task_doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Chgcar</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Chgcar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TaskDoc</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_charge_density_from_material_id" title="Link to this definition">#</a></dt>
+<dd><p>Get charge density data for a given Materials Project ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>material_id</strong> (<em>str</em>) – Material Project ID</p></li>
+<li><p><strong>inc_task_doc</strong> (<em>bool</em>) – Whether to include the task document in the returned data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pymatgen Chgcar object, or tuple with object and TaskDoc</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Chgcar, (Chgcar, TaskDoc | dict), None)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_charge_density_from_task_id">
+<span class="sig-name descname"><span class="pre">get_charge_density_from_task_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_task_doc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Chgcar</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">Chgcar</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">TaskDoc</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_charge_density_from_task_id" title="Link to this definition">#</a></dt>
+<dd><p>Get charge density data for a given task_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>task_id</strong> (<em>str</em>) – A task id</p></li>
+<li><p><strong>inc_task_doc</strong> (<em>bool</em>) – Whether to include the task document in the returned data.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Pymatgen Chgcar object, or tuple with object and TaskDoc</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Chgcar, (Chgcar, TaskDoc | dict), None)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_cohesive_energy">
+<span class="sig-name descname"><span class="pre">get_cohesive_energy</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MPID</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalization</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'atom'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'formula_unit'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'atom'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_cohesive_energy" title="Link to this definition">#</a></dt>
+<dd><p>Obtain the cohesive energy of the structure(s) corresponding to multiple MPIDs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>material_ids</strong> (<em>[</em><em>MPID</em><em> | </em><em>str</em><em>]</em>) – List of MPIDs to compute cohesive energies.</p></li>
+<li><p><strong>normalization</strong> (<em>str = &quot;atom&quot;</em><em> (</em><em>default</em><em>) or </em><em>&quot;formula_unit&quot;</em>) – Whether to normalize the cohesive energy by the number of atoms (default)
+or by the number of formula units.
+Note that the current default is inconsistent with the legacy API.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The cohesive energies (in eV/atom or eV/formula unit) for
+each material, indexed by MPID.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(dict[str,float])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_database_version">
+<span class="sig-name descname"><span class="pre">get_database_version</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_database_version" title="Link to this definition">#</a></dt>
+<dd><p>The Materials Project database is periodically updated and has a
+database version associated with it. When the database is updated,
+consolidated data (information about “a material”) may and does
+change, while calculation data about a specific calculation task
+remains unchanged and available for querying via its task_id.</p>
+<p>The database version is set as a date in the format YYYY_MM_DD,
+where “_DD” may be optional. An additional numerical suffix
+might be added if multiple releases happen on the same day.</p>
+<p>Returns: database version as a string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_dos_by_material_id">
+<span class="sig-name descname"><span class="pre">get_dos_by_material_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_dos_by_material_id" title="Link to this definition">#</a></dt>
+<dd><p>Get the complete density of states pymatgen object associated with a Materials Project ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>material_id</strong> (<em>str</em>) – Materials Project ID for a material</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>CompleteDos object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dos (CompleteDos)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_download_info">
+<span class="sig-name descname"><span class="pre">get_download_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_ids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_patterns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_download_info" title="Link to this definition">#</a></dt>
+<dd><p>Get a list of URLs to retrieve raw VASP output files from the NoMaD repository
+:param material_ids: list of material identifiers (mp-id’s)
+:type material_ids: list
+:param task_types: list of task types to include in download (see CalcType Enum class)
+:type task_types: list
+:param file_patterns: list of wildcard file names to include for each task
+:type file_patterns: list</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>a tuple of 1) a dictionary mapping material_ids to task_ids and
+calc_types, and 2) a list of URLs to download zip archives from
+NoMaD repository. Each zip archive will contain a manifest.json with
+metadata info, e.g. the task/external_ids that belong to a directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_emmet_version">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_emmet_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">endpoint</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_emmet_version" title="Link to this definition">#</a></dt>
+<dd><p>Get the latest version emmet-core and emmet-api used in the
+current API service.</p>
+<p>Returns: version as a string</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_entries">
+<span class="sig-name descname"><span class="pre">get_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemsys_formula_mpids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compatible_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_structure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conventional_unit_cell</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_criteria</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">ComputedStructureEntry</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_entries" title="Link to this definition">#</a></dt>
+<dd><p>Get a list of ComputedEntries or ComputedStructureEntries corresponding
+to a chemical system or formula. This returns entries for all thermo types
+represented in the database. Each type corresponds to a different mixing scheme
+(i.e. GGA/GGA+U, GGA/GGA+U/R2SCAN, R2SCAN). By default the thermo_type of the
+entry is also returned.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemsys_formula_mpids</strong> (<em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em>) – A chemical system, list of chemical systems
+(e.g., Li-Fe-O, Si-<em>, [Si-O, Li-Fe-P]), formula, list of formulas
+(e.g., Fe2O3, Si</em>, [SiO2, BiFeO3]), Materials Project ID, or list of Materials
+Project IDs (e.g., mp-22526, [mp-22526, mp-149]).</p></li>
+<li><p><strong>compatible_only</strong> (<em>bool</em>) – Whether to return only “compatible”
+entries. Compatible entries are entries that have been
+processed using the MaterialsProject2020Compatibility class,
+which performs adjustments to allow mixing of GGA and GGA+U
+calculations for more accurate phase diagrams and reaction
+energies. This data is obtained from the core “thermo” API endpoint.</p></li>
+<li><p><strong>inc_structure</strong> (<em>str</em>) – <em>This is a deprecated argument</em>. Previously, if None, entries
+returned were ComputedEntries. If inc_structure=”initial”,
+ComputedStructureEntries with initial structures were returned.
+Otherwise, ComputedStructureEntries with final structures
+were returned. This is no longer needed as all entries will contain the
+final structure data by default.</p></li>
+<li><p><strong>property_data</strong> (<em>list</em>) – Specify additional properties to include in
+entry.data. If None, only default data is included. Should be a subset of
+input parameters in the ‘MPRester.thermo.available_fields’ list.</p></li>
+<li><p><strong>conventional_unit_cell</strong> (<em>bool</em>) – Whether to get the standard
+conventional unit cell</p></li>
+<li><p><strong>additional_criteria</strong> (<em>dict</em>) – Any additional criteria to pass. The keys and values should
+correspond to proper function inputs to <cite>MPRester.thermo.search</cite>. For instance,
+if you are only interested in entries on the convex hull, you could pass
+{“energy_above_hull”: (0.0, 0.0)} or {“is_stable”: True}.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List ComputedStructureEntry objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_entries_in_chemsys">
+<span class="sig-name descname"><span class="pre">get_entries_in_chemsys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gibbs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compatible_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_structure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conventional_unit_cell</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">additional_criteria</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_entries_in_chemsys" title="Link to this definition">#</a></dt>
+<dd><p>Helper method to get a list of ComputedEntries in a chemical system.
+For example, elements = [“Li”, “Fe”, “O”] will return a list of all
+entries in the parent Li-Fe-O chemical system, as well as all subsystems
+(i.e., all LixOy, FexOy, LixFey, LixFeyOz, Li, Fe and O phases). Extremely
+useful for creating phase diagrams of entire chemical systems.</p>
+<p>Note that by default this returns mixed GGA/GGA+U entries. For others,
+pass GGA/GGA+U/R2SCAN, or R2SCAN as thermo_types in additional_criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>elements</strong> (<em>str</em><em> or </em><em>[</em><em>str</em><em>]</em>) – Parent chemical system string comprising element
+symbols separated by dashes, e.g., “Li-Fe-O” or List of element
+symbols, e.g., [“Li”, “Fe”, “O”].</p></li>
+<li><p><strong>use_gibbs</strong> – If None (default), DFT energy is returned. If a number, return
+the free energy of formation estimated using a machine learning model
+(see GibbsComputedStructureEntry). The number is the temperature in
+Kelvin at which to estimate the free energy. Must be between 300 K and
+2000 K.</p></li>
+<li><p><strong>compatible_only</strong> (<em>bool</em>) – Whether to return only “compatible”
+entries. Compatible entries are entries that have been
+processed using the MaterialsProject2020Compatibility class,
+which performs adjustments to allow mixing of GGA and GGA+U
+calculations for more accurate phase diagrams and reaction
+energies. This data is obtained from the core “thermo” API endpoint.</p></li>
+<li><p><strong>inc_structure</strong> (<em>str</em>) – <em>This is a deprecated argument</em>. Previously, if None, entries
+returned were ComputedEntries. If inc_structure=”initial”,
+ComputedStructureEntries with initial structures were returned.
+Otherwise, ComputedStructureEntries with final structures
+were returned. This is no longer needed as all entries will contain
+structure data by default.</p></li>
+<li><p><strong>property_data</strong> (<em>list</em>) – Specify additional properties to include in
+entry.data. If None, only default data is included. Should be a subset of
+input parameters in the ‘MPRester.thermo.available_fields’ list.</p></li>
+<li><p><strong>conventional_unit_cell</strong> (<em>bool</em>) – Whether to get the standard
+conventional unit cell</p></li>
+<li><p><strong>additional_criteria</strong> (<em>dict</em>) – Any additional criteria to pass. The keys and values should
+correspond to proper function inputs to <cite>MPRester.thermo.search</cite>. For instance,
+if you are only interested in entries on the convex hull, you could pass
+{“energy_above_hull”: (0.0, 0.0)} or {“is_stable”: True}, or if you are only interested
+in entry data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of ComputedStructureEntries.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_entry_by_material_id">
+<span class="sig-name descname"><span class="pre">get_entry_by_material_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compatible_only</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inc_structure</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conventional_unit_cell</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_entry_by_material_id" title="Link to this definition">#</a></dt>
+<dd><p>Get all ComputedEntry objects corresponding to a material_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>material_id</strong> (<em>str</em>) – Materials Project material_id (a string,
+e.g., mp-1234).</p></li>
+<li><p><strong>compatible_only</strong> (<em>bool</em>) – Whether to return only “compatible”
+entries. Compatible entries are entries that have been
+processed using the MaterialsProject2020Compatibility class,
+which performs adjustments to allow mixing of GGA and GGA+U
+calculations for more accurate phase diagrams and reaction
+energies. This data is obtained from the core “thermo” API endpoint.</p></li>
+<li><p><strong>inc_structure</strong> (<em>str</em>) – <em>This is a deprecated argument</em>. Previously, if None, entries
+returned were ComputedEntries. If inc_structure=”initial”,
+ComputedStructureEntries with initial structures were returned.
+Otherwise, ComputedStructureEntries with final structures
+were returned. This is no longer needed as all entries will contain
+structure data by default.</p></li>
+<li><p><strong>property_data</strong> (<em>list</em>) – Specify additional properties to include in
+entry.data. If None, only default data is included. Should be a subset of
+input parameters in the ‘MPRester.thermo.available_fields’ list.</p></li>
+<li><p><strong>conventional_unit_cell</strong> (<em>bool</em>) – Whether to get the standard
+conventional unit cell</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of ComputedEntry or ComputedStructureEntry object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_ion_entries">
+<span class="sig-name descname"><span class="pre">get_ion_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pd</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PhaseDiagram</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ion_ref_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">IonEntry</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_ion_entries" title="Link to this definition">#</a></dt>
+<dd><p>Retrieve IonEntry objects that can be used in the construction of
+Pourbaix Diagrams. The energies of the IonEntry are calculaterd from
+the solid energies in the provided Phase Diagram to be
+consistent with experimental free energies.</p>
+<p>NOTE! This is an advanced method that assumes detailed understanding
+of how to construct computational Pourbaix Diagrams. If you just want
+to build a Pourbaix Diagram using default settings, use get_pourbaix_entries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pd</strong> – Solid phase diagram on which to construct IonEntry. Note that this
+Phase Diagram MUST include O and H in its chemical system. For example,
+to retrieve IonEntry for Ti, the phase diagram passed here should contain
+materials in the H-O-Ti chemical system. It is also assumed that solid
+energies have already been corrected with MaterialsProjectAqueousCompatibility,
+which is necessary for proper construction of Pourbaix diagrams.</p></li>
+<li><p><strong>ion_ref_data</strong> – Aqueous ion reference data. If None (default), the data
+are downloaded from the Aqueous Ion Reference Data project hosted
+on MPContribs. To add a custom ionic species, first download
+data using get_ion_reference_data, then add or customize it with
+your additional data, and pass the customized list here.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl class="simple">
+<dt>IonEntry are similar to PDEntry objects. Their energies</dt><dd><p>are free energies in eV.</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>[IonEntry]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_ion_reference_data">
+<span class="sig-name descname"><span class="pre">get_ion_reference_data</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_ion_reference_data" title="Link to this definition">#</a></dt>
+<dd><p>Download aqueous ion reference data used in the construction of Pourbaix diagrams.</p>
+<p>Use this method to examine the ion reference data and to add additional
+ions if desired. The data returned from this method can be passed to
+get_ion_entries().</p>
+<p>Data are retrieved from the Aqueous Ion Reference Data project
+hosted on MPContribs. Refer to that project and its associated documentation
+for more details about the format and meaning of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><dl>
+<dt>Among other data, each record contains 1) the experimental ion  free energy, 2) the</dt><dd><p>formula of the reference solid for the ion, and 3) the experimental free energy of the
+reference solid. All energies are given in kJ/mol. An example is given below.</p>
+<p>{‘identifier’: ‘Li[+]’,
+‘formula’: ‘Li[+]’,
+‘data’: {‘charge’: {‘display’: ‘1.0’, ‘value’: 1.0, ‘unit’: ‘’},
+‘ΔGᶠ’: {‘display’: ‘-293.71 kJ/mol’, ‘value’: -293.71, ‘unit’: ‘kJ/mol’},
+‘MajElements’: ‘Li’,
+‘RefSolid’: ‘Li2O’,
+‘ΔGᶠRefSolid’: {‘display’: ‘-561.2 kJ/mol’, ‘value’: -561.2, ‘unit’: ‘kJ/mol’},
+‘reference’: ‘H. E. Barner and R. V. Scheuerman, Handbook of thermochemical data for
+compounds and aqueous species, Wiley, New York (1978)’}}</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_ion_reference_data_for_chemsys">
+<span class="sig-name descname"><span class="pre">get_ion_reference_data_for_chemsys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemsys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_ion_reference_data_for_chemsys" title="Link to this definition">#</a></dt>
+<dd><p>Download aqueous ion reference data used in the construction of Pourbaix diagrams.</p>
+<p>Use this method to examine the ion reference data and to add additional
+ions if desired. The data returned from this method can be passed to
+get_ion_entries().</p>
+<p>Data are retrieved from the Aqueous Ion Reference Data project
+hosted on MPContribs. Refer to that project and its associated documentation
+for more details about the format and meaning of the data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>chemsys</strong> (<em>str</em><em> or </em><em>[</em><em>str</em><em>]</em>) – Chemical system string comprising element
+symbols separated by dashes, e.g., “Li-Fe-O” or List of element
+symbols, e.g., [“Li”, “Fe”, “O”].</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><dl>
+<dt>Among other data, each record contains 1) the experimental ion  free energy, 2) the</dt><dd><p>formula of the reference solid for the ion, and 3) the experimental free energy of the
+reference solid. All energies are given in kJ/mol. An example is given below.</p>
+<p>{‘identifier’: ‘Li[+]’,
+‘formula’: ‘Li[+]’,
+‘data’: {‘charge’: {‘display’: ‘1.0’, ‘value’: 1.0, ‘unit’: ‘’},
+‘ΔGᶠ’: {‘display’: ‘-293.71 kJ/mol’, ‘value’: -293.71, ‘unit’: ‘kJ/mol’},
+‘MajElements’: ‘Li’,
+‘RefSolid’: ‘Li2O’,
+‘ΔGᶠRefSolid’: {‘display’: ‘-561.2 kJ/mol’, ‘value’: -561.2, ‘unit’: ‘kJ/mol’},
+‘reference’: ‘H. E. Barner and R. V. Scheuerman, Handbook of thermochemical data for
+compounds and aqueous species, Wiley, New York (1978)’}}</p>
+</dd>
+</dl>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>[dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_material_id_from_task_id">
+<span class="sig-name descname"><span class="pre">get_material_id_from_task_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">task_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_material_id_from_task_id" title="Link to this definition">#</a></dt>
+<dd><p>Returns the current material_id from a given task_id. The
+material_id should rarely change, and is usually chosen from
+among the smallest numerical id from the group of task_ids for
+that material. However, in some circumstances it might change,
+and this method is useful for finding the new material_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>task_id</strong> (<em>str</em>) – A task id.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>material_id (MPID)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_material_id_references">
+<span class="sig-name descname"><span class="pre">get_material_id_references</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_material_id_references" title="Link to this definition">#</a></dt>
+<dd><p>Returns all references for a material id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>material_id</strong> (<em>str</em>) – A material id.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of BibTeX references ([str])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_material_ids">
+<span class="sig-name descname"><span class="pre">get_material_ids</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemsys_formula</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">MPID</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_material_ids" title="Link to this definition">#</a></dt>
+<dd><p>Get all materials ids for a formula or chemsys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemsys_formula</strong> (<em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em>) – A chemical system, list of chemical systems</p></li>
+<li><p><strong>(</strong><strong>e.g.</strong> (<em>e.g.</em><em>, </em><em>Fe2O3</em><em>, </em><em>Si*</em>)</p></li>
+<li><p><strong>Li-Fe-O</strong> (<em>e.g.</em><em>, </em><em>Fe2O3</em><em>, </em><em>Si*</em>)</p></li>
+<li><p><strong>Si-*</strong> (<em>e.g.</em><em>, </em><em>Fe2O3</em><em>, </em><em>Si*</em>)</p></li>
+<li><p><strong>[</strong><strong>Si-O</strong> (<em>e.g.</em><em>, </em><em>Fe2O3</em><em>, </em><em>Si*</em>)</p></li>
+<li><p><strong>Li-Fe-P</strong><strong>]</strong><strong>)</strong> (<em>e.g.</em><em>, </em><em>Fe2O3</em><em>, </em><em>Si*</em>)</p></li>
+<li><p><strong>formula</strong> (<em>or single</em>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of all materials ids ([MPID])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_phonon_bandstructure_by_material_id">
+<span class="sig-name descname"><span class="pre">get_phonon_bandstructure_by_material_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_phonon_bandstructure_by_material_id" title="Link to this definition">#</a></dt>
+<dd><p>Get phonon dispersion data corresponding to a material_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>material_id</strong> (<em>str</em>) – Materials Project material_id.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>phonon band structure.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PhononBandStructureSymmLine</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_phonon_dos_by_material_id">
+<span class="sig-name descname"><span class="pre">get_phonon_dos_by_material_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_phonon_dos_by_material_id" title="Link to this definition">#</a></dt>
+<dd><p>Get phonon density of states data corresponding to a material_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>material_id</strong> (<em>str</em>) – Materials Project material_id.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A phonon DOS object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>CompletePhononDos</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_pourbaix_entries">
+<span class="sig-name descname"><span class="pre">get_pourbaix_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemsys</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solid_compat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'MaterialsProject2020Compatibility'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_gibbs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="m"><span class="pre">300</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_pourbaix_entries" title="Link to this definition">#</a></dt>
+<dd><p>A helper function to get all entries necessary to generate
+a Pourbaix diagram from the rest interface.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemsys</strong> (<em>str</em><em> or </em><em>[</em><em>str</em><em>]</em>) – Chemical system string comprising element
+symbols separated by dashes, e.g., “Li-Fe-O” or List of element
+symbols, e.g., [“Li”, “Fe”, “O”].</p></li>
+<li><p><strong>solid_compat</strong> – Compatibility scheme used to pre-process solid DFT energies prior
+to applying aqueous energy adjustments. May be passed as a class (e.g.
+MaterialsProject2020Compatibility) or an instance
+(e.g., MaterialsProject2020Compatibility()). If None, solid DFT energies
+are used as-is. Default: MaterialsProject2020Compatibility</p></li>
+<li><p><strong>use_gibbs</strong> – Set to 300 (for 300 Kelvin) to use a machine learning model to
+estimate solid free energy from DFT energy (see GibbsComputedStructureEntry).
+This can slightly improve the accuracy of the Pourbaix diagram in some
+cases. Default: None. Note that temperatures other than 300K are not
+permitted here, because MaterialsProjectAqueousCompatibility corrections,
+used in Pourbaix diagram construction, are calculated based on 300 K data.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_stability">
+<span class="sig-name descname"><span class="pre">get_stability</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">entries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ComputedEntry</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ComputedStructureEntry</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">PDEntry</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermo_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ThermoType</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">ThermoType.GGA_GGA_U</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_stability" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_structure_by_material_id">
+<span class="sig-name descname"><span class="pre">get_structure_by_material_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conventional_unit_cell</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Structure</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Structure</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_structure_by_material_id" title="Link to this definition">#</a></dt>
+<dd><p>Get a Structure corresponding to a material_id.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>material_id</strong> (<em>str</em>) – Materials Project material_id (a string,
+e.g., mp-1234).</p></li>
+<li><p><strong>final</strong> (<em>bool</em>) – Whether to get the final structure, or the list of initial
+(pre-relaxation) structures. Defaults to True.</p></li>
+<li><p><strong>conventional_unit_cell</strong> (<em>bool</em>) – Whether to get the standard
+conventional unit cell for the final or list of initial structures.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Structure object or list of Structure objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_structures">
+<span class="sig-name descname"><span class="pre">get_structures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemsys_formula</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">final</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">Structure</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_structures" title="Link to this definition">#</a></dt>
+<dd><p>Get a list of Structures corresponding to a chemical system or formula.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemsys_formula</strong> (<em>str</em><em>, </em><em>List</em><em>[</em><em>str</em><em>]</em>) – A chemical system, list of chemical systems
+(e.g., Li-Fe-O, Si-<em>, [Si-O, Li-Fe-P]), or single formula (e.g., Fe2O3, Si</em>).</p></li>
+<li><p><strong>final</strong> (<em>bool</em>) – Whether to get the final structure, or the list of initial
+(pre-relaxation) structures. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Structure objects. ([Structure])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_task_ids_associated_with_material_id">
+<span class="sig-name descname"><span class="pre">get_task_ids_associated_with_material_id</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calc_types</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">CalcType</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_task_ids_associated_with_material_id" title="Link to this definition">#</a></dt>
+<dd><p>Get Task ID values associated with a specific Material ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>material_id</strong> (<em>str</em>) – Material ID</p></li>
+<li><p><strong>calc_types</strong> (<em>[</em><em>CalcType</em><em>]</em>) – If specified, will restrict to a certain task type, e.g. [CalcType.GGA_STATIC]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of Task ID values.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>([str])</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.get_wulff_shape">
+<span class="sig-name descname"><span class="pre">get_wulff_shape</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">material_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_wulff_shape" title="Link to this definition">#</a></dt>
+<dd><p>Constructs a Wulff shape for a material.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>material_id</strong> (<em>str</em>) – Materials Project material_id, e.g. ‘mp-123’.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>pymatgen.analysis.wulff.WulffShape</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.grain_boundaries">
+<span class="sig-name descname"><span class="pre">grain_boundaries</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">GrainBoundaryRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.grain_boundaries" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.insertion_electrodes">
+<span class="sig-name descname"><span class="pre">insertion_electrodes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ElectrodeRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.insertion_electrodes" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.magnetism">
+<span class="sig-name descname"><span class="pre">magnetism</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">MagnetismRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.magnetism" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.materials">
+<span class="sig-name descname"><span class="pre">materials</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">MaterialsRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.materials" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.molecules">
+<span class="sig-name descname"><span class="pre">molecules</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">MoleculeRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.molecules" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.oxidation_states">
+<span class="sig-name descname"><span class="pre">oxidation_states</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">OxidationStatesRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.oxidation_states" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.phonon">
+<span class="sig-name descname"><span class="pre">phonon</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PhononRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.phonon" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.piezoelectric">
+<span class="sig-name descname"><span class="pre">piezoelectric</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">PiezoRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.piezoelectric" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.provenance">
+<span class="sig-name descname"><span class="pre">provenance</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ProvenanceRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.provenance" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.query">
+<span class="sig-name descname"><span class="pre">query</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.query" title="Link to this definition">#</a></dt>
+<dd><p>The MPRester().query method has been replaced with the MPRester().summary.search method.
+Note this method also no longer supports direct MongoDB-type queries. For more information,
+please see the new documentation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.robocrys">
+<span class="sig-name descname"><span class="pre">robocrys</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">RobocrysRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.robocrys" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.similarity">
+<span class="sig-name descname"><span class="pre">similarity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">SimilarityRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.similarity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.substrates">
+<span class="sig-name descname"><span class="pre">substrates</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">SubstratesRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.substrates" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.summary">
+<span class="sig-name descname"><span class="pre">summary</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">SummaryRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.summary" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.surface_properties">
+<span class="sig-name descname"><span class="pre">surface_properties</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">SurfacePropertiesRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.surface_properties" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.synthesis">
+<span class="sig-name descname"><span class="pre">synthesis</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">SynthesisRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.synthesis" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.tasks">
+<span class="sig-name descname"><span class="pre">tasks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">TaskRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.tasks" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.thermo">
+<span class="sig-name descname"><span class="pre">thermo</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">ThermoRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.thermo" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.MPRester.xas">
+<span class="sig-name descname"><span class="pre">xas</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">XASRester</span></em><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.MPRester.xas" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.get_dos_from_stable_composition">
+<span class="sig-name descname"><span class="pre">get_dos_from_stable_composition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermo_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['GGA_GGA+U']</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/materials_project.html#MPDatabase.get_dos_from_stable_composition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.get_dos_from_stable_composition" title="Link to this definition">#</a></dt>
+<dd><p>Get the CompleteDos object of the entry with E above Convex Hull = 0 eV for a target composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>str</em>) – Target composition (eg. “SrTiO3”).</p></li>
+<li><p><strong>thermo_type</strong> (<em>str</em>) – Thermo types to return data for (e.g. “GGA_GGA+U”).
+Check <cite>mp_api</cite> docs for information on thermo types.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>MPRester().materials.thermo.get_phase_diagram_from_chemsys</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>CompleteDos</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.get_entries">
+<span class="sig-name descname"><span class="pre">get_entries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemsys_formula_mpids</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compatible_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conventional_unit_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sort_by_e_above_hull</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/materials_project.html#MPDatabase.get_entries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.get_entries" title="Link to this definition">#</a></dt>
+<dd><p>Get a list of ComputedEntries or ComputedStructureEntries corresponding
+to a chemical system, formula, or materials_id or full criteria.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemsys_formula_id_criteria</strong> (<em>str</em><em> or </em><em>dict</em>) – A chemical system (e.g., Li-Fe-O), or formula (e.g., Fe2O3)
+or materials_id (e.g., mp-1234) or full Mongo-style dict criteria.</p></li>
+<li><p><strong>compatible_only</strong> (<em>bool</em>) – Whether to return only “compatible”
+entries. Compatible entries are entries that have been
+processed using the MaterialsProject2020Compatibility class,
+which performs adjustments to allow mixing of GGA and GGA+U
+calculations for more accurate phase diagrams and reaction
+energies.</p></li>
+<li><p><strong>property_data</strong> (<em>list</em>) – Specify additional properties to include in
+entry.data. If None, no data. Should be a subset of
+supported_properties.</p></li>
+<li><p><strong>conventional_unit_cell</strong> (<em>bool</em>) – Whether to get the standard conventional unit cell.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>entries</strong> – List of ComputedStructureEntry objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.get_entries_from_compositions">
+<span class="sig-name descname"><span class="pre">get_entries_from_compositions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compositions</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compatible_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">property_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conventional_unit_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/materials_project.html#MPDatabase.get_entries_from_compositions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.get_entries_from_compositions" title="Link to this definition">#</a></dt>
+<dd><p>Get a dictionary with compositions (strings) as keys and a list of ComputedEntries
+or ComputedStructureEntries as values.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compositions</strong> (<em>list</em>) – List of strings with compositions.</p></li>
+<li><p><strong>compatible_only</strong> (<em>bool</em>) – Whether to return only “compatible”
+entries. Compatible entries are entries that have been
+processed using the MaterialsProject2020Compatibility class,
+which performs adjustments to allow mixing of GGA and GGA+U
+calculations for more accurate phase diagrams and reaction
+energies.</p></li>
+<li><p><strong>property_data</strong> (<em>list</em>) – Specify additional properties to include in
+entry.data. If None, no data. Should be a subset of
+supported_properties.</p></li>
+<li><p><strong>conventional_unit_cell</strong> (<em>bool</em>) – Whether to get the standard conventional unit cell.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>entries</strong> – List of ComputedStructureEntry objects.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.get_phase_diagram_from_chemsys">
+<span class="sig-name descname"><span class="pre">get_phase_diagram_from_chemsys</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">chemsys</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermo_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'GGA_GGA+U'</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/materials_project.html#MPDatabase.get_phase_diagram_from_chemsys"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.get_phase_diagram_from_chemsys" title="Link to this definition">#</a></dt>
+<dd><p>Pull <cite>PhaseDiagram</cite> object from MP database given a chemical system (eg. “Li-Nb-O”).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>chemsys</strong> (<em>str</em>) – Chemical system (eg. “Li-Nb-O”).</p></li>
+<li><p><strong>thermo_type</strong> (<em>str</em>) – Thermo types to return data for (e.g. “GGA_GGA+U”).
+Check <cite>mp_api</cite> docs for information on thermo types.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>MPRester().materials.thermo.get_phase_diagram_from_chemsys</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>pd</strong> – <cite>PhaseDiagram</cite> object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PhaseDiagram</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.get_stable_energy_pfu_from_composition">
+<span class="sig-name descname"><span class="pre">get_stable_energy_pfu_from_composition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermo_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['GGA_GGA+U']</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/materials_project.html#MPDatabase.get_stable_energy_pfu_from_composition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.get_stable_energy_pfu_from_composition" title="Link to this definition">#</a></dt>
+<dd><p>Pull from MP database the energy per formula unit (pfu) in eV of the
+entry with E above Convex Hull = 0 eV for a target composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>str</em>) – Target composition (eg. “SrTiO3”).</p></li>
+<li><p><strong>thermo_type</strong> (<em>str</em>) – Thermo types to return data for (e.g. “GGA_GGA+U”).
+Check <cite>mp_api</cite> docs for information on thermo types.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>MPRester().materials.thermo.get_phase_diagram_from_chemsys</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>energy_pfu</strong> – Energy per formula unit in eV.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.get_stable_entry_from_composition">
+<span class="sig-name descname"><span class="pre">get_stable_entry_from_composition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">composition</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">thermo_types</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">['GGA_GGA+U']</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/materials_project.html#MPDatabase.get_stable_entry_from_composition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.get_stable_entry_from_composition" title="Link to this definition">#</a></dt>
+<dd><p>Pull from MP database the entry with E above Convex Hull = 0 eV for a target composition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>composition</strong> (<em>str</em>) – Target composition (eg. “SrTiO3”).</p></li>
+<li><p><strong>thermo_type</strong> (<em>str</em>) – Thermo types to return data for (e.g. “GGA_GGA+U”).
+Check <cite>mp_api</cite> docs for information on thermo types.</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Kwargs to pass to <cite>MPRester().materials.thermo.get_phase_diagram_from_chemsys</cite>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>ThermoDoc</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.get_structure">
+<span class="sig-name descname"><span class="pre">get_structure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">final</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">conventional_unit_cell</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/tools/materials_project.html#MPDatabase.get_structure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.get_structure" title="Link to this definition">#</a></dt>
+<dd><p>Get a Structure corresponding to a material ID.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>material_id</strong> (<em>str</em>) – Materials Project material_id (a string, e.g., mp-1234).</p></li>
+<li><p><strong>final</strong> (<em>bool</em>) – Whether to get the final structure, or the initial
+(pre-relaxation) structure.</p></li>
+<li><p><strong>conventional_unit_cell</strong> (<em>bool</em>) – Whether to get the standard conventional unit cell</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>structure</strong> – Structure object.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Structure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="defermi.tools.materials_project.MPDatabase.mp_rester">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">mp_rester</span></span><a class="headerlink" href="#defermi.tools.materials_project.MPDatabase.mp_rester" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="defermi.tools.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">defermi.tools package</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="defermi.tools.structure.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">defermi.tools.structure module</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase"><code class="docutils literal notranslate"><span class="pre">MPDatabase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.absorption"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.absorption</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.alloys"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.alloys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.bonds"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.bonds</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.chemenv"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.chemenv</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.contribs"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.contribs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.dielectric"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.dielectric</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.doi"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.doi</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.elasticity"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.elasticity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.electronic_structure</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure_bandstructure"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.electronic_structure_bandstructure</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.electronic_structure_dos"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.electronic_structure_dos</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.eos"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.eos</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.find_structure"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.find_structure()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_atom_reference_data"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_atom_reference_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_bandstructure_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_bandstructure_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_charge_density_from_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_charge_density_from_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_charge_density_from_task_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_charge_density_from_task_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_cohesive_energy"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_cohesive_energy()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_database_version"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_database_version()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_dos_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_dos_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_download_info"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_download_info()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_emmet_version"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_emmet_version()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_entries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_entries()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_entries_in_chemsys"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_entries_in_chemsys()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_entry_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_entry_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_ion_entries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_ion_entries()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_ion_reference_data"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_ion_reference_data()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_ion_reference_data_for_chemsys"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_ion_reference_data_for_chemsys()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_material_id_from_task_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_material_id_from_task_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_material_id_references"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_material_id_references()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_material_ids"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_material_ids()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_phonon_bandstructure_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_phonon_bandstructure_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_phonon_dos_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_phonon_dos_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_pourbaix_entries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_pourbaix_entries()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_stability"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_stability()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_structure_by_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_structure_by_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_structures"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_structures()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_task_ids_associated_with_material_id"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_task_ids_associated_with_material_id()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.get_wulff_shape"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.get_wulff_shape()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.grain_boundaries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.grain_boundaries</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.insertion_electrodes"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.insertion_electrodes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.magnetism"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.magnetism</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.materials"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.materials</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.molecules"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.molecules</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.oxidation_states"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.oxidation_states</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.phonon"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.phonon</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.piezoelectric"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.piezoelectric</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.provenance"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.provenance</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.query"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.query()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.robocrys"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.robocrys</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.similarity"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.similarity</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.substrates"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.substrates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.summary"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.summary</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.surface_properties"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.surface_properties</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.synthesis"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.synthesis</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.tasks"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.tasks</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.thermo"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.thermo</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.MPRester.xas"><code class="docutils literal notranslate"><span class="pre">MPDatabase.MPRester.xas</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_dos_from_stable_composition"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_dos_from_stable_composition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_entries"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_entries()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_entries_from_compositions"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_entries_from_compositions()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_phase_diagram_from_chemsys"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_phase_diagram_from_chemsys()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_stable_energy_pfu_from_composition"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_stable_energy_pfu_from_composition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_stable_entry_from_composition"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_stable_entry_from_composition()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.get_structure"><code class="docutils literal notranslate"><span class="pre">MPDatabase.get_structure()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defermi.tools.materials_project.MPDatabase.mp_rester"><code class="docutils literal notranslate"><span class="pre">MPDatabase.mp_rester</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lorenzo Villa
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Lorenzo Villa.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

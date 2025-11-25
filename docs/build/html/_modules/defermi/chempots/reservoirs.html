@@ -1,0 +1,884 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>defermi.chempots.reservoirs &#8212; defermi 1.3.3 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../../_static/documentation_options.js?v=30aa16ed"></script>
+    <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/defermi/chempots/reservoirs';</script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">defermi 1.3.3 documentation</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../../defermi.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../defermi.chempots.html">defermi.chempots package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../defermi.chempots.core.html">defermi.chempots.core module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../defermi.chempots.generator.html">defermi.chempots.generator module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../defermi.chempots.oxygen.html">defermi.chempots.oxygen module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../defermi.chempots.phase_diagram.html">defermi.chempots.phase_diagram module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../defermi.chempots.reservoirs.html">defermi.chempots.reservoirs module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../defermi.corrections.html">defermi.corrections package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../defermi.corrections.freysoldt.html">defermi.corrections.freysoldt module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../defermi.corrections.kumagai.html">defermi.corrections.kumagai module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../../defermi.tools.html">defermi.tools package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../defermi.tools.materials_project.html">defermi.tools.materials_project module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../defermi.tools.structure.html">defermi.tools.structure module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../defermi.tools.utils.html">defermi.tools.utils module</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../defermi.analysis.html">defermi.analysis module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../defermi.defects.html">defermi.defects module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../defermi.elasticity.html">defermi.elasticity module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../defermi.electronic_structure.html">defermi.electronic_structure module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../defermi.entries.html">defermi.entries module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../defermi.generator.html">defermi.generator module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../defermi.plotter.html">defermi.plotter module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../defermi.structure.html">defermi.structure module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../defermi.thermodynamics.html">defermi.thermodynamics module</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for defermi.chempots.reservoirs</h1><div class="highlight"><pre>
+<span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Mon Jun  2 16:33:50 2025</span>
+
+<span class="sd">@author: lorenzo</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">op</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">monty.json</span><span class="w"> </span><span class="kn">import</span> <span class="n">MSONable</span><span class="p">,</span> <span class="n">MontyEncoder</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">copy</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.analysis.phase_diagram</span><span class="w"> </span><span class="kn">import</span> <span class="n">PhaseDiagram</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chempots</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.phase_diagram</span><span class="w"> </span><span class="kn">import</span> <span class="n">PDHandler</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">..tools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_composition</span>
+
+
+<div class="viewcode-block" id="Reservoirs">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Reservoirs</span><span class="p">(</span><span class="n">MSONable</span><span class="p">):</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">res_dict</span><span class="p">,</span><span class="n">phase_diagram</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">mu_refs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">are_chempots_delta</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Class to handle dictionaries of chemical potentials. Works almost completely like a python dictionary.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        res_dict : dict</span>
+<span class="sd">            Dictionary with reservoir names as key and dictionaries of chemical potentials as values.</span>
+<span class="sd">        phase_diagram : PhaseDiagram</span>
+<span class="sd">            PhaseDiagram object, useful to convert absolute chempots in referenced chempots.</span>
+<span class="sd">        mu_refs : dict</span>
+<span class="sd">            Dictionary with chemical potentials of reference elements ({Element:chempot}).</span>
+<span class="sd">            If the PhaseDiagram is provided mu_refs is taken from the mu_refs attribute. </span>
+<span class="sd">        are_chempots_delta : bool</span>
+<span class="sd">            Set this variable to True if chempots in dictionary are referenced values.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span> <span class="o">=</span> <span class="n">res_dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pd</span> <span class="o">=</span> <span class="n">phase_diagram</span> 
+        <span class="k">if</span> <span class="n">mu_refs</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span> <span class="o">=</span> <span class="n">mu_refs</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span> <span class="o">=</span> <span class="n">PDHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="p">)</span><span class="o">.</span><span class="n">get_chempots_reference</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span> <span class="o">=</span> <span class="n">mu_refs</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Neither PhaseDiagram or reference chempots have been provided, conversions btw ref and abs value will not be possible&#39;</span><span class="p">,</span><span class="ne">UserWarning</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_are_chempots_delta</span> <span class="o">=</span> <span class="n">are_chempots_delta</span>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dataframe</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="nf">_repr_html_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dataframe</span><span class="p">()</span><span class="o">.</span><span class="n">_repr_html_</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">reskey</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="p">[</span><span class="n">reskey</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">reskey</span><span class="p">,</span><span class="n">chempots</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="p">[</span><span class="n">reskey</span><span class="p">]</span> <span class="o">=</span> <span class="n">chempots</span>
+        <span class="k">return</span>
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Reservoirs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">res_dict</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="Reservoirs.keys">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.keys">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">keys</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Reservoirs.values">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.values">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="o">.</span><span class="n">values</span><span class="p">()</span></div>
+
+    
+<div class="viewcode-block" id="Reservoirs.items">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.items">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Reservoirs.copy">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.copy">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Reservoirs</span><span class="p">(</span><span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="p">),</span><span class="n">phase_diagram</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="p">,</span>
+                          <span class="n">are_chempots_delta</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">are_chempots_delta</span><span class="p">,</span><span class="n">mu_refs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span><span class="p">)</span></div>
+
+    
+<div class="viewcode-block" id="Reservoirs.update">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.update">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">other</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
+
+
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">are_chempots_delta</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_are_chempots_delta</span>
+
+<div class="viewcode-block" id="Reservoirs.as_dict">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.as_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Json-serializable dict representation of a Reservoirs object. </span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        d : dict</span>
+<span class="sd">            Json-serializable dict of a Reservoirs object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;@module&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;@class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;res_dict&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">:</span><span class="n">mu</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">mu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span> 
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;phase_diagram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;mu_refs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;are_chempots_delta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">are_chempots_delta</span>
+        <span class="k">return</span> <span class="n">d</span></div>
+
+
+
+<div class="viewcode-block" id="Reservoirs.to_json">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.to_json">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">to_json</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">path</span><span class="p">,</span><span class="bp">cls</span><span class="o">=</span><span class="n">MontyEncoder</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Save Reservoirs object as json string or file</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str</span>
+<span class="sd">            Path to the destination file. If None a string is exported.</span>
+<span class="sd">        cls : cls</span>
+<span class="sd">            Encoder class for json.dump. The default is MontyEncoder.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        d : str</span>
+<span class="sd">            If path is not set a string is returned.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">file</span><span class="p">,</span><span class="bp">cls</span><span class="o">=</span><span class="bp">cls</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">d</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span>  </div>
+
+
+
+<div class="viewcode-block" id="Reservoirs.from_dict">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.from_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">d</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of Reservoirs object from dictionary representation.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        d : dict</span>
+<span class="sd">            Json-serializable dict of a Reservoirs object.</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        reservoirs : Reservoirs</span>
+<span class="sd">            Reservoirs object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">res</span><span class="p">,</span><span class="n">chempots</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;res_dict&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">res_dict</span><span class="p">[</span><span class="n">res</span><span class="p">]</span> <span class="o">=</span> <span class="n">Chempots</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">chempots</span><span class="p">)</span>
+        <span class="n">phase_diagram</span> <span class="o">=</span> <span class="n">PhaseDiagram</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;phase_diagram&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;phase_diagram&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">mu_refs</span> <span class="o">=</span> <span class="n">Chempots</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;mu_refs&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;mu_refs&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">are_chempots_delta</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;are_chempots_delta&#39;</span><span class="p">]</span>
+            
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span><span class="n">phase_diagram</span><span class="p">,</span><span class="n">mu_refs</span><span class="p">,</span><span class="n">are_chempots_delta</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Reservoirs.from_json">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.from_json">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_json</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build Reservoirs object from json file or string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path_or_string : str</span>
+<span class="sd">            If an existing path to a file is given the object is constructed reading the json file.</span>
+<span class="sd">            Otherwise it will be read as a string.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Reservoir object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Reservoirs</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="Reservoirs.filter_reservoirs">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.filter_reservoirs">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filter_reservoirs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">elements</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get new Reservoir object filtering the chempots dictionary.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        inplace : bool</span>
+<span class="sd">            Apply changes to current Reservoirs object.</span>
+<span class="sd">        elements : list</span>
+<span class="sd">            List of element symbols.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        res : Reservoirs</span>
+<span class="sd">            Reservoirs object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">mu_refs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">filtered_dict</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">res_dict</span>
+        <span class="k">if</span> <span class="n">elements</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">filtered_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">r</span><span class="p">]):</span>
+                    <span class="k">if</span> <span class="n">el</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">:</span>
+                        <span class="k">del</span> <span class="n">filtered_dict</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">el</span><span class="p">]</span>
+                        <span class="k">if</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">mu_refs</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                            <span class="k">del</span> <span class="n">mu_refs</span><span class="p">[</span><span class="n">el</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span> <span class="o">=</span> <span class="n">filtered_dict</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span> <span class="o">=</span> <span class="n">mu_refs</span>
+            <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">mu_refs</span> <span class="o">=</span> <span class="n">mu_refs</span>
+            <span class="k">return</span> <span class="n">res</span></div>
+
+
+
+<div class="viewcode-block" id="Reservoirs.get_absolute_res_dict">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.get_absolute_res_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_absolute_res_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Return values of chempots from referenced to absolute </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">are_chempots_delta</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">r</span><span class="p">:</span><span class="n">mu</span><span class="o">.</span><span class="n">get_absolute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">mu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Chemical potential values are already absolute&#39;</span><span class="p">)</span></div>
+
+                
+
+<div class="viewcode-block" id="Reservoirs.get_referenced_res_dict">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.get_referenced_res_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_referenced_res_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        Return values of chempots from absolute to referenced </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">are_chempots_delta</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Chemical potential values are already with respect to reference&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">r</span><span class="p">:</span><span class="n">mu</span><span class="o">.</span><span class="n">get_referenced</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">mu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span></div>
+
+
+    
+<div class="viewcode-block" id="Reservoirs.get_dataframe">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.get_dataframe">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_dataframe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">format_symbols</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">format_compositions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">all_math</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span><span class="n">ndecimals</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get DataFrame object of the dictionary of reservoirs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        format_symbols : bool</span>
+<span class="sd">            Format labels of element chempots in latex math format.</span>
+<span class="sd">        format_compositions : bool</span>
+<span class="sd">            Get Latex format of compositions.</span>
+<span class="sd">        all_math : bool</span>
+<span class="sd">            Get all characters in composition written in latex&#39;s math format.</span>
+<span class="sd">        ndecimals : int</span>
+<span class="sd">            Number of decimals to round the chemical potentials, if None the numbers are not changed.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        df : DataFrame</span>
+<span class="sd">            DataFrame object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_res_dict_with_symbols</span><span class="p">(</span><span class="n">format_symbols</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">transpose</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">format_compositions</span><span class="p">:</span>
+            <span class="n">new_index</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">string</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
+                <span class="n">new_string</span> <span class="o">=</span> <span class="n">format_composition</span><span class="p">(</span><span class="n">string</span><span class="p">,</span><span class="n">all_math</span><span class="o">=</span><span class="n">all_math</span><span class="p">)</span>
+                <span class="n">new_index</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_string</span><span class="p">)</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">new_index</span>
+        <span class="k">if</span> <span class="n">ndecimals</span><span class="p">:</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">decimals</span><span class="o">=</span><span class="n">ndecimals</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">df</span></div>
+
+        
+    
+<div class="viewcode-block" id="Reservoirs.get_latex_table">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.get_latex_table">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_latex_table</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">ndecimals</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get string with formatted latex table of chemical potentials.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_dataframe</span><span class="p">(</span><span class="n">format_symbols</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span><span class="n">ndecimals</span><span class="o">=</span><span class="n">ndecimals</span><span class="p">)</span>
+        <span class="n">table</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_latex</span><span class="p">(</span><span class="n">escape</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">table</span></div>
+
+    
+    
+<div class="viewcode-block" id="Reservoirs.get_plot">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.get_plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">elements</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Plot the stability diagram with the reservoir points.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        elements : list</span>
+<span class="sd">            List of strings with element symbols on the diagram axis.</span>
+<span class="sd">        size : float</span>
+<span class="sd">            Size of the points. The default is 1.</span>
+<span class="sd">        **kwargs : dict</span>
+<span class="sd">            Kwargs for the add_reservoirs function.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Matplotlib object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">pynter.phase_diagram.plotter</span><span class="w"> </span><span class="kn">import</span> <span class="n">PDPlotterAdder</span> <span class="c1"># import here to avoid circular import</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">res</span><span class="o">.</span><span class="n">pd</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;PhaseDiagram object needs to be stored to plot the stability diagram&#39;</span><span class="p">)</span>
+        <span class="n">plt</span> <span class="o">=</span> <span class="n">PDHandler</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">pd</span><span class="p">)</span><span class="o">.</span><span class="n">get_stability_diagram</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">res</span><span class="o">.</span><span class="n">are_chempots_delta</span><span class="p">:</span>
+            <span class="n">res</span><span class="o">.</span><span class="n">set_to_referenced</span><span class="p">()</span>
+            
+        <span class="n">plt</span> <span class="o">=</span> <span class="n">PDPlotterAdder</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">pd</span><span class="p">,</span><span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="n">add_reservoirs</span><span class="p">(</span><span class="n">res</span><span class="p">,</span><span class="n">elements</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">plt</span></div>
+
+                
+    
+<div class="viewcode-block" id="Reservoirs.set_to_absolute">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.set_to_absolute">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_to_absolute</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set reservoir dictionary to absolute values of chempots.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_res_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_absolute_res_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span> <span class="o">=</span> <span class="n">new_res_dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_are_chempots_delta</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">return</span></div>
+
+
+        
+<div class="viewcode-block" id="Reservoirs.set_to_referenced">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.Reservoirs.set_to_referenced">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_to_referenced</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set reservoir dictionary to referenced values of chempots.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_res_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_referenced_res_dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span> <span class="o">=</span> <span class="n">new_res_dict</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_are_chempots_delta</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span>    </div>
+
+    
+                
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_res_dict_with_symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">format_symbols</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        format_labels (bool): Format labels of element chempots in latex math format.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">new_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">res</span><span class="p">,</span><span class="n">chempots</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">new_dict</span><span class="p">[</span><span class="n">res</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">chempots</span> <span class="o">=</span> <span class="n">chempots</span><span class="o">.</span><span class="n">mu</span> <span class="c1">#keep just dict for DataFrame</span>
+            <span class="k">for</span> <span class="n">el</span> <span class="ow">in</span> <span class="n">chempots</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">format_symbols</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">are_chempots_delta</span><span class="p">:</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">Delta </span><span class="se">\\</span><span class="s1">mu_{</span><span class="se">\\</span><span class="s1">text{</span><span class="si">%s</span><span class="s1">}}$&#39;</span> <span class="o">%</span><span class="n">el</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;$</span><span class="se">\\</span><span class="s1">mu_{</span><span class="se">\\</span><span class="s1">text{</span><span class="si">%s</span><span class="s1">}}$&#39;</span> <span class="o">%</span><span class="n">el</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">label</span> <span class="o">=</span> <span class="n">el</span>
+                <span class="n">new_dict</span><span class="p">[</span><span class="n">res</span><span class="p">][</span><span class="n">label</span><span class="p">]</span> <span class="o">=</span> <span class="n">chempots</span><span class="p">[</span><span class="n">el</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">new_dict</span></div>
+
+
+    
+<div class="viewcode-block" id="PressureReservoirs">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.PressureReservoirs">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">PressureReservoirs</span><span class="p">(</span><span class="n">Reservoirs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Subclass of Reservoirs which contains temperature information. Useful for partial pressure analysis. </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">res_dict</span><span class="p">,</span><span class="n">temperature</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">phase_diagram</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">mu_refs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">are_chempots_delta</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span><span class="n">phase_diagram</span><span class="p">,</span><span class="n">mu_refs</span><span class="p">,</span><span class="n">are_chempots_delta</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span> <span class="o">=</span> <span class="n">temperature</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pressures</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        
+    
+    <span class="k">def</span><span class="w"> </span><span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span> <span class="o">==</span> <span class="n">other</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">PressureReservoirs</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">res_dict</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        
+    
+<div class="viewcode-block" id="PressureReservoirs.as_dict">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.PressureReservoirs.as_dict">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Json-serializable dict representation of a PressureReservoirs object. The Pymatgen element </span>
+<span class="sd">        is expressed with the symbol of the element.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        d : dict</span>
+<span class="sd">            Json-serializable dict of a PressureReservoirs object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;@module&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__module__</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;@class&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;res_dict&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">:</span><span class="n">mu</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">mu</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">res_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temperature</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;phase_diagram&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pd</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;mu_refs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mu_refs</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">d</span><span class="p">[</span><span class="s1">&#39;are_chempots_delta&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">are_chempots_delta</span>
+        <span class="k">return</span> <span class="n">d</span></div>
+
+
+
+<div class="viewcode-block" id="PressureReservoirs.from_dict">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.PressureReservoirs.from_dict">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span><span class="n">d</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of PressureReservoirs object from dictionary representation.</span>
+<span class="sd">        </span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        d : dict</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        PressureReservoirs object.</span>
+<span class="sd">        </span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res_dict</span> <span class="o">=</span> <span class="p">{</span><span class="nb">float</span><span class="p">(</span><span class="n">r</span><span class="p">):</span><span class="n">Chempots</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">mu</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;res_dict&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">temperature</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;temperature&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;temperature&#39;</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">phase_diagram</span> <span class="o">=</span> <span class="n">PhaseDiagram</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;phase_diagram&#39;</span><span class="p">])</span> <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;phase_diagram&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">mu_refs</span> <span class="o">=</span> <span class="n">Chempots</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;mu_refs&#39;</span><span class="p">])</span>  <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;mu_refs&#39;</span><span class="p">]</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="n">are_chempots_delta</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;are_chempots_delta&#39;</span><span class="p">]</span>
+            
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">res_dict</span><span class="p">,</span><span class="n">temperature</span><span class="p">,</span><span class="n">phase_diagram</span><span class="p">,</span><span class="n">mu_refs</span><span class="p">,</span><span class="n">are_chempots_delta</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="PressureReservoirs.from_json">
+<a class="viewcode-back" href="../../../defermi.chempots.reservoirs.html#defermi.chempots.reservoirs.PressureReservoirs.from_json">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_json</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build PressureReservoirs object from json file or string.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path_or_string : str</span>
+<span class="sd">            If an existing path to a file is given the object is constructed reading the json file.</span>
+<span class="sd">            Otherwise it will be read as a string.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        PressureReservoir object.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">op</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">):</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+                <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">d</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">path_or_string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PressureReservoirs</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>   </div>
+</div>
+
+    
+    
+    
+</pre></div>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Lorenzo Villa
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2025, Lorenzo Villa.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
