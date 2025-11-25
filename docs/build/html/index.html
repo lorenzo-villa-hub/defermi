@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>defermi documentation &#8212; defermi 1.3.3 documentation</title>
+    <title>defermi &#8212; defermi 1.3.3 documentation</title>
   
   
   
@@ -43,7 +43,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="defermi package" href="defermi.html" />
+    <link rel="next" title="Installation" href="Installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -149,8 +149,11 @@
  </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
-        <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="defermi.html">Python API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
+
+<li class="toctree-l1 has-children"><a class="reference internal" href="defermi.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="defermi.chempots.html">defermi.chempots package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="defermi.chempots.core.html">defermi.chempots.core module</a></li>
 <li class="toctree-l3"><a class="reference internal" href="defermi.chempots.generator.html">defermi.chempots.generator module</a></li>
@@ -306,7 +309,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -317,11 +322,23 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>defermi documentation</h1>
+    <h1>defermi</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">defermi</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ui">UI</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -331,11 +348,55 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="defermi-documentation">
-<h1>defermi documentation<a class="headerlink" href="#defermi-documentation" title="Link to this heading">#</a></h1>
-<p>Add your content using <code class="docutils literal notranslate"><span class="pre">reStructuredText</span></code> syntax. See the
-<a class="reference external" href="https://www.sphinx-doc.org/en/master/usage/restructuredtext/index.html">reStructuredText</a>
-documentation for details.</p>
+  <p>
+  <a href="https://github.com/lorenzo-villa-hub/defermi">
+    <img src="https://img.shields.io/badge/github-repo-blue?logo=github" alt="GitHub repo" height="20">
+  </a>
+  <a href="https://pypi.org/project/defermi/">
+    <img src="https://img.shields.io/pypi/v/defermi" alt="PyPI version" height="20">
+  </a>
+</p><section id="defermi">
+<h1>defermi<a class="headerlink" href="#defermi" title="Link to this heading">#</a></h1>
+<p>Python library for the analysis and visualization of point defects. Simple and intuitive for new users and non-experts, flexible and customizable for power users.</p>
+</section>
+<section id="ui">
+<h1>UI<a class="headerlink" href="#ui" title="Link to this heading">#</a></h1>
+<a class="reference external image-reference" href="https://defermi.streamlit.app/"><img alt="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" />
+</a>
+<a class="reference external image-reference" href="https://github.com/lorenzo-villa-hub/defermi-gui"><img alt="https://img.shields.io/badge/github-repo-blue?logo=github" src="https://img.shields.io/badge/github-repo-blue?logo=github" />
+</a>
+<a class="reference external image-reference" href="https://pypi.org/project/defermi-gui/"><img alt="https://img.shields.io/pypi/v/defermi-gui" src="https://img.shields.io/pypi/v/defermi-gui" />
+</a>
+<p>The library comes with a simple and intuitive graphical user interface.
+It runs in the browser without installation at: <a class="reference external" href="https://defermi.streamlit.app/">https://defermi.streamlit.app/</a></p>
+<a class="reference internal image-reference" href="_images/defermi_main_screenshot.png"><img alt="main screenshot" class="align-left" src="_images/defermi_main_screenshot.png" style="width: 700px;" />
+</a>
+</section>
+<section id="features">
+<h1>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Formation energies</strong>: Easily calculate and plot formation energies of point defects.</p></li>
+<li><p><strong>Charge transition levels</strong>: Compute and visualize defect thermodynamic transition levels.</p></li>
+<li><p><strong>Chemical potentials</strong>: Generate, analyse and visualize datasets of chemical potentials. Automated workflow for datasets generations based on oxygen partial pressures.</p></li>
+<li><p><strong>Defect complexes</strong>: Support for defect complexes is included.</p></li>
+<li><p><strong>Equilibrium Fermi level</strong>: Compute the Fermi level dictated by charge neutrality self-consistently.</p></li>
+<li><p><strong>Brouwer and doping diagrams</strong>: Automatic generation of Brouwer diagrams and doping diagrams.</p></li>
+<li><p><strong>Temperature-dependent formation energies and defect concentrations</strong>: System-specific temperature-dependence of formation energies and defect concentrations can be included and customized.</p></li>
+<li><p><strong>Extended frozen defects approach</strong>:
+Calculate Fermi level under non-equilibrium conditions, fixing defect concentrations to target values while allowing charge to equilibrate.
+Useful for quenched conditions, extrinsic defects, partial quenching, and elemental concentration constraints.</p></li>
+<li><p><strong>Finite-size corrections</strong>: Compute charge corrections (FNV and eFNV schemes), currently for <code class="docutils literal notranslate"><span class="pre">VASP</span></code> using <code class="docutils literal notranslate"><span class="pre">pymatgen</span></code>.</p></li>
+<li><p><strong>Automatic import from `VASP` calculations</strong>: Import datasets directly from VASP calculation folders. Support for <code class="docutils literal notranslate"><span class="pre">gpaw</span></code> coming soon.</p></li>
+</ul>
+</section>
+<section id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p><strong>Intuitive</strong>: All main functionalities are wrapped in the <code class="docutils literal notranslate"><span class="pre">DefectsAnalysis</span></code> class — no need to dig through deep documentation.</p></li>
+<li><p><strong>Easy interface</strong>: Works with simple objects (<code class="docutils literal notranslate"><span class="pre">list</span></code>, <code class="docutils literal notranslate"><span class="pre">dict</span></code>, <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code>). Getting started is as easy as loading a CSV.</p></li>
+<li><p><strong>Flexible</strong>: Power users can customize every step; routines are available individually for full control.</p></li>
+<li><p><strong>Customizable</strong>: Users can supply their own formation-energy and concentration models, including temperature/volume dependence and system-specific behaviors.</p></li>
+</ul>
 <div class="toctree-wrapper compound">
 </div>
 </section>
@@ -352,11 +413,11 @@ documentation for details.</p>
                   
 <div class="prev-next-area">
     <a class="right-next"
-       href="defermi.html"
+       href="Installation.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">defermi package</p>
+        <p class="prev-next-title">Installation</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -366,6 +427,25 @@ documentation for details.</p>
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">defermi</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ui">UI</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>

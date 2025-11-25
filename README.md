@@ -7,7 +7,6 @@
 [![PyPI](https://img.shields.io/pypi/v/defermi)](https://pypi.org/project/defermi/)
 
 Python library for the analysis and visualization of point defects. Simple and intuitive for new users and non-experts, flexible and customizable for power users. An intuitive user interface can be run online with no installation at this link: https://defermi.streamlit.app/ (using [streamlit](https:/streamlit.io)).  \
-Explore quickly the functionalities with this pre-loaded [example](https://defermi-example.streamlit.app). 
 
 
 ## Installation
