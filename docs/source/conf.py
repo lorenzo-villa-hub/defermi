@@ -22,21 +22,23 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
-    "myst_parser",
+    #"myst_nb",
+    "nbsphinx",
 ]
 
 templates_path = ['_templates']
 exclude_patterns = ['build', 'Thumbs.db', '.DS_Store']
 
+# autodoc options
 autoclass_content = "both"
 add_module_names = False
 
+# nb extensions options
+nb_execution_mode = "off"
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 
 html_static_path = ['_static']
-#html_theme = 'pydata_sphinx_theme' 
 html_theme = 'sphinx_book_theme'
-#html_theme = 'sphinx_rtd_theme'

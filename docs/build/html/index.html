@@ -40,6 +40,9 @@
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -153,6 +156,10 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Home</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Installation.html">Installation</a></li>
 
+<li class="toctree-l1 has-children"><a class="reference internal" href="getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/overview.html">Overview</a></li>
+</ul>
+</details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="defermi.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2 has-children"><a class="reference internal" href="defermi.chempots.html">defermi.chempots package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="defermi.chempots.core.html">defermi.chempots.core module</a></li>
@@ -386,7 +393,7 @@ It runs in the browser without installation at: <a class="reference external" hr
 Calculate Fermi level under non-equilibrium conditions, fixing defect concentrations to target values while allowing charge to equilibrate.
 Useful for quenched conditions, extrinsic defects, partial quenching, and elemental concentration constraints.</p></li>
 <li><p><strong>Finite-size corrections</strong>: Compute charge corrections (FNV and eFNV schemes), currently for <code class="docutils literal notranslate"><span class="pre">VASP</span></code> using <code class="docutils literal notranslate"><span class="pre">pymatgen</span></code>.</p></li>
-<li><p><strong>Automatic import from `VASP` calculations</strong>: Import datasets directly from VASP calculation folders. Support for <code class="docutils literal notranslate"><span class="pre">gpaw</span></code> coming soon.</p></li>
+<li><p><strong>Automatic import from VASP calculations</strong>: Import datasets directly from VASP calculation folders. Support for <code class="docutils literal notranslate"><span class="pre">gpaw</span></code> coming soon.</p></li>
 </ul>
 </section>
 <section id="overview">

@@ -55,7 +55,7 @@ Features
   Calculate Fermi level under non-equilibrium conditions, fixing defect concentrations to target values while allowing charge to equilibrate.  
   Useful for quenched conditions, extrinsic defects, partial quenching, and elemental concentration constraints.
 - **Finite-size corrections**: Compute charge corrections (FNV and eFNV schemes), currently for ``VASP`` using ``pymatgen``.
-- **Automatic import from `VASP` calculations**: Import datasets directly from VASP calculation folders. Support for ``gpaw`` coming soon.
+- **Automatic import from VASP calculations**: Import datasets directly from VASP calculation folders. Support for ``gpaw`` coming soon.
 
 
 Overview
@@ -73,4 +73,5 @@ Overview
 
    Home <self>
    Installation
+   getting_started/index
    API <defermi>

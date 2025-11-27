@@ -73,4 +73,5 @@ Overview
 
    Home <self>
    Installation
+   getting_started/index
    API <defermi>
