@@ -1,6 +1,8 @@
 
 import argparse
 
+from .inputs import setup_import
+
 
 def main():
     """
@@ -14,7 +16,7 @@ def main():
 
     subparsers = parser.add_subparsers()
 
-    # add setup functions here
+    setup_import(subparsers)
 
     args = parser.parse_args()
     
