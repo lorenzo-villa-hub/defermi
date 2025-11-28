@@ -52,8 +52,7 @@ def setup_import_vasp(parser):
 
     parser.add_argument('-m','--get-multiplicity',
                         default=False,
-                        type=bool,
-                        metavar='',
+                        action='store_true',
                         help='Automatically determine the multiplicity of the defect in the simulation cell. Not implemented for interstitials and defect complexes',
                         dest='get_multiplicity')
 

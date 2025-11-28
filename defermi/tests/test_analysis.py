@@ -257,6 +257,9 @@ class TestDefectsAnalysis(DefermiTest):
     def test_as_dict_from_dict(self):
         da1 = DefectsAnalysis.from_dict(self.da.as_dict())
         assert type(da1) == DefectsAnalysis
+        assert da1.band_gap == self.da.band_gap
+        assert da1.vbm == self.da.vbm
+
 
     def test_to_json(self):
         try:

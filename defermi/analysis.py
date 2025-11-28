@@ -232,7 +232,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
     
 
     @staticmethod
-    def from_file(filename,band_gap,vbm=0,format=None, **kwargs): 
+    def from_file(filename,band_gap=None,vbm=0,format=None, **kwargs): 
         """
         Create DefectsAnalysis object from file.
         Available formats are:
@@ -256,6 +256,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             df = pd.read_csv(filename, **kwargs)
         else:
             raise ValueError('Invalid file format, available are "json","pkl","csv"')
+        if not band_gap:
+            warnings.warn('Band gap must be set when importing from DataFrame')
         return DefectsAnalysis.from_dataframe(df=df,band_gap=band_gap,vbm=vbm)
 
 
@@ -387,7 +389,9 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 if get_charge_correction == 'kumagai':
                     ck['defect_path'] = path
                     ck['bulk_path'] = path_bulk
-                    if dielectric_tensor:
+                    if not dielectric_tensor:
+                        raise ValueError('Dielectric tensor must be provided for Kumagai corrections')                   
+                    else:
                         ck['dielectric_tensor'] = dielectric_tensor
                     ck['get_correction_data'] = False
                     corr = get_kumagai_correction(**ck)
@@ -398,8 +402,12 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                     ck['defect_path_locpot'] = defect_path_locpot
                     ck['bulk_path_locpot'] = bulk_path_locpot
                     ck['finder_kwargs'] = finder_kwargs
-                    if dielectric_tensor:
-                        ck['dielectric_tensor'] = dielectric_tensor
+                    if not dielectric_tensor:
+                        raise ValueError('Dielectric constant must be provided for Freysoldt corrections') 
+                    elif type(dielectric_tensor) not in (int,float):
+                        raise ValueError('Freysoldt corrections use dielectric constant, not tensor')
+                    else:
+                        ck['dielectric_constant'] = dielectric_tensor
                     corr = get_freysoldt_correction_from_locpot(**ck)
 
                 if get_charge_correction:
