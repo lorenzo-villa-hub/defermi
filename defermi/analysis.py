@@ -161,7 +161,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         entries = [DefectEntry.from_dict(e) for e in d['entries']]        
         vbm = d['vbm']
         band_gap = d['band_gap']
-        return cls(entries,vbm,band_gap)
+        return cls(entries,band_gap=band_gap,vbm=vbm)
 
 
     @staticmethod
@@ -309,11 +309,15 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             Path of VASP defects calculation.
         path_bulk : str
             Path of VASP bulk calculation. 
+        common_path : str
+            If set, the calculation path needs to contain this string for it to be parsed.
         get_charge_correction : str or bool
             Compute charge corrections from VASP directories. To skip corrections set it to False.
             Methods available are:
             - "kumagai" : Extended FNV scheme (eFNV).
             - "freysoldt" : FNV scheme.
+        dielectric_tensor : int,float 3x1 array or 3x3 array
+            Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.
         get_multiplicity : bool
             Determine defect multiplicity automatically. Not implemented for interstitials and defect complexes.
         get_data : True

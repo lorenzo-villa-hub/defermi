@@ -82,15 +82,17 @@ def setup_import_vasp(parser):
                         type=str,
                         metavar='',
                         help='Filename to save DefectsAnalysis object',
-                        dest='output')
+                        dest='filename')
 
 
 
     parser.set_defaults(func=run_import_vasp)
 
 def run_import_vasp(args):
-
-    dielectric_tensor = ast.literal_eval(args.dielectric_tensor)
+    if args.dielectric_tensor:
+        dielectric_tensor = ast.literal_eval(args.dielectric_tensor)
+    else:
+        dielectric_tensor = None
     da = DefectsAnalysis.from_vasp_directories(
                     path_defects=args.path_defects,
                     path_bulk=args.path_bulk,
