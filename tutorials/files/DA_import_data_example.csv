@@ -1,0 +1,5 @@
+name,charge,multiplicity,energy_diff,corr_kumagai,corr_elastic,bulk_volume
+Vac_O,0,1,10.8,0.0,0.01,800
+Vac_O,2,1,7.0,0.02,-0.02,800
+Vac_Sr,-2,1,8.0,0.015,-0.015,800
+Vac_Sr,0,1,7.8,0.0,0.01,800
