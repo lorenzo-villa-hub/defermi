@@ -155,6 +155,7 @@
 
 <li class="toctree-l1 has-children"><a class="reference internal" href="getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="getting_started/overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started/import_data.html">Import defect calculations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="defermi.html">API</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -911,7 +912,7 @@ as_dict().</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="defermi.analysis.DefectsAnalysis.from_file">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_gap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vbm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.from_file" title="Link to this definition">#</a></dt>
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">band_gap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vbm</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/defermi/analysis.html#DefectsAnalysis.from_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#defermi.analysis.DefectsAnalysis.from_file" title="Link to this definition">#</a></dt>
 <dd><p>Create DefectsAnalysis object from file.
 Available formats are:
 - ‘json’
@@ -944,10 +945,12 @@ Otherwise it will be read as a string.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>path_defects</strong> (<em>str</em>) – Path of VASP defects calculation.</p></li>
 <li><p><strong>path_bulk</strong> (<em>str</em>) – Path of VASP bulk calculation.</p></li>
+<li><p><strong>common_path</strong> (<em>str</em>) – If set, the calculation path needs to contain this string for it to be parsed.</p></li>
 <li><p><strong>get_charge_correction</strong> (<em>str</em><em> or </em><em>bool</em>) – Compute charge corrections from VASP directories. To skip corrections set it to False.
 Methods available are:
 - “kumagai” : Extended FNV scheme (eFNV).
 - “freysoldt” : FNV scheme.</p></li>
+<li><p><strong>dielectric_tensor</strong> (<em>int</em><em>,</em><em>float 3x1 array</em><em> or </em><em>3x3 array</em>) – Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.</p></li>
 <li><p><strong>get_multiplicity</strong> (<em>bool</em>) – Determine defect multiplicity automatically. Not implemented for interstitials and defect complexes.</p></li>
 <li><p><strong>get_data</strong> (<em>True</em>) – Store path in DefectEntry.data dictionary.</p></li>
 <li><p><strong>band_gap</strong> (<em>float</em>) – Band gap of bulk material. If not provided is determined from bulk VASP directory.</p></li>

@@ -13,7 +13,7 @@ import matplotlib.pyplot as plt
 
 from .chempots.core import Chempots
 from .chempots.reservoirs import Reservoirs
-from .chempots.generator import generate_chempots_from_mp, generate_pressure_reservoirs_from_precursors
+from .chempots.generator import generate_chempots_from_mp, generate_pressure_reservoirs_from_precursors, generate_elemental_chempots
 from .chempots.oxygen import get_pressure_reservoirs_from_precursors, get_oxygen_pressure_reservoirs
 from .corrections.kumagai import get_kumagai_correction
 from .corrections.freysoldt import get_freysoldt_correction_from_locpot
@@ -2013,7 +2013,11 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         """
         Generate chemical potentials with .chempots.generator
         """
-        if type(target) in (tuple, list):
+        if target == 'elemental':
+            elements = self.elements
+            chemical_potentials = generate_elemental_chempots(elements=elements)
+            
+        elif type(target) in (tuple, list):
             composition, element = target
             chemical_potentials = generate_chempots_from_mp(
                                             composition=composition,

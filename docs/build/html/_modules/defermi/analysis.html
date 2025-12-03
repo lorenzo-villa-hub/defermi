@@ -154,6 +154,7 @@
 
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started/overview.html">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/import_data.html">Import defect calculations</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../defermi.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -466,7 +467,7 @@ document.write(`
         <span class="n">entries</span> <span class="o">=</span> <span class="p">[</span><span class="n">DefectEntry</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;entries&#39;</span><span class="p">]]</span>        
         <span class="n">vbm</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;vbm&#39;</span><span class="p">]</span>
         <span class="n">band_gap</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;band_gap&#39;</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span><span class="n">vbm</span><span class="p">,</span><span class="n">band_gap</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">entries</span><span class="p">,</span><span class="n">band_gap</span><span class="o">=</span><span class="n">band_gap</span><span class="p">,</span><span class="n">vbm</span><span class="o">=</span><span class="n">vbm</span><span class="p">)</span></div>
 
 
 
@@ -543,7 +544,7 @@ document.write(`
 <div class="viewcode-block" id="DefectsAnalysis.from_file">
 <a class="viewcode-back" href="../../defermi.analysis.html#defermi.analysis.DefectsAnalysis.from_file">[docs]</a>
     <span class="nd">@staticmethod</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">band_gap</span><span class="p">,</span><span class="n">vbm</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">band_gap</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">vbm</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span> 
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Create DefectsAnalysis object from file.</span>
 <span class="sd">        Available formats are:</span>
@@ -567,6 +568,8 @@ document.write(`
             <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Invalid file format, available are &quot;json&quot;,&quot;pkl&quot;,&quot;csv&quot;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">band_gap</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s1">&#39;Band gap must be set when importing from DataFrame&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">DefectsAnalysis</span><span class="o">.</span><span class="n">from_dataframe</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span><span class="n">band_gap</span><span class="o">=</span><span class="n">band_gap</span><span class="p">,</span><span class="n">vbm</span><span class="o">=</span><span class="n">vbm</span><span class="p">)</span></div>
 
 
@@ -626,11 +629,15 @@ document.write(`
 <span class="sd">            Path of VASP defects calculation.</span>
 <span class="sd">        path_bulk : str</span>
 <span class="sd">            Path of VASP bulk calculation. </span>
+<span class="sd">        common_path : str</span>
+<span class="sd">            If set, the calculation path needs to contain this string for it to be parsed.</span>
 <span class="sd">        get_charge_correction : str or bool</span>
 <span class="sd">            Compute charge corrections from VASP directories. To skip corrections set it to False.</span>
 <span class="sd">            Methods available are:</span>
 <span class="sd">            - &quot;kumagai&quot; : Extended FNV scheme (eFNV).</span>
 <span class="sd">            - &quot;freysoldt&quot; : FNV scheme.</span>
+<span class="sd">        dielectric_tensor : int,float 3x1 array or 3x3 array</span>
+<span class="sd">            Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.</span>
 <span class="sd">        get_multiplicity : bool</span>
 <span class="sd">            Determine defect multiplicity automatically. Not implemented for interstitials and defect complexes.</span>
 <span class="sd">        get_data : True</span>
@@ -700,7 +707,9 @@ document.write(`
                 <span class="k">if</span> <span class="n">get_charge_correction</span> <span class="o">==</span> <span class="s1">&#39;kumagai&#39;</span><span class="p">:</span>
                     <span class="n">ck</span><span class="p">[</span><span class="s1">&#39;defect_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path</span>
                     <span class="n">ck</span><span class="p">[</span><span class="s1">&#39;bulk_path&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">path_bulk</span>
-                    <span class="k">if</span> <span class="n">dielectric_tensor</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">dielectric_tensor</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Dielectric tensor must be provided for Kumagai corrections&#39;</span><span class="p">)</span>                   
+                    <span class="k">else</span><span class="p">:</span>
                         <span class="n">ck</span><span class="p">[</span><span class="s1">&#39;dielectric_tensor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dielectric_tensor</span>
                     <span class="n">ck</span><span class="p">[</span><span class="s1">&#39;get_correction_data&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
                     <span class="n">corr</span> <span class="o">=</span> <span class="n">get_kumagai_correction</span><span class="p">(</span><span class="o">**</span><span class="n">ck</span><span class="p">)</span>
@@ -711,8 +720,12 @@ document.write(`
                     <span class="n">ck</span><span class="p">[</span><span class="s1">&#39;defect_path_locpot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">defect_path_locpot</span>
                     <span class="n">ck</span><span class="p">[</span><span class="s1">&#39;bulk_path_locpot&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bulk_path_locpot</span>
                     <span class="n">ck</span><span class="p">[</span><span class="s1">&#39;finder_kwargs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">finder_kwargs</span>
-                    <span class="k">if</span> <span class="n">dielectric_tensor</span><span class="p">:</span>
-                        <span class="n">ck</span><span class="p">[</span><span class="s1">&#39;dielectric_tensor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dielectric_tensor</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">dielectric_tensor</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Dielectric constant must be provided for Freysoldt corrections&#39;</span><span class="p">)</span> 
+                    <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="n">dielectric_tensor</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span><span class="nb">float</span><span class="p">):</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Freysoldt corrections use dielectric constant, not tensor&#39;</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">ck</span><span class="p">[</span><span class="s1">&#39;dielectric_constant&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dielectric_tensor</span>
                     <span class="n">corr</span> <span class="o">=</span> <span class="n">get_freysoldt_correction_from_locpot</span><span class="p">(</span><span class="o">**</span><span class="n">ck</span><span class="p">)</span>
 
                 <span class="k">if</span> <span class="n">get_charge_correction</span><span class="p">:</span>

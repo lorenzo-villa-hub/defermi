@@ -62,7 +62,7 @@ Overview
 ========
 
 - **Intuitive**: All main functionalities are wrapped in the ``DefectsAnalysis`` class — no need to dig through deep documentation.
-- **Easy interface**: Works with simple objects (``list``, ``dict``, ``DataFrame``). Getting started is as easy as loading a CSV.
+- **Easy interface**: Works with simple objects (``list``, ``dict``, ``DataFrame``). Getting started is as easy as loading a ``csv`` file.
 - **Flexible**: Power users can customize every step; routines are available individually for full control.
 - **Customizable**: Users can supply their own formation-energy and concentration models, including temperature/volume dependence and system-specific behaviors.
 
