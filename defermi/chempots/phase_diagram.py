@@ -13,6 +13,7 @@ from pymatgen.core.periodic_table import Element
 from pymatgen.core.composition import Composition
 from pymatgen.symmetry.groups import SpaceGroup
 from pymatgen.analysis.phase_diagram import GrandPotentialPhaseDiagram, PDPlotter
+from pymatgen.analysis.chempot_diagram import ChemicalPotentialDiagram
 
 from ..tools.utils import format_composition
 from .core import Chempots
@@ -94,6 +95,31 @@ class PDHandler:
             chempots_pmg[r] = {k:v.item() for k,v in mu.items()} # convert from np.float64
         chempots = {r:Chempots.from_pmg_elements(mu) for r,mu in chempots_pmg.items()}
         return chempots
+
+
+    def get_chempot_diagram(self,elements=None,**kwargs):
+        """
+        Get the new interactive plot using pymatgen's new ChemicalPotentialDiagram class.
+
+        Plot the 2-dimensional or 3-dimensional chemical potential diagram using an
+        interactive Plotly interface. Elemental axes can be specified; if none provided, will automatically default
+        to first 2-3 elements within the "elements" attribute.
+
+        Parameters
+        ----------
+        elements : list
+            List of elements to use as axes in the diagram. If None, automatically defaults to
+            the first 2 or elements within the object's "elements" attribute.
+        kwargs : dict
+            Kwargs to pass to ChemicalPotentialDiagram.get_plot
+
+        Returns
+        -------
+        plotly.graph_objects.Figure
+        """
+        kwargs = kwargs or {}
+        kwargs['elements'] = elements
+        return ChemicalPotentialDiagram(self.pd.entries).get_plot(**kwargs)
 
         
     def get_chempots_reference(self):
