@@ -159,6 +159,8 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Getting started</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="import_data.html">Import defect calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="entries.html">Entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="formation_energies.html">Formation energies</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../defermi.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -317,7 +319,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -333,6 +337,23 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#DefectsAnalysis-object"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis</span></code> object</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Formation-energies">Formation energies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Charge-transition-levels">Charge transition levels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Fermi-level-dictated-by-charge-neutrality">Fermi level dictated by charge neutrality</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Brouwer-diagram">Brouwer diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Doping-diagrams">Doping diagrams</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Defect-quenching">Defect quenching</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Custom-formation-energies-and-defect-concentrations">Custom formation energies and defect concentrations</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -484,7 +505,8 @@ document.write(`
 </table>
 </div></div>
 </div>
-<p><strong>``DefectsAnalysis`` object</strong></p>
+<section id="DefectsAnalysis-object">
+<h2><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis</span></code> object<a class="headerlink" href="#DefectsAnalysis-object" title="Link to this heading">#</a></h2>
 <div class="line-block">
 <div class="line">We create the <code class="docutils literal notranslate"><span class="pre">DefectsAnalysis</span></code> object from the dataframe. Also importing from a file (<code class="docutils literal notranslate"><span class="pre">pkl</span></code> or <code class="docutils literal notranslate"><span class="pre">csv</span></code>) is possible.</div>
 <div class="line">To initialize it, we also need the band gap and valence band maximum energy (in eV) of the pristine material.</div>
@@ -682,7 +704,9 @@ Name: Vac_O
 </table>
 </div></div>
 </div>
-<p><strong>Formation energies</strong></p>
+</section>
+<section id="Formation-energies">
+<h2>Formation energies<a class="headerlink" href="#Formation-energies" title="Link to this heading">#</a></h2>
 <div class="line-block">
 <div class="line">Formation energies of point defects are usually plotted as a function of the Fermi level. When multiple charges states are present, only the one with lowest energy is shown. The points where the most stable charge changes are called “charge transition levels”, and are shown as stars in the plot.</div>
 <div class="line">The plots are produced with the <code class="docutils literal notranslate"><span class="pre">plot_formation_energies</span></code> function. To compute formation energies, we need to define the chemical potentials of the elements. They can be provided as a dictionary.</div>
@@ -819,7 +843,8 @@ Chemical potentials for composition = SrO and condition = O-middle:
 <img alt="../_images/getting_started_overview_14_1.png" src="../_images/getting_started_overview_14_1.png" />
 </div>
 </div>
-<p><strong>Charge transition levels</strong></p>
+<section id="Charge-transition-levels">
+<h3>Charge transition levels<a class="headerlink" href="#Charge-transition-levels" title="Link to this heading">#</a></h3>
 <p>Charge transition levels are indipendent of chemical potentials and can be plotted separately.</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
@@ -836,7 +861,10 @@ Chemical potentials for composition = SrO and condition = O-middle:
 <img alt="../_images/getting_started_overview_16_0.png" src="../_images/getting_started_overview_16_0.png" />
 </div>
 </div>
-<p><strong>Fermi level dictated by charge neutrality</strong></p>
+</section>
+</section>
+<section id="Fermi-level-dictated-by-charge-neutrality">
+<h2>Fermi level dictated by charge neutrality<a class="headerlink" href="#Fermi-level-dictated-by-charge-neutrality" title="Link to this heading">#</a></h2>
 <p>The defect concentrations in thermodynamic equilibrium is dictated by the position of the Fermi level (chemical potential of electrons), which in turn is determined by the charge neutrality condition (sum of all charges is zero). We can compute the equilibrium Fermi level with the <code class="docutils literal notranslate"><span class="pre">solve_fermi_level</span></code> method. We need also to provide either the effective masses of electrons and holes, or the density of states (DOS) of the pristine material for the integration of charge carriers. Defect
 concentrations are computed with the <code class="docutils literal notranslate"><span class="pre">defect_concentrations</span></code> method.</p>
 <div class="nbinput docutils container">
@@ -868,7 +896,9 @@ charge=-2.0, conc=6.20e+00, name=Vac_Sr
 charge=0.0, conc=7.35e-09, name=Vac_Sr]
 </pre></div></div>
 </div>
-<p><strong>Brouwer diagram</strong></p>
+</section>
+<section id="Brouwer-diagram">
+<h2>Brouwer diagram<a class="headerlink" href="#Brouwer-diagram" title="Link to this heading">#</a></h2>
 <div class="line-block">
 <div class="line">For oxides, defect concentrations are measured as a function of the oxygen partial pressure, and represented in the so-called “Brouwer diagrams”. The chemical potential of oxygen is related to the partial pressure. For each partial pressure, a set of chemical potentials is determined and charge neutrality is solved.</div>
 <div class="line">Brouwer diagrams are computed with the <code class="docutils literal notranslate"><span class="pre">plot_brouwer_diagram</span></code> method. The chemical potential of <span class="math notranslate nohighlight">\(Sr\)</span> in this case is determined by the energy of the pristine material <span class="math notranslate nohighlight">\(SrO\)</span>. We need to provide also the value of <span class="math notranslate nohighlight">\(\mu_O\)</span> at <span class="math notranslate nohighlight">\(0\)</span> K and standard pressure <span class="math notranslate nohighlight">\(p_0\)</span>. The results of the calculation are stored in the <code class="docutils literal notranslate"><span class="pre">thermodata</span></code> attribute.</div>
@@ -1038,7 +1068,9 @@ Pulling precursors energies from Materials Project database
 <img alt="../_images/getting_started_overview_25_0.png" src="../_images/getting_started_overview_25_0.png" />
 </div>
 </div>
-<p><strong>Doping diagrams</strong></p>
+</section>
+<section id="Doping-diagrams">
+<h2>Doping diagrams<a class="headerlink" href="#Doping-diagrams" title="Link to this heading">#</a></h2>
 <div class="line-block">
 <div class="line">To understand the influence of doping on the material, we can plot the equilibirum concentrations as a function of the dopant concentrations. The dopant element can either be present in the defect entries or be an external defect. If present in entries (a <code class="docutils literal notranslate"><span class="pre">Substitution</span></code> defect for example), the total concentration is fixed to a target value, but the charge states are determined by the relative formation energies. In this example, we’ll keep the acceptor used in the previous example.</div>
 <div class="line">More information on the approach to determine the relative concentration of the charge states for the fixed defect can be found here: <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevB.106.134101">https://link.aps.org/doi/10.1103/PhysRevB.106.134101</a></div>
@@ -1064,7 +1096,9 @@ Pulling precursors energies from Materials Project database
 <img alt="../_images/getting_started_overview_27_0.png" src="../_images/getting_started_overview_27_0.png" />
 </div>
 </div>
-<p><strong>Defect quenching</strong></p>
+</section>
+<section id="Defect-quenching">
+<h2>Defect quenching<a class="headerlink" href="#Defect-quenching" title="Link to this heading">#</a></h2>
 <div class="line-block">
 <div class="line">When materials are synthesized at high temperature and then quickly cooled down, often the mobility of ionic defects is too low to reach thermodynamic equilibrium. However, electrons and holes are more mobile and can reach equilibrium. This means that the total concentration of ionic defects is approximately fixed to the high temperature value, but their charges states can change. To achieve this, we use the same approach as for dopants, described in the previous
 <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevB.106.134101">link</a>.</div>
@@ -1156,7 +1190,9 @@ Pulling precursors energies from Materials Project database
 <img alt="../_images/getting_started_overview_31_1.png" src="../_images/getting_started_overview_31_1.png" />
 </div>
 </div>
-<p><strong>Custom formation energies and defect concentrations</strong></p>
+</section>
+<section id="Custom-formation-energies-and-defect-concentrations">
+<h2>Custom formation energies and defect concentrations<a class="headerlink" href="#Custom-formation-energies-and-defect-concentrations" title="Link to this heading">#</a></h2>
 <div class="line-block">
 <div class="line"><code class="docutils literal notranslate"><span class="pre">defermi</span></code> offers the possibility to customize the core functions <code class="docutils literal notranslate"><span class="pre">DefectEntry.formation_energy</span></code> and <code class="docutils literal notranslate"><span class="pre">DefectEntry.defect_concentration</span></code>. This is especially useful whenever we want to simulate conditions that deviate from the standard ideal solution model, like temperature-dependent formation energies, or anisotropic systems like interfaces and grain boundaries. For more detailed examples, refer to the <strong>tutorials</strong> on custom functions.</div>
 <div class="line">In this example, we implement temperature-dependent formation energies for <span class="math notranslate nohighlight">\(V_O\)</span>. Let’s assume we were able to calculate the dependency of the formation energy on temperature, and have found that <span class="math notranslate nohighlight">\(\Delta E_f\)</span> descreases with temperature, with a discontinuity at 500 K due to a phase transition in the bulk material:</div>
@@ -1284,6 +1320,7 @@ Pulling precursors energies from Materials Project database
 </div>
 </div>
 </section>
+</section>
 
 
                 </article>
@@ -1320,6 +1357,30 @@ Pulling precursors energies from Materials Project database
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#DefectsAnalysis-object"><code class="docutils literal notranslate"><span class="pre">DefectsAnalysis</span></code> object</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Formation-energies">Formation energies</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#Charge-transition-levels">Charge transition levels</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Fermi-level-dictated-by-charge-neutrality">Fermi level dictated by charge neutrality</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Brouwer-diagram">Brouwer diagram</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Doping-diagrams">Doping diagrams</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Defect-quenching">Defect quenching</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#Custom-formation-energies-and-defect-concentrations">Custom formation energies and defect concentrations</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

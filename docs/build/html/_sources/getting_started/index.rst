@@ -10,3 +10,5 @@ Getting started
 
     Overview <overview>
     Import defect calculations <import_data>
+    Entries <entries>
+    Formation energies <formation_energies>

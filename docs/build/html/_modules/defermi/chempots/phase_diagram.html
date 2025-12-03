@@ -155,6 +155,8 @@
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../getting_started/index.html">Getting started</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../../getting_started/overview.html">Overview</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../../getting_started/import_data.html">Import defect calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started/entries.html">Entries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting_started/formation_energies.html">Formation energies</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../../defermi.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -306,6 +308,7 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.core.composition</span><span class="w"> </span><span class="kn">import</span> <span class="n">Composition</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.symmetry.groups</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpaceGroup</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.analysis.phase_diagram</span><span class="w"> </span><span class="kn">import</span> <span class="n">GrandPotentialPhaseDiagram</span><span class="p">,</span> <span class="n">PDPlotter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pymatgen.analysis.chempot_diagram</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChemicalPotentialDiagram</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">..tools.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_composition</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">Chempots</span>
@@ -394,6 +397,34 @@ document.write(`
             <span class="n">chempots_pmg</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span><span class="n">v</span><span class="o">.</span><span class="n">item</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span><span class="n">v</span> <span class="ow">in</span> <span class="n">mu</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span> <span class="c1"># convert from np.float64</span>
         <span class="n">chempots</span> <span class="o">=</span> <span class="p">{</span><span class="n">r</span><span class="p">:</span><span class="n">Chempots</span><span class="o">.</span><span class="n">from_pmg_elements</span><span class="p">(</span><span class="n">mu</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span><span class="p">,</span><span class="n">mu</span> <span class="ow">in</span> <span class="n">chempots_pmg</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="k">return</span> <span class="n">chempots</span></div>
+
+
+
+<div class="viewcode-block" id="PDHandler.get_chempot_diagram">
+<a class="viewcode-back" href="../../../defermi.chempots.phase_diagram.html#defermi.chempots.phase_diagram.PDHandler.get_chempot_diagram">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_chempot_diagram</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">elements</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get the new interactive plot using pymatgen&#39;s new ChemicalPotentialDiagram class.</span>
+
+<span class="sd">        Plot the 2-dimensional or 3-dimensional chemical potential diagram using an</span>
+<span class="sd">        interactive Plotly interface. Elemental axes can be specified; if none provided, will automatically default</span>
+<span class="sd">        to first 2-3 elements within the &quot;elements&quot; attribute.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        elements : list</span>
+<span class="sd">            List of elements to use as axes in the diagram. If None, automatically defaults to</span>
+<span class="sd">            the first 2 or elements within the object&#39;s &quot;elements&quot; attribute.</span>
+<span class="sd">        kwargs : dict</span>
+<span class="sd">            Kwargs to pass to ChemicalPotentialDiagram.get_plot</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        plotly.graph_objects.Figure</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">kwargs</span> <span class="ow">or</span> <span class="p">{}</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">elements</span>
+        <span class="k">return</span> <span class="n">ChemicalPotentialDiagram</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pd</span><span class="o">.</span><span class="n">entries</span><span class="p">)</span><span class="o">.</span><span class="n">get_plot</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
         
