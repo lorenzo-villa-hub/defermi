@@ -553,8 +553,6 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                                                     per_unit_volume=per_unit_volume,
                                                     eform_kwargs=eform_kwargs,
                                                     **kwargs)
-        
-        
         else:
             return self._default_defect_concentration(vbm=vbm,
                                                     chemical_potentials=chemical_potentials,
@@ -564,8 +562,13 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                                                     eform_kwargs=eform_kwargs)
 
 
-    def _default_defect_concentration(self,vbm,chemical_potentials,temperature,
-                                      fermi_level,per_unit_volume,eform_kwargs):
+    def _default_defect_concentration(self,
+                                      vbm,
+                                      chemical_potentials,
+                                      temperature,
+                                      fermi_level,
+                                      per_unit_volume,
+                                      eform_kwargs={}):
         """Default function for the defect concentration calculation"""
         n = self.defect.site_concentration_in_cm3 if per_unit_volume else self.multiplicity 
         eform = self.formation_energy(
@@ -575,7 +578,7 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                                 temperature=temperature,
                                 **eform_kwargs)
         
-        conc = n * fermi_dirac(eform,temperature) # maxwell_boltzmann(eform,temperature) # 
+        conc = n * maxwell_boltzmann(eform,temperature) #  MB gives less numerical problems with fixed concentrations
         return conc
 
 
@@ -643,7 +646,10 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                                             fermi_level=fermi_level)
         
     
-    def _default_formation_energy(self,vbm,chemical_potentials,fermi_level):
+    def _default_formation_energy(self,
+                                  vbm,
+                                  chemical_potentials,
+                                  fermi_level):
         """Default function for the formation energy calculation"""
         formation_energy = (self.energy_diff + self.charge*(vbm+fermi_level) + 
                        sum([ self.corrections[correction_type]  for correction_type in self.corrections ]) 

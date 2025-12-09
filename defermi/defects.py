@@ -94,9 +94,13 @@ class Defect(MSONable,metaclass=ABCMeta): #MSONable contains as_dict and from_di
         else:
             name = string
             label=None
+        
+        if '_' not in name:
+            raise ValueError('Defect string must contain "_"')
         nsplit = name.split('_')
         ntype = nsplit[0]
         el = nsplit[1]
+        
         bulk_specie = None
         if ntype=='Vac':
             dtype = 'Vacancy'
@@ -112,6 +116,8 @@ class Defect(MSONable,metaclass=ABCMeta): #MSONable contains as_dict and from_di
         elif ntype=='Pol':
             dtype = 'Polaron'
             dspecie = el
+        else:
+            raise ValueError('Defect string does not start with one of "Vac","Int","Sub","Pol"')
 
         module = importlib.import_module(Defect.__module__)
         defect_class = getattr(module,dtype)

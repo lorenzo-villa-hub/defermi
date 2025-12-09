@@ -759,7 +759,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         If fixed_concentrations is provided the concentration of defect entries are 
         corrected according to the fixed provided values. More details can be found in 
-        https://doi.org/10.1103/PhysRevB.106.134101 .
+        DOI: 10.26083/tuprints-00024481 .
             
         Parameters
         ----------
@@ -789,30 +789,29 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         """
         concentrations = []
         if fixed_concentrations:
+            chempots_dummy = self._get_dummy_fixed_chempots(fixed_concentrations,chemical_potentials)
             dc = self.defect_concentrations(
-                                chemical_potentials=chemical_potentials,
+                                chemical_potentials=chempots_dummy,
                                 temperature=temperature,
                                 fermi_level=fermi_level,
                                 fixed_concentrations=None,
                                 per_unit_volume=per_unit_volume,
                                 eform_kwargs=eform_kwargs,
                                 **kwargs)
-            
-            frozen = fixed_concentrations 
 
         for e in self.entries:
-            # frozen defects approach
+            # fixed defects approach
             if fixed_concentrations:
                 c = e.defect_concentration(
                                 vbm=self.vbm,
-                                chemical_potentials=chemical_potentials,
+                                chemical_potentials=chempots_dummy,
                                 temperature=temperature,
                                 fermi_level=fermi_level,
                                 per_unit_volume=per_unit_volume,
                                 eform_kwargs=eform_kwargs,
                                 **kwargs)
                 
-                corr = self._get_frozen_correction(e,frozen,dc)
+                corr = self._get_fixed_correction(e,fixed_concentrations,dc)
                 c = c * corr
                 defconc = SingleDefConc(name=e.name,charge=e.charge,conc=c)
                 concentrations.append(defconc)     
@@ -830,11 +829,26 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 defconc = SingleDefConc(name=e.name,charge=e.charge,conc=c)
                 concentrations.append(defconc)
             
-
         return DefectConcentrations(concentrations)
 
 
-    def _get_frozen_correction(self,e,frozen,dc):
+    def _get_dummy_fixed_chempots(self,fixed,chemical_potentials):
+        chempots = chemical_potentials.copy()
+        for key in fixed:
+            if key in self.names:
+                df = get_defect_from_string(key)
+                for el,delta in df.delta_atoms.items():
+                    if el not in chempots:
+                        chempots[el] = 0 # dummy number
+            elif key in self.elements:
+                if key not in chempots:
+                    chempots[key] = 0 # dummy number
+            else:
+                raise ValueError(f'Fixed concentration key "{key}" is not a name or element in defect entries')
+        return chempots
+    
+
+    def _get_fixed_correction(self,e,fixed,dc):
         corr = 1
         lower_limit = 1e-250
         df = get_defect_from_string(e.name) #Defect.from_string(e.name)
@@ -842,24 +856,24 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             typ, specie, name = defect.type, defect.specie, defect.name
             if typ == 'Vacancy':
                 k = name
-                if k in frozen.keys():
+                if k in fixed.keys():
                     eltot = dc.get_element_total(specie,vacancy=True)
                     eltot = eltot if eltot > lower_limit else lower_limit # prevent division by zero
-                    corr = corr * (frozen[k]/eltot)
+                    corr = corr * (fixed[k]/eltot)
             else:
-                if name in frozen.keys():
+                if name in fixed.keys():
                     dtot = 0
                     for n,c in dc.total.items(): # sum over all defects containing the specific specie
                         if name in n:
                             dtot += c
                     dtot = dtot if dtot > lower_limit else lower_limit
-                    corr = corr * (frozen[name]/dtot) 
+                    corr = corr * (fixed[name]/dtot) 
                 else:
                     k = specie
-                    if k in frozen.keys():
+                    if k in fixed.keys():
                         eltot = dc.get_element_total(specie,vacancy=False)
                         eltot = eltot if eltot > lower_limit else lower_limit
-                        corr = corr * (frozen[k]/eltot)
+                        corr = corr * (fixed[k]/eltot)
         return corr
 
     
@@ -1100,7 +1114,6 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
             - "m_eff_h" : holes effective mass in units of m_e (electron mass)
             - "m_eff_e" : electrons effective mass in units of m_h
-            - `band_gap` : needs to be provided in arguments
 
             Format for explicit DOS (dictionary) with the following keys:
 
