@@ -793,7 +793,7 @@ def plot_x_vs_concentrations(
         Matplotlib object.
 
         """        
-    matplotlib.rcParams.update({'font.size': 22})
+    matplotlib.rcParams.update({'font.size': fontsize})
     if output == 'all' or output == 'stable':
         plt = _plot_conc(
                         x=x,
