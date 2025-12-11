@@ -1,0 +1,6 @@
+sphinx
+sphinx-book-theme
+sphinx-napoleon
+nbsphinx
+nbconvert
+ipykernel
