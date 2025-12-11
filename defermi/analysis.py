@@ -844,7 +844,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 if key not in chempots:
                     chempots[key] = 0 # dummy number
             else:
-                raise ValueError(f'Fixed concentration key "{key}" is not a name or element in defect entries')
+                warnings.warn(f'Fixed concentration key "{key}" is not a name or element in defect entries')
         return chempots
     
 
