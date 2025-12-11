@@ -157,6 +157,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started/import_data.html">Import defect calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started/entries.html">Entries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started/formation_energies.html">Formation energies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/defect_concentrations.html">Defect concentrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/charge_neutrality.html">Charge neutrality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/brouwer_diagram.html">Brouwer diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/doping_diagram.html">Doping diagram</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../defermi.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -1100,7 +1104,7 @@ document.write(`
 
 <span class="sd">        If fixed_concentrations is provided the concentration of defect entries are </span>
 <span class="sd">        corrected according to the fixed provided values. More details can be found in </span>
-<span class="sd">        https://doi.org/10.1103/PhysRevB.106.134101 .</span>
+<span class="sd">        DOI: 10.26083/tuprints-00024481 .</span>
 <span class="sd">            </span>
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
@@ -1130,30 +1134,29 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">concentrations</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">if</span> <span class="n">fixed_concentrations</span><span class="p">:</span>
+            <span class="n">chempots_dummy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_dummy_fixed_chempots</span><span class="p">(</span><span class="n">fixed_concentrations</span><span class="p">,</span><span class="n">chemical_potentials</span><span class="p">)</span>
             <span class="n">dc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect_concentrations</span><span class="p">(</span>
-                                <span class="n">chemical_potentials</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">,</span>
+                                <span class="n">chemical_potentials</span><span class="o">=</span><span class="n">chempots_dummy</span><span class="p">,</span>
                                 <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
                                 <span class="n">fermi_level</span><span class="o">=</span><span class="n">fermi_level</span><span class="p">,</span>
                                 <span class="n">fixed_concentrations</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                                 <span class="n">per_unit_volume</span><span class="o">=</span><span class="n">per_unit_volume</span><span class="p">,</span>
                                 <span class="n">eform_kwargs</span><span class="o">=</span><span class="n">eform_kwargs</span><span class="p">,</span>
                                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-            
-            <span class="n">frozen</span> <span class="o">=</span> <span class="n">fixed_concentrations</span> 
 
         <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">entries</span><span class="p">:</span>
-            <span class="c1"># frozen defects approach</span>
+            <span class="c1"># fixed defects approach</span>
             <span class="k">if</span> <span class="n">fixed_concentrations</span><span class="p">:</span>
                 <span class="n">c</span> <span class="o">=</span> <span class="n">e</span><span class="o">.</span><span class="n">defect_concentration</span><span class="p">(</span>
                                 <span class="n">vbm</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">vbm</span><span class="p">,</span>
-                                <span class="n">chemical_potentials</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">,</span>
+                                <span class="n">chemical_potentials</span><span class="o">=</span><span class="n">chempots_dummy</span><span class="p">,</span>
                                 <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
                                 <span class="n">fermi_level</span><span class="o">=</span><span class="n">fermi_level</span><span class="p">,</span>
                                 <span class="n">per_unit_volume</span><span class="o">=</span><span class="n">per_unit_volume</span><span class="p">,</span>
                                 <span class="n">eform_kwargs</span><span class="o">=</span><span class="n">eform_kwargs</span><span class="p">,</span>
                                 <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
                 
-                <span class="n">corr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_frozen_correction</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="n">frozen</span><span class="p">,</span><span class="n">dc</span><span class="p">)</span>
+                <span class="n">corr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_fixed_correction</span><span class="p">(</span><span class="n">e</span><span class="p">,</span><span class="n">fixed_concentrations</span><span class="p">,</span><span class="n">dc</span><span class="p">)</span>
                 <span class="n">c</span> <span class="o">=</span> <span class="n">c</span> <span class="o">*</span> <span class="n">corr</span>
                 <span class="n">defconc</span> <span class="o">=</span> <span class="n">SingleDefConc</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">charge</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span><span class="n">conc</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
                 <span class="n">concentrations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">defconc</span><span class="p">)</span>     
@@ -1171,12 +1174,27 @@ document.write(`
                 <span class="n">defconc</span> <span class="o">=</span> <span class="n">SingleDefConc</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">,</span><span class="n">charge</span><span class="o">=</span><span class="n">e</span><span class="o">.</span><span class="n">charge</span><span class="p">,</span><span class="n">conc</span><span class="o">=</span><span class="n">c</span><span class="p">)</span>
                 <span class="n">concentrations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">defconc</span><span class="p">)</span>
             
-
         <span class="k">return</span> <span class="n">DefectConcentrations</span><span class="p">(</span><span class="n">concentrations</span><span class="p">)</span></div>
 
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_get_frozen_correction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">frozen</span><span class="p">,</span><span class="n">dc</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_dummy_fixed_chempots</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">fixed</span><span class="p">,</span><span class="n">chemical_potentials</span><span class="p">):</span>
+        <span class="n">chempots</span> <span class="o">=</span> <span class="n">chemical_potentials</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">fixed</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">:</span>
+                <span class="n">df</span> <span class="o">=</span> <span class="n">get_defect_from_string</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">el</span><span class="p">,</span><span class="n">delta</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">delta_atoms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">el</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chempots</span><span class="p">:</span>
+                        <span class="n">chempots</span><span class="p">[</span><span class="n">el</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># dummy number</span>
+            <span class="k">elif</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chempots</span><span class="p">:</span>
+                    <span class="n">chempots</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1"># dummy number</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Fixed concentration key &quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s1">&quot; is not a name or element in defect entries&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">chempots</span>
+    
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_fixed_correction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">e</span><span class="p">,</span><span class="n">fixed</span><span class="p">,</span><span class="n">dc</span><span class="p">):</span>
         <span class="n">corr</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">lower_limit</span> <span class="o">=</span> <span class="mf">1e-250</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">get_defect_from_string</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="c1">#Defect.from_string(e.name)</span>
@@ -1184,24 +1202,24 @@ document.write(`
             <span class="n">typ</span><span class="p">,</span> <span class="n">specie</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">defect</span><span class="o">.</span><span class="n">type</span><span class="p">,</span> <span class="n">defect</span><span class="o">.</span><span class="n">specie</span><span class="p">,</span> <span class="n">defect</span><span class="o">.</span><span class="n">name</span>
             <span class="k">if</span> <span class="n">typ</span> <span class="o">==</span> <span class="s1">&#39;Vacancy&#39;</span><span class="p">:</span>
                 <span class="n">k</span> <span class="o">=</span> <span class="n">name</span>
-                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">frozen</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">fixed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="n">eltot</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">get_element_total</span><span class="p">(</span><span class="n">specie</span><span class="p">,</span><span class="n">vacancy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                     <span class="n">eltot</span> <span class="o">=</span> <span class="n">eltot</span> <span class="k">if</span> <span class="n">eltot</span> <span class="o">&gt;</span> <span class="n">lower_limit</span> <span class="k">else</span> <span class="n">lower_limit</span> <span class="c1"># prevent division by zero</span>
-                    <span class="n">corr</span> <span class="o">=</span> <span class="n">corr</span> <span class="o">*</span> <span class="p">(</span><span class="n">frozen</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">/</span><span class="n">eltot</span><span class="p">)</span>
+                    <span class="n">corr</span> <span class="o">=</span> <span class="n">corr</span> <span class="o">*</span> <span class="p">(</span><span class="n">fixed</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">/</span><span class="n">eltot</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">frozen</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">fixed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                     <span class="n">dtot</span> <span class="o">=</span> <span class="mi">0</span>
                     <span class="k">for</span> <span class="n">n</span><span class="p">,</span><span class="n">c</span> <span class="ow">in</span> <span class="n">dc</span><span class="o">.</span><span class="n">total</span><span class="o">.</span><span class="n">items</span><span class="p">():</span> <span class="c1"># sum over all defects containing the specific specie</span>
                         <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">n</span><span class="p">:</span>
                             <span class="n">dtot</span> <span class="o">+=</span> <span class="n">c</span>
                     <span class="n">dtot</span> <span class="o">=</span> <span class="n">dtot</span> <span class="k">if</span> <span class="n">dtot</span> <span class="o">&gt;</span> <span class="n">lower_limit</span> <span class="k">else</span> <span class="n">lower_limit</span>
-                    <span class="n">corr</span> <span class="o">=</span> <span class="n">corr</span> <span class="o">*</span> <span class="p">(</span><span class="n">frozen</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">/</span><span class="n">dtot</span><span class="p">)</span> 
+                    <span class="n">corr</span> <span class="o">=</span> <span class="n">corr</span> <span class="o">*</span> <span class="p">(</span><span class="n">fixed</span><span class="p">[</span><span class="n">name</span><span class="p">]</span><span class="o">/</span><span class="n">dtot</span><span class="p">)</span> 
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">k</span> <span class="o">=</span> <span class="n">specie</span>
-                    <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">frozen</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">fixed</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
                         <span class="n">eltot</span> <span class="o">=</span> <span class="n">dc</span><span class="o">.</span><span class="n">get_element_total</span><span class="p">(</span><span class="n">specie</span><span class="p">,</span><span class="n">vacancy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                         <span class="n">eltot</span> <span class="o">=</span> <span class="n">eltot</span> <span class="k">if</span> <span class="n">eltot</span> <span class="o">&gt;</span> <span class="n">lower_limit</span> <span class="k">else</span> <span class="n">lower_limit</span>
-                        <span class="n">corr</span> <span class="o">=</span> <span class="n">corr</span> <span class="o">*</span> <span class="p">(</span><span class="n">frozen</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">/</span><span class="n">eltot</span><span class="p">)</span>
+                        <span class="n">corr</span> <span class="o">=</span> <span class="n">corr</span> <span class="o">*</span> <span class="p">(</span><span class="n">fixed</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">/</span><span class="n">eltot</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">corr</span>
 
     
@@ -1456,7 +1474,6 @@ document.write(`
 
 <span class="sd">            - &quot;m_eff_h&quot; : holes effective mass in units of m_e (electron mass)</span>
 <span class="sd">            - &quot;m_eff_e&quot; : electrons effective mass in units of m_h</span>
-<span class="sd">            - `band_gap` : needs to be provided in arguments</span>
 
 <span class="sd">            Format for explicit DOS (dictionary) with the following keys:</span>
 

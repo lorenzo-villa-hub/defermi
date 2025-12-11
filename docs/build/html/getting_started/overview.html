@@ -161,6 +161,10 @@
 <li class="toctree-l2"><a class="reference internal" href="import_data.html">Import defect calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="entries.html">Entries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="formation_energies.html">Formation energies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="defect_concentrations.html">Defect concentrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="charge_neutrality.html">Charge neutrality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="brouwer_diagram.html">Brouwer diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="doping_diagram.html">Doping diagram</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../defermi.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -364,7 +368,7 @@ document.write(`
                 <article class="bd-article">
                   
   <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
@@ -400,7 +404,7 @@ document.write(`
 </ul>
 <p>Let’s create an example <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> with made-up energies as an example. We are studying <span class="math notranslate nohighlight">\(SrO\)</span> and have energies for the neutral and charged <span class="math notranslate nohighlight">\(Sr\)</span> and <span class="math notranslate nohighlight">\(O\)</span> vacancies.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
@@ -439,7 +443,7 @@ document.write(`
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -512,7 +516,7 @@ document.write(`
 <div class="line">To initialize it, we also need the band gap and valence band maximum energy (in eV) of the pristine material.</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">defermi</span><span class="w"> </span><span class="kn">import</span> <span class="n">DefectsAnalysis</span>
@@ -526,7 +530,7 @@ document.write(`
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -594,7 +598,7 @@ document.write(`
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">DefectsAnalysis</span></code> object is essentially a collection of <code class="docutils literal notranslate"><span class="pre">DefectEntry</span></code> objects and is subscriptable and iterable like a list:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">entry</span> <span class="ow">in</span> <span class="n">da</span><span class="p">:</span>
@@ -629,7 +633,7 @@ Name: Vac_O
 </div>
 <p>The object can be converted back to a <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> and exported as <code class="docutils literal notranslate"><span class="pre">json</span></code>, <code class="docutils literal notranslate"><span class="pre">pickle</span></code> or <code class="docutils literal notranslate"><span class="pre">csv</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># da.to_file?</span>
@@ -638,7 +642,7 @@ Name: Vac_O
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -712,7 +716,7 @@ Name: Vac_O
 <div class="line">The plots are produced with the <code class="docutils literal notranslate"><span class="pre">plot_formation_energies</span></code> function. To compute formation energies, we need to define the chemical potentials of the elements. They can be provided as a dictionary.</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">chempots</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;O&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;Sr&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span><span class="p">}</span> <span class="c1"># made-up numbers in eV</span>
@@ -738,7 +742,7 @@ Name: Vac_O
 <div class="line">The automatic chemical potentials are useful to have an indication on the defects behaviour. For a quantitative analysis you should always define them accurately.</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot_formation_energies</span><span class="p">(</span><span class="s1">&#39;SrO&#39;</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">));</span>
@@ -770,7 +774,7 @@ O-rich   -7.381485  -5.410151
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -818,7 +822,7 @@ O-rich   -7.381485  -5.410151
 </div>
 <p>Alternatively, we can provide the target phase and a condition (<code class="docutils literal notranslate"><span class="pre">'rich'</span></code>,<code class="docutils literal notranslate"><span class="pre">'middle'</span></code> or <code class="docutils literal notranslate"><span class="pre">'poor'</span></code>) to obtain only a specific set of chemical potentials.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot_formation_energies</span><span class="p">((</span><span class="s1">&#39;SrO&#39;</span><span class="p">,</span><span class="s1">&#39;O-middle&#39;</span><span class="p">),</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">));</span>
@@ -833,7 +837,7 @@ O-rich   -7.381485  -5.410151
 <div class="highlight"><pre>
 Pulling chemical potentials from Materials Project database...
 Chemical potentials for composition = SrO and condition = O-middle:
-{&#39;Sr&#39;: -4.535489, &#39;O&#39;: -8.256147}
+{&#39;Sr&#39;: -4.535489126666666, &#39;O&#39;: -8.256147023333332}
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -847,7 +851,7 @@ Chemical potentials for composition = SrO and condition = O-middle:
 <h3>Charge transition levels<a class="headerlink" href="#Charge-transition-levels" title="Link to this heading">#</a></h3>
 <p>Charge transition levels are indipendent of chemical potentials and can be plotted separately.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[32]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span><span class="o">.</span><span class="n">plot_ctl</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">));</span>
@@ -868,7 +872,7 @@ Chemical potentials for composition = SrO and condition = O-middle:
 <p>The defect concentrations in thermodynamic equilibrium is dictated by the position of the Fermi level (chemical potential of electrons), which in turn is determined by the charge neutrality condition (sum of all charges is zero). We can compute the equilibrium Fermi level with the <code class="docutils literal notranslate"><span class="pre">solve_fermi_level</span></code> method. We need also to provide either the effective masses of electrons and holes, or the density of states (DOS) of the pristine material for the integration of charge carriers. Defect
 concentrations are computed with the <code class="docutils literal notranslate"><span class="pre">defect_concentrations</span></code> method.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bulk_dos</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;m_eff_e&#39;</span><span class="p">:</span> <span class="mf">0.5</span><span class="p">,</span> <span class="s1">&#39;m_eff_h&#39;</span><span class="p">:</span> <span class="mf">0.4</span><span class="p">}</span> <span class="c1"># made-up effective masses</span>
@@ -905,7 +909,7 @@ charge=0.0, conc=7.35e-09, name=Vac_Sr]
 <div class="line">Like for the formation energies, we can pull the target phase data and oxygen reference chemical potential from the materials project for explorative calculations.</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pull data from Materials Project</span>
@@ -918,7 +922,7 @@ charge=0.0, conc=7.35e-09, name=Vac_Sr]
                     <span class="n">precursors</span><span class="o">=</span><span class="n">precursors</span><span class="p">,</span>
                     <span class="n">oxygen_ref</span><span class="o">=</span><span class="n">oxygen_ref</span><span class="p">,</span>
                     <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
-                    <span class="n">pressure_range</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-30</span><span class="p">,</span><span class="mf">1e25</span><span class="p">));</span>
+                    <span class="n">pressure_range</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-30</span><span class="p">,</span><span class="mf">1e10</span><span class="p">));</span>
 </pre></div>
 </div>
 </div>
@@ -934,13 +938,13 @@ Pulling precursors energies from Materials Project database
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "2888d0b7a278418fb2470f0b6c7fe7d1", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "c8ad507e663d4e999dd0e68af07626d8", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<script type="application/vnd.jupyter.widget-view+json">{"model_id": "0d108f68620b46d081475e218720d141", "version_major": 2, "version_minor": 0}</script></div>
+<script type="application/vnd.jupyter.widget-view+json">{"model_id": "99bd78c43bcd47cc902f0dfbb3b5abf4", "version_major": 2, "version_minor": 0}</script></div>
 </div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
@@ -950,7 +954,7 @@ Pulling precursors energies from Materials Project database
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#or providing the data ourselves</span>
@@ -999,7 +1003,7 @@ Pulling precursors energies from Materials Project database
 <p><strong>Customize plots</strong></p>
 <p>We can cutomize the plots by passing the arguments as <code class="docutils literal notranslate"><span class="pre">kwargs</span></code> to the <code class="docutils literal notranslate"><span class="pre">plot_brouwer_diagram</span></code> method, or by using the plotting functions individually:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib</span>
@@ -1047,7 +1051,7 @@ Pulling precursors energies from Materials Project database
 <p><strong>Extrinsic defects</strong></p>
 <p>We can also include external defects (not present in defect entries) to the calcualtion. Each additional defect is passed as a dictionary with keys:<code class="docutils literal notranslate"><span class="pre">'name'</span></code>, <code class="docutils literal notranslate"><span class="pre">'charge'</span></code>, <code class="docutils literal notranslate"><span class="pre">'conc'</span></code>. In this example we pass a defect called ‘Impurity’ with a charge of <span class="math notranslate nohighlight">\(-1\)</span> and a concentration of <span class="math notranslate nohighlight">\(10^{15} \text{cm}^{-3}\)</span>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[37]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot_brouwer_diagram</span><span class="p">(</span>
@@ -1076,7 +1080,7 @@ Pulling precursors energies from Materials Project database
 <div class="line">More information on the approach to determine the relative concentration of the charge states for the fixed defect can be found here: <a class="reference external" href="https://link.aps.org/doi/10.1103/PhysRevB.106.134101">https://link.aps.org/doi/10.1103/PhysRevB.106.134101</a></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[38]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot_doping_diagram</span><span class="p">(</span>
@@ -1105,7 +1109,7 @@ Pulling precursors energies from Materials Project database
 <div class="line">We simulate quenching conditions by specifying the <code class="docutils literal notranslate"><span class="pre">quench_temperature</span></code> in the function arguments.</div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[39]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot_brouwer_diagram</span><span class="p">(</span>
@@ -1146,7 +1150,7 @@ Pulling precursors energies from Materials Project database
 <p><strong>Partial quenching</strong></p>
 <p>If one ionic defect is particularly mobile, we can assume its concentration will be equilibrated at lower temperature. For this reason, we can also specify which defect species to quench. In this example we’ll consider <span class="math notranslate nohighlight">\(V_O\)</span> more mobile, therefore we only quench <span class="math notranslate nohighlight">\(V_{Sr}\)</span> by specifying <code class="docutils literal notranslate"><span class="pre">quenched_species=['Vac_Sr']</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot_brouwer_diagram</span><span class="p">(</span>
@@ -1215,7 +1219,7 @@ Pulling precursors energies from Materials Project database
 \[\Delta E_f (0 \mathrm{K}) = E_D - E_B + q (\epsilon_{VBM} + \mu_e) - \sum_i \Delta n_i \mu_i\]</div>
 <p>For the formation energy at <span class="math notranslate nohighlight">\(0 K\)</span> use use the <code class="docutils literal notranslate"><span class="pre">_default_formation_energy_function</span></code>, but it could be programmed explicitely if needed.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># T-dependent formation energy</span>
@@ -1237,7 +1241,7 @@ Pulling precursors energies from Materials Project database
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[42]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -1263,7 +1267,7 @@ Pulling precursors energies from Materials Project database
 </div>
 <p>Once the function is defined, we can set the <code class="docutils literal notranslate"><span class="pre">DefectEntry.formation_energy</span></code> function for the desired defects to our custom function, using the <code class="docutils literal notranslate"><span class="pre">set_formation_energy_functions</span></code> method. Alternatively we can use directly <code class="docutils literal notranslate"><span class="pre">DefectEntry.set_formation_energy_function</span></code> for the individual entry.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">da</span><span class="o">.</span><span class="n">set_formation_energy_functions</span><span class="p">(</span><span class="n">function</span><span class="o">=</span><span class="n">custom_formation_energy</span><span class="p">,</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;Vac_O&#39;</span><span class="p">)</span>
@@ -1282,7 +1286,7 @@ Pulling precursors energies from Materials Project database
 </div>
 <p>All subsequent calculations will call our custom function for the desired defect. The default behaviour can be reset with <code class="docutils literal notranslate"><span class="pre">reset_formation_energy_functions</span></code>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[44]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span> <span class="o">=</span> <span class="n">da</span><span class="o">.</span><span class="n">plot_brouwer_diagram</span><span class="p">(</span>

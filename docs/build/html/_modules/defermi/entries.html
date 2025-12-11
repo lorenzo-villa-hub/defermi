@@ -157,6 +157,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started/import_data.html">Import defect calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started/entries.html">Entries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started/formation_energies.html">Formation energies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/defect_concentrations.html">Defect concentrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/charge_neutrality.html">Charge neutrality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/brouwer_diagram.html">Brouwer diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/doping_diagram.html">Doping diagram</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../defermi.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -894,8 +898,6 @@ document.write(`
                                                     <span class="n">per_unit_volume</span><span class="o">=</span><span class="n">per_unit_volume</span><span class="p">,</span>
                                                     <span class="n">eform_kwargs</span><span class="o">=</span><span class="n">eform_kwargs</span><span class="p">,</span>
                                                     <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        
-        
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_defect_concentration</span><span class="p">(</span><span class="n">vbm</span><span class="o">=</span><span class="n">vbm</span><span class="p">,</span>
                                                     <span class="n">chemical_potentials</span><span class="o">=</span><span class="n">chemical_potentials</span><span class="p">,</span>
@@ -906,8 +908,13 @@ document.write(`
 
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_default_defect_concentration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vbm</span><span class="p">,</span><span class="n">chemical_potentials</span><span class="p">,</span><span class="n">temperature</span><span class="p">,</span>
-                                      <span class="n">fermi_level</span><span class="p">,</span><span class="n">per_unit_volume</span><span class="p">,</span><span class="n">eform_kwargs</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_default_defect_concentration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                      <span class="n">vbm</span><span class="p">,</span>
+                                      <span class="n">chemical_potentials</span><span class="p">,</span>
+                                      <span class="n">temperature</span><span class="p">,</span>
+                                      <span class="n">fermi_level</span><span class="p">,</span>
+                                      <span class="n">per_unit_volume</span><span class="p">,</span>
+                                      <span class="n">eform_kwargs</span><span class="o">=</span><span class="p">{}):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Default function for the defect concentration calculation&quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defect</span><span class="o">.</span><span class="n">site_concentration_in_cm3</span> <span class="k">if</span> <span class="n">per_unit_volume</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiplicity</span> 
         <span class="n">eform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">formation_energy</span><span class="p">(</span>
@@ -917,7 +924,7 @@ document.write(`
                                 <span class="n">temperature</span><span class="o">=</span><span class="n">temperature</span><span class="p">,</span>
                                 <span class="o">**</span><span class="n">eform_kwargs</span><span class="p">)</span>
         
-        <span class="n">conc</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">fermi_dirac</span><span class="p">(</span><span class="n">eform</span><span class="p">,</span><span class="n">temperature</span><span class="p">)</span> <span class="c1"># maxwell_boltzmann(eform,temperature) # </span>
+        <span class="n">conc</span> <span class="o">=</span> <span class="n">n</span> <span class="o">*</span> <span class="n">maxwell_boltzmann</span><span class="p">(</span><span class="n">eform</span><span class="p">,</span><span class="n">temperature</span><span class="p">)</span> <span class="c1">#  MB gives less numerical problems with fixed concentrations</span>
         <span class="k">return</span> <span class="n">conc</span>
 
 
@@ -988,7 +995,10 @@ document.write(`
 
         
     
-    <span class="k">def</span><span class="w"> </span><span class="nf">_default_formation_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">vbm</span><span class="p">,</span><span class="n">chemical_potentials</span><span class="p">,</span><span class="n">fermi_level</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_default_formation_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                                  <span class="n">vbm</span><span class="p">,</span>
+                                  <span class="n">chemical_potentials</span><span class="p">,</span>
+                                  <span class="n">fermi_level</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Default function for the formation energy calculation&quot;&quot;&quot;</span>
         <span class="n">formation_energy</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">energy_diff</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">charge</span><span class="o">*</span><span class="p">(</span><span class="n">vbm</span><span class="o">+</span><span class="n">fermi_level</span><span class="p">)</span> <span class="o">+</span> 
                        <span class="nb">sum</span><span class="p">([</span> <span class="bp">self</span><span class="o">.</span><span class="n">corrections</span><span class="p">[</span><span class="n">correction_type</span><span class="p">]</span>  <span class="k">for</span> <span class="n">correction_type</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">corrections</span> <span class="p">])</span> 

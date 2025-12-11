@@ -157,6 +157,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started/import_data.html">Import defect calculations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started/entries.html">Entries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../getting_started/formation_energies.html">Formation energies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/defect_concentrations.html">Defect concentrations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/charge_neutrality.html">Charge neutrality</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/brouwer_diagram.html">Brouwer diagram</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started/doping_diagram.html">Doping diagram</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../defermi.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -393,9 +397,13 @@ document.write(`
         <span class="k">else</span><span class="p">:</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">string</span>
             <span class="n">label</span><span class="o">=</span><span class="kc">None</span>
+        
+        <span class="k">if</span> <span class="s1">&#39;_&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">name</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Defect string must contain &quot;_&quot;&#39;</span><span class="p">)</span>
         <span class="n">nsplit</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
         <span class="n">ntype</span> <span class="o">=</span> <span class="n">nsplit</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">el</span> <span class="o">=</span> <span class="n">nsplit</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        
         <span class="n">bulk_specie</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">if</span> <span class="n">ntype</span><span class="o">==</span><span class="s1">&#39;Vac&#39;</span><span class="p">:</span>
             <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;Vacancy&#39;</span>
@@ -411,6 +419,8 @@ document.write(`
         <span class="k">elif</span> <span class="n">ntype</span><span class="o">==</span><span class="s1">&#39;Pol&#39;</span><span class="p">:</span>
             <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;Polaron&#39;</span>
             <span class="n">dspecie</span> <span class="o">=</span> <span class="n">el</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Defect string does not start with one of &quot;Vac&quot;,&quot;Int&quot;,&quot;Sub&quot;,&quot;Pol&quot;&#39;</span><span class="p">)</span>
 
         <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">Defect</span><span class="o">.</span><span class="vm">__module__</span><span class="p">)</span>
         <span class="n">defect_class</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span><span class="n">dtype</span><span class="p">)</span>
