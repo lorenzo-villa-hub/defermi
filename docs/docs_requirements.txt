@@ -3,3 +3,4 @@ sphinx-book-theme
 nbsphinx
 nbconvert
 ipykernel
+defermi
