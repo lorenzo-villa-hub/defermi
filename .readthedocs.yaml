@@ -17,4 +17,6 @@ sphinx:
 # Explicitly set the version of Python and its requirements
 python:
   install:
+    - method: pip
+      path: .
     - requirements: docs/docs_requirements.txt
