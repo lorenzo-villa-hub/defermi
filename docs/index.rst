@@ -35,7 +35,7 @@ UI
 The library comes with a simple and intuitive graphical user interface.  
 It runs in the browser without installation at: https://defermi.streamlit.app/
 
-.. image:: ../../images/defermi_main_screenshot.png
+.. image:: ../images/defermi_main_screenshot.png
    :alt: main screenshot
    :width: 700px
    :align: left
