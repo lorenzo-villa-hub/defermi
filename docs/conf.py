@@ -10,7 +10,7 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath(".."))
 
-project = 'defermi'
+project = "Defermi"
 copyright = '2025, Lorenzo Villa'
 author = 'Lorenzo Villa'
 #release = '1.4.0'
