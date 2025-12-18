@@ -2,5 +2,6 @@ sphinx
 sphinx-book-theme
 nbsphinx
 nbconvert
+myst-parser
 ipykernel
 defermi
