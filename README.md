@@ -32,7 +32,7 @@ The library comes with a simple and intutitive graphical user interface. It runs
 https://defermi.streamlit.app/
 
 <p align="center">
-    <img src="./tutorials/images/defermi_main_screenshot.png" alt="logo" width="700"/>
+    <img src="./docs/images/defermi_main_screenshot.png" alt="logo" width="700"/>
 </p>
 
 It can also be run locally. Install it first:

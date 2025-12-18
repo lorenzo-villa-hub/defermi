@@ -74,5 +74,5 @@ Overview
    Home <self>
    Installation
    getting_started/index
-   User Interface <gui_manual>
+   User Interface <gui_manual/gui_manual>
    API <defermi>
