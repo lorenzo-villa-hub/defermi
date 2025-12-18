@@ -1,4 +1,4 @@
-# Defermi UI - User Manual
+# User Interface
 [![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://defermi.streamlit.app/) 
 [![](https://img.shields.io/badge/github-repo-blue?logo=github)](https://github.com/lorenzo-villa-hub/defermi-gui)
 [![PyPI](https://img.shields.io/pypi/v/defermi)](https://pypi.org/project/defermi-gui/)
