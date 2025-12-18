@@ -19,7 +19,6 @@ Defermi UI - User manual
    :width: 70%
    :align: center
 
-``defermi`` comes with a User Interface (UI). The main workflows from the Python library are available.
 
 Index
 -----

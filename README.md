@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img src="./tutorials/images/defermi_logo.png" alt="logo" width="400"/>
+    <img src="./docs/images/defermi_logo.png" alt="logo" width="400"/>
 </p>
 
 [![](https://img.shields.io/badge/github-repo-blue?logo=github)](https://github.com/lorenzo-villa-hub/defermi)
