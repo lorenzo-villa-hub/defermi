@@ -67,21 +67,9 @@ defermi-gui
 
 ## Quick-start
 
-The central class of the library is `DefectsAnalysis`. The most flexible way to initialize it is using a `pandas.DataFrame`. Columns are:
-- `name` : Name of the defect, naming conventions described below.
-- `charge` : Defect charge.
-- `multiplicity` : Multiplicity in the unit cell.
-- `energy_diff` : Energy of the defective cell minus the energy of the pristine cell in eV.
-- `bulk_volume` : Pristine cell volume in $\mathrm{\AA^3}$
+The central class of the library is `DefectsAnalysis`. The most flexible way to initialize it is using a `pandas.DataFrame`. Details on formats and conventions can be found in this [tutorial](./tutorials/import_data.ipynb).
 
-Defect naming: (element = $A$)
-- `Vacancy`: `"Vac_A"` (symbol=$V_{A}$)
-- `Interstitial`: `"Int_A"` (symbol=$A_{i}$)
-- `Substitution`: `"Sub_B_on_A"` (symbol=$B_{A}$)
-- `Polaron`: `"Pol_A"` (symbol=${A}_{A}$)
-- `DefectComplex`: `"Vac_A;Int_A"` (symbol=$V_{A}-A_{i}$)
-
-Let's create an example `DataFrame` with <span style="color:red"> made-up energies </span> as an example. We are studying $SrO$ and have energies for the neutral and charged $Sr$ and $O$ vacancies.
+Let's create an example `DataFrame` with **made-up energies**. We are studying $SrO$ and have energies for the neutral and charged $Sr$ and $O$ vacancies.
 
 
 ```python
@@ -156,7 +144,6 @@ da = DefectsAnalysis.from_dataframe(df,band_gap=2,vbm=0) # band gap and valence 
 
 ```python
 import matplotlib.pyplot as plt
-
 
 chempots = {'O':-5,'Sr':-2} # Define chemical potentials for each element in a dictionary
 
