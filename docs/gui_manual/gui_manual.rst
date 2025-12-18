@@ -32,13 +32,11 @@ Index
 Running the app
 ---------------
 
-Online
-~~~~~~~~
+**Online**
 
 The ``defermi`` app can be run online (no installation) at this link: `https://defermi.streamlit.app/ <https://defermi.streamlit.app/>`_
 
-Locally
-~~~~~~~
+**Locally**
 
 The app can also be run locally offline. Install it with ``pip``:
 
