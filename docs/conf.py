@@ -23,6 +23,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "nbsphinx",
+    "myst_parser"
 ]
 
 templates_path = ['_templates']
@@ -34,6 +35,7 @@ add_module_names = False
 
 # nb extensions options
 nb_execution_mode = "off"
+myst_enable_extensions = ["attrs_inline"]
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
