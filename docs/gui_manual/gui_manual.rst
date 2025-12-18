@@ -1,8 +1,9 @@
 .. _gui_manual:
 .. index:: User Interface
 
-Defermi UI - User manual
-========================
+User Interface
+==============
+**User manual for Defermi's graphical user interface**
 
 .. image:: https://static.streamlit.io/badges/streamlit_badge_black_white.svg
    :target: https://defermi.streamlit.app/
