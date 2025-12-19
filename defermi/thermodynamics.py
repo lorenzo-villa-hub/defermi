@@ -125,7 +125,6 @@ class DefectThermodynamics:
 
             - "m_eff_h" : holes effective mass in units of m_e (electron mass)
             - "m_eff_e" : electrons effective mass in units of m_h
-            - `band_gap` : needs to be provided in arguments
 
             Format for explicit DOS (dictionary) with the following keys:
 
@@ -447,19 +446,19 @@ class DefectThermodynamics:
                                                     )
 
         if quench_elements:
-            c1 = single_thermodata['defect_concentrations'].elemental
+            conc_high_T = single_thermodata['defect_concentrations'].elemental
         else:
-            c1 = single_thermodata['defect_concentrations'].total
+            conc_high_T = single_thermodata['defect_concentrations'].total
 
         if quenched_species is None:
-            quenched_concentrations = c1.copy()
+            quenched_concentrations = conc_high_T.copy()
         else:
             if fixed_df:
                 quenched_concentrations = copy.deepcopy(fixed_df)
             else:
                 quenched_concentrations = {}
             for k in quenched_species:
-                quenched_concentrations[k] = c1[k]
+                quenched_concentrations[k] = conc_high_T[k]
         
         single_quenched_thermodata = self.get_single_point_thermodata(
                                                     chemical_potentials=chemical_potentials,
