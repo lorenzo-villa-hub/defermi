@@ -656,7 +656,11 @@ class DefectEntry(MSONable,metaclass=ABCMeta):
                         ) 
         chempot_term = 0
         if chemical_potentials:
-            chempot_term = -1 * sum([self.delta_atoms[el]*chemical_potentials[el] for el in self.delta_atoms])
+            for el in self.delta_atoms:
+                if el in chemical_potentials:
+                    chempot_term += -1 * self.delta_atoms[el]*chemical_potentials[el]
+                else:
+                    raise ValueError(f'Element "{el}" not present in chemical potentials dictionary:{chemical_potentials}')
   
         formation_energy = formation_energy + chempot_term    
         return formation_energy
