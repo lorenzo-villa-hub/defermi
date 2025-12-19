@@ -623,7 +623,6 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
             - "m_eff_h" : holes effective mass in units of m_e (electron mass)
             - "m_eff_e" : electrons effective mass in units of m_h
-            - `band_gap` : needs to be provided in arguments
 
             Format for explicit DOS (dictionary) with the following keys:
 
@@ -1287,7 +1286,6 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
             - "m_eff_h" : holes effective mass in units of m_e (electron mass)
             - "m_eff_e" : electrons effective mass in units of m_h
-            - `band_gap` : needs to be provided in arguments
 
             Format for explicit DOS (dictionary) with the following keys:
 
