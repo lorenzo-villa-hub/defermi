@@ -108,7 +108,15 @@ Once a dataset (or a preset) is loaded, the following parameters will appear in 
    :align: center
 
 1) `File uploader`_
+2) `Chemical potentials`_
+3) `Density of states`_
+4) `Temperature`_
+5) `External defects`_
 
+
+
+File uploader
+-------------
 Load a session file (``.defermi``) or data file (``.csv`` or ``.pkl``). Data will appear in the `Data`_ page. 
 ``csv`` files or python's ``DataFrame`` objects (if using ``pkl`` files) must contain the following columns:
 
@@ -132,8 +140,9 @@ this name will be added to the formation energy.
 
 If not loading a session file, you must enter also **Band gap** and **VBM** (valence band maximum) to start the session.
 
-2) `Chemical potentials`_
 
+Chemical potentials
+-------------------
 Chemical potential of the elements that are exchanged with a reservoir when
 defects are formed.
 
@@ -174,8 +183,9 @@ appear to select which element and which condition should be used as reference.
 Enter the desired composition in **Reference composition**, select the **Element** 
 and **Condition** and click on **Pull**.
 
-3) `Density of states`_
 
+Density of states
+-----------------
 Density of states (DOS) to use for the calculation of electrons and holes concentrations. Select between:
 
 - Effective masses
@@ -208,8 +218,9 @@ Click on **Browse files** or drag and drop file.
    :width: 50%
    :align: center
 
-4) `Temperature`_
 
+Temperature
+-----------
 .. image:: ./images/sidebar/temperature.png
    :width: 50%
    :align: center
@@ -247,9 +258,8 @@ high-temperature defect distribution is frozen in at low temperature.
 Select which species or elements to quench with **Select quenched species**.
 Defects not in the quenching list are equilibrated at the **Quench Temperature**.
 
-
-5) `External defects`_
-
+External defects
+----------------
 Include extrinsic defects contributing to charge neutrality that are NOT present in
 the defect entries.
 
@@ -264,22 +274,6 @@ conventions, the corresponding symbol will be printed.
 Click on + to add an external defect. Enter **Name**, **Charge** and 
 **Concentration** (power of 10, units are :math:`\mathrm{cm^{-3}}`).
 Click on 🗑️ to delete the entry.
-
-
-File uploader
--------------
-
-Chemical potentials
--------------------
-
-Density of states
------------------
-
-Temperature
------------
-
-External defects
-----------------
 
 
 Pages
