@@ -279,6 +279,16 @@ Click on 🗑️ to delete the entry.
 Pages
 =====
 
+Pages provide navigation though different sections of the program. Click on pages to 
+access and interact with each section. Settings are stored when changing page. Save the 
+session state with the **Save session** button and load it using the `File uploader`_.
+
+.. image:: ./images/save_session.png
+   :width: 30%
+   :align: center
+
+The documentation for each page is provided below.
+
 - `Home`_
 - `Overview`_
 - `Data`_
@@ -292,17 +302,89 @@ Pages
 Home
 ----
 
+.. image:: ./images/home/home.png
+   :width: 50%
+   :align: center
+
+
+This page is loaded when the app is launched. Choose a preset to load an example dataset 
+to get started and experiment with the different functionalities.
+
+.. image:: ./images/home/presets_open.png
+   :width: 50%
+   :align: center
+
+
 Overview
 --------
+
+.. image:: ./images/overview/overview.png
+   :width: 50%
+   :align: center
+
+Shows the main generated plots in the same window:
+
+- `Formation energies`_
+- `Charge transition levels`_
+- `Doping diagram <doping_>`_
+- `Brouwer diagram <brouwer_>`_
+
+Formation energies and charge transition levels are generated automatically when interacting
+with any parameter in the app. Doping and Brouwer diagrams are generated when navigated to 
+their respective pages.
 
 Data
 ----
 
+.. image:: ./images/data/data.png
+   :width: 50%
+   :align: center
+
+The **Data** section contains all the information relative to each point defect, in each charge state. 
+Each box can be edited, like an Excel table. A row represents the data of one individual 
+defect calculation (entry). Toggle the **Include** box to add or remove the defect entry
+from the calculations. Hover over column names to display a short info box. Visit
+the `File uploader`_ section for detailed information on the data formatting and column meanings.
+
+Hover over the last empty row and click to add a row.
+
+.. image:: ./images/data/add_row.png
+   :width: 50%
+   :align: center
+
+
+Above the spreadsheet you find additional options:
+
+.. image:: ./images/data/options.png
+   :width: 50%
+   :align: center
+
+- **1) Reset**
+  Restore the original dataset.
+
+- **2) Save csv**
+  Save the customized dataset as a ``csv`` file.
+
+- **3) Add column**
+  Add a column to the dataset.
+
+To delete rows, click on the far left side of the spreadsheet to select rows (1), then click on 🗑️
+in the top right area.
+
+.. image:: ./images/data/delete.png
+   :width: 50%
+   :align: center
+
+
 Formation energies
 ------------------
 
+.. _doping:
+
 Doping
 ------
+
+.. _brouwer:
 
 Brouwer
 -------
