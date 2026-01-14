@@ -379,10 +379,107 @@ in the top right area.
 Formation energies
 ------------------
 
+.. image:: ./images/formation-energies/formation_energies_notitle.png
+   :width: 80%
+   :align: center
+
+Formation energies represent the energetic cost of forming a defect. Assuming that formation energies do 
+not heavily depend on temperature and formation volume, they are calculated as:
+
+.. math::
+
+    \Delta E_f = E_D - E_B + q(\epsilon_{VBM} + \epsilon_F)
+    - \sum_i \Delta n_i \, \mu_i + E_{corr}
+
+where:
+
+- :math:`E_D` is the energy of the defective cell
+- :math:`E_B` is the energy of the pristine cell
+- :math:`q` is the charge
+- :math:`\epsilon_{VBM}` is the valence band maximum
+- :math:`\epsilon_F` is the Fermi level
+- :math:`\Delta n_i` is the particle number difference between the defective
+  and pristine cells
+- :math:`\mu_i` is the chemical potential of particle :math:`i`
+- :math:`E_{corr}` are finite-size correction terms
+
+:math:`E_D - E_B` corresponds to the ``energy_diff`` column in the `Data`_ section. 
+Chemical potentials are defined in the `Chemical potentials`_ section of the `Sidebar`_.
+The conventional approach to show formation energies is to plot them as a function of the fermi level 
+:math:`\epsilon_F`, which produces lines with slopes equal to the defect charge. For each defect, only 
+the lowest formation energy line is shown, and slope changes indicate `Charge transition levels`_.
+
+Customize the axis ranges (1) and which defect species are shown (2). Click on **Save plot** to save 
+the figure as ``pdf`` file (3).
+
+.. image:: ./images/formation-energies/options.png
+   :width: 50%
+   :align: center
+
+
+
 .. _doping:
 
 Doping
 ------
+
+.. image:: ./images/doping/doping.png
+   :width: 80%
+   :align: center
+
+The doping section aims at studying the effect of doping on the system, by evaluating how the defect 
+concentrations change as a function of doping concentrations. Select which dopant to evaluate under 
+the **Select dopant** window. 
+
+.. image:: ./images/doping/dopant_all.png
+   :width: 50%
+   :align: center
+
+Options are:
+
+- **None**: Do not compute doping diagram.
+- **Donor**: Generic donor with fixed charge. Enter the charge in the **Charge** input box.
+- **Acceptor**: Generic acceptor with fixed charge. Enter the charge in the **Charge** input box.
+- **<element>**: Extrinsic species present in our defect entries. Displayed options depend on the defect entries in `Data`_ section.
+- **custom**: Create a dummy species. Customize **Name** and **Charge**.
+
+Depending on your system, the calculation could take a couple of seconds. Therefore, the plot is not generated at
+every user interaction, but is the calculation result is cached. Click on **Compute** to re-run the calculation when you change 
+parameters. Set the desired concentration range with the slider:
+
+.. image:: ./images/doping/range.png
+   :width: 30%
+   :align: center
+
+Set the axis limits with the sliders **xlim** and **ylim**, like for `Formation energies`_. Choose how to display defect
+concentrations by setting the **Concentrations style** window.
+
+.. image:: ./images/doping/style.png
+   :width: 30%
+   :align: center
+
+Options are:
+
+- **total**: Show the sum of concentrations in all charge states for each defect species. When the stable charge changes, the new charge number is shown in the plot.
+
+.. image:: ./images/doping/total.png
+   :width: 50%
+   :align: center
+
+
+- **stable**: Show the concentration of the most stable charge state for each defect species.
+
+.. image:: ./images/doping/stable.png
+   :width: 50%
+   :align: center
+
+- **all**: Show the concentrations of all charge states for all defect species. Filter which charge states to show by typing them in the textbox.
+
+.. image:: ./images/doping/all.png
+   :width: 50%
+   :align: center
+
+
 
 .. _brouwer:
 
