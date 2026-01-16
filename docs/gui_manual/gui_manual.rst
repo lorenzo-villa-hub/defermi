@@ -625,9 +625,39 @@ generated first. If plots were not generated, a warning will be displayed instea
 
 
 
-
 Charge transition levels
 ------------------------
 
+.. image:: ./images/ctls/ctls.png
+   :width: 80%
+   :align: center
+
+For a given defect species, a charge transition level (CTL) is the energy value at which one charge 
+state more stable that the other (lower formation energy). CTLs are represented also in the `Formation energies`_ 
+plot by star symbols. Set the axis limits with the sliders **xlim** and **ylim** (1) and which defect species to
+display (2) in the same way as for `Formation energies`_.
+
+.. image:: ./images/ctls/options.png
+   :width: 30%
+   :align: center
+
+
 Binding energies
 ----------------
+
+.. image:: ./images/binding/binding.png
+   :width: 80%
+   :align: center
+
+This page only appears when a defect complex is present in the `Data`_ section. 
+The binding energy represent the tendency of the two or more isolated defects to associate.
+It is defined as:
+
+.. math::
+
+    \Delta E_b^C = \Delta E_f^C - \sum_D \Delta E_f^{D}
+
+where :math:`\Delta E_f^C` is the formation energy of the complex, and :math:`\Delta E_f^D`
+are the formation energies of the individual defects. Set the axis limits with the sliders **xlim** and **ylim** (1) and which defect species to
+display (2) in the same way as for `Formation energies`_.
+
