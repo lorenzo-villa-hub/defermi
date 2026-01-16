@@ -33,7 +33,9 @@ Running the app
 
 **Online**
 
-The ``defermi`` app can be run online (no installation) at this link: `https://defermi.streamlit.app/ <https://defermi.streamlit.app/>`_
+The stable version``defermi`` app can be run online (no installation) at this 
+link: `https://defermi.streamlit.app/ <https://defermi.streamlit.app/>`_. The 
+latest version is available at: `https://defermi-latest.streamlit.app/ <https://defermi-latest.streamlit.app/>`_
 
 **Locally**
 
@@ -59,7 +61,6 @@ Load a preset from the `Home`_ page to get started.
 .. image:: ./images/home/presets.png
    :width: 80%
    :align: center
-
 
 Click on `Data`_ to view the raw dataset. Every cell can be modified (like an Excel table).
 
@@ -144,9 +145,7 @@ If not loading a session file, you must enter also **Band gap** and **VBM** (val
 Chemical potentials
 -------------------
 Chemical potential of the elements that are exchanged with a reservoir when
-defects are formed.
-
-Formation energies depend on the chemical potentials as:
+defects are formed. Formation energies depend on the chemical potentials as:
 
 .. math::
 
@@ -162,8 +161,8 @@ Insert the chemical potentials for each species in the input boxes.
    :width: 50%
    :align: center
 
-Chemical potentials can also be pulled from the **Materials Project Database**;
-click **Materials Project Database** to open the window. If
+Chemical potentials can also be pulled from the Materials Project Database;
+click on **Materials Project Database** to open the window. If
 **Reference composition** is left empty, chemical potentials relative to the
 elemental phases are pulled. Click on the arrow to open the database window. Leave the
 **Reference composition** empty and click on **Pull**.
@@ -186,7 +185,7 @@ and **Condition** and click on **Pull**.
 
 Density of states
 -----------------
-Density of states (DOS) to use for the calculation of electrons and holes concentrations. Select between:
+The density of states (DOS) is used for the calculation of electrons and holes concentrations. Select between:
 
 - Effective masses
 - DOS file
@@ -303,7 +302,7 @@ Home
 ----
 
 .. image:: ./images/home/home.png
-   :width: 50%
+   :width: 80%
    :align: center
 
 
@@ -311,7 +310,7 @@ This page is loaded when the app is launched. Choose a preset to load an example
 to get started and experiment with the different functionalities.
 
 .. image:: ./images/home/presets_open.png
-   :width: 50%
+   :width: 80%
    :align: center
 
 
@@ -336,7 +335,7 @@ their respective pages.
 Data
 ----
 
-.. image:: ./images/data/data.png
+.. image:: ./images/data/data_crop.png
    :width: 90%
    :align: center
 
@@ -369,7 +368,7 @@ Above the spreadsheet you find additional options:
   Add a column to the dataset.
 
 To delete rows, click on the far left side of the spreadsheet to select rows (1), then click on 🗑️
-in the top right area.
+in the top right area (2).
 
 .. image:: ./images/data/delete.png
    :width: 70%
@@ -460,14 +459,14 @@ concentrations by setting the **Concentrations style** window.
 
 Options are:
 
-- **total**: Show the sum of concentrations in all charge states for each defect species. When the stable charge changes, the new charge number is shown in the plot.
+- **total**: Show the sum of concentrations in all charge states for each defect species. 
 
 .. image:: ./images/doping/total.png
    :width: 50%
    :align: center
 
 
-- **stable**: Show the concentration of the most stable charge state for each defect species.
+- **stable**: Show the concentration of the most stable charge state for each defect species. When the stable charge changes, the new charge number is shown in the plot.
 
 .. image:: ./images/doping/stable.png
    :width: 50%
@@ -514,13 +513,15 @@ where:
 
 The value of :math:`\mu_O` specified in the **Chemical Potentials** section is
 ignored for the calculation of the Brouwer diagram. The reference oxygen chemical potential
-can be determined with thermochemical tables or computationally wit density functional theory (DFT).
+can be determined with thermochemical tables or computationally with density functional theory (DFT).
 Set it in the dedicated input box:
 
 .. image:: ./images/brouwer/muO.png
    :width: 30%
    :align: center
 
+The default value is -4.95 eV (MP database), determined with a DFT calculation of the O\ :sub:`2` 
+molecule using the PBE functional.
 The chemical potentials of the other elements are determined based on which systems are in contact 
 with our target material (reservoirs). Synthesis precursors are often chosen as reservoirs.
 Set them in the **Precursors** inputs:
@@ -566,7 +567,7 @@ Set the concentrations in the **Fixed concentrations** input:
 
 Different boundary conditions can be imposed by setting the **Label**. Options are:
 
-- **name**
+- **name**:
   Defect name present in the defect entries (see **Data** section). The total
   concentration of this defect species is kept fixed, but the charge states are
   equilibrated. The relative concentrations in different charge states are
@@ -575,25 +576,25 @@ Different boundary conditions can be imposed by setting the **Label**. Options a
   Example: ``Sub_Fe_on_Ti``
 
    .. image:: ./images/brouwer/fix_name.png
-      :width: 60%
+      :width: 80%
       :align: center
 
    In this example we fix the concentration of Fe\ :sub:`Ti`. Since Fe\ :sub:`Sr` is 
    allowed to equilibrate, we need to define its chemical potential by providing 
-   a precursor containing Fe (Fe\ :sub:`2`O\ :sub:`3`). 
+   a precursor containing Fe (Fe\ :sub:`2` O\ :sub:`3`). 
 
 
-- **element**
+- **element**:
   Element symbol. Fixes the total concentration of a target element across
   different defect species. The relative concentrations of defect species
   containing the element and in different charge states are equilibrated. If the
-  element is present in more than one defect species with different elements, the
+  element is present in more than one defect species, the
   relative concentrations will depend on the chemical potentials.
 
   Example: ``Fe``
 
    .. image:: ./images/brouwer/fix_element.png
-      :width: 60%
+      :width: 80%
       :align: center
 
    In this example we fix the total concentration of Fe. This value gets 
@@ -601,7 +602,7 @@ Different boundary conditions can be imposed by setting the **Label**. Options a
    relative formation energies. Since all species containing Fe are fixed,
    we do not need to set a precursor containing Fe.
 
-Set the axis limits with the sliders **xlim** and **ylim**, like for `Formation energies`_. Choose how to display defect
+Set the axis limits with the sliders **xlim** and **ylim**. Choose how to display defect
 concentrations by setting the **Concentrations style** window. The settings are identical to the ones 
 in the `Doping`_ page.
 
@@ -614,7 +615,7 @@ Fermi level
    :width: 80%
    :align: center
 
-This page the behaviour of the Fermi level from the results of the 
+This page displays the behaviour of the Fermi level from the results of the 
 `Doping diagram <doping_>`_ and `Brouwer diagram <brouwer_>`_ 
 calculations. To generate the plots, doping diagram and/or Brouwer diagram must be
 generated first. If plots were not generated, a warning will be displayed instead:
@@ -633,7 +634,7 @@ Charge transition levels
    :align: center
 
 For a given defect species, a charge transition level (CTL) is the energy value at which one charge 
-state more stable that the other (lower formation energy). CTLs are represented also in the `Formation energies`_ 
+state becomes more stable that the other (lower formation energy). CTLs are represented also in the `Formation energies`_ 
 plot by star symbols. Set the axis limits with the sliders **xlim** and **ylim** (1) and which defect species to
 display (2) in the same way as for `Formation energies`_.
 
@@ -650,14 +651,15 @@ Binding energies
    :align: center
 
 This page only appears when a defect complex is present in the `Data`_ section. 
-The binding energy represent the tendency of the two or more isolated defects to associate.
+The binding energy represents the tendency of the two or more defects to associate.
 It is defined as:
 
 .. math::
 
-    \Delta E_b^C = \Delta E_f^C - \sum_D \Delta E_f^{D}
+   E_b^C = \Delta E_f^C - \sum_D \Delta E_f^{D}
 
 where :math:`\Delta E_f^C` is the formation energy of the complex, and :math:`\Delta E_f^D`
-are the formation energies of the individual defects. Set the axis limits with the sliders **xlim** and **ylim** (1) and which defect species to
+are the formation energies of the isolated defects.
+Set the axis limits with the sliders **xlim** and **ylim** (1) and which defect species to
 display (2) in the same way as for `Formation energies`_.
 
