@@ -319,7 +319,7 @@ Overview
 --------
 
 .. image:: ./images/overview/overview.png
-   :width: 50%
+   :width: 80%
    :align: center
 
 Shows the main generated plots in the same window:
@@ -337,7 +337,7 @@ Data
 ----
 
 .. image:: ./images/data/data.png
-   :width: 50%
+   :width: 90%
    :align: center
 
 The **Data** section contains all the information relative to each point defect, in each charge state. 
@@ -372,7 +372,7 @@ To delete rows, click on the far left side of the spreadsheet to select rows (1)
 in the top right area.
 
 .. image:: ./images/data/delete.png
-   :width: 50%
+   :width: 70%
    :align: center
 
 
@@ -486,8 +486,145 @@ Options are:
 Brouwer
 -------
 
+.. image:: ./images/brouwer/brouwer.png
+   :width: 80%
+   :align: center
+
+The Brouwer diagram shows the defect concentrations as a function of the oxygen partial pressure.
+It is particularly useful to compare with experiments where the oxygen partial pressure can be controlled.
+Like for `Doping diagrams <doping_>`_, click on **Compute** to run the calculation.
+
+The oxygen partial pressure used for the Brouwer diagrams is related to the
+chemical potential of oxygen as:
+
+.. math::
+
+    \mu_O(T, p_{O_2}) = \mu_O(T, p^0)
+    + 1/2 k_B T \, \mathrm{ln}\left(p_{O_2}/p^0\right)
+
+where:
+
+
+- .. math::
+
+    \mu_O(T, p^0) = \mu_O(0\,\mathrm{K}, p^0) + \Delta \mu_O(T, p^0)
+- :math:`\mu_O(0\,\mathrm{K}, p^0)` is the chemical potential of oxygen at :math:`T = 0\,\mathrm{K}` and standard pressure :math:`p^0`.
+
+
+
+The value of :math:`\mu_O` specified in the **Chemical Potentials** section is
+ignored for the calculation of the Brouwer diagram. The reference oxygen chemical potential
+can be determined with thermochemical tables or computationally wit density functional theory (DFT).
+Set it in the dedicated input box:
+
+.. image:: ./images/brouwer/muO.png
+   :width: 30%
+   :align: center
+
+The chemical potentials of the other elements are determined based on which systems are in contact 
+with our target material (reservoirs). Synthesis precursors are often chosen as reservoirs.
+Set them in the **Precursors** inputs:
+
+.. image:: ./images/brouwer/precursors.png
+   :width: 60%
+   :align: center
+
+Each entry requires the composition and the energy per formula unit (p.f.u.) in
+eV. Starting from the chemical potential of oxygen, the other chemical potentials
+are determined by the constraint:
+
+.. math::
+
+    E_{\mathrm{pfu}} = \sum_s c_s \, \mu_s
+
+where :math:`c_s` are the stoichiometric coefficients and :math:`\mu_s` the
+chemical potentials.
+
+For oxides with at most two components, the target material itself is sufficient
+to determine the chemical potential of the other species. For target oxides with
+more than two components, at least two compositions are required to determine
+all chemical potentials. Often, these phases are chosen as precursors in the
+synthesis of the target material.
+
+All elements that are not present in the entry compositions are excluded from
+the Brouwer diagram calculations. The values in the **Chemical Potentials** section are ignored for the
+calculation of the Brouwer diagram.
+
+Click on + to add an entry. Enter **Composition** and **Energy per formula unit** (eV).
+If the energy is unknown, enter the composition and click on **Materials Project DB** to pull the energy 
+p.f.u. from the Materials Project Database. Click on 🗑️ to delete the entry.
+
+When extrinsic defects are present, their concentrations can be fixed to a target value 
+(often the doping concentration in the experiment). In this assumption, the concentrations
+are independent of the chemical potentials.
+Set the concentrations in the **Fixed concentrations** input:
+
+.. image:: ./images/brouwer/fixed.png
+   :width: 60%
+   :align: center
+
+
+Different boundary conditions can be imposed by setting the **Label**. Options are:
+
+- **name**
+  Defect name present in the defect entries (see **Data** section). The total
+  concentration of this defect species is kept fixed, but the charge states are
+  equilibrated. The relative concentrations in different charge states are
+  independent of the chemical potential of the target species.
+
+  Example: ``Sub_Fe_on_Ti``
+
+   .. image:: ./images/brouwer/fix_name.png
+      :width: 60%
+      :align: center
+
+   In this example we fix the concentration of Fe\ :sub:`Ti`. Since Fe\ :sub:`Sr` is 
+   allowed to equilibrate, we need to define its chemical potential by providing 
+   a precursor containing Fe (Fe\ :sub:`2`O\ :sub:`3`). 
+
+
+- **element**
+  Element symbol. Fixes the total concentration of a target element across
+  different defect species. The relative concentrations of defect species
+  containing the element and in different charge states are equilibrated. If the
+  element is present in more than one defect species with different elements, the
+  relative concentrations will depend on the chemical potentials.
+
+  Example: ``Fe``
+
+   .. image:: ./images/brouwer/fix_element.png
+      :width: 60%
+      :align: center
+
+   In this example we fix the total concentration of Fe. This value gets 
+   distributed on Fe\ :sub:`Sr` and Fe\ :sub:`Ti` according to their 
+   relative formation energies. Since all species containing Fe are fixed,
+   we do not need to set a precursor containing Fe.
+
+Set the axis limits with the sliders **xlim** and **ylim**, like for `Formation energies`_. Choose how to display defect
+concentrations by setting the **Concentrations style** window. The settings are identical to the ones 
+in the `Doping`_ page.
+
+
+
 Fermi level
 -----------
+
+.. image:: ./images/fermi/fermi.png
+   :width: 80%
+   :align: center
+
+This page the behaviour of the Fermi level from the results of the 
+`Doping diagram <doping_>`_ and `Brouwer diagram <brouwer_>`_ 
+calculations. To generate the plots, doping diagram and/or Brouwer diagram must be
+generated first. If plots were not generated, a warning will be displayed instead:
+
+.. image:: ./images/fermi/warnings.png
+   :width: 80%
+   :align: center
+
+
+
 
 Charge transition levels
 ------------------------
