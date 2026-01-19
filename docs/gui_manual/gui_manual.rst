@@ -33,7 +33,7 @@ Running the app
 
 **Online**
 
-The stable version``defermi`` app can be run online (no installation) at this 
+The stable version ``defermi`` app can be run online (no installation) at this 
 link: `https://defermi.streamlit.app/ <https://defermi.streamlit.app/>`_. The 
 latest version is available at: `https://defermi-latest.streamlit.app/ <https://defermi-latest.streamlit.app/>`_
 
