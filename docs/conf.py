@@ -1,40 +1,49 @@
-# Configuration file for the Sphinx documentation builder.
-#
-# For the full list of built-in configuration values, see the documentation:
-# https://www.sphinx-doc.org/en/master/usage/configuration.html
-
-# -- Project information -----------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
-
 import os
 import sys
+from datetime import date
+
+# -- Path setup --------------------------------------------------------------
+# Insert project root so Sphinx can find your code
 sys.path.insert(0, os.path.abspath(".."))
 
+# -- Project information -----------------------------------------------------
 project = "Defermi"
-copyright = '2025, Lorenzo Villa'
-author = 'Lorenzo Villa'
-#release = '1.4.0'
+copyright = f"{date.today().year}, Lorenzo Villa"
+author = "Lorenzo Villa"
 
 # -- General configuration ---------------------------------------------------
-# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
-
 extensions = [
-    "sphinx.ext.autodoc",
-    'sphinx.ext.autosummary',
-    "sphinx.ext.napoleon",
-    "sphinx.ext.viewcode",
-    "nbsphinx",
-    "myst_parser"
+    "sphinx.ext.autodoc",       # Core library for generating docs from docstrings
+    "sphinx.ext.autosummary",  # The engine for the summary tables (abTEM style)
+    "sphinx.ext.napoleon",     # Support for Google/NumPy style docstrings
+    "sphinx.ext.viewcode",     # Add links to highlighted source code
+    "nbsphinx",                # Jupyter Notebook support
+    "myst_parser",             # Markdown support
 ]
 
-templates_path = ['_templates']
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+# Autosummary settings:
+# This ensures that Sphinx automatically creates the stub files for your API
+autosummary_generate = True  
+autosummary_imported_members = False
 
-# autodoc options
-autoclass_content = "both"
-add_module_names = False
+autodoc_default_options = {
+    'members': True,
+    'undoc-members': True,
+    'show-inheritance': True,   # Shows "Bases: numpy.ndarray" text
+    'inherited-members': False,  # THIS IS THE KEY: it won't pull in methods from parent classes
+}
 
-# nb extensions options
+# General Sphinx settings
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
+
+# -- Autodoc & API options ---------------------------------------------------
+autoclass_content = "both"     # Include both class and __init__ docstrings
+add_module_names = False       # Prevents 'defermi.plotter' and shows just 'plotter'
+autodoc_inherit_docstrings = True
+set_type_hints = "none"        # Makes signatures much cleaner (like abTEM)
+
+# -- Notebook & Markdown options ---------------------------------------------
 nb_execution_mode = "off"
 myst_enable_extensions = ["attrs_inline"]
 
