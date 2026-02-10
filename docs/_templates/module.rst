@@ -39,7 +39,8 @@
       :toctree:
       :nosignatures:
    {% for item in functions %}
-      ~{{ item }} 
+      {{ item.split('.')[-1] }} <{{ item }}>
    {%- endfor %}
    {% endif %}
    {% endblock %}
+
