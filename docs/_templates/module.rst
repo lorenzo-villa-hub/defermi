@@ -39,7 +39,7 @@
       :toctree:
       :nosignatures:
    {% for item in functions %}
-      {{ item }}
+      ~{{ item }} 
    {%- endfor %}
    {% endif %}
    {% endblock %}

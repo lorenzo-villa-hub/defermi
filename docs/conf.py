@@ -14,7 +14,7 @@ author = "Lorenzo Villa"
 # -- General configuration ---------------------------------------------------
 extensions = [
     "sphinx.ext.autodoc",       # Core library for generating docs from docstrings
-    "sphinx.ext.autosummary",  # The engine for the summary tables (abTEM style)
+    "sphinx.ext.autosummary",  # The engine for the summary tables
     "sphinx.ext.napoleon",     # Support for Google/NumPy style docstrings
     "sphinx.ext.viewcode",     # Add links to highlighted source code
     "nbsphinx",                # Jupyter Notebook support
@@ -41,7 +41,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "**.ipynb_checkpoints"]
 autoclass_content = "both"     # Include both class and __init__ docstrings
 add_module_names = False       # Prevents 'defermi.plotter' and shows just 'plotter'
 autodoc_inherit_docstrings = True
-set_type_hints = "none"        # Makes signatures much cleaner (like abTEM)
+set_type_hints = "none"        # Makes signatures much cleaner
 
 # -- Notebook & Markdown options ---------------------------------------------
 nb_execution_mode = "off"
