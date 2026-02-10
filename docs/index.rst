@@ -76,4 +76,4 @@ Overview
    getting_started/index
    User Interface <gui_manual/gui_manual>
    advanced/index
-   API <defermi>
+   API <api>
