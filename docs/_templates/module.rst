@@ -35,12 +35,11 @@
    {% if functions %}
    .. rubric:: {{ _('Functions') }}
 
+   {# REMOVED :toctree: FROM HERE #}
    .. autosummary::
-      :toctree:
       :nosignatures:
    {% for item in functions %}
-      {{ item.split('.')[-1] }} <{{ item }}>
+      ~{{ item }}
    {%- endfor %}
    {% endif %}
    {% endblock %}
-
