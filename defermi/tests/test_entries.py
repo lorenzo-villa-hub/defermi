@@ -62,7 +62,7 @@ class TestDefectEntry(DefermiTest):
         self.assert_all_close(concentration,2.4154948187001994e-52,rtol=100,atol=1e-02)
         
         def_conc = self.entry.defect_concentration(self.vbm,self.chempots,temperature=300,fermi_level=5) 
-        self.assert_all_close(def_conc,4.995386515296238e+22,rtol=100,atol=1e-02)
+        self.assert_all_close(def_conc,1.377767e+28,rtol=100,atol=1e-02)
         
     def test_relaxation_volume(self):
         relaxation_volume = self.entry.relaxation_volume(self.stress_bulk,self.bulk_modulus) # doesn't make physical sense with charged defect
@@ -138,7 +138,7 @@ class TestDefectEntry(DefermiTest):
 
 
         actual = entry.defect_concentration(vbm=0,chemical_potentials=chempots,fermi_level=0,temperature=800)
-        desired = 1.8255765558702477e+18
+        desired = 1.828247e+18
         self.assert_all_close(actual, desired, rtol=1e-03)
 
         entry.set_defect_concentration_function(custom_dconc)

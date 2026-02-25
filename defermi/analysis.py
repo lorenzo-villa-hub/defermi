@@ -1800,8 +1800,16 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                             dconc_kwargs=dconc_kwargs)
             return qd_tot
         
-        root = bisect(_get_total_q, -1, self.band_gap + 1.,xtol=xtol) # set full_output=True for bisect info 
-    
+        try:
+            root = bisect(_get_total_q, -1, self.band_gap + 1.,xtol=xtol) # set full_output=True for bisect info
+        except ValueError as e:
+            if "different signs" in str(e):
+                raise ValueError(
+                    "Self-consistent Fermi level solver failed. "
+                    "One or more defect concentrations likely diverge."
+                ) from e
+            raise
+          
         qd_tot = _get_total_q(root)
         if abs(qd_tot) > 1e10:
             warnings.warn(

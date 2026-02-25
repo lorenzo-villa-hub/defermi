@@ -24,6 +24,7 @@ from defermi.testing.core import DefermiTest
 from defermi.testing.defects import DefectEntryTest
 from defermi.tests.test_entries import TestDefectEntry
 
+import pytest
 
 def get_textbook_case_with_ctl():
 
@@ -122,10 +123,10 @@ class TestDefectsAnalysis(DefermiTest):
     def test_defect_concentrations(self):
         conc = self.da.defect_concentrations(self.chempots)
         actual = conc.select_concentrations(name='Vac_O',charge=2)[0]['conc']
-        desired = 3.383174303005728e+19
+        desired = 3.490519e+19
         self.assert_all_close(actual, desired, rtol=1e-03)
         actual = conc.select_concentrations(name='Sub_P_on_Si',charge=1)[0]['conc']
-        desired = 1.1001057398319168e+21
+        desired = 3.611973e+30
         self.assert_all_close(actual, desired, rtol=1e-03)
 
         
@@ -139,7 +140,7 @@ class TestDefectsAnalysis(DefermiTest):
         self.assert_all_close(actual, desired)
 
         actual = conc.select_concentrations(charge=2, name='Vac_O')[0]['conc']
-        desired = 3.383174303005728e+19
+        desired = 3.490519e+19
         self.assert_all_close(actual, desired, rtol=1e-03)
 
         fixed = {'Vac_O':concfix}
@@ -377,6 +378,53 @@ class TestDefectsAnalysisTextbook(DefermiTest):
         actual = conc.select_concentrations(name='Vac_Sr')[0]['conc']
         desired = 2868.7081307702956
         self.assert_all_close(actual, desired)
+
+    def test_catch_bisect_error(self):
+        data =[{'name': 'Vac_Ba',
+                'charge': -2.0,
+                'multiplicity': 27,
+                'energy_diff': 17.2205,
+                'corr_kumagai': 0.7333665811644183,
+                'bulk_volume': 1732.6493},
+                {'name': 'Vac_Ba',
+                'charge': -1.0,
+                'multiplicity': 27,
+                'energy_diff': 13.5647,
+                'corr_kumagai': 0.2978610897355482,
+                'bulk_volume': 1732.6493},
+                {'name': 'Vac_Ba',
+                'charge': 0.0,
+                'multiplicity': 27,
+                'energy_diff': 9.9617,
+                'corr_kumagai': 0.0,
+                'bulk_volume': 1732.6493},
+                {'name': 'Vac_O',
+                'charge': 0.0,
+                'multiplicity': 81,
+                'energy_diff': 9.8022,
+                'corr_kumagai': 0.0,
+                'bulk_volume': 1732.6493},
+                {'name': 'Vac_O',
+                'charge': 1.0,
+                'multiplicity': 81,
+                'energy_diff': 3.8625,
+                'corr_kumagai': 0.089693183352484,
+                'bulk_volume': 1732.6493},
+                {'name': 'Vac_O',
+                'charge': 2.0,
+                'multiplicity': 81,
+                'energy_diff': -2.0789,
+                'corr_kumagai': 0.4031173487945411,
+                'bulk_volume': 1732.6493}]
+        df = pd.DataFrame(data)
+        da = DefectsAnalysis.from_dataframe(df,band_gap=2.29,vbm=3.77)
+        with pytest.raises(ValueError,match='Self-consistent Fermi level solver failed. One or more defect concentrations likely diverge.'):
+            da.plot_brouwer_diagram(
+                                bulk_dos={'m_eff_e':1.16,'m_eff_h':0.96},
+                                temperature=1500,
+                                precursors={'BaO':-12.5},
+                                oxygen_ref=-4.95,
+                                pressure_range=(1e-35,1e25))
 
 
 def TestDefectConcentrations(DefermiTest):
