@@ -267,6 +267,7 @@ def plot_charge_transition_levels(entries,
                                   ylim=None,
                                   figsize=(6,6),
                                   fontsize=16,
+                                  colors=None,
                                   fermi_level=None,
                                   format_legend=True,
                                   get_integers=True,
@@ -290,6 +291,8 @@ def plot_charge_transition_levels(entries,
         Figure size.
     fontsize : float
         Font size.
+    colors : list or str
+        Colors for CTL lines and charge labels. Provide a string to use the same color for all species.
     fermi_level : float
         Plot Fermi energy position.
     format_legend : bool
@@ -307,7 +310,16 @@ def plot_charge_transition_levels(entries,
     from .analysis import DefectsAnalysis
     
     da = DefectsAnalysis(entries=entries,band_gap=band_gap,vbm=vbm,sort_entries=False)
-    plt.figure(figsize=figsize)         
+    plt.figure(figsize=figsize)    
+    
+    default_colors = matplotlib.color_sequences['tab10'] + \
+                     matplotlib.color_sequences['tab20'] + \
+                     matplotlib.color_sequences['Pastel1']
+    if type(colors) == str:
+        colors = [colors] * len(default_colors)
+    elif not colors:
+        colors = default_colors
+
     if ylim == None:
         ylim = (-0.5,da.band_gap +0.5)        
     charge_transition_levels = da.charge_transition_levels(
@@ -337,15 +349,21 @@ def plot_charge_transition_levels(entries,
     # plot CTL
     for i in range(0,len(x_ticks_labels)):
         name = x_ticks_labels[i]
+        color = colors[i] if colors else 'black'
         for ctl in charge_transition_levels[name]:
             energy = ctl[2]
-            plt.hlines(energy,x[i],x[i+1],colors='k',linewidth=2.25, zorder=3)
+            plt.hlines(energy,x[i],x[i+1],colors=color,linewidth=2.25, zorder=3)
             charge1 = '+' + str(ctl[1]) if ctl[1] > 0 else str(ctl[1])
             charge2 = '+' + str(ctl[0]) if ctl[0] > 0 else str(ctl[0])
             label_charge = '(' + charge2 + '/' + charge1 + ')'
             font_space = abs(ylim[1]-ylim[0]) / 100
             if energy < ylim[1] and energy > ylim[0]:
-                plt.text(x[i]+(interval/2)*2/number_defects ,energy+font_space,label_charge,fontsize=fontsize)        
+                plt.text(
+                        x[i]+(interval/2)*2/number_defects,
+                        energy+font_space,
+                        label_charge,
+                        fontsize=fontsize,
+                        color=color)        
     # format latex-like legend
     if format_legend:    
          for name in x_ticks_labels:            
