@@ -255,7 +255,7 @@ def plot_binding_energies(entries,
     ax.set_xlabel('Fermi level (eV)')
     ax.set_ylabel('Binding energy (eV)')
 
-    _style_ax(ax=ax, fontsize=fontsize)
+    _style_ax(ax=ax, fontsize=fontsize, legend=True, grid=False)
 
     return ax
 
@@ -923,9 +923,9 @@ def plot_x_vs_conductivity(
 
     ax.set_xlabel(xlabel)
     ax.set_ylabel('Conductivity (S/m)')
-    ax.legend()
 
-    _style_ax(ax=ax, fontsize=fontsize)
+    legend = True if isinstance(conductivities, dict) else False
+    _style_ax(ax=ax, fontsize=fontsize, legend=legend, grid=False)
 
     return ax
 
@@ -942,7 +942,6 @@ def plot_x_vs_fermi_level(
                         xlim=(1e-20,1e10),
                         ylim=None,
                         colors=None,
-                        grid=True,
                         ax=None):
     """
     Parameters
@@ -1003,10 +1002,8 @@ def plot_x_vs_fermi_level(
     ax.set_xlabel(xlabel)
     ax.set_ylabel('Electron chemical potential (eV)')
 
-    if isinstance(fermi_levels, dict):
-        ax.legend()
-
-    _style_ax(ax, fontsize=fontsize,grid=grid)
+    legend = True if isinstance(fermi_levels, dict) else False
+    _style_ax(ax, fontsize=fontsize, grid=False, legend=legend)
 
     return ax
 
