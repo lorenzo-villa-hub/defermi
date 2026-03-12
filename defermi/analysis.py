@@ -1165,8 +1165,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Returns
         -------
-        plt : matplotlib
-            matplotlib object.
+        matplotlib.axes.Axes
 
         """
         from .thermodynamics import DefectThermodynamics
@@ -1232,9 +1231,9 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         self._thermodata = thermodata
         if 'xlim' not in kwargs.keys():
             kwargs['xlim'] = pressure_range
-        plt = plot_pO2_vs_concentrations(thermodata=thermodata,**kwargs)
+        ax = plot_pO2_vs_concentrations(thermodata=thermodata,**kwargs)
         
-        return plt
+        return ax
     
     
     def plot_doping_diagram(self,
@@ -1315,8 +1314,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Returns
         -------
-        plt : matplotlib
-            matplotlib object.
+        matplotlib.axes.Axes
         
         """
         from .thermodynamics import DefectThermodynamics
@@ -1357,9 +1355,9 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
         self._thermodata = thermodata
         if 'xlim' not in kwargs.keys():
             kwargs['xlim'] = concentration_range
-        plt = plot_variable_species_vs_concentrations(thermodata, **kwargs)
+        ax = plot_variable_species_vs_concentrations(thermodata, **kwargs)
 
-        return plt
+        return ax
         
          
     def plot_formation_energies(self,
@@ -1376,6 +1374,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                                 colors=None,
                                 show_legend=True,
                                 format_legend=True,
+                                axes=None,
                                 **eform_kwargs):
         """
         Produce defect Formation energy vs Fermi energy plot.
@@ -1434,11 +1433,13 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             Get latex-like legend based on the name of defect entries.
         eform_kwargs : dict
             Kwargs to pass to `entry.formation_energy`.
+        axes : matplotlib.axes.Axes
+            Axis to plot into. If None, a new figure and axis are created.
+            Can be a list if you are passing a dictionary of chemical potentials dictionaries.
                 
         Returns
         -------
-        plt : matplotlib
-            matplotlib object.
+        matplotlib.axes.Axes
         
         """
         entries = entries or self.entries
@@ -1458,9 +1459,11 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             'colors':colors,
             'show_legend':show_legend,
             'format_legend':format_legend,
-            'get_subplot':False,
-            'subplot_settings':None,
+            'ax':axes
             }
+        if isinstance(axes, np.ndarray):
+            axes = axes.flatten().tolist()
+
         if eform_kwargs:
             for k,v in eform_kwargs.items():
                 kwargs[k] = v
@@ -1470,6 +1473,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
             chemical_potentials = self._generate_chemical_potentials(target=chemical_potentials)
 
         if type(chemical_potentials) in (dict, Chempots, Reservoirs):
+
+                
             values = list(chemical_potentials.values())
             if type(values[0]) in (dict, Chempots):
                 ncolumns = 3
@@ -1477,18 +1482,17 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                 res = chemical_potentials
                 idx = 0
                 for key,value in res.items():
-                    idx += 1
                     kwargs['title'] = key
                     kwargs['chemical_potentials'] = value
-                    kwargs['get_subplot'] = True
-                    kwargs['subplot_settings'] = (nrows,ncolumns,idx)
-                    plt = plot_formation_energies(**kwargs)
+                    kwargs['ax'] = axes[idx] if isinstance(axes,list) else None
+                    ax = plot_formation_energies(**kwargs)
+                    idx += 1
             else:
                 kwargs['chemical_potentials'] = chemical_potentials
-                plt = plot_formation_energies(**kwargs)        
+                ax = plot_formation_energies(**kwargs)        
         else:
-            plt = plot_formation_energies(**kwargs)
-        return plt
+            ax = plot_formation_energies(**kwargs)
+        return ax
      
         
     def plot_binding_energies(self,
@@ -1525,8 +1529,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Returns
         -------
-        plt : matplotlib
-            matplotlib object.
+        matplotlib.axes.Axes
         
         """        
         return plot_binding_energies(entries=self.entries,
@@ -1577,8 +1580,7 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
 
         Returns
         -------
-        plt : matplotlib
-            matplotlib object.
+        matplotlib.axes.Axes
         
         """        
         entries = entries or self.entries

@@ -6,6 +6,7 @@ Created on Tue May 16 17:34:15 2023
 @author: villa
 """
 import matplotlib
+import matplotlib.pyplot as plt
 
 #matplotlib.use('Agg') # no graphical output
 
@@ -93,9 +94,9 @@ class TestDefectsAnalysis(DefermiTest):
 
 
     def test_plot(self):
-        plt = self.da_comp.plot_formation_energies(self.chempots)
-        plt = self.da_comp.plot_ctl(figsize=(6,6))
-        plt = self.da_comp.plot_binding_energies()
+        ax1 = self.da_comp.plot_formation_energies(self.chempots)
+        ax2 = self.da_comp.plot_ctl(figsize=(6,6))
+        ax3 = self.da_comp.plot_binding_energies()
         
     def test_stable_charges(self):
         stable_charge_Vac_O = (2, 0.08920299999999681)
@@ -190,61 +191,19 @@ class TestDefectsAnalysis(DefermiTest):
 
     def test_from_dataframe(self):
         bulk_volume = 909.0035
-        d =[{'name': 'Int_O',
-            'charge': -2.0,
-            'multiplicity': 1,
-            'energy_diff': 4.543,
-            'bulk_volume': bulk_volume},
-            {'name': 'Int_O',
-            'charge': -1.0,
-            'multiplicity': 1,
-            'energy_diff': 1.7746,
-            'bulk_volume': bulk_volume},
-            {'name': 'Int_O',
-            'charge': 0.0,
-            'multiplicity': 1,
-            'energy_diff': -0.3334,
-            'bulk_volume': bulk_volume},
-            {'name': 'Sub_P_on_Si',
-            'charge': 0.0,
-            'multiplicity': 1,
-            'energy_diff': 5.6674,
-            'bulk_volume': bulk_volume},
-            {'name': 'Sub_P_on_Si',
-            'charge': 1.0,
-            'multiplicity': 1,
-            'energy_diff': -1.5959,
-            'bulk_volume': bulk_volume},
-            {'name': 'Vac_O',
-            'charge': 0.0,
-            'multiplicity': 1,
-            'energy_diff': 9.8442,
-            'bulk_volume': bulk_volume},
-            {'name': 'Vac_O',
-            'charge': 1.0,
-            'multiplicity': 1,
-            'energy_diff': 8.3845,
-            'bulk_volume': bulk_volume},
-            {'name': 'Vac_O',
-            'charge': 2.0,
-            'multiplicity': 1,
-            'energy_diff': 4.0104,
-            'bulk_volume': bulk_volume},
-            {'name': 'Vac_Si',
-            'charge': -5.0,
-            'multiplicity': 1,
-            'energy_diff': 38.4723,
-            'bulk_volume': bulk_volume},
-            {'name': 'Vac_Si',
-            'charge': -4.0,
-            'multiplicity': 1,
-            'energy_diff': 31.4767,
-            'bulk_volume': bulk_volume},
-            {'name': 'Vac_Si',
-            'charge': -3.0,
-            'multiplicity': 1,
-            'energy_diff': 28.4873,
-            'bulk_volume': bulk_volume}]
+        d = [
+            {'name': 'Int_O', 'charge': -2.0, 'multiplicity': 1, 'energy_diff': 4.543, 'bulk_volume': bulk_volume},
+            {'name': 'Int_O', 'charge': -1.0, 'multiplicity': 1, 'energy_diff': 1.7746, 'bulk_volume': bulk_volume},
+            {'name': 'Int_O', 'charge': 0.0, 'multiplicity': 1, 'energy_diff': -0.3334, 'bulk_volume': bulk_volume},
+            {'name': 'Sub_P_on_Si', 'charge': 0.0, 'multiplicity': 1, 'energy_diff': 5.6674, 'bulk_volume': bulk_volume},
+            {'name': 'Sub_P_on_Si', 'charge': 1.0, 'multiplicity': 1, 'energy_diff': -1.5959, 'bulk_volume': bulk_volume},
+            {'name': 'Vac_O', 'charge': 0.0, 'multiplicity': 1, 'energy_diff': 9.8442, 'bulk_volume': bulk_volume},
+            {'name': 'Vac_O', 'charge': 1.0, 'multiplicity': 1, 'energy_diff': 8.3845, 'bulk_volume': bulk_volume},
+            {'name': 'Vac_O', 'charge': 2.0, 'multiplicity': 1, 'energy_diff': 4.0104, 'bulk_volume': bulk_volume},
+            {'name': 'Vac_Si', 'charge': -5.0, 'multiplicity': 1, 'energy_diff': 38.4723, 'bulk_volume': bulk_volume},
+            {'name': 'Vac_Si', 'charge': -4.0, 'multiplicity': 1, 'energy_diff': 31.4767, 'bulk_volume': bulk_volume},
+            {'name': 'Vac_Si', 'charge': -3.0, 'multiplicity': 1, 'energy_diff': 28.4873, 'bulk_volume': bulk_volume}
+        ]
         
         df = pd.DataFrame(d)
         vbm = self.da.vbm
@@ -288,7 +247,7 @@ class TestDefectsAnalysisTextbook(DefermiTest):
     def test_textbook_case_from_entries(self):
         da, chempots , mdos = self.get_textbook_case()
 
-        plt = da.plot_doping_diagram(
+        ax1 = da.plot_doping_diagram(
                         variable_defect_specie={'name':'Sub_K_on_Sr','charge':-1},
                         concentration_range=(1,1e21),
                         chemical_potentials=chempots,
@@ -297,7 +256,7 @@ class TestDefectsAnalysisTextbook(DefermiTest):
                         xtol=1e-100,
                         figsize=(6,6))
         
-        plt = da.plot_brouwer_diagram(
+        ax2 = da.plot_brouwer_diagram(
                         bulk_dos=mdos,
                         temperature=1000,
                         precursors={'SrO':-10},

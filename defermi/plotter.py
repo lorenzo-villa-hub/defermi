@@ -13,7 +13,6 @@ import pandas as pd
 from .defects import Defect, format_legend_with_charge_number, get_defect_from_string
 
 
-
 def plot_formation_energies(entries,
                             chemical_potentials,
                             vbm,
@@ -29,8 +28,7 @@ def plot_formation_energies(entries,
                             colors=None,
                             show_legend=True,
                             format_legend=True,
-                            get_subplot=False,
-                            subplot_settings=None,
+                            ax=None,
                             **eform_kwargs):
     """
     Produce defect Formation energy vs Fermi energy plot.
@@ -67,101 +65,92 @@ def plot_formation_energies(entries,
         Show legend.
     format_legend : bool
         Get latex-like legend based on the name of defect entries.
-    get_subplot : bool
-        Get subplot.
-    subplot_settings:
-        List with integers for subplot setting on matplotlib (plt.subplot(nrows,ncolumns,index)). 
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
     eform_kwargs : dict
         Kwargs to pass to `entry.formation_energy`.
 
     Returns
     -------
-    matplotlib object
+    matplotlib.axes.Axes
 
     """
     from .analysis import DefectsAnalysis
     import matplotlib.pyplot as plt
-    
-    matplotlib.rcParams.update({'font.size': fontsize}) 
+
     formation_energies = DefectsAnalysis(
                         entries=entries,
                         band_gap=band_gap,
                         vbm=vbm,
-                        sort_entries=False).formation_energies(chemical_potentials=chemical_potentials,
-                                                                                    fermi_level=0,
-                                                                                    temperature=temperature,
-                                                                                    entries=entries,
-                                                                                    **eform_kwargs)
-    if xlim == None:
-        xlim = (-0.5,band_gap+0.5)        
+                        sort_entries=False).formation_energies(
+                            chemical_potentials=chemical_potentials,
+                            fermi_level=0,
+                            temperature=temperature,
+                            entries=entries,
+                            **eform_kwargs)
+
+    if xlim is None:
+        xlim = (-0.5, band_gap + 0.5)
+
     npoints = 200
-    step = abs(xlim[1]+0.1-xlim[0])/npoints
-    x = np.arange(xlim[0],xlim[1]+0.1,step)
-    
-    if get_subplot:
-        if subplot_settings[2] == 1:
-            plt.figure(figsize=figsize)               
-        plt.subplot(subplot_settings[0],subplot_settings[1],subplot_settings[2])
-    else:
-        plt.figure(figsize=figsize)
-        
-    for idx,name in enumerate(formation_energies):
+    step = abs(xlim[1] + 0.1 - xlim[0]) / npoints
+    x = np.arange(xlim[0], xlim[1] + 0.1, step)
+
+    ax = _get_ax(ax, figsize=figsize)
+
+    for idx, name in enumerate(formation_energies):
         energy = np.zeros(len(x))
         emin = np.zeros(len(x))
         x_star = []
         y_star = []
         q_previous = None
-        for i in range(0,npoints):
+
+        for i in range(npoints):
             emin[i] = 1e40
             for d in formation_energies[name]:
                 q = d[0]
                 e0 = d[1]
-                energy[i] = e0 + q*x[i]
-                # finding most stable charge state
+                energy[i] = e0 + q * x[i]
                 if energy[i] < emin[i]:
                     emin[i] = energy[i]
                     q_stable = q
-            # getting data to plot transition levels        
             if q_stable != q_previous:
-                if q_previous != None:
+                if q_previous is not None:
                     x_star.append(x[i])
                     y_star.append(emin[i])
-                q_previous = q_stable       
+                q_previous = q_stable
 
-        if format_legend:
-            label_txt = get_defect_from_string(name).symbol
-        else:
-            label_txt = name            
-
+        label_txt = get_defect_from_string(name).symbol if format_legend else name
         color = colors[idx] if colors else None
-        plt.plot(x,emin,label=label_txt,linewidth=3,color=color)
-        plt.scatter(x_star,y_star,s=120,marker='*',color=color)
-                    
-    plt.axvline(x=0.0, linestyle='-', color='k', linewidth=2)  # black dashed lines for gap edges
-    plt.axvline(x=band_gap, linestyle='-', color='k',
-                linewidth=2)        
-    if fermi_level:
-        plt.axvline(x=fermi_level, linestyle='dashed', color='k', linewidth=1.5, label='$\\mu _{e}$')                
-    # shaded areas
-    plt.axvspan(xlim[0], 0, facecolor='k', alpha=0.2)
-    plt.axvspan(band_gap, xlim[1]+0.1, facecolor='k', alpha=0.2)
-    plt.hlines(0,xlim[0],xlim[1]+0.1,colors='k',linestyles='dashed',alpha=0.5)
-    plt.xlim(xlim)
-    if ylim: 
-        plt.ylim(ylim) 
-    plt.xlabel('Fermi level (eV)')
-    plt.ylabel('Formation energy (eV)')
-    if title:
-        plt.title(title)
-    if show_legend:    
-        plt.legend()
-    if grid:
-        plt.grid()
-        xlim = plt.gca().get_xlim()
-    plt.text(xlim[0]+0.25,0.5,'VB',fontsize=fontsize*1.35,horizontalalignment='center')
-    plt.text(xlim[1]-0.25,0.5,'CB',fontsize=fontsize*1.35,horizontalalignment='center')
+        ax.plot(x, emin, label=label_txt, linewidth=3, color=color)
+        ax.scatter(x_star, y_star, s=120, marker='*', color=color)
 
-    return plt
+    ax.axvline(x=0.0, linestyle='-', color='k', linewidth=2)
+    ax.axvline(x=band_gap, linestyle='-', color='k', linewidth=2)
+    if fermi_level:
+        ax.axvline(x=fermi_level, linestyle='dashed', color='k', linewidth=1.5, label='$\\mu _{e}$')
+    ax.axvspan(xlim[0], 0, facecolor='k', alpha=0.2)
+    ax.axvspan(band_gap, xlim[1] + 0.1, facecolor='k', alpha=0.2)
+    ax.hlines(0, xlim[0], xlim[1] + 0.1, colors='k', linestyles='dashed', alpha=0.5)
+
+    ax.set_xlim(xlim)
+    if ylim:
+        ax.set_ylim(ylim)
+
+    ax.set_xlabel('Fermi level (eV)')
+    ax.set_ylabel('Formation energy (eV)')
+
+    if title:
+        ax.set_title(title)
+
+    #xlim = ax.get_xlim()
+    ax.text(xlim[0] + 0.25, 0.5, 'VB', fontsize=fontsize * 1.35, horizontalalignment='center')
+    ax.text(xlim[1] - 0.25, 0.5, 'CB', fontsize=fontsize * 1.35, horizontalalignment='center')
+
+    _style_ax(ax=ax, fontsize=fontsize, legend=show_legend, grid=grid)
+
+    return ax
+
 
 
 def plot_binding_energies(entries,
@@ -172,9 +161,10 @@ def plot_binding_energies(entries,
                           xlim=None,
                           ylim=None,
                           figsize=(6,6),
-                          fontsize=18,
+                          fontsize=None,
                           colors=None,
                           format_legend=True,
+                          ax=None,
                           **eform_kwargs):
     """
     Plot binding energies for complex of defects as a function of the fermi level
@@ -203,61 +193,72 @@ def plot_binding_energies(entries,
         List of colors for line plot.
     format_legend : bool
         Bool for getting latex-like legend based on the name of defect entries.
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
     eform_kwargs : dict
         Kwargs to pass to `entry.formation_energy`.
 
     Returns
     -------
-    matplotlib object
+    matplotlib.axes.Axes
 
-    """         
+    """   
+    ax = _get_ax(ax, figsize=figsize)
+
     from .analysis import DefectsAnalysis
-    
     da = DefectsAnalysis(entries=entries,band_gap=band_gap,vbm=vbm,sort_entries=False)
-    plt.figure(figsize=figsize)
-    matplotlib.rcParams.update({'font.size': fontsize}) 
-    if xlim==None:
-        xlim = (-0.5,da.band_gap+0.5)
-    # building array for x values (fermi level)    
-    ef = np.arange(xlim[0],xlim[1]+0.1,(xlim[1]-xlim[0])/200)        
-    binding_energy = np.zeros(len(ef))        
+        
+
+    if xlim is None:
+        xlim = (-0.5, da.band_gap + 0.5)
+
+    ef = np.arange(xlim[0], xlim[1] + 0.1, (xlim[1] - xlim[0]) / 200)
+    binding_energy = np.zeros(len(ef))
+
     if not names:
         names = []
         for e in da.entries:
-            if e.defect_type == 'DefectComplex':
-                if e.name not in names:
-                    names.append(e.name)   
-    if not names:
-        raise ValueError('No DefectComplex entries found')  
+            if e.defect_type == 'DefectComplex' and e.name not in names:
+                names.append(e.name)
 
-    # getting binding energy at different fermi levels for every name in list
-    for idx,name in enumerate(names):
+    if not names:
+        raise ValueError('No DefectComplex entries found')
+
+    for idx, name in enumerate(names):
         label = da.select_entries(names=[name])[0].symbol if format_legend else name
-        for i in range(0,len(ef)):
+
+        for i in range(len(ef)):
             binding_energy[i] = da.binding_energy(
-                                        name=name,
-                                        fermi_level=ef[i],
-                                        temperature=temperature,
-                                        **eform_kwargs)
-        
+                name=name,
+                fermi_level=ef[i],
+                temperature=temperature,
+                **eform_kwargs)
+
         color = colors[idx] if colors else None
-        plt.plot(ef,binding_energy, linewidth=2.5*(figsize[1]/figsize[0]),label=label, color=color)
-        
-    plt.axvline(x=0.0, linestyle='-', color='k', linewidth=2)  # black lines for gap edges
-    plt.axvline(x=da.band_gap, linestyle='-', color='k',
-                linewidth=2)        
-    # shaded areas
-    plt.axvspan(xlim[0], 0, facecolor='k', alpha=0.2)
-    plt.axvspan(da.band_gap, xlim[1], facecolor='k', alpha=0.2)
-    plt.hlines(0,xlim[0],xlim[1],colors='k',linestyles='dashed',alpha=0.5)
-    plt.legend()
-    plt.xlim(xlim)
-    if ylim: 
-        plt.ylim(ylim) 
-    plt.xlabel('Fermi level (eV)')
-    plt.ylabel('Binding energy (eV)')
-    
-    return plt
+        ax.plot(ef, binding_energy,
+                linewidth=2.5*(figsize[1]/figsize[0]),
+                label=label,
+                color=color)
+
+    ax.axvline(x=0.0, linestyle='-', color='k', linewidth=2)
+    ax.axvline(x=da.band_gap, linestyle='-', color='k', linewidth=2)
+
+    ax.axvspan(xlim[0], 0, facecolor='k', alpha=0.2)
+    ax.axvspan(da.band_gap, xlim[1], facecolor='k', alpha=0.2)
+    ax.hlines(0, xlim[0], xlim[1], colors='k', linestyles='dashed', alpha=0.5)
+
+    ax.set_xlim(xlim)
+
+    if ylim:
+        ax.set_ylim(ylim)
+
+    ax.set_xlabel('Fermi level (eV)')
+    ax.set_ylabel('Binding energy (eV)')
+
+    _style_ax(ax=ax, fontsize=fontsize)
+
+    return ax
+
 
 
 def plot_charge_transition_levels(entries,
@@ -266,11 +267,12 @@ def plot_charge_transition_levels(entries,
                                   temperature=0,
                                   ylim=None,
                                   figsize=(6,6),
-                                  fontsize=16,
+                                  fontsize=None,
                                   colors=None,
                                   fermi_level=None,
                                   format_legend=True,
                                   get_integers=True,
+                                  ax=None,
                                   **eform_kwargs):
     """
     Plotter for the charge transition levels.
@@ -299,18 +301,21 @@ def plot_charge_transition_levels(entries,
         Bool for getting latex-like legend based on the name of defect entries.
     get_integers : bool
         Get charge transition levels as integers.
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
     eform_kwargs : dict
         Kwargs to pass to `entry.formation_energy`.
 
     Returns
     -------
-    matplotlib object
+    matplotlib.axes.Axes
 
-    """        
+    """  
     from .analysis import DefectsAnalysis
     
+    ax = _get_ax(ax, figsize=figsize)
+    
     da = DefectsAnalysis(entries=entries,band_gap=band_gap,vbm=vbm,sort_entries=False)
-    plt.figure(figsize=figsize)    
     
     default_colors = matplotlib.color_sequences['tab10'] + \
                      matplotlib.color_sequences['tab20'] + \
@@ -332,55 +337,69 @@ def plot_charge_transition_levels(entries,
     x_max = 10
     interval = x_max/(number_defects + 1)
     x = np.arange(0,x_max,interval)
-    # position of x labels
+
     x_ticks_positions = []
     for i in range(0,len(x)-1):
         x_ticks_positions.append((x[i+1]-x[i])/2 + x[i])            
+
     x_ticks_labels = []
     for name in charge_transition_levels:
         x_ticks_labels.append(name)        
-    # draw vertical lines to separte defect types
+
     for i in x:
-        plt.axvline(x=i, linestyle='-', color='k', linewidth=1.2, alpha=1, zorder=1)
+        ax.axvline(x=i, linestyle='-', color='k', linewidth=1.2, alpha=1, zorder=1)
+
     xlim = (x[0],x[-1])        
-    #VBM and CBM shaded
-    plt.axhspan(ylim[0], 0, facecolor='grey', alpha=0.5, zorder=2)
-    plt.axhspan(da.band_gap,ylim[1], facecolor = 'grey', alpha=0.5, zorder=2)                
-    # plot CTL
+
+    ax.axhspan(ylim[0], 0, facecolor='grey', alpha=0.5, zorder=2)
+    ax.axhspan(da.band_gap,ylim[1], facecolor = 'grey', alpha=0.5, zorder=2)
+
     for i in range(0,len(x_ticks_labels)):
         name = x_ticks_labels[i]
         color = colors[i] if colors else 'black'
         for ctl in charge_transition_levels[name]:
             energy = ctl[2]
-            plt.hlines(energy,x[i],x[i+1],colors=color,linewidth=2.25, zorder=3)
+            ax.hlines(energy,x[i],x[i+1],colors=color,linewidth=2.25, zorder=3)
+
             charge1 = '+' + str(ctl[1]) if ctl[1] > 0 else str(ctl[1])
             charge2 = '+' + str(ctl[0]) if ctl[0] > 0 else str(ctl[0])
             label_charge = '(' + charge2 + '/' + charge1 + ')'
+
             font_space = abs(ylim[1]-ylim[0]) / 100
+
             if energy < ylim[1] and energy > ylim[0]:
-                plt.text(
+                ax.text(
                         x[i]+(interval/2)*2/number_defects,
                         energy+font_space,
                         label_charge,
                         fontsize=fontsize,
-                        color=color)        
-    # format latex-like legend
+                        color=color)
+
     if format_legend:    
          for name in x_ticks_labels:            
             x_ticks_labels[x_ticks_labels.index(name)] = get_defect_from_string(name).symbol               
+
     if fermi_level:
-        plt.axhline(y=fermi_level, linestyle='dashed', color='k', linewidth=1.5, label='$\\mu _{e}$')   
+        ax.axhline(y=fermi_level, linestyle='dashed', color='k', linewidth=1.5, label='$\\mu _{e}$')   
     
-    plt.text(x[-1]-0.75,-0.3,'VB',fontsize=25*(fontsize/16))
-    plt.text(x[-1]-0.75,da.band_gap+0.2,'CB',fontsize=25*(fontsize/16))
-    plt.xticks(ticks=x_ticks_positions,labels=x_ticks_labels,fontsize = (25-number_defects)*(fontsize/16))
-    plt.tick_params(axis='x',length=0,width=0)
-    plt.yticks(fontsize=16*(fontsize/16))
-    plt.xlim(xlim)  
-    plt.ylim(ylim)
-    plt.ylabel('Energy(eV)',fontsize=20*(fontsize/16))  
+    ax.text(x[-1]-0.75,-0.3,'VB',fontsize=25*(fontsize/16))
+    ax.text(x[-1]-0.75,da.band_gap+0.2,'CB',fontsize=25*(fontsize/16))
+
+    ax.set_xticks(x_ticks_positions)
+    ax.set_xticklabels(x_ticks_labels,fontsize=(25-number_defects)*(fontsize/16))
+
+    ax.tick_params(axis='x',length=0,width=0)
+    ax.tick_params(axis='y',labelsize=16*(fontsize/16))
+
+    ax.set_xlim(xlim)  
+    ax.set_ylim(ylim)
+
+    ax.set_ylabel('Energy(eV)',fontsize=20*(fontsize/16))  
+
+    _style_ax(ax=ax, fontsize=fontsize, legend=False, grid=False)
+
+    return ax
     
-    return plt    
 
 
 def plot_pO2_vs_concentrations(
@@ -391,6 +410,7 @@ def plot_pO2_vs_concentrations(
                             xlim=(1e-20,1e10),
                             ylim=None,
                             colors=None,
+                            ax=None,
                             **kwargs):
     """
     Plot defect and carrier concentrations in a range of oxygen partial pressure.
@@ -424,6 +444,8 @@ def plot_pO2_vs_concentrations(
         Range of y-axis. 
     colors : list
         List of colors to use for plotting with matplotlib. If None the defaults are used.
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
     kwargs : dict
         Kwargs to pass to `DefectConcentrations.filter_concentrations(**kwargs)`.
         If provided, only the filtered concentrations will be plotted. If output
@@ -432,14 +454,13 @@ def plot_pO2_vs_concentrations(
 
     Returns
     -------
-    plt : matplotlib
-        Matplotlib object.
+    matplotlib.axes.Axes
 
     """
     td = thermodata
     p,dc,cc = td.partial_pressures,td.defect_concentrations,td.carrier_concentrations
     xlabel = 'Oxygen partial pressure (atm)'
-    plt = plot_x_vs_concentrations(
+    ax = plot_x_vs_concentrations(
                                 x=p,
                                 xlabel=xlabel,
                                 defect_concentrations=dc,
@@ -450,19 +471,20 @@ def plot_pO2_vs_concentrations(
                                 xlim=xlim,
                                 ylim=ylim,
                                 colors=colors,
+                                ax=ax,
                                 **kwargs)
-    return plt
+    return ax
 
 
 def plot_pO2_vs_conductivity(
                             partial_pressures,
                             conductivities,
-                            new_figure=True,
                             label=None,
                             figsize=(8,8),
                             fontsize=22,
                             xlim=(1e-20,1e10),
-                            ylim=None):
+                            ylim=None,
+                            ax=None):
     """
     Plot conductivity as a function of the oxygen partial pressure.
 
@@ -473,8 +495,6 @@ def plot_pO2_vs_conductivity(
     conductivities : dict or list
         If is a dict multiples lines will be plotted, with labels as keys and conductivity list
         as values. If is a list only one line is plotted with label taken from the "label" argument.
-    new_figure : bool
-        Initialize a new matplotlib figure.
     label : str
         Label for the data.
     figsize : tuple
@@ -485,25 +505,26 @@ def plot_pO2_vs_conductivity(
         Range of x-axis.
     ylim : tuple
         Range of y-axis.
-
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
+        
     Returns
     -------
-    plt : matplotlib
-        Matplotlib object.
+    matplotlib.axes.Axes
 
     """
     xlabel = 'Oxygen partial pressure (atm)'
-    plt = plot_x_vs_conductivity(
+    ax = plot_x_vs_conductivity(
                                 x=partial_pressures,
                                 xlabel=xlabel,
                                 conductivities=conductivities,
-                                new_figure=new_figure,
                                 label=label,
                                 figsize=figsize,
                                 fontsize=fontsize,
                                 xlim=xlim,
-                                ylim=ylim)
-    return plt    
+                                ylim=ylim,
+                                ax=ax)
+    return ax    
 
 
 
@@ -511,13 +532,13 @@ def plot_pO2_vs_fermi_level(
                             partial_pressures,
                             fermi_levels,
                             band_gap,
-                            new_figure=True,
                             label=None,
                             figsize=(8,8),
                             fontsize=22,
                             xlim=(1e-20,1e10),
                             ylim=None,
-                            colors=None):
+                            colors=None,
+                            ax=None):
     """
     Plot Fermi level as a function of the oxygen partial pressure.
 
@@ -530,8 +551,6 @@ def plot_pO2_vs_fermi_level(
         as values. If is a list only one line is plotted with label taken from the "label" argument.
     band_gap : float
         Band gap of the bulk material.
-    new_figure : bool
-        Initialize a new matplotlib figure.
     label : str
         Label for the data.
     figsize : tuple
@@ -544,27 +563,28 @@ def plot_pO2_vs_fermi_level(
         Range of y-axis.
     colors : list
         List with colors for Fermi level data.
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
 
     Returns
     -------
-    plt : matplotlib
-        Matplotlib object.
+    matplotlib.axes.Axes
 
     """
     xlabel = 'Oxygen partial pressure (atm)'
-    plt = plot_x_vs_fermi_level(
+    ax = plot_x_vs_fermi_level(
                                 x=partial_pressures,
                                 xlabel=xlabel,
                                 fermi_levels=fermi_levels,
                                 band_gap=band_gap,
-                                new_figure=new_figure,
                                 label=label,
                                 figsize=figsize,
                                 fontsize=fontsize,
                                 xlim=xlim,
                                 ylim=ylim,
-                                colors=colors)
-    return plt
+                                colors=colors,
+                                ax=ax)
+    return ax
 
 
 def plot_variable_species_vs_concentrations(
@@ -575,6 +595,7 @@ def plot_variable_species_vs_concentrations(
                                         xlim=(1e-20,1e10),
                                         ylim=None,
                                         colors=None,
+                                        ax=None,
                                         **kwargs):
     """
     Plot defect and carrier concentrations in a range of oxygen partial pressure.
@@ -608,6 +629,8 @@ def plot_variable_species_vs_concentrations(
         Range of y-axis.
     colors : list
         List of colors to use for plotting with matplotlib. If None the defaults are used.
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
     kwargs : dict
         Kwargs to pass to `DefectConcentrations.filter_concentrations(**kwargs)`.
         If provided, only the filtered concentrations will be plotted. If output
@@ -616,15 +639,14 @@ def plot_variable_species_vs_concentrations(
 
     Returns
     -------
-    plt : matplotlib
-        Matplotlib object.
+    matplotlib.axes.Axes
     """
     td = thermodata
     c,dc,cc = td.variable_concentrations,td.defect_concentrations,td.carrier_concentrations
     dname = _get_variable_defect_specie_label(td.variable_defect_specie)
     xlabel = '[%s] (cm$^{-3})$' %dname
     
-    plt = plot_x_vs_concentrations(
+    ax = plot_x_vs_concentrations(
                                 x=c,
                                 xlabel=xlabel,
                                 defect_concentrations=dc,
@@ -635,20 +657,21 @@ def plot_variable_species_vs_concentrations(
                                 xlim=xlim,
                                 ylim=ylim,
                                 colors=colors,
+                                ax=ax,
                                 **kwargs)
-    return plt
+    return ax
 
 
 def plot_variable_species_vs_conductivity(
                                         xlabel,
                                         variable_concentrations,
                                         conductivities,
-                                        new_figure=True,
                                         label=None,
                                         figsize=(8,8),
                                         fontsize=22,
                                         xlim=(1e-20,1e10),
-                                        ylim=None):
+                                        ylim=None,
+                                        ax=None):
     """
     Plot conductivity as a function of the oxygen partial pressure.
 
@@ -661,8 +684,6 @@ def plot_variable_species_vs_conductivity(
     conductivities : dict or list
         If is a dict multiples lines will be plotted, with labels as keys and conductivity list
         as values. If is a list only one line is plotted with label taken from the "label" argument.
-    new_figure : bool
-        Initialize a new matplotlib figure.
     label : str
         Label for the data.
     figsize : tuple
@@ -673,24 +694,25 @@ def plot_variable_species_vs_conductivity(
         Range of x-axis.
     ylim : tuple
         Range of y-axis.
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
 
     Returns
     -------
-    plt : matplotlib
-        Matplotlib object.
+    matplotlib.axes.Axes
     """
     xlabel = '%s (cm$^{-3})$' %xlabel
-    plt = plot_x_vs_conductivity(
+    ax = plot_x_vs_conductivity(
                                 x=variable_concentrations,
                                 xlabel=xlabel,
                                 conductivities=conductivities,
-                                new_figure=new_figure,
                                 label=label,
                                 figsize=figsize,
                                 fontsize=fontsize,
                                 xlim=xlim,
-                                ylim=ylim)
-    return plt
+                                ylim=ylim,
+                                ax=ax)
+    return ax
     
 
 def plot_variable_species_vs_fermi_level(
@@ -698,13 +720,13 @@ def plot_variable_species_vs_fermi_level(
                                         variable_concentrations,
                                         fermi_levels,
                                         band_gap,
-                                        new_figure=True,
                                         label=None,
                                         figsize=(8,8),
                                         fontsize=22,
                                         xlim=(1e-20,1e10),
                                         ylim=None,
-                                        colors=None):
+                                        colors=None,
+                                        ax=None):
     """
     Plot Fermi level as a function of the oxygen partial pressure.
 
@@ -719,8 +741,6 @@ def plot_variable_species_vs_fermi_level(
         as values. If is a list only one line is plotted with label taken from the "label" argument.
     band_gap : float
         Band gap of the bulk material.
-    new_figure : bool
-        Initialize a new matplotlib figure.
     label : str
         Label for the data.
     figsize : tuple
@@ -733,27 +753,28 @@ def plot_variable_species_vs_fermi_level(
         Range of y-axis.
     colors : list
         List with colors for Fermi level data.
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
 
     Returns
     -------
-    plt : matplotlib
-        Matplotlib object.
+    matplotlib.axes.Axes
 
     """
     xlabel = '[%s] (cm$^{-3})$' %xlabel
-    plt = plot_x_vs_fermi_level(
+    ax = plot_x_vs_fermi_level(
                                 x=variable_concentrations,
                                 xlabel=xlabel,
                                 fermi_levels=fermi_levels,
                                 band_gap=band_gap,
-                                new_figure=new_figure,
                                 label=label,
                                 figsize=figsize,
                                 fontsize=fontsize,
                                 xlim=xlim,
                                 ylim=ylim,
-                                colors=colors)
-    return plt
+                                colors=colors,
+                                ax=ax)
+    return ax
 
 
 
@@ -764,10 +785,11 @@ def plot_x_vs_concentrations(
                             carrier_concentrations,
                             output='total',
                             figsize=(8,8),
-                            fontsize=22,
+                            fontsize=14,
                             xlim=(1e-20,1e10),
                             ylim=None,
                             colors=None,
+                            ax=None,
                             **kwargs):
     """
     Plot defect concentrations as a function of generic data on the x-axis.        
@@ -799,6 +821,8 @@ def plot_x_vs_concentrations(
         Range of y-axis.
     colors : list
         List of colors to use for plotting with matplotlib. If None the defaults are used.
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
     kwargs : dict
         Kwargs to pass to `DefectConcentrations.filter_concentrations(**kwargs)`.
         If provided, only the filtered concentrations will be plotted. If output
@@ -807,39 +831,38 @@ def plot_x_vs_concentrations(
 
     Returns
     -------
-    plt : matplotlib
-        Matplotlib object.
+    matplotlib.axes.Axes
 
-        """        
-    matplotlib.rcParams.update({'font.size': fontsize})
+    """
+    ax = _get_ax(ax,figsize=figsize)        
     if output == 'all' or output == 'stable':
-        plt = _plot_conc(
+        ax = _plot_conc(
                         x=x,
                         defect_concentrations=defect_concentrations,
                         carrier_concentrations=carrier_concentrations,
-                        output=output,figsize=figsize,colors=colors,**kwargs)
+                        output=output,figsize=figsize,colors=colors,
+                        ax=ax,**kwargs)
         
     elif output == 'total':
-        plt = _plot_conc_total(
+        ax = _plot_conc_total(
                             x=x,
                             defect_concentrations=defect_concentrations,
                             carrier_concentrations=carrier_concentrations,
-                            figsize=figsize,colors=colors,**kwargs)
+                            figsize=figsize,colors=colors,ax=ax,**kwargs)
     else:
         raise ValueError('The options for plot output are "all", "stable" or "total".')
         
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.xlim(xlim)
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    ax.set_xlim(xlim)
     if ylim:
-        plt.ylim(ylim)
+        ax.set_ylim(ylim)
 
-    plt.xlabel(xlabel)
-    plt.ylabel('Concentrations (cm$^{-3})$')
-    plt.legend()
-    plt.grid()
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel('Concentrations (cm$^{-3})$')
+    _style_ax(ax=ax,fontsize=fontsize)
     
-    return plt   
+    return ax   
 
     
 
@@ -847,12 +870,12 @@ def plot_x_vs_conductivity(
                         x,
                         xlabel,
                         conductivities,
-                        new_figure=True,
                         label=None,
                         figsize=(8,8),
                         fontsize=22,
                         xlim=(1e-20,1e10),
-                        ylim=None):
+                        ylim=None,
+                        ax=None):
     """
     Plot conductivity as a function of the oxygen partial pressure.
 
@@ -865,8 +888,6 @@ def plot_x_vs_conductivity(
     conductivities : dict or list
         If is a dict multiples lines will be plotted, with labels as keys and conductivity list
         as values. If is a list only one line is plotted with label taken from the "label" argument.
-    new_figure : bool
-        Initialize a new matplotlib figure. 
     label : str
         Label for the data.
     figsize : tuple
@@ -877,34 +898,37 @@ def plot_x_vs_conductivity(
         Range of x-axis.
     ylim : tuple
         Range of y-axis.
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
 
     Returns
     -------
-    plt : matplotlib
-        Matplotlib object.
+    matplotlib.axes.Axes
 
     """
-    matplotlib.rcParams.update({'font.size': fontsize})
-    if new_figure:
-        plt.figure(figsize=figsize)
+    ax = _get_ax(ax, figsize=figsize)
+
     if isinstance(conductivities,dict):
         for name,sigma in conductivities.items():
-            plt.plot(x,sigma,linewidth=4,marker='s',label=name)
+            ax.plot(x,sigma,linewidth=4,marker='s',label=name)
     else:
         sigma = conductivities
-        plt.plot(x,sigma,linewidth=4,marker='s',label=label)
-    plt.xscale('log')
-    plt.yscale('log')
-    plt.xlim(xlim)
+        ax.plot(x,sigma,linewidth=4,marker='s',label=label)
+
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    ax.set_xlim(xlim)
     if ylim:
-        plt.ylim(ylim)
-    plt.xlabel(xlabel)
-    plt.ylabel('Conductivity (S/m)')
-    plt.legend()
-    if new_figure:
-        plt.grid()
-    
-    return plt
+        ax.set_ylim(ylim)
+
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel('Conductivity (S/m)')
+    ax.legend()
+
+    _style_ax(ax=ax, fontsize=fontsize)
+
+    return ax
+
 
 
 def plot_x_vs_fermi_level(
@@ -912,13 +936,14 @@ def plot_x_vs_fermi_level(
                         xlabel,
                         fermi_levels,
                         band_gap,
-                        new_figure=True,
                         label=None,
                         figsize=(8,8),
-                        fontsize=22,
+                        fontsize=20,
                         xlim=(1e-20,1e10),
                         ylim=None,
-                        colors=None):
+                        colors=None,
+                        grid=True,
+                        ax=None):
     """
     Parameters
     ----------
@@ -931,8 +956,6 @@ def plot_x_vs_fermi_level(
         as values. If is a list only one line is plotted with label taken from the "label" argument.
     band_gap : float
         Band gap of the bulk material.
-    new_figure : bool
-        Initialize a new matplotlib figure.
     label : str
         Label for the data.
     figsize : tuple
@@ -945,44 +968,47 @@ def plot_x_vs_fermi_level(
         Range of y-axis.
     colors : list,
         List with colors for Fermi level data.
+    ax : matplotlib.axes.Axes
+        Axis to plot into. If None, a new figure and axis are created.
 
     Returns
     -------
-    plt : matplotlib
-        Matplotlib object.
-
+    matplotlib.axes.Axes
     """
+    ax = _get_ax(ax, figsize=figsize)
+
     ylim = ylim if ylim else (-0.5, band_gap+0.5)
-    matplotlib.rcParams.update({'font.size': fontsize})
-    if new_figure:
-        plt.figure(figsize=figsize)
-    if isinstance(fermi_levels,dict):
-        for name,mue in fermi_levels.items():
+
+    if isinstance(fermi_levels, dict):
+        for name, mue in fermi_levels.items():
             clr = colors[list(fermi_levels.keys()).index(name)] if colors else None
-            plt.plot(x,mue,linewidth=4,label=name,color=clr)
+            ax.plot(x, mue, linewidth=4, label=name, color=clr)
     else:
         mue = fermi_levels
         clr = colors[0] if colors else None
-        plt.plot(x,mue,linewidth=4,label=label,color=clr)
-    plt.xscale('log')
-    plt.xlim(xlim)
-    if ylim:
-        plt.ylim(ylim)
-    plt.hlines(0, xlim[0], xlim[1],color='k')
-    plt.text(xlim[1]+(xlim[1]-xlim[0]),-0.05,'VB')
-    plt.text(xlim[1]+(xlim[1]-xlim[0]),band_gap-0.05,'CB')
-    plt.hlines(band_gap, xlim[0], xlim[1],color='k')
-    plt.axhspan(ylim[0], 0, alpha=0.2,color='k')
-    plt.axhspan(band_gap, ylim[1], alpha=0.2,color='k')
+        ax.plot(x, mue, linewidth=4, label=label, color=clr)
 
-    plt.xlabel(xlabel)
-    plt.ylabel('Electron chemical potential (eV)')
-    if type(fermi_levels) == dict:
-        plt.legend()
-    if new_figure:
-        plt.grid()
-    
-    return plt
+    ax.set_xscale('log')
+    ax.set_xlim(xlim)
+    if ylim:
+        ax.set_ylim(ylim)
+
+    ax.hlines(0, xlim[0], xlim[1], color='k')
+    ax.text(xlim[1] + (xlim[1]-xlim[0]), -0.05, 'VB',fontsize=fontsize*1.1)
+    ax.text(xlim[1] + (xlim[1]-xlim[0]), band_gap - 0.05, 'CB',fontsize=fontsize*1.1)
+    ax.hlines(band_gap, xlim[0], xlim[1], color='k')
+    ax.axhspan(ylim[0], 0, alpha=0.2, color='k')
+    ax.axhspan(band_gap, ylim[1], alpha=0.2, color='k')
+
+    ax.set_xlabel(xlabel)
+    ax.set_ylabel('Electron chemical potential (eV)')
+
+    if isinstance(fermi_levels, dict):
+        ax.legend()
+
+    _style_ax(ax, fontsize=fontsize,grid=grid)
+
+    return ax
 
 
 def _get_variable_defect_specie_label(variable_defect_specie):
@@ -1001,12 +1027,15 @@ def _plot_conc(
             output,
             figsize,
             colors,
+            ax,
             **kwargs):
     
-    plt.figure(figsize=figsize)
+    width, height = ax.figure.get_size_inches()
+        
     dc = defect_concentrations if output != 'stable' else [c.stable for c in defect_concentrations] 
     if kwargs:
         dc = [c.filter_concentrations(**kwargs) for c in dc] #filter concentrations based on kwargs
+
     h = [cr[0] for cr in carrier_concentrations] 
     n = [cr[1] for cr in carrier_concentrations]
     previous_charge = None
@@ -1025,12 +1054,12 @@ def _plot_conc(
                         previous_charge = q
                         label_charge = '+' + str(int(q)) if q > 0 else str(int(q))
                         index = charges.index(q)
-                        plt.text(x[index],conc[index],label_charge,clip_on=True)
+                        ax.text(x[index],conc[index],label_charge,clip_on=True,fontsize=width*2.5)
             color = colors[i] if colors else None
-            plt.plot(x,conc,label=label_txt,linewidth=4,color=color)
-    plt.plot(x,h,label='$n_{h}$',linestyle='--',color='r',linewidth=4)
-    plt.plot(x,n,label='$n_{e}$',linestyle='--',color='b',linewidth=4)
-    return plt
+            ax.plot(x,conc,label=label_txt,linewidth=4,color=color)
+    ax.plot(x,h,label='$n_{h}$',linestyle='--',color='r',linewidth=4)
+    ax.plot(x,n,label='$n_{e}$',linestyle='--',color='b',linewidth=4)
+    return ax
 
 
 def _plot_conc_total(
@@ -1039,12 +1068,13 @@ def _plot_conc_total(
                     carrier_concentrations,
                     figsize,
                     colors,
+                    ax,
                     **kwargs):
-    
+
     dc = defect_concentrations
     if kwargs:
         dc = [c.filter_concentrations(**kwargs) for c in dc]
-    plt.figure(figsize=figsize)
+
     h = [cr[0] for cr in carrier_concentrations] 
     n = [cr[1] for cr in carrier_concentrations]
     for name in dc[0].names:
@@ -1054,10 +1084,12 @@ def _plot_conc_total(
         except:
             label_txt = name
         color = colors[dc[0].names.index(name)] if colors else None
-        plt.plot(x,conc,label=label_txt,linewidth=4,color=color)
-    plt.plot(x,h,label='$n_{h}$',linestyle='--',color='r',linewidth=4)
-    plt.plot(x,n,label='$n_{e}$',linestyle='--',color='b',linewidth=4)
-    return plt
+        ax.plot(x,conc,label=label_txt,linewidth=4,color=color)
+
+    ax.plot(x,h,label='$n_{h}$',linestyle='--',color='r',linewidth=4)
+    ax.plot(x,n,label='$n_{e}$',linestyle='--',color='b',linewidth=4)
+
+    return ax
 
 
 def _get_unstable_bool(defect_concentrations):
@@ -1071,125 +1103,24 @@ def _get_unstable_bool(defect_concentrations):
     
     return slist
         
-    
 
-class DefectConcentrationsPlotter:
-
-    def __init__(self,concentrations,format_names=True):
-        """
-        Class to visualize concentrations dictionaries with pd.DataFrame and 
-        pd.Series (for total concentrations).
-
-        Parameters
-        ----------
-        concentrations : list or dict
-            Concentrations can be in different formats: list of dict for "all" and 
-            "stable_charges" and dict for "total".
-        format_names : bool
-            Format names with latex symbols.
-        """
-        # to be fixed
-        conc_dict = []
-        for c in concentrations:
-            d = {'charge':c.charge,'conc':c.conc}
-
-            if format_names:
-                name = get_defect_from_string(c.name).symbol
-            else:
-                name = c.name
-            d['name'] = format_legend_with_charge_number(name,c.charge)
-            conc_dict.append(d)
-        
-        conc_total_dict = {}
-        for dn,conc in concentrations.total.items():
-            if format_names:
-                name = get_defect_from_string(dn).symbol
-            else:
-                name = dn
-            conc_total_dict[name] = conc
-
-        self.conc = conc_dict
-        self.conc_total = conc_total_dict
-        self.format = format_names
-        self.df = pd.DataFrame(self.conc)
-        self.series = pd.Series(self.conc_total,name='Total Concentrations')
-    
-
-    def __print__(self):
-        return self.df.__print__()
-    
-    def __repr__(self):
-        return self.df.__repr__()
-
-    def copy(self):
-        return self.df.copy()
-    
-    
-    def plot_bar(self,conc_range=(1e13,1e40),ylim=None,total=True,ylabel_fontsize=15,**kwargs):
-        """
-        Bar plot of concentrations with `pd.DataFrame.plot`
-
-        Parameters
-        ----------
-        conc_range : tuple
-            Range of concentrations to include in df.
-        ylim : tuple
-            Limit of y-axis in plot. If None conc_range is used.
-        total : bool
-            plot total concentrations.
-        ylabel_fontsize : int
-            Size of the label for y-axis.
-        **kwargs : dict
-            Kwargs to pass to `df.plot`.
-
-        Returns
-        -------
-        plt : 
-            Matplotlib object.
-
-        """
-        if conc_range:
-            if not ylim:
-                ylim = conc_range
-            series = self.limit_conc_range(conc_range,reset_df=False)[1]
-            df = self.limit_conc_range(conc_range,reset_df=False)[0]
-        else:
-            series = self.series
-            df = self.df
-        if not total:
-            ax = df.plot(x='name',y='conc',kind='bar',ylim=ylim,logy=True,grid=True,
-                          xlabel='Name , Charge',legend=None,**kwargs)
-        else:
-            ax = series.plot(kind='bar',logy=True,ylim=ylim,ylabel='Concentrations(cm$^{-3}$)',grid=True,**kwargs)
-        ax.set_ylabel('Concentrations(cm$^{-3}$)',fontdict={'fontsize':ylabel_fontsize})
-        return ax
+def _get_ax(ax=None, **fig_kwargs):
+    if ax is None:
+        _, ax = plt.subplots(**fig_kwargs)
+    return ax
 
 
-    def limit_conc_range(self,conc_range=(1e10,1e40),reset_df=False):
-        """
-        Limit df to a concentration range.
+def _style_ax(ax, fontsize=None, legend=True, grid=True):
 
-        Parameters
-        ----------
-        conc_range : tuple
-            Range of concentrations to include in df.
-        reset_df : bool
-            Reset df attribute or return a new df.
-
-        Returns
-        -------
-        df, series : tuple 
-            DataFrame object, Series object.
-            
-        """
-        if reset_df:
-            self.df = self.df[self.df.conc.between(conc_range[0],conc_range[1])]
-            self.series = self.series.between(conc_range[0],conc_range[1])
-            return
-        else:
-            df = self.df.copy()
-            series = self.series.copy()
-            df = df[df.conc.between(conc_range[0],conc_range[1])]
-            series = series[series.between(conc_range[0],conc_range[1])]
-            return df , series    
-    
+    if fontsize is not None:
+        ax.set_xlabel(ax.get_xlabel(), fontsize=fontsize)
+        ax.set_ylabel(ax.get_ylabel(), fontsize=fontsize)
+        ax.tick_params(axis='both', labelsize=fontsize*0.9)
+        if legend:
+            ax.legend(fontsize=fontsize*0.9)
+    else:
+        if legend:
+            ax.legend()
+    if grid:
+        ax.grid()
+    return
