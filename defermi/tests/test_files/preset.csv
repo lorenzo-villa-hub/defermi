@@ -1,0 +1,15 @@
+name,charge,multiplicity,energy_diff,bulk_volume
+Int_O,-2.0,2,2.1,800.0
+Int_O,0.0,2,1.6,800.0
+Vac_O,0.0,1,10.8,800.0
+Vac_O,2.0,1,7.0,800.0
+Vac_Sr,-2.0,1,8.0,800.0
+Vac_Sr,0.0,1,7.8,800.0
+Sub_Fe_on_Sr,0,1,-0.5,800.0
+Sub_Fe_on_Sr,1,1,-1.1,800.0
+Sub_Fe_on_Ti,-2,1,7.5,800.0
+Sub_Fe_on_Ti,-1,1,6.5,800.0
+Vac_O;Vac_Sr,-2,1,19.7,800.0
+Vac_O;Vac_Sr,0,1,16.0,800.0
+Vac_O;Vac_Sr,2,1,15.7,800.0
+Pol_Ti,-1,1,10.0,800.0
