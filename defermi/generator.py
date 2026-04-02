@@ -67,7 +67,7 @@ def create_substitutions(structure,elements_to_replace,supercell_size=None, **kw
     ----------
     structure : Structure
         Bulk structure, both unit cell or supercell can be used as input.
-    elements_to_replace : str
+    elements_to_replace : dict
         Dict with element symbol of specie to be replaced as keys and element 
         symbol of the species to be replaced with as values ({'old_El':'new_El'}).
     supercell_size : int or numpy array

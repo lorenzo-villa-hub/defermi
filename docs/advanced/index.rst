@@ -9,3 +9,4 @@ Advanced
     :maxdepth: 2
 
     Charge corrections <charge_corrections>
+    Defect generation <generation>
