@@ -10,3 +10,4 @@ Advanced
 
     Charge corrections <charge_corrections>
     Defect generation <generation>
+    Defect identification <defect_finder>

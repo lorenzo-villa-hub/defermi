@@ -158,7 +158,7 @@ def create_vacancy_structures(structure,elements=None,supercell_size=None,**kwar
  
 def create_def_structure_for_visualization(structure_defect,structure_bulk,defects=None,sort_to_bulk=False,tol=1e-03):
     """
-    Create defect structure for visualization in OVITO. The vacancies are shown by inserting 
+    Create defect structure for visualization software. The vacancies are shown by inserting 
     in the vacant site the element of same row and next group on the periodic table.
     If sort_to_bulk is True the Sites are sorted to match the Bulk structure.
 
@@ -204,7 +204,10 @@ def create_def_structure_for_visualization(structure_defect,structure_bulk,defec
         if dtype == 'Vacancy':
             check,i = is_site_in_structure_coords(dsite,bk,tol=tol)
             el = dsite.specie
-            species = Element.from_row_and_group(el.row, el.group+1)
+            try:
+                species = Element.from_row_and_group(el.row, el.group+1)
+            except ValueError:
+                species = Element.from_row_and_group(el.row, el.group-1)
             df.insert(idx=i,species=species,coords=dsite.frac_coords)
         elif dtype == 'Interstitial' and sort_to_bulk:
             extra_sites.append(dsite)
