@@ -323,7 +323,7 @@ class Reservoirs(MSONable):
         Matplotlib object.
 
         """
-        from pynter.phase_diagram.plotter import PDPlotterAdder # import here to avoid circular import
+        from defermi.chempots.phase_diagram import StabilityDiagram # import here to avoid circular import
         res = self.copy()
         if not res.pd:
             raise ValueError('PhaseDiagram object needs to be stored to plot the stability diagram')
@@ -331,7 +331,7 @@ class Reservoirs(MSONable):
         if not res.are_chempots_delta:
             res.set_to_referenced()
             
-        plt = PDPlotterAdder(res.pd,size).add_reservoirs(res,elements,**kwargs)
+        plt = StabilityDiagram(res.pd,size).add_reservoirs(res,elements,**kwargs)
         return plt
                 
     
