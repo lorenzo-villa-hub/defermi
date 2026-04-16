@@ -1,4 +1,6 @@
-
+"""
+Analyse set of defect entries
+"""
 import numpy as np
 from scipy.optimize import bisect, root_scalar, minimize_scalar, minimize
 from monty.json import MontyDecoder, MSONable, MontyEncoder
