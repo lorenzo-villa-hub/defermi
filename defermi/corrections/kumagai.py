@@ -1,4 +1,6 @@
-
+"""
+Extended FNV corrections
+"""
 import warnings
 import os.path as op
 import importlib
