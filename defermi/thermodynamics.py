@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Thu Jan 14 14:48:55 2021
-
-@author: villa
+Solve charge neutrality and compute defect equilibria
 """
 import warnings
 from monty.json import MSONable

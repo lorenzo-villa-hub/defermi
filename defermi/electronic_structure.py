@@ -1,4 +1,6 @@
-
+"""
+Electronic structure, density of states, carrier concentrations 
+"""
 import numpy as np
 import json
 import os

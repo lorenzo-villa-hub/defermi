@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Nov 27 10:52:08 2020
-
-@author: villa
+Tools for structural manipulation and analysis 
 """
 
 import numpy as np

@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Mar 18 13:12:05 2020
-
-@author: lorenzo
+Relate oxygen partial pressure to chemical potentials
 """
 from itertools import product
 import numpy as np

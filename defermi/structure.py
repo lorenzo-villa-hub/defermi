@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Apr  4 17:10:46 2023
-
-@author: villa
+Tools for structure generation, defect identification and visualization
 """
 
 import warnings

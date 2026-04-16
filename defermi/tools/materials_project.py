@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-
+"""
+Wrapper functions for the Materials Project API
+"""
 import warnings
-
-
 
 
 class  MPDatabase:

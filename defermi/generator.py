@@ -1,4 +1,6 @@
-
+"""
+Generate defect objects
+"""
 from pymatgen.core.sites import PeriodicSite
 from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 

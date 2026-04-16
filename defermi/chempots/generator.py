@@ -1,4 +1,6 @@
-
+"""
+Generate sets of chemical potentials
+"""
 import numpy as np
 import warnings
 

@@ -1,4 +1,6 @@
-
+"""
+Core chemical potentials objects
+"""
 import numpy as np
 from monty.json import MSONable
 from pymatgen.core.periodic_table import Element

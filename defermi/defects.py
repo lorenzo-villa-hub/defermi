@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Apr  3 14:08:42 2023
-
-@author: villa
+Core defect objects
 """
 import importlib
 import warnings

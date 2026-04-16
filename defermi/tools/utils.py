@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Oct 12 15:40:26 2020
-
-@author: villa
+Utility functions
 """
 
 import numpy as np

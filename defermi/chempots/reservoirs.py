@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jun  2 16:33:50 2025
-
-@author: lorenzo
+Collection of chemical potential sets
 """
 
 import warnings

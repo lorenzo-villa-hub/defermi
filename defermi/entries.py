@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Fri Dec 11 14:33:12 2020
-
-@author: villa
+Store data for individual defect calculation
 """
 
 from abc import ABCMeta

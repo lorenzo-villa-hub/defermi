@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jun  2 16:39:01 2025
-
-@author: lorenzo
+Compute chemical potentials from phase diagrams
 """
 
 import numpy as np

@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Nov 16 14:35:23 2021
-
-@author: villa
+Elastic defect properties
 """
 
 import numpy as np

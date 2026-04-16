@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Feb 17 15:24:29 2021
-
-@author: villa
+Plotting functions for defect calculations
 """
 import numpy as np
 import matplotlib
