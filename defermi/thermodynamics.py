@@ -209,13 +209,14 @@ class DefectThermodynamics:
             carrier_concentrations.append(single_thermodata['carrier_concentrations'])
             fermi_levels.append(single_thermodata['fermi_levels'])
         
-        thermodata = {}
-        thermodata['partial_pressures'] = partial_pressures 
-        thermodata['defect_concentrations'] = defect_concentrations 
-        thermodata['carrier_concentrations'] = carrier_concentrations
-        thermodata['fermi_levels'] = fermi_levels
+        data = {}
+        data['partial_pressures'] = partial_pressures 
+        data['defect_concentrations'] = defect_concentrations 
+        data['carrier_concentrations'] = carrier_concentrations
+        data['fermi_levels'] = fermi_levels
+        data['temperature'] = temperature
         
-        thermodata = ThermoData(thermodata,temperature=temperature,name=name)
+        thermodata = ThermoData(data,name=name)
         
         return thermodata
 
@@ -287,13 +288,14 @@ class DefectThermodynamics:
             defect_concentrations.append(single_quenched_thermodata['defect_concentrations'])
             fermi_levels.append(single_quenched_thermodata['fermi_levels'])
  
-        thermodata = {}
-        thermodata['partial_pressures'] = partial_pressures
-        thermodata['fermi_levels'] = fermi_levels
-        thermodata['defect_concentrations'] = defect_concentrations
-        thermodata['carrier_concentrations'] = carrier_concentrations
+        data = {}
+        data['partial_pressures'] = partial_pressures
+        data['fermi_levels'] = fermi_levels
+        data['defect_concentrations'] = defect_concentrations
+        data['carrier_concentrations'] = carrier_concentrations
+        data['temperature'] = (initial_temperature,final_temperature)
         
-        thermodata = ThermoData(thermodata,temperature=(initial_temperature,final_temperature),name=name)
+        thermodata = ThermoData(data,name=name)
         
         return thermodata
 
@@ -375,11 +377,11 @@ class DefectThermodynamics:
             for df in ext_df:         
                 defect_concentrations.append(df)
         
-        thermodata = {'carrier_concentrations':carrier_concentrations,
+        data = {'carrier_concentrations':carrier_concentrations,
                       'defect_concentrations':defect_concentrations,
                       'fermi_levels':fermi_level}
         
-        return ThermoData(thermodata,temperature=temperature,name=name)
+        return ThermoData(data,name=name)
     
 
     def get_single_point_quenched_thermodata(
@@ -592,8 +594,9 @@ class DefectThermodynamics:
         data['defect_concentrations'] = defect_concentrations
         data['carrier_concentrations'] = carrier_concentrations
         data['fermi_levels'] = fermi_levels
+        data['temperature'] = temperature
         
-        thermodata = ThermoData(data,temperature=temperature,name=name)
+        thermodata = ThermoData(data,name=name)
         
         return thermodata
 
@@ -698,8 +701,9 @@ class DefectThermodynamics:
         data['fermi_levels'] = fermi_levels
         data['defect_concentrations'] = defect_concentrations
         data['carrier_concentrations'] = carrier_concentrations
+        data['temperature'] = (initial_temperature,final_temperature)
         
-        thermodata = ThermoData(data,temperature=(initial_temperature,final_temperature),name=name)
+        thermodata = ThermoData(data,name=name)
         
         return thermodata
 
@@ -709,7 +713,7 @@ class ThermoData(MSONable):
     
     "Class to handle defect thermodynamics data"
     
-    def __init__(self,thermodata,temperature=None,name=None):
+    def __init__(self,thermodata,name=None):
         """
         Class that handles dict of defect thermodynamics data.
         
@@ -720,30 +724,29 @@ class ThermoData(MSONable):
             the methods in the `DefectThermodynamics` class.
             Keys of the dict are set as attributes of ThermoData.
 
-            The possible items are:
+            Possible items are:
 
             partial_pressures : (list)
-                List of partial pressure values.
+                partial pressure values.
             variable_defect_specie : (str)
                 Name of variable defect species.
             variable_concentrations : (list)
-                List of concentrations of variable species. 
+                Concentrations of variable species. 
             defect_concentrations : (list)
-                List of DefectConcentrations objects (cm^-3).
+                DefectConcentrations objects (cm^-3).
             carrier_concentrations : (list)
-                List of tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.
+                Tuples with intrinsic carriers concentrations (holes,electrons) in cm^-3.
             conductivities : (list)
-                List of conductivity values (in S/m).
+                Conductivity values (in S/m).
             fermi_levels : (list)
-                list of Fermi level values in eV.
+                Fermi level values in eV.
+            temperatures : (list)
+                Temperature values in K.
 
-        temperature : float
-            Temperature in K at which the data is computed.
         name : str
             Name to assign to ThermoData.
         """
         self.data = thermodata  
-        self.temperature = temperature if temperature else None
         self.name = name if name else None
         for k,v in thermodata.items():
             setattr(self, k, v)
@@ -772,8 +775,7 @@ class ThermoData(MSONable):
         """
         d = {"@module": self.__class__.__module__,
               "@class": self.__class__.__name__,
-              "thermodata":self.data.copy(),    
-              "temperature": self.temperature,
+              "thermodata":self.data.copy(),
               "name": self.name
               }
         if 'defect_concentrations' in self.data.keys():
@@ -823,13 +825,11 @@ class ThermoData(MSONable):
             data = d['thermodata'].copy()
             if 'defect_concentrations' in data.keys():
                 data['defect_concentrations'] = [DefectConcentrations.from_dict(dc) for dc in data['defect_concentrations']]
-            temperature = d['temperature']
             name = d['name']
         else:
             data = d # recover old 
-            temperature = None
             name = None
-        return cls(data,temperature,name)
+        return cls(data,name)
      
          
     @staticmethod
@@ -881,13 +881,10 @@ class ThermoData(MSONable):
                         if k not in seldata.keys():
                             seldata[k] = []
                         seldata[k].append(e)
-        
-        temperature = self.temperature if self.temperature else None
-        
 
         name = self.name + 'p_' + '-'.join([str(p) for p in p_values]) if self.name else None
             
-        return ThermoData(seldata,temperature=temperature,name=name)
+        return ThermoData(seldata,name=name)
         
     
     def set_data(self,key,value): # chosen over __setitem__ to not accidentally overwrite data
