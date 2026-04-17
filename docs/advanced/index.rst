@@ -12,3 +12,4 @@ Advanced
     Defect generation <generation>
     Defect identification <defect_finder>
     Reservoirs <reservoirs>
+    Thermodynamic data <plotter>
