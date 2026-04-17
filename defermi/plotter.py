@@ -471,6 +471,7 @@ def plot_pO2_vs_concentrations(
                                 colors=colors,
                                 ax=ax,
                                 **kwargs)
+    ax.set_xscale('log')
     return ax
 
 
@@ -522,6 +523,7 @@ def plot_pO2_vs_conductivity(
                                 xlim=xlim,
                                 ylim=ylim,
                                 ax=ax)
+    ax.set_xscale('log')
     return ax    
 
 
@@ -582,6 +584,7 @@ def plot_pO2_vs_fermi_level(
                                 ylim=ylim,
                                 colors=colors,
                                 ax=ax)
+    ax.set_xscale('log')
     return ax
 
 
@@ -657,6 +660,7 @@ def plot_variable_species_vs_concentrations(
                                 colors=colors,
                                 ax=ax,
                                 **kwargs)
+    ax.set_xscale('log')
     return ax
 
 
@@ -710,6 +714,7 @@ def plot_variable_species_vs_conductivity(
                                 xlim=xlim,
                                 ylim=ylim,
                                 ax=ax)
+    ax.set_xscale('log')
     return ax
     
 
@@ -772,6 +777,7 @@ def plot_variable_species_vs_fermi_level(
                                 ylim=ylim,
                                 colors=colors,
                                 ax=ax)
+    ax.set_xscale('log')
     return ax
 
 
@@ -850,7 +856,6 @@ def plot_x_vs_concentrations(
     else:
         raise ValueError('The options for plot output are "all", "stable" or "total".')
         
-    ax.set_xscale('log')
     ax.set_yscale('log')
     ax.set_xlim(xlim)
     if ylim:
@@ -913,7 +918,6 @@ def plot_x_vs_conductivity(
         sigma = conductivities
         ax.plot(x,sigma,linewidth=4,marker='s',label=label)
 
-    ax.set_xscale('log')
     ax.set_yscale('log')
     ax.set_xlim(xlim)
     if ylim:
@@ -985,7 +989,6 @@ def plot_x_vs_fermi_level(
         clr = colors[0] if colors else None
         ax.plot(x, mue, linewidth=4, label=label, color=clr)
 
-    ax.set_xscale('log')
     ax.set_xlim(xlim)
     if ylim:
         ax.set_ylim(ylim)
