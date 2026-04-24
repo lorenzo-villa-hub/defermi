@@ -13,3 +13,4 @@ Advanced
     Defect identification <defect_finder>
     Reservoirs <reservoirs>
     Thermodynamic data <plotter>
+    Custom energies and concentrations <custom_functions>
