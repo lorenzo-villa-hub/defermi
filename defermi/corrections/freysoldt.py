@@ -26,7 +26,7 @@ def get_freysoldt_correction_from_locpot(
     Parameters
     ----------
     charge : int
-        Charge of the defect
+        Charge of the defect cell in electron units.
     dielectric_constant : float
         Dielectric constant of the material
     defect_path_locpot : str

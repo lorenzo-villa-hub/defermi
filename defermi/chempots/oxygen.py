@@ -67,21 +67,6 @@ def get_oxygen_chempot_from_pO2(temperature=300,partial_pressure=0.2,muO_referen
     return chempot_ideal_gas(muO,temperature,partial_pressure)  
 
 
-def get_pressure_reservoirs_from_chempot_limits(composition,
-                                                temperature,
-                                                pressure_range=(1e-20,1e10),
-                                                npoints=50,
-                                                get_pressures_as_strings=False):
-    """
-    To be implemented
-    """
-    if type(composition) == str:
-        composition = Composition(composition)
-    partial_pressures = np.logspace(np.log10(pressure_range[0]),np.log10(pressure_range[1]),num=npoints,base=10)
-    mu_standard = get_oxygen_chempot_standard_finite_temperature(temperature)
-    # to be completed
-
-
 def get_pressure_reservoirs_from_phase_diagram(phase_diagram,
                                                target_composition,
                                                temperature,
