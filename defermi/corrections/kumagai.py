@@ -40,7 +40,7 @@ def get_kumagai_correction(
     bulk_path : str
         Path of bulk calculation with vasprun.xml and OUTCAR files.
     charge : int
-        Charge of defect calculation
+        Charge of the defect cell in electron units.
     dielectric_tensor : int,float 3x1 array or 3x3 array
         Dielectric tensor (or constant). Types accepted are int,float 3x1 array or 3x3 array.
     initial_structure : bool
@@ -120,7 +120,7 @@ def _get_efnv_correction_pmg_fixed(
     Parameters
     ----------
     charge : int or float
-        Charge of the defect.
+        Charge of the defect cell in electron units.
     defect_structure : Structure
         Defect structure.
     bulk_structure : Structure
