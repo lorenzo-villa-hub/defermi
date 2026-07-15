@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from defermi.analysis import DefectsAnalysis
 
-from defermi.testing.core import DefermiTest
+from defermi.tools.testing.core import DefermiTest
 
 def get_preset_case():
     df = pd.DataFrame([

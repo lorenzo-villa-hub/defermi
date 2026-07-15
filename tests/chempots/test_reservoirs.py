@@ -14,8 +14,8 @@ from defermi.chempots.core import Chempots
 from defermi.chempots.reservoirs import Reservoirs
 
 
-from defermi.testing.chempots import ChempotsTest, ReservoirsTest
-from defermi.chempots.tests.test_chempots import TestChempots
+from defermi.tools.testing.chempots import ChempotsTest, ReservoirsTest
+from .test_chempots import TestChempots
 
 class TestReservoirs(TestChempots):
         

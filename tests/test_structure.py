@@ -14,7 +14,7 @@ from pymatgen.io.vasp.outputs import Vasprun
 from defermi.structure import create_def_structure_for_visualization, defect_finder
 from defermi.tools.utils import get_object_from_json
 
-from defermi.testing.core import DefermiTest
+from defermi.tools.testing.core import DefermiTest
 
 
 class TestDefectFinder(DefermiTest):

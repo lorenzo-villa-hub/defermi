@@ -9,8 +9,8 @@ import json
 
 from defermi.tools.materials_project import MPDatabase
 
-from defermi.testing.core import DefermiTest
-from defermi.testing.structure import StructureTest
+from defermi.tools.testing.core import DefermiTest
+from defermi.tools.testing.structure import StructureTest
 
 class TestMPDatabase(DefermiTest):
 

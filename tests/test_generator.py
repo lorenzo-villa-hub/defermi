@@ -1,8 +1,9 @@
 
 from pymatgen.io.vasp.inputs import Poscar
 
-from defermi.testing.core import DefermiTest
 from defermi.generator import create_vacancies, create_substitutions
+
+from defermi.tools.testing.core import DefermiTest
 
 
 class TestDefectGenerator(DefermiTest):
