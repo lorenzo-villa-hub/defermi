@@ -12,8 +12,8 @@ from pymatgen.core.composition import Composition
 
 from defermi.defects import Vacancy, Interstitial, Substitution, Polaron, DefectComplex
 
-from defermi.testing.core import DefermiTest
-from defermi.testing.defects import DefectTest
+from defermi.tools.testing.core import DefermiTest
+from defermi.tools.testing.defects import DefectTest
 
 
 bulk_structure = DefermiTest().structure.copy()

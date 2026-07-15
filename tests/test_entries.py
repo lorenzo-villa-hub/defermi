@@ -13,7 +13,7 @@ from defermi.chempots.core import Chempots
 from defermi.defects import Interstitial, Vacancy
 from defermi.entries import DefectEntry
 
-from defermi.testing.core import DefermiTest
+from defermi.tools.testing.core import DefermiTest
 
 
 class TestDefectEntry(DefermiTest):

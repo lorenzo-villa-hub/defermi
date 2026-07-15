@@ -21,9 +21,9 @@ from defermi.defects import Vacancy
 from defermi.entries import DefectEntry
 from defermi.analysis import DefectsAnalysis, SingleDefConc, DefectConcentrations
 
-from defermi.testing.core import DefermiTest
-from defermi.testing.defects import DefectEntryTest
-from defermi.tests.test_entries import TestDefectEntry
+from defermi.tools.testing.core import DefermiTest
+from defermi.tools.testing.defects import DefectEntryTest
+from .test_entries import TestDefectEntry
 
 import pytest
 

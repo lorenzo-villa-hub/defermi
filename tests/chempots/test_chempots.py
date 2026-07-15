@@ -10,8 +10,8 @@ from pymatgen.core.periodic_table import Element
 
 from defermi.chempots.core import Chempots, chempot_ideal_gas
 
-from defermi.testing.core import DefermiTest
-from defermi.testing.chempots import ChempotsTest
+from defermi.tools.testing.core import DefermiTest
+from defermi.tools.testing.chempots import ChempotsTest
 
 
 class TestChempots(DefermiTest):

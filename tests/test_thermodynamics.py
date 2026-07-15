@@ -20,7 +20,7 @@ from defermi.entries import DefectEntry
 from defermi.thermodynamics import DefectThermodynamics
 from defermi.tools.utils import get_object_from_json
 
-from defermi.testing.core import DefermiTest
+from defermi.tools.testing.core import DefermiTest
 
 
 e = constants.e

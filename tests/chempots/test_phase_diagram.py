@@ -14,8 +14,8 @@ from defermi.chempots.core import Chempots
 from defermi.chempots.reservoirs import Reservoirs
 from defermi.chempots.phase_diagram import PDHandler
 
-from defermi.testing.core import DefermiTest
-from defermi.testing.chempots import  ReservoirsTest
+from defermi.tools.testing.core import DefermiTest
+from defermi.tools.testing.chempots import  ReservoirsTest
 
 
 class TestPDHandler(DefermiTest):

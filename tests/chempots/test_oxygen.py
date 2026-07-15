@@ -17,9 +17,9 @@ from defermi.chempots.oxygen import (
                                             get_pressure_reservoirs_from_phase_diagram
                                             )
 from defermi.chempots.core import Chempots
-from defermi.testing.chempots import ReservoirsTest
+from defermi.tools.testing.chempots import ReservoirsTest
 
-from defermi.chempots.tests.test_chempots import TestChempots
+from .test_chempots import TestChempots
 
 def test_chempot_from_pO2():
     actual = get_oxygen_chempot_from_pO2(temperature=1300,partial_pressure=0.2)
