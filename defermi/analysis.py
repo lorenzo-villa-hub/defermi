@@ -1080,8 +1080,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                             **kwargs):
         """
         Plot Brouwer diagram (defect concentrations vs oxygen partial pressure). Wrapper function for 
-        `pynter.defects.thermodynamics.DefectThermodynamics` and `pynter.defects.plotter`.
-        If you need more control use the classes individually. 
+        `thermodynamics` and `plotter` modules.
+        If you need more control use the modules individually. 
 
         If `quenched_temperature` is set, defect concentrations are computed at the initial `temperature`, 
         and defect quilibrium in solved at `quenched_temperature`. For the same defect species, the charge
@@ -1256,7 +1256,8 @@ class DefectsAnalysis(MSONable,metaclass=ABCMeta):
                             **kwargs):
         """
         Calculate defect and carrier concentrations as a function of the concentration of a particular 
-        defect species (usually a dopant).
+        defect species (usually a dopant). Wrapper function for `thermodynamics` and `plotter` modules.
+        If you need more control use the modules individually.
 
         Parameters
         ----------
