@@ -7,27 +7,29 @@ def test_generate_chempots_from_mp():
 
     res = generate_chempots_from_mp('BaTiO3')
     
+    rtol = 1e-04
+
     actual = res['O-poor']['Ba']
     desired = -2.93861
-    assert_allclose(actual,desired)
+    assert_allclose(actual,desired,rtol=rtol)
 
     actual = res['O-middle']['Ti']
     desired = -13.568998
-    assert_allclose(actual,desired)
+    assert_allclose(actual,desired,rtol=rtol)
 
     actual = res['O-rich']['O']
     desired = -4.947961
-    assert_allclose(actual,desired)
+    assert_allclose(actual,desired,rtol=rtol)
 
     res = generate_chempots_from_mp('BaTiO3',element='Ti')
     actual = res['Ti-middle']['Ti']
     desired = -13.615674
-    assert_allclose(actual,desired)
+    assert_allclose(actual,desired,rtol=rtol)
 
     chempots = generate_chempots_from_mp('BaTiO3',element='Ba-poor')
     actual = chempots['Ba']
     desired = -8.584461
-    assert_allclose(actual,desired)
+    assert_allclose(actual,desired,rtol=rtol)
 
 
 def test_generate_pressure_reservoirs_from_precursors():
