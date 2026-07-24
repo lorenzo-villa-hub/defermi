@@ -148,7 +148,8 @@ import matplotlib.pyplot as plt
 chempots = {'O':-5,'Sr':-2} # Define chemical potentials for each element in a dictionary
 
 # Plot formation energies
-da.plot_formation_energies(chemical_potentials=chempots,title='Formation energies',figsize=(5,5)).show()
+da.plot_formation_energies(chemical_potentials=chempots,title='Formation energies',figsize=(5,5))
+plt.show()
 
 # Plot charge transition levels
 da.plot_ctl(figsize=(4,4),fontsize=12)
